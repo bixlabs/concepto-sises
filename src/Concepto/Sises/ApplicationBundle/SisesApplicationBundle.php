@@ -32,7 +32,7 @@
  * permission of Julian Reyes Escrigas <julian.reyes.escrigas@gmail.com>
  */
 
-namespace Concepto\Sises\ApplicationBundle\SisesApplicationBundle;
+namespace Concepto\Sises\ApplicationBundle;
 
 
 use Symfony\Component\HttpKernel\Bundle\Bundle;
