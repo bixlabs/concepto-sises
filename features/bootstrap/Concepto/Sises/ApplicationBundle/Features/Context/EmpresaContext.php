@@ -51,7 +51,13 @@ class EmpresaContext implements SnippetAcceptingContext
     function __construct()
     {
         $this->client = new Client(array(
-            'base_url' => array('http://concepto.sises/app_test.php/', array()),
+            'base_url' => 'http://concepto.sises/app_test.php/',
+            'defaults' => array(
+                'headers' => array(
+                    'Accept' => 'application/json',
+                    'Content-Type' => 'application/json'
+                )
+            ),
         ));
     }
 
@@ -61,9 +67,9 @@ class EmpresaContext implements SnippetAcceptingContext
      */
     public function creaUnaNuevaEmpresa()
     {
-        $response = $this->client->post('api/empresa', array('body' => $this->empresa));
+        $response = $this->client->post('api/empresas', array('body' => $this->empresa));
 
-        assertSame(Response::HTTP_CREATED, $response->getStatusCode());
+        \PHPUnit_Framework_TestCase::assertEquals(Response::HTTP_CREATED, $response->getStatusCode());
     }
 
 

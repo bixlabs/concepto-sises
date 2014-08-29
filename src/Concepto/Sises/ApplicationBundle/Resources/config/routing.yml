@@ -1,0 +1,4 @@
+crear_empresa:
+    type: rest
+    prefix: /api
+    resource: @SisesApplicationBundle/Controller/EmpresaController.php

@@ -51,6 +51,27 @@ doctrine:
         auto_generate_proxy_classes: %kernel.debug%
         auto_mapping: true
 
+sensio_framework_extra:
+    view:    { annotations: false }
+    router:  { annotations: true }
+    request: { converters: true }
+
+fos_rest:
+    param_fetcher_listener: true
+    view:
+        view_response_listener: 'force'
+        formats:
+            xml: true
+            json: true
+        templating_formats:
+            html: true
+    format_listener:
+        rules:
+            - { path: ^/api, priorities: [ json, xml, html ], fallback_format: ~, prefer_extension: true }
+            - { path: ^/,    priorities: [ html, js, '*/*'], fallback_format: ~, prefer_extension: true }
+    body_listener: true
+
+
 #jms_di_extra:
 #    locations:
 #        all_bundles: false

@@ -60,6 +60,7 @@
     "require-dev": {
         "behat/behat": "~3.0",
         "behat/symfony2-extension": "~2.0@dev",
-        "guzzlehttp/guzzle": "~4"
+        "guzzlehttp/guzzle": "~4",
+        "phpunit/phpunit": "~4.0"
     }
 }

@@ -1,2 +1,5 @@
 fos_js_routing:
     resource: "@FOSJsRoutingBundle/Resources/config/routing/routing.xml"
+
+concepto_sises:
+    resource: @SisesApplicationBundle/Resources/config/routing.yml
