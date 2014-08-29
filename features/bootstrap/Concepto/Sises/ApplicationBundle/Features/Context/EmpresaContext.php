@@ -36,15 +36,12 @@ namespace Concepto\Sises\ApplicationBundle\Features\Context;
 
 
 use Behat\Behat\Context\SnippetAcceptingContext;
-use Behat\Symfony2Extension\Context\KernelDictionary;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\ClientException;
 use Symfony\Component\HttpFoundation\Response;
 
 class EmpresaContext implements SnippetAcceptingContext
 {
-    use KernelDictionary;
-
     private $empresa = array();
 
     private $empresas = array();
@@ -67,25 +64,6 @@ class EmpresaContext implements SnippetAcceptingContext
             ),
         ));
     }
-
-    /**
-     * @Given que no hay empresas
-     */
-    public function queNoHayEmpresas()
-    {
-        $em = $this->getContainer()
-            ->get('doctrine.orm.default_entity_manager');
-        $repository = $em
-            ->getRepository('SisesApplicationBundle:Empresa');
-
-        foreach ($repository->findAll() as $empresa) {
-            $em->remove($empresa);
-        }
-
-        $em->flush();
-    }
-
-
 
     /**
      * @Then crea una nueva empresa
@@ -217,5 +195,14 @@ class EmpresaContext implements SnippetAcceptingContext
 
         \PHPUnit_Framework_TestCase::fail('No se obtuvieron empresas');
     }
+
+    /**
+     * @Then actualiza la empresa de nombre :arg1
+     */
+    public function actualizaLaEmpresaDeNombre($arg1)
+    {
+
+    }
+
 
 }
