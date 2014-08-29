@@ -35,22 +35,41 @@
 namespace Concepto\Sises\ApplicationBundle\Controller;
 
 use Concepto\Sises\ApplicationBundle\Resolver\EmpresaResolver;
+use Doctrine\ORM\EntityManager;
 use FOS\RestBundle\Routing\ClassResourceInterface;
 use FOS\RestBundle\View\View;
+use JMS\DiExtraBundle\Annotation\Inject;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 
 class EmpresaController implements ClassResourceInterface {
 
+    /**
+     * @var EntityManager
+     * @Inject("doctrine.orm.default_entity_manager")
+     */
+    protected $em;
+
+    public function cgetAction()
+    {
+        $empresas = $this->em->getRepository('SisesApplicationBundle:Empresa')->findAll();
+
+        return $empresas;
+    }
+
     public function postAction(Request $request)
     {
         $view = View::create();
 
         try {
-            $values = new EmpresaResolver($request->request->all());
+            $empresa = (new EmpresaResolver($request->request->all()))->toObject();
+
+            $this->em->persist($empresa);
+            $this->em->flush();
+
             $view
-                ->setData($values->getOptions())
+                ->setData($empresa->getId())
                 ->setStatusCode(Response::HTTP_CREATED);
 
             return $view;

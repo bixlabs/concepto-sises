@@ -35,8 +35,11 @@
 namespace Concepto\Sises\ApplicationBundle\Resolver;
 
 
+use Concepto\Sises\ApplicationBundle\Entity\Empresa;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
+use Symfony\Component\PropertyAccess\PropertyAccess;
+use Symfony\Component\PropertyAccess\PropertyAccessor;
 
 class EmpresaResolver
 {
@@ -77,5 +80,16 @@ class EmpresaResolver
         return $this->options;
     }
 
+    public function toObject()
+    {
+        $object = new Empresa();
+        $accesor = PropertyAccess::createPropertyAccessor();
+
+        foreach ($this->options as $prop => $value) {
+            $accesor->setValue($object, $prop, $value);
+        }
+
+        return $object;
+    }
 
 }

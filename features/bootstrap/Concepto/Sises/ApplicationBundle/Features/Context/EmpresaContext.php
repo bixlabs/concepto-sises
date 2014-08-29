@@ -36,13 +36,18 @@ namespace Concepto\Sises\ApplicationBundle\Features\Context;
 
 
 use Behat\Behat\Context\SnippetAcceptingContext;
+use Behat\Symfony2Extension\Context\KernelDictionary;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\ClientException;
 use Symfony\Component\HttpFoundation\Response;
 
 class EmpresaContext implements SnippetAcceptingContext
 {
+    use KernelDictionary;
+
     private $empresa = array();
+
+    private $empresas = array();
 
     /**
      * @var Client
@@ -54,7 +59,7 @@ class EmpresaContext implements SnippetAcceptingContext
         $this->client = new Client(array(
             'base_url' => 'http://concepto.sises/app_test.php/',
             'defaults' => array(
-                'exceptions' => false,
+                //'exceptions' => false,
                 'headers' => array(
                     'Accept' => 'application/json',
                     'Content-Type' => 'application/json'
@@ -63,15 +68,36 @@ class EmpresaContext implements SnippetAcceptingContext
         ));
     }
 
+    /**
+     * @Given que no hay empresas
+     */
+    public function queNoHayEmpresas()
+    {
+        $em = $this->getContainer()
+            ->get('doctrine.orm.default_entity_manager');
+        $repository = $em
+            ->getRepository('SisesApplicationBundle:Empresa');
+
+        foreach ($repository->findAll() as $empresa) {
+            $em->remove($empresa);
+        }
+
+        $em->flush();
+    }
+
+
 
     /**
      * @Then crea una nueva empresa
      */
     public function creaUnaNuevaEmpresa()
     {
-        $response = $this->client->post('api/empresas', array('body' => $this->empresa));
-
-        \PHPUnit_Framework_TestCase::assertEquals(Response::HTTP_CREATED, $response->getStatusCode());
+        try {
+            $response = $this->client->post('api/empresas.json', array('body' => $this->empresa));
+            \PHPUnit_Framework_TestCase::assertEquals(Response::HTTP_CREATED, $response->getStatusCode());
+        } catch (ClientException $e) {
+            \PHPUnit_Framework_TestCase::fail($e->getResponse()->getBody());
+        }
     }
 
     /**
@@ -79,9 +105,14 @@ class EmpresaContext implements SnippetAcceptingContext
      */
     public function creaUnaNuevaEmpresaRespuestaInvalida()
     {
-        $response = $this->client->post('api/empresas', array('body' => $this->empresa));
-
-        \PHPUnit_Framework_TestCase::assertEquals(Response::HTTP_BAD_REQUEST, $response->getStatusCode());
+        try {
+            $this->client->post('api/empresas', array('body' => $this->empresa));
+        } catch (ClientException $e) {
+            \PHPUnit_Framework_TestCase::assertEquals(
+                Response::HTTP_BAD_REQUEST,
+                $e->getResponse()->getStatusCode()
+            );
+        }
     }
 
 
@@ -147,15 +178,44 @@ class EmpresaContext implements SnippetAcceptingContext
     }
 
     /**
-     * @Then existe una empresa :arg1
+     * @Then existe una empresa de nombre :arg1
      */
     public function existeUnaEmpresa($arg1)
     {
-        if (isset($this->empresa['nit']) && $this->empresa['nit'] == $arg1) {
-            return true;
+        foreach ($this->empresas as $empresa) {
+            if ($empresa['nombre'] == $arg1) {
+                return;
+            }
         }
 
         return new \Exception("La empresa no existe!");
+    }
+
+    /**
+     * @Given que obtengo un listado de empresas
+     */
+    public function queObtengoUnListadoDeEmpresas()
+    {
+        $response = $this->client->get('api/empresas.json');
+        $this->empresas = $response->getBody();
+    }
+
+    /**
+     * @Then existe la empresa :arg1
+     */
+    public function existeLaEmpresa($arg1)
+    {
+        if ($this->empresas) {
+            foreach($this->empresas as $empresa) {
+                if ($empresa['nombre'] == $arg1) {
+                    return;
+                }
+            }
+
+            \PHPUnit_Framework_TestCase::fail('La empresa no existe en ' . $this->empresas);
+        }
+
+        \PHPUnit_Framework_TestCase::fail('No se obtuvieron empresas');
     }
 
 }

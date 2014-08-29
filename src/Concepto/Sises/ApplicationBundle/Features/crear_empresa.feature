@@ -3,8 +3,8 @@ Característica: Crear empresa
   Como usuario del sistema
   Necesito poder crear una empresa
 
-#  Antecedentes:
-#    Dado que existe una persona "Jose", "Arias", "1112233445"
+  Antecedentes:
+    Dado que no hay empresas
 
   Escenario: nueva empresa sin nombre
     Dado una nueva empresa
