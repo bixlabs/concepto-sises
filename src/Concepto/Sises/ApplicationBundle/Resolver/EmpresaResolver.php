@@ -32,30 +32,50 @@
  * permission of Julian Reyes Escrigas <julian.reyes.escrigas@gmail.com>
  */
 
-namespace Concepto\Sises\ApplicationBundle\Controller;
+namespace Concepto\Sises\ApplicationBundle\Resolver;
 
-use Concepto\Sises\ApplicationBundle\Resolver\EmpresaResolver;
-use FOS\RestBundle\Routing\ClassResourceInterface;
-use FOS\RestBundle\View\View;
-use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 
-class EmpresaController implements ClassResourceInterface {
+use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
-    public function postAction(Request $request)
+class EmpresaResolver
+{
+    protected $options;
+
+    function __construct(array $options = array())
     {
-        $view = View::create();
+        $resolver = new OptionsResolver();
+        $this->configureOptions($resolver);
 
-        try {
-            $values = new EmpresaResolver($request->request->all());
-            $view
-                ->setData($values->getOptions())
-                ->setStatusCode(Response::HTTP_CREATED);
-
-            return $view;
-        } catch (\Exception $e) {
-            throw new BadRequestHttpException($e->getMessage(), $e);
-        }
+        $this->options = $resolver->resolve($options);
     }
+
+    protected function configureOptions(OptionsResolverInterface $resolver)
+    {
+        $resolver->setRequired(array(
+            'nombre',
+            'nit'
+        ));
+
+        $resolver->setOptional(array(
+            'logo',
+            'telefono',
+            'direccion',
+            'email'
+        ));
+
+        $resolver->setDefaults(array(
+            'logo' => 'no_logo.jpg'
+        ));
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getOptions()
+    {
+        return $this->options;
+    }
+
+
 }

@@ -6,6 +6,16 @@ Característica: Crear empresa
 #  Antecedentes:
 #    Dado que existe una persona "Jose", "Arias", "1112233445"
 
+  Escenario: nueva empresa sin nombre
+    Dado una nueva empresa
+    Dado el nit "800234567-1"
+    Entonces crea una nueva empresa respuesta invalida
+
+  Escenario: nueva empresa sin nit
+    Dado una nueva empresa
+    Dado el nombre "DINCO"
+    Entonces crea una nueva empresa respuesta invalida
+
   Esquema del escenario: nueva empresa
     Dada una nueva empresa
     Dado el nombre <nombre>

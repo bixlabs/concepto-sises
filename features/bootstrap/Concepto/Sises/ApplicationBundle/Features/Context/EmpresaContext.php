@@ -37,6 +37,7 @@ namespace Concepto\Sises\ApplicationBundle\Features\Context;
 
 use Behat\Behat\Context\SnippetAcceptingContext;
 use GuzzleHttp\Client;
+use GuzzleHttp\Exception\ClientException;
 use Symfony\Component\HttpFoundation\Response;
 
 class EmpresaContext implements SnippetAcceptingContext
@@ -53,6 +54,7 @@ class EmpresaContext implements SnippetAcceptingContext
         $this->client = new Client(array(
             'base_url' => 'http://concepto.sises/app_test.php/',
             'defaults' => array(
+                'exceptions' => false,
                 'headers' => array(
                     'Accept' => 'application/json',
                     'Content-Type' => 'application/json'
@@ -70,6 +72,16 @@ class EmpresaContext implements SnippetAcceptingContext
         $response = $this->client->post('api/empresas', array('body' => $this->empresa));
 
         \PHPUnit_Framework_TestCase::assertEquals(Response::HTTP_CREATED, $response->getStatusCode());
+    }
+
+    /**
+     * @Then crea una nueva empresa respuesta invalida
+     */
+    public function creaUnaNuevaEmpresaRespuestaInvalida()
+    {
+        $response = $this->client->post('api/empresas', array('body' => $this->empresa));
+
+        \PHPUnit_Framework_TestCase::assertEquals(Response::HTTP_BAD_REQUEST, $response->getStatusCode());
     }
 
 
