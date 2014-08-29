@@ -50,7 +50,7 @@ class Empresa {
     /**
      * @var string
      * @Id()
-     * @Column(name="id", length=16)
+     * @Column(name="id", length=36)
      * @GeneratedValue(strategy="UUID")
      */
     protected $id;
