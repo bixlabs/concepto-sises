@@ -5,3 +5,5 @@ default:
         sises:
             type: symfony_bundle
             bundle: SisesApplicationBundle
+            contexts:
+                - Concepto\Sises\ApplicationBundle\Features\Context\EmpresaContext
