@@ -1,0 +1,7 @@
+default:
+    extensions:
+        Behat\Symfony2Extension: ~
+    suites:
+        sises:
+            type: symfony_bundle
+            bundle: SisesApplicationBundle
