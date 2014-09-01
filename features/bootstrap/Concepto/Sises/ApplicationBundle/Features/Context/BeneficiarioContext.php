@@ -39,4 +39,12 @@ class BeneficiarioContext extends RestContext
         $this->post('api/beneficiarios.json');
     }
 
+    /**
+     * @Then crea un nuevo beneficiario invalido
+     */
+    public function creaUnNuevoBeneficiarioInvalido()
+    {
+        $this->postInvalid('api/beneficiarios.json');
+    }
+
 }

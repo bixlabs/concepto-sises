@@ -11,3 +11,4 @@ default:
                 - Concepto\Sises\ApplicationBundle\Features\Context\ContratoContext
                 - Concepto\Sises\ApplicationBundle\Features\Context\ContratoDomainContext
                 - Concepto\Sises\ApplicationBundle\Features\Context\BeneficiarioContext
+                - Concepto\Sises\ApplicationBundle\Features\Context\BeneficiarioDomainContext

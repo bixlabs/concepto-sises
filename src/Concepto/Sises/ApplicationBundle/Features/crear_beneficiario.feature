@@ -7,6 +7,7 @@ Característica: Crear beneficiario
   Antecedentes:
     Dado que no hay contratos
     Dado que no hay empresas
+    Dado que no hay beneficiarios
     Dado una nueva empresa
     Dado el "nit" de la empresa "800234567-1"
     Dado el "nombre" de la empresa "DINCO"
@@ -25,3 +26,15 @@ Característica: Crear beneficiario
     Dado los "apellidos" del beneficario "PEREZ ALBAREZ"
     Dado el "documento" del beneficiario "1111222333"
     Entonces crea un nuevo beneficiario
+
+  Escenario: Crear un beneficiario documento duplicado
+    Dado un nuevo beneficiario
+    Dado el "nombre" del beneficiario "JUAN ALBERTO"
+    Dado los "apellidos" del beneficario "PEREZ ALBAREZ"
+    Dado el "documento" del beneficiario "1111222333"
+    Entonces crea un nuevo beneficiario
+    Dado un nuevo beneficiario
+    Dado el "nombre" del beneficiario "PEDRO"
+    Dado los "apellidos" del beneficario "SUAREZ MEJIA"
+    Dado el "documento" del beneficiario "1111222333"
+    Entonces crea un nuevo beneficiario invalido
