@@ -32,7 +32,7 @@
  * permission of Julian Reyes Escrigas <julian.reyes.escrigas@gmail.com>
  */
 
-namespace Concepto\Sises\ApplicationBundle;
+namespace Concepto\Sises\ApplicationBundle\Form;
 
 
 use Symfony\Component\Form\AbstractType;
