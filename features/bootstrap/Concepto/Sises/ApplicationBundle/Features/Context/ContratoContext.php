@@ -11,8 +11,6 @@
 
 namespace Concepto\Sises\ApplicationBundle\Features\Context;
 
-use Behat\Behat\Tester\Exception\PendingException;
-
 class ContratoContext extends RestContext
 {
 
