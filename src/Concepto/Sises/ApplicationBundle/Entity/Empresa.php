@@ -39,6 +39,7 @@ use Doctrine\ORM\Mapping\Entity;
 use Doctrine\ORM\Mapping\GeneratedValue;
 use Doctrine\ORM\Mapping\Id;
 use Doctrine\ORM\Mapping\Table;
+use Symfony\Component\Validator\Constraints\NotBlank;
 
 /**
  * Class Empresa
@@ -58,12 +59,14 @@ class Empresa {
     /**
      * @var string
      * @Column(name="nombre", length=250, nullable=false)
+     * @NotBlank(message="El campo 'nombre' no puede estar vacio")
      */
     protected $nombre;
 
     /**
      * @var string
      * @Column(name="nit", length=15, unique=true, nullable=false)
+     * @NotBlank(message="El campo 'nit' no puede estar vacio")
      */
     protected $nit;
 
