@@ -1,0 +1,158 @@
+[36m@contrato[39m
+[1mCaracterística:[22m actualizar contrato
+  Como usuario del sistema
+  Necesito poder actualizar una contrato existente
+
+  [1mAntecedentes:[22m                                                 [30m# src/Concepto/Sises/ApplicationBundle/Features/actualizar_contrato.feature:7[39m
+    [32mDado que no hay contratos[39m                                   [30m# Concepto\Sises\ApplicationBundle\Features\Context\ContratoDomainContext::queNoHayContratos()[39m
+    [32mDado que no hay empresas[39m                                    [30m# Concepto\Sises\ApplicationBundle\Features\Context\EmpresaDomainContext::queNoHayEmpresas()[39m
+    [32mDado una nueva empresa[39m                                      [30m# Concepto\Sises\ApplicationBundle\Features\Context\EmpresaContext::unaNuevaEmpresa()[39m
+    [32mDado el "[39m[32;1mnit[39;22m[32m" de la empresa "[39m[32;1m800234567-1[39;22m[32m"[39m                   [30m# Concepto\Sises\ApplicationBundle\Features\Context\EmpresaContext::elDeLaEmpresa()[39m
+    [32mDado el "[39m[32;1mnombre[39;22m[32m" de la empresa "[39m[32;1mDINCO[39;22m[32m"[39m                      [30m# Concepto\Sises\ApplicationBundle\Features\Context\EmpresaContext::elDeLaEmpresa()[39m
+    [32mEntonces crea una nueva empresa[39m                             [30m# Concepto\Sises\ApplicationBundle\Features\Context\EmpresaContext::creaUnaNuevaEmpresa()[39m
+    [32mDado un nuevo contrato[39m                                      [30m# Concepto\Sises\ApplicationBundle\Features\Context\ContratoContext::unNuevoContrato()[39m
+    [32mDado el contrato de nombre "[39m[32;1mCONTRATO 1[39;22m[32m"[39m                     [30m# Concepto\Sises\ApplicationBundle\Features\Context\ContratoContext::elContratoDeNombre()[39m
+    [32mDada la descripcion del contrato "[39m[32;1mCONTRATO DE ALIMENTACION[39;22m[32m"[39m [30m# Concepto\Sises\ApplicationBundle\Features\Context\ContratoContext::laDescripcionDelContrato()[39m
+    [32mDada la resolucion del contrato "[39m[32;1m1024 de Diciembre de 2014[39;22m[32m"[39m [30m# Concepto\Sises\ApplicationBundle\Features\Context\ContratoContext::laResolucionDelContrato()[39m
+    [32mDado el valor [39m[32;1m15345678765.43[39;22m[32m[39m                                [30m# Concepto\Sises\ApplicationBundle\Features\Context\ContratoContext::elValor()[39m
+    [32mEntonces crea un nuevo contrato[39m                             [30m# Concepto\Sises\ApplicationBundle\Features\Context\ContratoContext::creaUnNuevoContrato()[39m
+
+  [1mEscenario:[22m actualizar un solo campo       [30m# src/Concepto/Sises/ApplicationBundle/Features/actualizar_contrato.feature:21[39m
+    [32mDado un nuevo contrato[39m                  [30m# Concepto\Sises\ApplicationBundle\Features\Context\ContratoContext::unNuevoContrato()[39m
+    [32mDado el contrato de nombre "[39m[32;1mCONTRATO 2[39;22m[32m"[39m [30m# Concepto\Sises\ApplicationBundle\Features\Context\ContratoContext::elContratoDeNombre()[39m
+    [32mEntonces actualiza el contrato[39m          [30m# Concepto\Sises\ApplicationBundle\Features\Context\ContratoContext::actualizaElContrato()[39m
+
+[36m@empresa[39m
+[1mCaracterística:[22m actualizar empresa
+  Como usuario del sistema
+  Necesito poder actualizar una empresa existente
+
+  [1mAntecedentes:[22m                               [30m# src/Concepto/Sises/ApplicationBundle/Features/actualizar_empresa.feature:7[39m
+    [32mDado que no hay empresas[39m                  [30m# Concepto\Sises\ApplicationBundle\Features\Context\EmpresaDomainContext::queNoHayEmpresas()[39m
+    [32mDado una nueva empresa[39m                    [30m# Concepto\Sises\ApplicationBundle\Features\Context\EmpresaContext::unaNuevaEmpresa()[39m
+    [32mDado el "[39m[32;1mnit[39;22m[32m" de la empresa "[39m[32;1m800234567-1[39;22m[32m"[39m [30m# Concepto\Sises\ApplicationBundle\Features\Context\EmpresaContext::elDeLaEmpresa()[39m
+    [32mDado el "[39m[32;1mnombre[39;22m[32m" de la empresa "[39m[32;1mDINCO[39;22m[32m"[39m    [30m# Concepto\Sises\ApplicationBundle\Features\Context\EmpresaContext::elDeLaEmpresa()[39m
+    [32mEntonces crea una nueva empresa[39m           [30m# Concepto\Sises\ApplicationBundle\Features\Context\EmpresaContext::creaUnaNuevaEmpresa()[39m
+
+  [1mEscenario:[22m actualizar un solo campo        [30m# src/Concepto/Sises/ApplicationBundle/Features/actualizar_empresa.feature:14[39m
+    [32mDado una nueva empresa[39m                   [30m# Concepto\Sises\ApplicationBundle\Features\Context\EmpresaContext::unaNuevaEmpresa()[39m
+    [32mDado el "[39m[32;1mnombre[39;22m[32m" de la empresa "[39m[32;1mDINCO 2[39;22m[32m"[39m [30m# Concepto\Sises\ApplicationBundle\Features\Context\EmpresaContext::elDeLaEmpresa()[39m
+    [32mEntonces actualiza la empresa[39m            [30m# Concepto\Sises\ApplicationBundle\Features\Context\EmpresaContext::actualizaLaEmpresa()[39m
+
+[36m@contrato[39m
+[1mCaracterística:[22m Crear contrato
+  Como usuario del sistema
+  Necesito poder crear un contrato
+
+  [1mAntecedentes:[22m                               [30m# src/Concepto/Sises/ApplicationBundle/Features/crear_contrato.feature:7[39m
+    [32mDado que no hay contratos[39m                 [30m# Concepto\Sises\ApplicationBundle\Features\Context\ContratoDomainContext::queNoHayContratos()[39m
+    [32mDado que no hay empresas[39m                  [30m# Concepto\Sises\ApplicationBundle\Features\Context\EmpresaDomainContext::queNoHayEmpresas()[39m
+    [32mDado una nueva empresa[39m                    [30m# Concepto\Sises\ApplicationBundle\Features\Context\EmpresaContext::unaNuevaEmpresa()[39m
+    [32mDado el "[39m[32;1mnit[39;22m[32m" de la empresa "[39m[32;1m800234567-1[39;22m[32m"[39m [30m# Concepto\Sises\ApplicationBundle\Features\Context\EmpresaContext::elDeLaEmpresa()[39m
+    [32mDado el "[39m[32;1mnombre[39;22m[32m" de la empresa "[39m[32;1mDINCO[39;22m[32m"[39m    [30m# Concepto\Sises\ApplicationBundle\Features\Context\EmpresaContext::elDeLaEmpresa()[39m
+    [32mEntonces crea una nueva empresa[39m           [30m# Concepto\Sises\ApplicationBundle\Features\Context\EmpresaContext::creaUnaNuevaEmpresa()[39m
+
+  [1mEscenario:[22m crear contrato                                     [30m# src/Concepto/Sises/ApplicationBundle/Features/crear_contrato.feature:15[39m
+    [32mDado un nuevo contrato[39m                                      [30m# Concepto\Sises\ApplicationBundle\Features\Context\ContratoContext::unNuevoContrato()[39m
+    [32mDado el contrato de nombre "[39m[32;1mCONTRATO 1[39;22m[32m"[39m                     [30m# Concepto\Sises\ApplicationBundle\Features\Context\ContratoContext::elContratoDeNombre()[39m
+    [32mDada la descripcion del contrato "[39m[32;1mCONTRATO DE ALIMENTACION[39;22m[32m"[39m [30m# Concepto\Sises\ApplicationBundle\Features\Context\ContratoContext::laDescripcionDelContrato()[39m
+    [32mDada la resolucion del contrato "[39m[32;1m1024 de Diciembre de 2014[39;22m[32m"[39m [30m# Concepto\Sises\ApplicationBundle\Features\Context\ContratoContext::laResolucionDelContrato()[39m
+    [32mDado el valor [39m[32;1m15345678765.43[39;22m[32m[39m                                [30m# Concepto\Sises\ApplicationBundle\Features\Context\ContratoContext::elValor()[39m
+    [32mEntonces crea un nuevo contrato[39m                             [30m# Concepto\Sises\ApplicationBundle\Features\Context\ContratoContext::creaUnNuevoContrato()[39m
+
+  [1mEscenario:[22m crear contrato invalido sin resolucion             [30m# src/Concepto/Sises/ApplicationBundle/Features/crear_contrato.feature:23[39m
+    [32mDado un nuevo contrato[39m                                      [30m# Concepto\Sises\ApplicationBundle\Features\Context\ContratoContext::unNuevoContrato()[39m
+    [32mDado el contrato de nombre "[39m[32;1mCONTRATO 1[39;22m[32m"[39m                     [30m# Concepto\Sises\ApplicationBundle\Features\Context\ContratoContext::elContratoDeNombre()[39m
+    [32mDada la descripcion del contrato "[39m[32;1mCONTRATO DE ALIMENTACION[39;22m[32m"[39m [30m# Concepto\Sises\ApplicationBundle\Features\Context\ContratoContext::laDescripcionDelContrato()[39m
+    [32mDado el valor [39m[32;1m15345678765.43[39;22m[32m[39m                                [30m# Concepto\Sises\ApplicationBundle\Features\Context\ContratoContext::elValor()[39m
+    [32mEntonces crea un nuevo contrato invalido[39m                    [30m# Concepto\Sises\ApplicationBundle\Features\Context\ContratoContext::creaUnNuevoContratoInvalido()[39m
+
+[36m@empresa[39m
+[1mCaracterística:[22m Crear empresa
+  Como usuario del sistema
+  Necesito poder crear una empresa
+
+  [1mAntecedentes:[22m              [30m# src/Concepto/Sises/ApplicationBundle/Features/crear_empresa.feature:7[39m
+    [32mDado que no hay empresas[39m [30m# Concepto\Sises\ApplicationBundle\Features\Context\EmpresaDomainContext::queNoHayEmpresas()[39m
+
+  [1mEscenario:[22m nueva empresa sin nombre                  [30m# src/Concepto/Sises/ApplicationBundle/Features/crear_empresa.feature:10[39m
+    [32mDado una nueva empresa[39m                             [30m# Concepto\Sises\ApplicationBundle\Features\Context\EmpresaContext::unaNuevaEmpresa()[39m
+    [32mDado el "[39m[32;1mnit[39;22m[32m" de la empresa "[39m[32;1m800234567-1[39;22m[32m"[39m          [30m# Concepto\Sises\ApplicationBundle\Features\Context\EmpresaContext::elDeLaEmpresa()[39m
+    [32mEntonces crea una nueva empresa respuesta invalida[39m [30m# Concepto\Sises\ApplicationBundle\Features\Context\EmpresaContext::creaUnaNuevaEmpresaRespuestaInvalida()[39m
+
+  [1mEscenario:[22m nueva empresa sin nit                     [30m# src/Concepto/Sises/ApplicationBundle/Features/crear_empresa.feature:15[39m
+    [32mDado una nueva empresa[39m                             [30m# Concepto\Sises\ApplicationBundle\Features\Context\EmpresaContext::unaNuevaEmpresa()[39m
+    [32mDado el "[39m[32;1mnombre[39;22m[32m" de la empresa "[39m[32;1mDINCO[39;22m[32m"[39m             [30m# Concepto\Sises\ApplicationBundle\Features\Context\EmpresaContext::elDeLaEmpresa()[39m
+    [32mEntonces crea una nueva empresa respuesta invalida[39m [30m# Concepto\Sises\ApplicationBundle\Features\Context\EmpresaContext::creaUnaNuevaEmpresaRespuestaInvalida()[39m
+
+  [1mEscenario:[22m crear una empresa mismo nit invalido      [30m# src/Concepto/Sises/ApplicationBundle/Features/crear_empresa.feature:20[39m
+    [32mDado una nueva empresa[39m                             [30m# Concepto\Sises\ApplicationBundle\Features\Context\EmpresaContext::unaNuevaEmpresa()[39m
+    [32mDado el "[39m[32;1mnit[39;22m[32m" de la empresa "[39m[32;1m800234567-1[39;22m[32m"[39m          [30m# Concepto\Sises\ApplicationBundle\Features\Context\EmpresaContext::elDeLaEmpresa()[39m
+    [32mDado el "[39m[32;1mnombre[39;22m[32m" de la empresa "[39m[32;1mDINCO[39;22m[32m"[39m             [30m# Concepto\Sises\ApplicationBundle\Features\Context\EmpresaContext::elDeLaEmpresa()[39m
+    [32mEntonces crea una nueva empresa[39m                    [30m# Concepto\Sises\ApplicationBundle\Features\Context\EmpresaContext::creaUnaNuevaEmpresa()[39m
+    [32mDado una nueva empresa[39m                             [30m# Concepto\Sises\ApplicationBundle\Features\Context\EmpresaContext::unaNuevaEmpresa()[39m
+    [32mDado el "[39m[32;1mnit[39;22m[32m" de la empresa "[39m[32;1m800234567-1[39;22m[32m"[39m          [30m# Concepto\Sises\ApplicationBundle\Features\Context\EmpresaContext::elDeLaEmpresa()[39m
+    [32mDado el "[39m[32;1mnombre[39;22m[32m" de la empresa "[39m[32;1mDINCO 2[39;22m[32m"[39m           [30m# Concepto\Sises\ApplicationBundle\Features\Context\EmpresaContext::elDeLaEmpresa()[39m
+    [32mEntonces crea una nueva empresa respuesta invalida[39m [30m# Concepto\Sises\ApplicationBundle\Features\Context\EmpresaContext::creaUnaNuevaEmpresaRespuestaInvalida()[39m
+
+  [1mEsquema del escenario:[22m nueva empresa            [30m# src/Concepto/Sises/ApplicationBundle/Features/crear_empresa.feature:30[39m
+    [36mDada una nueva empresa[39m                        [30m# Concepto\Sises\ApplicationBundle\Features\Context\EmpresaContext::unaNuevaEmpresa()[39m
+    [36mDado el "nombre" de la empresa [39m[36;1m<nombre>[39;22m[36m[39m       [30m# Concepto\Sises\ApplicationBundle\Features\Context\EmpresaContext::elDeLaEmpresa()[39m
+    [36mDado el "nit" de la empresa [39m[36;1m<nit>[39;22m[36m[39m             [30m# Concepto\Sises\ApplicationBundle\Features\Context\EmpresaContext::elDeLaEmpresa()[39m
+    [36mDado el "logo" de la empresa [39m[36;1m<logo>[39;22m[36m[39m           [30m# Concepto\Sises\ApplicationBundle\Features\Context\EmpresaContext::elDeLaEmpresa()[39m
+    [36mDado el "telefono" de la empresa [39m[36;1m<telefono>[39;22m[36m[39m   [30m# Concepto\Sises\ApplicationBundle\Features\Context\EmpresaContext::elDeLaEmpresa()[39m
+    [36mDado el "direccion" de la empresa [39m[36;1m<direccion>[39;22m[36m[39m [30m# Concepto\Sises\ApplicationBundle\Features\Context\EmpresaContext::elDeLaEmpresa()[39m
+    [36mDado el "email" de la empresa [39m[36;1m<email>[39;22m[36m[39m         [30m# Concepto\Sises\ApplicationBundle\Features\Context\EmpresaContext::elDeLaEmpresa()[39m
+    [36mEntonces crea una nueva empresa[39m               [30m# Concepto\Sises\ApplicationBundle\Features\Context\EmpresaContext::creaUnaNuevaEmpresa()[39m
+
+    [1mEjemplos:[22m
+      |[36;1m nombre  [39;22m|[36;1m nit           [39;22m|[36;1m logo            [39;22m|[36;1m telefono   [39;22m|[36;1m direccion         [39;22m|[36;1m email           [39;22m|
+      |[32m "DINCO" [39m|[32m "800234567-1" [39m|[32m "dincologo.png" [39m|[32m "55800000" [39m|[32m "CL 1000 # 35-23" [39m|[32m "info@dinco.co" [39m|
+
+[36m@contrato[39m
+[1mCaracterística:[22m Listar contratos
+  Como usuario del sistema
+  Necesito poder ver el listado de contratos
+
+  [1mAntecedentes:[22m                                                 [30m# src/Concepto/Sises/ApplicationBundle/Features/listar_contratos.feature:7[39m
+    [32mDado que no hay contratos[39m                                   [30m# Concepto\Sises\ApplicationBundle\Features\Context\ContratoDomainContext::queNoHayContratos()[39m
+    [32mDado que no hay empresas[39m                                    [30m# Concepto\Sises\ApplicationBundle\Features\Context\EmpresaDomainContext::queNoHayEmpresas()[39m
+    [32mDado una nueva empresa[39m                                      [30m# Concepto\Sises\ApplicationBundle\Features\Context\EmpresaContext::unaNuevaEmpresa()[39m
+    [32mDado el "[39m[32;1mnit[39;22m[32m" de la empresa "[39m[32;1m800234567-1[39;22m[32m"[39m                   [30m# Concepto\Sises\ApplicationBundle\Features\Context\EmpresaContext::elDeLaEmpresa()[39m
+    [32mDado el "[39m[32;1mnombre[39;22m[32m" de la empresa "[39m[32;1mDINCO[39;22m[32m"[39m                      [30m# Concepto\Sises\ApplicationBundle\Features\Context\EmpresaContext::elDeLaEmpresa()[39m
+    [32mEntonces crea una nueva empresa[39m                             [30m# Concepto\Sises\ApplicationBundle\Features\Context\EmpresaContext::creaUnaNuevaEmpresa()[39m
+    [32mDado un nuevo contrato[39m                                      [30m# Concepto\Sises\ApplicationBundle\Features\Context\ContratoContext::unNuevoContrato()[39m
+    [32mDado el contrato de nombre "[39m[32;1mCONTRATO 1[39;22m[32m"[39m                     [30m# Concepto\Sises\ApplicationBundle\Features\Context\ContratoContext::elContratoDeNombre()[39m
+    [32mDada la descripcion del contrato "[39m[32;1mCONTRATO DE ALIMENTACION[39;22m[32m"[39m [30m# Concepto\Sises\ApplicationBundle\Features\Context\ContratoContext::laDescripcionDelContrato()[39m
+    [32mDada la resolucion del contrato "[39m[32;1m1024 de Diciembre de 2014[39;22m[32m"[39m [30m# Concepto\Sises\ApplicationBundle\Features\Context\ContratoContext::laResolucionDelContrato()[39m
+    [32mDado el valor [39m[32;1m15345678765.43[39;22m[32m[39m                                [30m# Concepto\Sises\ApplicationBundle\Features\Context\ContratoContext::elValor()[39m
+    [32mEntonces crea un nuevo contrato[39m                             [30m# Concepto\Sises\ApplicationBundle\Features\Context\ContratoContext::creaUnNuevoContrato()[39m
+
+  [1mEscenario:[22m veo un listado de empresas             [30m# src/Concepto/Sises/ApplicationBundle/Features/listar_contratos.feature:21[39m
+    [31mDado que obtengo un listado de contratos[39m        [30m# Concepto\Sises\ApplicationBundle\Features\Context\ContratoContext::queObtengoUnListadoDeContratos()[39m
+[31m      Server error response [url] http://concepto.sises/api/contratos.json [status code] 500 [reason phrase] Internal Server Error (GuzzleHttp\Exception\ServerException)[39m
+    [36mEntonces existe un contrato de "[39m[36;1mnombre[39;22m[36m" "[39m[36;1mDINCO[39;22m[36m"[39m [30m# Concepto\Sises\ApplicationBundle\Features\Context\ContratoContext::existeUnContratoDe()[39m
+
+[36m@empresa[39m
+[1mCaracterística:[22m Listar empresas
+  Como usuario del sistema
+  Necesito poder ver el listado de empresas
+
+  [1mAntecedentes:[22m                             [30m# src/Concepto/Sises/ApplicationBundle/Features/listar_empresa.feature:7[39m
+    [32mDado que no hay empresas[39m                [30m# Concepto\Sises\ApplicationBundle\Features\Context\EmpresaDomainContext::queNoHayEmpresas()[39m
+    [32mDado una nueva empresa[39m                  [30m# Concepto\Sises\ApplicationBundle\Features\Context\EmpresaContext::unaNuevaEmpresa()[39m
+    [32mDado el "[39m[32;1mnit[39;22m[32m" de la empresa "[39m[32;1m800234567[39;22m[32m"[39m [30m# Concepto\Sises\ApplicationBundle\Features\Context\EmpresaContext::elDeLaEmpresa()[39m
+    [32mDado el "[39m[32;1mnombre[39;22m[32m" de la empresa "[39m[32;1mDINCO[39;22m[32m"[39m  [30m# Concepto\Sises\ApplicationBundle\Features\Context\EmpresaContext::elDeLaEmpresa()[39m
+    [32mEntonces crea una nueva empresa[39m         [30m# Concepto\Sises\ApplicationBundle\Features\Context\EmpresaContext::creaUnaNuevaEmpresa()[39m
+
+  [1mEscenario:[22m veo un listado de empresas           [30m# src/Concepto/Sises/ApplicationBundle/Features/listar_empresa.feature:14[39m
+    [32mDado que obtengo un listado de empresas[39m       [30m# Concepto\Sises\ApplicationBundle\Features\Context\EmpresaContext::queObtengoUnListadoDeEmpresas()[39m
+    [33mEntonces existe una empresa de nombre "DINCO"[39m
+
+--- [31mEscenarios fallidos:[39m
+
+    [31msrc/Concepto/Sises/ApplicationBundle/Features/listar_contratos.feature:21[39m
+
+10 escenarios ([32m8 pasaron[39m, [31m1 fallaron[39m, [33m1 por definir[39m)
+93 pasos ([32m90 pasaron[39m, [31m1 fallaron[39m, [33m1 por definir[39m, [36m1 saltadas[39m)
+0m5.62s (10.16Mb)

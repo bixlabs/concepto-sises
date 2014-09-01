@@ -57,22 +57,22 @@ class EmpresaContext extends RestContext
     /**
      * @Then actualiza la empresa
      */
-    public function actualizaLaEmpresaDeNombre()
+    public function actualizaLaEmpresa()
     {
         $this->patch('api/empresas/{id}.json', array('id' => $this->getObjectCreated()['id']));
     }
 
     /**
-     * @Then existe una empresa de nombre :arg1
+     * @Then existe un(a) .* de :arg1 :arg2
      */
-    public function existeUnaEmpresaDeNombre($arg1)
+    public function existeUnObjectDePropieda($arg1, $arg2)
     {
-        foreach ($this->getObjects() as $empresa) {
-            if ($empresa['nombre'] == $arg1) {
+        foreach ($this->getObjects() as $objeto) {
+            if ($objeto[$arg1] == $arg2) {
                 return true;
             }
         }
 
-        \PHPUnit_Framework_TestCase::fail("No existe la empresa {$arg1}");
+        \PHPUnit_Framework_TestCase::fail("No existe {$arg1} == {$arg2}");
     }
 }

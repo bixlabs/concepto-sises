@@ -69,4 +69,29 @@ class ContratoContext extends RestContext
     {
         $this->postInvalid('api/contratos.json');
     }
+
+    /**
+     * @Then actualiza el contrato
+     */
+    public function actualizaElContrato()
+    {
+        $this->patch('api/contratos/{id}.json', array('id' => $this->getObjectCreated()['id']));
+    }
+
+    /**
+     * @Given que obtengo un listado de contratos
+     */
+    public function queObtengoUnListadoDeContratos()
+    {
+        $this->cget('api/contratos.json');
+    }
+
+    /**
+     * @Then existe un contrato de :arg1 :arg2
+     */
+    public function existeUnContratoDe($arg1, $arg2)
+    {
+
+    }
+
 }
