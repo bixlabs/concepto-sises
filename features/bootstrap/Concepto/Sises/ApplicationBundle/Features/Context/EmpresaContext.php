@@ -34,37 +34,14 @@
 
 namespace Concepto\Sises\ApplicationBundle\Features\Context;
 
-
-use Behat\Behat\Context\SnippetAcceptingContext;
-use GuzzleHttp\Client;
-use GuzzleHttp\Exception\ClientException;
-use Symfony\Component\HttpFoundation\Response;
-
-class EmpresaContext implements SnippetAcceptingContext
+class EmpresaContext extends RestContext
 {
-    private $empresa = array();
-
-    private $empresa_creada;
-
-    private $empresas = array();
-
     /**
-     * @var Client
+     * @Given una nueva empresa
      */
-    private $client;
-
-    function __construct()
+    public function unaNuevaEmpresa()
     {
-        $this->client = new Client(array(
-            'base_url' => 'http://concepto.sises/app_test.php/',
-            'defaults' => array(
-                //'exceptions' => false,
-                'headers' => array(
-                    'Accept' => 'application/json',
-                    'Content-Type' => 'application/json'
-                )
-            ),
-        ));
+        $this->newObject();
     }
 
     /**
@@ -72,18 +49,7 @@ class EmpresaContext implements SnippetAcceptingContext
      */
     public function creaUnaNuevaEmpresa()
     {
-        try {
-            $response = $this->client->post('api/empresas.json', array('body' => $this->empresa));
-            \PHPUnit_Framework_TestCase::assertEquals(Response::HTTP_CREATED, $response->getStatusCode());
-
-            // Fetch the recent create empresa
-            $this->empresa_creada = $this->client->get($response->getHeader('location'))->json();
-        } catch (ClientException $e) {
-            \PHPUnit_Framework_TestCase::assertEquals(
-                Response::HTTP_BAD_REQUEST,
-                $e->getResponse()->getStatusCode()
-            );
-        }
+        $this->post('api/empresas.json');
     }
 
     /**
@@ -91,90 +57,15 @@ class EmpresaContext implements SnippetAcceptingContext
      */
     public function creaUnaNuevaEmpresaRespuestaInvalida()
     {
-        try {
-            $this->client->post('api/empresas.json', array('body' => $this->empresa));
-        } catch (ClientException $e) {
-            \PHPUnit_Framework_TestCase::assertEquals(
-                Response::HTTP_BAD_REQUEST,
-                $e->getResponse()->getStatusCode()
-            );
-        }
-    }
-
-
-    private function setEmpresaProp($name, $value)
-    {
-        $this->empresa[$name] = $value;
+        $this->postInvalid('api/empresas.json');
     }
 
     /**
-     * @Given una nueva empresa
+     * @Given el :arg1 de la empresa :arg2
      */
-    public function unaNuevaEmpresa()
+    public function elDeLaEmpresa($arg1, $arg2)
     {
-        $this->empresa = array();
-    }
-
-    /**
-     * @Given el nombre :arg1
-     */
-    public function elNombre($arg1)
-    {
-        $this->setEmpresaProp('nombre', $arg1);
-    }
-
-    /**
-     * @Given el nit :arg1
-     */
-    public function elNit($arg1)
-    {
-        $this->setEmpresaProp('nit', $arg1);
-    }
-
-    /**
-     * @Given el logo :arg1
-     */
-    public function elLogo($arg1)
-    {
-        $this->setEmpresaProp('logo', $arg1);
-    }
-
-    /**
-     * @Given el telefono :arg1
-     */
-    public function elTelefono($arg1)
-    {
-        $this->setEmpresaProp('telefono', $arg1);
-    }
-
-    /**
-     * @Given la dirección :arg1
-     */
-    public function laDireccion($arg1)
-    {
-        $this->setEmpresaProp('direccion', $arg1);
-    }
-
-    /**
-     * @Given el correo electrónico :arg1
-     */
-    public function elCorreoElectronico($arg1)
-    {
-        $this->setEmpresaProp('email', $arg1);
-    }
-
-    /**
-     * @Then existe una empresa de nombre :arg1
-     */
-    public function existeUnaEmpresa($arg1)
-    {
-        foreach ($this->empresas as $empresa) {
-            if ($empresa['nombre'] == $arg1) {
-                return true;
-            }
-        }
-
-        return new \Exception("La empresa no existe!");
+        $this->setProp($arg1, $arg2);
     }
 
     /**
@@ -182,26 +73,7 @@ class EmpresaContext implements SnippetAcceptingContext
      */
     public function queObtengoUnListadoDeEmpresas()
     {
-        $response = $this->client->get('api/empresas.json');
-        $this->empresas = $response->getBody();
-    }
-
-    /**
-     * @Then existe la empresa :arg1
-     */
-    public function existeLaEmpresa($arg1)
-    {
-        if ($this->empresas) {
-            foreach($this->empresas as $empresa) {
-                if ($empresa['nombre'] == $arg1) {
-                    return;
-                }
-            }
-
-            \PHPUnit_Framework_TestCase::fail('La empresa no existe en ' . $this->empresas);
-        }
-
-        \PHPUnit_Framework_TestCase::fail('No se obtuvieron empresas');
+        $this->cget('api/empresas.json');
     }
 
     /**
@@ -209,25 +81,6 @@ class EmpresaContext implements SnippetAcceptingContext
      */
     public function actualizaLaEmpresaDeNombre()
     {
-        try {
-            $response = $this->client->patch(
-                array('api/empresas/{id}.json', array('id' => $this->empresa_creada['id'])),
-                array('body' => $this->empresa)
-            );
-            \PHPUnit_Framework_TestCase::assertEquals(Response::HTTP_NO_CONTENT, $response->getStatusCode());
-        } catch (ClientException $e) {
-            \PHPUnit_Framework_TestCase::fail($e->getMessage());
-        }
-    }
-
-    /**
-     * @Given que existe una empresa
-     */
-    public function queExisteUnaEmpresa()
-    {
-        if (!$this->empresa_creada) {
-            var_dump($this->empresa_creada);
-            \PHPUnit_Framework_TestCase::fail('No se ha creado ninguna empresa');
-        }
+        $this->patch('api/empresas/{id}.json', array('id' => $this->getObjectCreated()['id']));
     }
 }

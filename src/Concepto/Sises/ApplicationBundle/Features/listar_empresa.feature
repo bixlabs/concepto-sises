@@ -6,8 +6,8 @@ Característica: Listar empresas
   Antecedentes:
     Dado que no hay empresas
     Dado una nueva empresa
-    Dado el nit "800234567-1"
-    Dado el nombre "DINCO"
+    Dado el "nit" de la empresa "800234567"
+    Dado el "nombre" de la empresa "DINCO"
     Entonces crea una nueva empresa
 
   Escenario: veo un listado de empresas

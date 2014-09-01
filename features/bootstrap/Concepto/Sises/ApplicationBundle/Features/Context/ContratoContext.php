@@ -34,48 +34,15 @@
 
 namespace Concepto\Sises\ApplicationBundle\Features\Context;
 
-
-use Behat\Behat\Context\SnippetAcceptingContext;
-use FOS\RestBundle\Util\Codes;
-use GuzzleHttp\Client;
-use GuzzleHttp\Exception\ClientException;
-use GuzzleHttp\Exception\ServerException;
-
-class ContratoContext implements SnippetAcceptingContext
+class ContratoContext extends RestContext
 {
-    private $contrato = array();
-
-    private $contrato_creado;
-
-    /**
-     * @var Client
-     */
-    private $client;
-
-    function __construct()
-    {
-        $this->client = new Client(array(
-            'base_url' => 'http://concepto.sises/app_test.php/',
-            'defaults' => array(
-                'headers' => array(
-                    'Accept' => 'application/json',
-                    'Content-Type' => 'application/json'
-                )
-            ),
-        ));
-    }
 
     /**
      * @Given un nuevo contrato
      */
     public function unNuevoContrato()
     {
-        $this->contrato = array();
-    }
-
-    private function setProp($name, $value)
-    {
-        $this->contrato[$name] = $value;
+        $this->newObject();
     }
 
     /**
@@ -115,20 +82,14 @@ class ContratoContext implements SnippetAcceptingContext
      */
     public function creaUnNuevoContrato()
     {
-        try {
-            $response = $this->client->post('api/contratos.json', array('body' => $this->contrato));
-            \PHPUnit_Framework_TestCase::assertEquals(Codes::HTTP_CREATED, $response->getStatusCode());
-
-            // Fetch the recent create record
-            $this->contrato_creado = $this->client->get($response->getHeader('location'))->json();
-        } catch (ClientException $e) {
-            \PHPUnit_Framework_TestCase::assertEquals(
-                Codes::HTTP_BAD_REQUEST,
-                $e->getResponse()->getStatusCode()
-            );
-        } catch (ServerException $e) {
-            \PHPUnit_Framework_TestCase::fail($e->getResponse()->json()[0]['message']);
-        }
+        $this->post('api/contratos.json');
     }
 
+    /**
+     * @Then crea un nuevo contrato invalido
+     */
+    public function creaUnNuevoContratoInvalido()
+    {
+        $this->postInvalid('api/contratos.json');
+    }
 }
