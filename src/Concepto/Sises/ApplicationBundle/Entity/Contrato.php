@@ -38,18 +38,19 @@ use Doctrine\ORM\Mapping\Column;
 use Doctrine\ORM\Mapping\Entity;
 use Doctrine\ORM\Mapping\GeneratedValue;
 use Doctrine\ORM\Mapping\Id;
+use Doctrine\ORM\Mapping\ManyToOne;
 use Doctrine\ORM\Mapping\Table;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Validator\Constraints\NotBlank;
 
 /**
- * Class Empresa
+ * Class Contrato
  * @package Concepto\Sises\ApplicationBundle\Entity
  * @Entity()
- * @Table(name="empresa")
- * @UniqueEntity(fields={"nit"}, message="No puede existir dos empresas con un mismo nit")
+ * @Table(name="contrato")
+ * @UniqueEntity(fields={"resolucion"}, message="No pueden existir dos contratos con la misma resolucion")
  */
-class Empresa implements OrmPersistible {
+class Contrato implements OrmPersistible {
     /**
      * @var string
      * @Id()
@@ -61,40 +62,35 @@ class Empresa implements OrmPersistible {
     /**
      * @var string
      * @Column(name="nombre", length=250, nullable=false)
-     * @NotBlank(message="El campo 'nombre' no puede estar vacio")
+     * @NotBlank(message="EL campo 'nombre' no puede estar vacio")
      */
     protected $nombre;
 
     /**
      * @var string
-     * @Column(name="nit", length=15, unique=true, nullable=false)
-     * @NotBlank(message="El campo 'nit' no puede estar vacio")
+     * @Column(name="descripcion", length=300, nullable=false)
+     * @NotBlank(message="El campo 'descripcion' no puede estar vacio")
      */
-    protected $nit;
+    protected $descripcion;
 
     /**
      * @var string
-     * @Column(name="logo", length=255, nullable=true)
+     * @Column(name="resolucion", length=250, nullable=false, unique=true)
+     * @NotBlank(message="El campo 'resolucion' no puede estar vacio")
      */
-    protected $logo;
+    protected $resolucion;
 
     /**
-     * @var string
-     * @Column(name="telefono", type="string", nullable=true)
+     * @var double
+     * @Column(name="valor", type="decimal", precision=64, scale=2)
      */
-    protected $telefono;
+    protected $valor;
 
     /**
-     * @var string
-     * @Column(name="direccion", type="string", nullable=true, length=255)
+     * @var Empresa
+     * @ManyToOne(targetEntity="Concepto\Sises\ApplicationBundle\Entity\Empresa", fetch="LAZY")
      */
-    protected $direccion;
-
-    /**
-     * @var string
-     * @Column(name="email", type="string", nullable=true, length=255)
-     */
-    protected $email;
+    protected $empresa;
 
     /**
      * @return string
@@ -123,80 +119,64 @@ class Empresa implements OrmPersistible {
     /**
      * @return string
      */
-    public function getLogo()
+    public function getDescripcion()
     {
-        return $this->logo;
+        return $this->descripcion;
     }
 
     /**
-     * @param string $logo
+     * @param string $descripcion
      */
-    public function setLogo($logo)
+    public function setDescripcion($descripcion)
     {
-        $this->logo = $logo;
-    }
-
-    /**
-     * @return string
-     */
-    public function getNit()
-    {
-        return $this->nit;
-    }
-
-    /**
-     * @param string $nit
-     */
-    public function setNit($nit)
-    {
-        $this->nit = $nit;
+        $this->descripcion = $descripcion;
     }
 
     /**
      * @return string
      */
-    public function getTelefono()
+    public function getResolucion()
     {
-        return $this->telefono;
+        return $this->resolucion;
     }
 
     /**
-     * @param string $telefono
+     * @param string $resolucion
      */
-    public function setTelefono($telefono)
+    public function setResolucion($resolucion)
     {
-        $this->telefono = $telefono;
+        $this->resolucion = $resolucion;
     }
 
     /**
-     * @return string
+     * @return float
      */
-    public function getDireccion()
+    public function getValor()
     {
-        return $this->direccion;
+        return $this->valor;
     }
 
     /**
-     * @param string $direccion
+     * @param float $valor
      */
-    public function setDireccion($direccion)
+    public function setValor($valor)
     {
-        $this->direccion = $direccion;
+        $this->valor = $valor;
     }
 
     /**
-     * @return string
+     * @return \Concepto\Sises\ApplicationBundle\Entity\Empresa
      */
-    public function getEmail()
+    public function getEmpresa()
     {
-        return $this->email;
+        return $this->empresa;
     }
 
     /**
-     * @param string $email
+     * @param \Concepto\Sises\ApplicationBundle\Entity\Empresa $empresa
      */
-    public function setEmail($email)
+    public function setEmpresa($empresa)
     {
-        $this->email = $email;
+        $this->empresa = $empresa;
     }
 }

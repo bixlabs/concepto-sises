@@ -1,4 +1,8 @@
-crear_empresa:
+empresa:
     type: rest
     prefix: /api
     resource: @SisesApplicationBundle/Controller/EmpresaController.php
+contrato:
+    type: rest
+    prefix: /api
+    resource: @SisesApplicationBundle/Controller/ContratoController.php

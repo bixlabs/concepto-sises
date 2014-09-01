@@ -8,3 +8,5 @@ default:
             contexts:
                 - Concepto\Sises\ApplicationBundle\Features\Context\EmpresaContext
                 - Concepto\Sises\ApplicationBundle\Features\Context\EmpresaDomainContext
+                - Concepto\Sises\ApplicationBundle\Features\Context\ContratoContext
+                - Concepto\Sises\ApplicationBundle\Features\Context\ContratoDomainContext
