@@ -1,4 +1,5 @@
 # language: es
+@empresa
 Característica: Listar empresas
   Como usuario del sistema
   Necesito poder ver el listado de empresas

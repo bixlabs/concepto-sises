@@ -1,4 +1,5 @@
 # language: es
+@empresa
 Característica: actualizar empresa
   Como usuario del sistema
   Necesito poder actualizar una empresa existente
