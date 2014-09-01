@@ -61,4 +61,18 @@ class EmpresaContext extends RestContext
     {
         $this->patch('api/empresas/{id}.json', array('id' => $this->getObjectCreated()['id']));
     }
+
+    /**
+     * @Then existe una empresa de nombre :arg1
+     */
+    public function existeUnaEmpresaDeNombre($arg1)
+    {
+        foreach ($this->getObjects() as $empresa) {
+            if ($empresa['nombre'] == $arg1) {
+                return true;
+            }
+        }
+
+        \PHPUnit_Framework_TestCase::fail("No existe la empresa {$arg1}");
+    }
 }
