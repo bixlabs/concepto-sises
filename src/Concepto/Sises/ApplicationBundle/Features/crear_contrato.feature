@@ -26,3 +26,17 @@ Característica: Crear contrato
     Dada la descripcion del contrato "CONTRATO DE ALIMENTACION"
     Dado el valor 15345678765.43
     Entonces crea un nuevo contrato invalido
+
+  Escenario: crea contrato invalido con una misma resolucion
+    Dado un nuevo contrato
+    Dado el contrato de nombre "CONTRATO 1"
+    Dada la descripcion del contrato "CONTRATO DE ALIMENTACION"
+    Dada la resolucion del contrato "1024 de Diciembre de 2014"
+    Dado el valor 15345678765.43
+    Entonces crea un nuevo contrato
+    Dado un nuevo contrato
+    Dado el contrato de nombre "CONTRATO 2"
+    Dada la descripcion del contrato "CONTRATO DE ALIMENTACION 2"
+    Dada la resolucion del contrato "1024 de Diciembre de 2014"
+    Dado el valor 15345678765.43
+    Entonces crea un nuevo contrato invalido
