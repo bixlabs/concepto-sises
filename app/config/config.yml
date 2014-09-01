@@ -72,8 +72,8 @@ fos_rest:
     body_listener: true
 
 
-#jms_di_extra:
-#    locations:
-#        all_bundles: false
-#        bundles: [FooBundle, AcmeBlogBundle]
-#        directories: ["%kernel.root_dir%/../src"]
+jms_di_extra:
+    locations:
+        all_bundles: false
+        bundles: [SisesApplicationBundle]
+        directories: ["%kernel.root_dir%/../src"]
