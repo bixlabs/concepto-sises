@@ -1,5 +1,4 @@
 <?php
-
  /**
  * Copyright © 2014 Julian Reyes Escrigas <julian.reyes.escrigas@gmail.com>
  *
