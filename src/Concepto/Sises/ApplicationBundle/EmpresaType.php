@@ -32,64 +32,42 @@
  * permission of Julian Reyes Escrigas <julian.reyes.escrigas@gmail.com>
  */
 
-namespace Concepto\Sises\ApplicationBundle\Resolver;
+namespace Concepto\Sises\ApplicationBundle;
 
 
-use Concepto\Sises\ApplicationBundle\Entity\Empresa;
-use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
-use Symfony\Component\PropertyAccess\PropertyAccess;
-use Symfony\Component\PropertyAccess\PropertyAccessor;
 
-class EmpresaResolver
+class EmpresaType extends AbstractType
 {
-    protected $options;
-
-    function __construct(array $options = array())
+    public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $resolver = new OptionsResolver();
-        $this->configureOptions($resolver);
-
-        $this->options = $resolver->resolve($options);
+        $builder
+            ->add('nit')
+            ->add('nombre')
+            ->add('direccion')
+            ->add('telefono')
+            ->add('direccion')
+            ->add('email')
+            ->add('logo');
     }
 
-    protected function configureOptions(OptionsResolverInterface $resolver)
+    public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
-        $resolver->setRequired(array(
-            'nombre',
-            'nit'
-        ));
-
-        $resolver->setOptional(array(
-            'logo',
-            'telefono',
-            'direccion',
-            'email'
-        ));
-
         $resolver->setDefaults(array(
-            'logo' => 'no_logo.jpg'
+           'data_class' => 'Concepto\Sises\ApplicationBundle\Entity\Empresa'
         ));
     }
+
 
     /**
-     * @return mixed
+     * Returns the name of this type.
+     *
+     * @return string The name of this type
      */
-    public function getOptions()
+    public function getName()
     {
-        return $this->options;
+        return '';
     }
-
-    public function toObject()
-    {
-        $object = new Empresa();
-        $accesor = PropertyAccess::createPropertyAccessor();
-
-        foreach ($this->options as $prop => $value) {
-            $accesor->setValue($object, $prop, $value);
-        }
-
-        return $object;
-    }
-
 }

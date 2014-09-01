@@ -34,14 +34,17 @@
 
 namespace Concepto\Sises\ApplicationBundle\Controller;
 
-use Concepto\Sises\ApplicationBundle\Resolver\EmpresaResolver;
+use Concepto\Sises\ApplicationBundle\EmpresaType;
+use Concepto\Sises\ApplicationBundle\Entity\Empresa;
 use Doctrine\ORM\EntityManager;
 use FOS\RestBundle\Routing\ClassResourceInterface;
+use FOS\RestBundle\Util\Codes;
 use FOS\RestBundle\View\View;
 use JMS\DiExtraBundle\Annotation\Inject;
+use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
+use Symfony\Component\Routing\Router;
 
 class EmpresaController implements ClassResourceInterface {
 
@@ -50,6 +53,25 @@ class EmpresaController implements ClassResourceInterface {
      * @Inject("doctrine.orm.default_entity_manager")
      */
     protected $em;
+
+    /**
+     * @var Router
+     * @Inject("router")
+     */
+    protected $router;
+
+    /**
+     * @var FormFactoryInterface
+     * @Inject("form.factory")
+     */
+    protected $formfactory;
+
+    public function getAction($id)
+    {
+        $empresa = $this->em->getRepository('SisesApplicationBundle:Empresa')->find($id);
+
+        return $empresa;
+    }
 
     public function cgetAction()
     {
@@ -60,21 +82,47 @@ class EmpresaController implements ClassResourceInterface {
 
     public function postAction(Request $request)
     {
-        $view = View::create();
+        return $this->process($request->request->all(), new Empresa(), 'POST');
+    }
 
-        try {
-            $empresa = (new EmpresaResolver($request->request->all()))->toObject();
+    public function patchAction(Request $request, $id)
+    {
+        $empresa = $this->em->getRepository('SisesApplicationBundle:Empresa')->find($id);
 
-            $this->em->persist($empresa);
+        return $this->process($request->request->all(), $empresa, 'PATCH');
+    }
+
+    /**
+     * @param array   $parameters
+     * @param Empresa $object
+     * @param string  $method
+     *
+     * @throws \Symfony\Component\HttpKernel\Exception\BadRequestHttpException
+     * @return View
+     */
+    private function process(array $parameters, $object = null, $method = 'PUT')
+    {
+        $form = $this->formfactory->create(new EmpresaType(), $object);
+        $form->submit($parameters, 'PATCH' != $method);
+
+        if (!$object->getId()) {
+            $code = Codes::HTTP_CREATED;
+        } else {
+            $code = Codes::HTTP_NO_CONTENT;
+        }
+
+        if ($form->isValid()) {
+            $this->em->persist($object);
             $this->em->flush();
 
-            $view
-                ->setData($empresa->getId())
-                ->setStatusCode(Response::HTTP_CREATED);
+            $view = View::createRedirect(
+                $this->router->generate('get_empresa', array('id' => $object->getId())),
+                $code
+            );
 
             return $view;
-        } catch (\Exception $e) {
-            throw new BadRequestHttpException($e->getMessage(), $e);
         }
+
+        throw new BadRequestHttpException($form->getErrors());
     }
 }
