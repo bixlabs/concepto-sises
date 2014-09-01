@@ -145,4 +145,15 @@ class RestContext implements SnippetAcceptingContext
     {
         return $this->object_created;
     }
+
+    public function existeUnObjetoDe($arg1, $arg2)
+    {
+        foreach ($this->getObjects() as $objeto) {
+            if ($objeto[$arg1] == $arg2) {
+                return true;
+            }
+        }
+
+        \PHPUnit_Framework_TestCase::fail("No existe {$arg1} == {$arg2}");
+    }
 }

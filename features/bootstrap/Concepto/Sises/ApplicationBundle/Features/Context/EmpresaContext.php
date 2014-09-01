@@ -63,16 +63,10 @@ class EmpresaContext extends RestContext
     }
 
     /**
-     * @Then existe un(a) .* de :arg1 :arg2
+     * @Then existe una empresa de :arg1 :arg2
      */
-    public function existeUnObjectDePropieda($arg1, $arg2)
+    public function existeUnObjetoDe($arg1, $arg2)
     {
-        foreach ($this->getObjects() as $objeto) {
-            if ($objeto[$arg1] == $arg2) {
-                return true;
-            }
-        }
-
-        \PHPUnit_Framework_TestCase::fail("No existe {$arg1} == {$arg2}");
+        return parent::existeUnObjetoDe($arg1, $arg2);
     }
 }

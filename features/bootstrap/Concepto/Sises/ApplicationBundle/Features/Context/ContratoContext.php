@@ -11,6 +11,8 @@
 
 namespace Concepto\Sises\ApplicationBundle\Features\Context;
 
+use Behat\Behat\Tester\Exception\PendingException;
+
 class ContratoContext extends RestContext
 {
 
@@ -20,38 +22,6 @@ class ContratoContext extends RestContext
     public function unNuevoContrato()
     {
         $this->newObject();
-    }
-
-    /**
-     * @Given el contrato de nombre :arg1
-     */
-    public function elContratoDeNombre($arg1)
-    {
-        $this->setProp('nombre', $arg1);
-    }
-
-    /**
-     * @Given la descripcion del contrato :arg1
-     */
-    public function laDescripcionDelContrato($arg1)
-    {
-        $this->setProp('descripcion', $arg1);
-    }
-
-    /**
-     * @Given la resolucion del contrato :arg1
-     */
-    public function laResolucionDelContrato($arg1)
-    {
-        $this->setProp('resolucion', $arg1);
-    }
-
-    /**
-     * @Given el valor :arg1
-     */
-    public function elValor($arg1)
-    {
-        $this->setProp('valor', $arg1);
     }
 
     /**
@@ -89,9 +59,19 @@ class ContratoContext extends RestContext
     /**
      * @Then existe un contrato de :arg1 :arg2
      */
-    public function existeUnContratoDe($arg1, $arg2)
+    public function existeUnObjetoDe($arg1, $arg2)
     {
+        return parent::existeUnObjetoDe($arg1, $arg2);
+    }
 
+
+    /**
+     * @Given la :arg1 del contrato :arg2
+     * @Given el :arg1 del contrato :arg2
+     */
+    public function propiedadDelContrato($arg1, $arg2)
+    {
+        $this->setProp($arg1, $arg2);
     }
 
 }
