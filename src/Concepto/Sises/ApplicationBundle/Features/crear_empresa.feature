@@ -15,6 +15,15 @@ Característica: Crear empresa
     Dado una nueva empresa
     Dado el nombre "DINCO"
     Entonces crea una nueva empresa respuesta invalida
+  Escenario: crear una empresa mismo nit invalido
+    Dado una nueva empresa
+    Dado el nit "800234567-1"
+    Dado el nombre "DINCO"
+    Entonces crea una nueva empresa
+    Dado una nueva empresa
+    Dado el nit "800234567-1"
+    Dado el nombre "DINCO 2"
+    Entonces crea una nueva empresa
 
   Esquema del escenario: nueva empresa
     Dada una nueva empresa

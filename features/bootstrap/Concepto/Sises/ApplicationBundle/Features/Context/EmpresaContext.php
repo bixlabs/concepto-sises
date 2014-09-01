@@ -38,7 +38,6 @@ namespace Concepto\Sises\ApplicationBundle\Features\Context;
 use Behat\Behat\Context\SnippetAcceptingContext;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\ClientException;
-use GuzzleHttp\Exception\ServerException;
 use Symfony\Component\HttpFoundation\Response;
 
 class EmpresaContext implements SnippetAcceptingContext
@@ -80,7 +79,10 @@ class EmpresaContext implements SnippetAcceptingContext
             // Fetch the recent create empresa
             $this->empresa_creada = $this->client->get($response->getHeader('location'))->json();
         } catch (ClientException $e) {
-            \PHPUnit_Framework_TestCase::fail($e->getResponse()->getBody());
+            \PHPUnit_Framework_TestCase::assertEquals(
+                Response::HTTP_BAD_REQUEST,
+                $e->getResponse()->getStatusCode()
+            );
         }
     }
 
@@ -96,8 +98,6 @@ class EmpresaContext implements SnippetAcceptingContext
                 Response::HTTP_BAD_REQUEST,
                 $e->getResponse()->getStatusCode()
             );
-        } catch (ServerException $e) {
-            \PHPUnit_Framework_TestCase::fail($e->getResponse()->json()[0]['message']);
         }
     }
 

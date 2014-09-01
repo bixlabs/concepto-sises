@@ -43,7 +43,6 @@ use FOS\RestBundle\View\View;
 use JMS\DiExtraBundle\Annotation\Inject;
 use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Symfony\Component\Routing\Router;
 
 class EmpresaController implements ClassResourceInterface {
@@ -123,6 +122,6 @@ class EmpresaController implements ClassResourceInterface {
             return $view;
         }
 
-        throw new BadRequestHttpException($form->getErrors());
+        return View::create($form, Codes::HTTP_BAD_REQUEST);
     }
 }

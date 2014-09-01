@@ -39,6 +39,7 @@ use Doctrine\ORM\Mapping\Entity;
 use Doctrine\ORM\Mapping\GeneratedValue;
 use Doctrine\ORM\Mapping\Id;
 use Doctrine\ORM\Mapping\Table;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Validator\Constraints\NotBlank;
 
 /**
@@ -46,6 +47,7 @@ use Symfony\Component\Validator\Constraints\NotBlank;
  * @package Concepto\Sises\ApplicationBundle\Entity
  * @Entity()
  * @Table(name="empresa")
+ * @UniqueEntity(fields={"nit"}, message="No puede existir dos empresas con un mismo nit")
  */
 class Empresa {
     /**
