@@ -47,4 +47,19 @@ class BeneficiarioContext extends RestContext
         $this->postInvalid('api/beneficiarios.json');
     }
 
+    /**
+     * @Given que obtengo un listado de beneficiarios
+     */
+    public function queObtengoUnListadoDeBeneficiarios()
+    {
+        $this->cget('api/beneficiarios.json');
+    }
+
+    /**
+     * @Then existe un beneficiario de :arg1 :arg2
+     */
+    public function existeUnObjetoDe($arg1, $arg2)
+    {
+        return parent::existeUnObjetoDe($arg1, $arg2);
+    }
 }

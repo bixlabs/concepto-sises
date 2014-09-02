@@ -1,0 +1,29 @@
+# language: es
+@beneficiario
+Característica: Listar beneficiarios
+  Como usuario del sistema
+  Necesito poder ver el listado de beneficiarios
+
+  Antecedentes:
+    Dado que no hay beneficiarios
+    Dado que no hay contratos
+    Dado que no hay empresas
+    Dado una nueva empresa
+    Dado el "nit" de la empresa "800234567-1"
+    Dado el "nombre" de la empresa "DINCO"
+    Entonces crea una nueva empresa
+    Dado un nuevo contrato
+    Dado el "nombre" del contrato "CONTRATO 1"
+    Dado la "descripcion" del contrato "CONTRATO DE ALIMENTACION"
+    Dado la "resolucion" del contrato "1024 de Diciembre de 2014"
+    Dado el "valor" del contrato 15345678765.43
+    Entonces crea un nuevo contrato
+    Dado un nuevo beneficiario
+    Dado el "nombre" del beneficiario "JUAN ALBERTO"
+    Dado los "apellidos" del beneficario "PEREZ ALBAREZ"
+    Dado el "documento" del beneficiario "1111222333"
+    Entonces crea un nuevo beneficiario
+
+  Escenario: veo un listado de contratos
+    Dado que obtengo un listado de beneficiarios
+    Entonces existe un beneficiario de "nombre" "JUAN ALBERTO"
