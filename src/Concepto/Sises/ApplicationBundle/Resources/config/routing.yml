@@ -6,7 +6,7 @@ contrato:
     type: rest
     prefix: /api
     resource: @SisesApplicationBundle/Controller/ContratoController.php
-beneficario:
+persona:
     type: rest
     prefix: /api
     resource: @SisesApplicationBundle/Controller/PersonaController.php

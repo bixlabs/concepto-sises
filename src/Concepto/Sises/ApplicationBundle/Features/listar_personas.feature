@@ -20,7 +20,7 @@ Característica: Listar personas
     Entonces crea un nuevo contrato
     Dado un nuevo persona
     Dado el "nombre" del persona "JUAN ALBERTO"
-    Dado los "apellidos" del beneficario "PEREZ ALBAREZ"
+    Dado los "apellidos" del persona "PEREZ ALBAREZ"
     Dado el "documento" del persona "1111222333"
     Entonces crea un nuevo persona
 

@@ -24,7 +24,7 @@ class PersonaContext extends RestContext
 
     /**
      * @Given el :arg1 del persona :arg2
-     * @Given los :arg1 del beneficario :arg2
+     * @Given los :arg1 del persona :arg2
      */
     public function setProp($arg1, $arg2)
     {

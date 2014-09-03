@@ -24,7 +24,7 @@ use Symfony\Component\Validator\Constraints\NotBlank;
  * @package Concepto\Sises\ApplicationBundle\Entity
  * @Entity()
  * @Table(name="persona")
- * @UniqueEntity(fields={"documento"}, message="No puede existir dos beneficiarios con el mismo documento")
+ * @UniqueEntity(fields={"documento"}, message="No puede existir dos personas con el mismo documento")
  */
 class Persona implements OrmPersistible
 {
