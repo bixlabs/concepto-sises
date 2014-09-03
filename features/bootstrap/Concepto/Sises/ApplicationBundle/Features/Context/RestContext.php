@@ -89,6 +89,7 @@ class RestContext implements SnippetAcceptingContext
                 ->get($response->getHeader('location'))
                 ->json();
         } catch (ClientException $e) {
+            var_dump($e->getResponse()->json());
             \PHPUnit_Framework_TestCase::fail($e->getMessage());
         } catch (ServerException $e) {
             \PHPUnit_Framework_TestCase::fail($e->getResponse()->json()[0]['message']);
