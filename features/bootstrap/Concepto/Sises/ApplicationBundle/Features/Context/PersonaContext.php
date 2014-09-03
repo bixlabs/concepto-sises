@@ -62,4 +62,12 @@ class PersonaContext extends RestContext
     {
         return parent::existeUnObjetoDe($arg1, $arg2);
     }
+
+    /**
+     * @Then actualiza la persona
+     */
+    public function actualizaLaPersona()
+    {
+        $this->patch('api/personas/{id}.json', array('id' => $this->getObjectCreated()['id']));
+    }
 }
