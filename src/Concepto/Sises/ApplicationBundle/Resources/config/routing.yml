@@ -9,4 +9,4 @@ contrato:
 beneficario:
     type: rest
     prefix: /api
-    resource: @SisesApplicationBundle/Controller/BeneficiarioController.php
+    resource: @SisesApplicationBundle/Controller/PersonaController.php

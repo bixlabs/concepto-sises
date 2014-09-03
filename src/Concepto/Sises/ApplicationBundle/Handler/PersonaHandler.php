@@ -14,20 +14,20 @@ namespace Concepto\Sises\ApplicationBundle\Handler;
 use JMS\DiExtraBundle\Annotation\Service;
 
 /**
- * Class BeneficiarioHandler
+ * Class PersonaHandler
  * @package Concepto\Sises\ApplicationBundle\Handler
- * @Service(id="concepto_sises_beneficario.handler", parent="conceptos_sises_abstract_rest.handler")
+ * @Service(id="concepto_sises_persona.handler", parent="conceptos_sises_abstract_rest.handler")
  */
-class BeneficiarioHandler extends RestHandler
+class PersonaHandler extends RestHandler
 {
 
     protected function  getTypeClassString()
     {
-        return 'Concepto\Sises\ApplicationBundle\Form\BeneficiarioType';
+        return 'Concepto\Sises\ApplicationBundle\Form\PersonaType';
     }
 
     protected function getOrmClassString()
     {
-        return 'Concepto\Sises\ApplicationBundle\Entity\Beneficiario';
+        return 'Concepto\Sises\ApplicationBundle\Entity\Persona';
     }
 }

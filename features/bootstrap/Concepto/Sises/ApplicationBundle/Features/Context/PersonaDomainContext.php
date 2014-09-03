@@ -16,23 +16,27 @@ use Behat\Behat\Context\SnippetAcceptingContext;
 use Behat\Symfony2Extension\Context\KernelDictionary;
 use Doctrine\ORM\EntityManager;
 
-class BeneficiarioDomainContext implements SnippetAcceptingContext
+/**
+ * Class PersonaDomainContext
+ * @package Concepto\Sises\ApplicationBundle\Features\Context
+ */
+class PersonaDomainContext implements SnippetAcceptingContext
 {
     use KernelDictionary;
 
     /**
-     * @Given que no hay beneficiarios
+     * @Given que no hay personas
      */
-    public function queNoHayBeneficiarios()
+    public function queNoHayPersonas()
     {
         /** @var EntityManager $em */
         $em = $this->getContainer()
             ->get('doctrine.orm.default_entity_manager');
         $repository = $em
-            ->getRepository('SisesApplicationBundle:Beneficiario');
+            ->getRepository('SisesApplicationBundle:Persona');
 
-        foreach ($repository->findAll() as $beneficiario) {
-            $em->remove($beneficiario);
+        foreach ($repository->findAll() as $persona) {
+            $em->remove($persona);
         }
 
         $em->flush();

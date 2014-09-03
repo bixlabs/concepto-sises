@@ -16,7 +16,7 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
-class BeneficiarioType extends AbstractType
+class PersonaType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
@@ -31,7 +31,7 @@ class BeneficiarioType extends AbstractType
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => 'Concepto\Sises\ApplicationBundle\Entity\Beneficiario'
+            'data_class' => 'Concepto\Sises\ApplicationBundle\Entity\Persona'
         ));
     }
 

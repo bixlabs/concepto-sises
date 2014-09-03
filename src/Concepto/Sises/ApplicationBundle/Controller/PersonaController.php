@@ -15,12 +15,12 @@ namespace Concepto\Sises\ApplicationBundle\Controller;
 use Concepto\Sises\ApplicationBundle\Handler\RestHandlerInterface;
 use JMS\DiExtraBundle\Annotation\LookupMethod;
 
-class BeneficiarioController extends RestController
+class PersonaController extends RestController
 {
 
     /**
      * @return RestHandlerInterface
-     * @LookupMethod("concepto_sises_beneficario.handler")
+     * @LookupMethod("concepto_sises_persona.handler")
      */
     public function getHandler() {}
 }

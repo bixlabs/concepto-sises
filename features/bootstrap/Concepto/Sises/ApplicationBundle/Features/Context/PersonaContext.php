@@ -12,18 +12,18 @@
 namespace Concepto\Sises\ApplicationBundle\Features\Context;
 
 
-class BeneficiarioContext extends RestContext
+class PersonaContext extends RestContext
 {
     /**
-     * @Given un nuevo beneficiario
+     * @Given un nuevo persona
      */
-    public function unNuevoBeneficiario()
+    public function unNuevoPersona()
     {
         $this->newObject();
     }
 
     /**
-     * @Given el :arg1 del beneficiario :arg2
+     * @Given el :arg1 del persona :arg2
      * @Given los :arg1 del beneficario :arg2
      */
     public function setProp($arg1, $arg2)
@@ -32,31 +32,31 @@ class BeneficiarioContext extends RestContext
     }
 
     /**
-     * @Then crea un nuevo beneficiario
+     * @Then crea un nuevo persona
      */
-    public function creaUnNuevoBeneficiario()
+    public function creaUnNuevoPersona()
     {
-        $this->post('api/beneficiarios.json');
+        $this->post('api/personas.json');
     }
 
     /**
-     * @Then crea un nuevo beneficiario invalido
+     * @Then crea un nuevo persona invalido
      */
-    public function creaUnNuevoBeneficiarioInvalido()
+    public function creaUnNuevoPersonaInvalido()
     {
-        $this->postInvalid('api/beneficiarios.json');
+        $this->postInvalid('api/personas.json');
     }
 
     /**
-     * @Given que obtengo un listado de beneficiarios
+     * @Given que obtengo un listado de personas
      */
-    public function queObtengoUnListadoDeBeneficiarios()
+    public function queObtengoUnListadoDePersonas()
     {
-        $this->cget('api/beneficiarios.json');
+        $this->cget('api/personas.json');
     }
 
     /**
-     * @Then existe un beneficiario de :arg1 :arg2
+     * @Then existe un persona de :arg1 :arg2
      */
     public function existeUnObjetoDe($arg1, $arg2)
     {

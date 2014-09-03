@@ -20,13 +20,13 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Validator\Constraints\NotBlank;
 
 /**
- * Class Beneficiario
+ * Class Persona
  * @package Concepto\Sises\ApplicationBundle\Entity
  * @Entity()
- * @Table(name="beneficiario")
+ * @Table(name="persona")
  * @UniqueEntity(fields={"documento"}, message="No puede existir dos beneficiarios con el mismo documento")
  */
-class Beneficiario implements OrmPersistible
+class Persona implements OrmPersistible
 {
     /**
      * @var string
