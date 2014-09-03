@@ -25,7 +25,9 @@ class ContratoType extends AbstractType
             ->add('descripcion')
             ->add('resolucion')
             ->add('valor')
-            ->add('empresa')
+            ->add('empresa', null, array(
+                'property' => 'id'
+            ))
         ;
     }
 

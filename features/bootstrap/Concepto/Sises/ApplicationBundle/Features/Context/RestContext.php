@@ -21,7 +21,7 @@ use Symfony\Component\PropertyAccess\PropertyAccess;
 
 class RestContext implements SnippetAcceptingContext
 {
-    private $object_created;
+    private $object_created = array();
 
     private $objects = array();
 
@@ -37,6 +37,11 @@ class RestContext implements SnippetAcceptingContext
      */
     private $accesor;
 
+    /**
+     * @var array
+     */
+    private $urls;
+
     function __construct()
     {
         $this->accesor = PropertyAccess::createPropertyAccessor();
@@ -50,24 +55,75 @@ class RestContext implements SnippetAcceptingContext
                 )
             ),
         ));
+
+        $this->urls = array(
+            'empresa' => array('api/empresas.json', 'api/empresas/{id}.json'),
+            'contrato' => array('api/contratos.json', 'api/contratos/{id}.json'),
+            'persona' => array('api/personas.json', 'api/personas/{id}.json'),
+        );
     }
 
-    public function newObject()
+    /**
+     * @Given una nueva :name
+     * @Given un nuevo :name
+     */
+    public function newObject($name)
     {
-        $this->object = array();
+        $this->object[$name] = array();
     }
 
-    public function setProp($prop, $value)
+    /**
+     * @Given el :prop de la :name :value
+     * @Given el :prop del :name :value
+     * @Given la :prop del :name :value
+     * @Given la :prop de la :name :value
+     * @Given los :prop de la :name :value
+     * @Given los :prop del :name :value
+     */
+    public function setProp($name, $prop, $value)
     {
-        $this->accesor->setValue($this->object, "[{$prop}]", $value);
+        $this->accesor->setValue($this->object[$name], "[{$prop}]", $value);
     }
 
-    public function post($url)
+    /**
+     * @Given la :arg1 del :arg2 obtenido de :arg3 en :arg4
+     */
+    public function laDelObtenidoDeEn($prop, $name, $name2, $prop2)
     {
-        $this->method($url);
+        $this->setProp($name, $prop, $this->getObjectCreated($name2)[$prop2]);
     }
 
-    private function method($url, $name = 'post', $args = null)
+    /**
+     * @Then actualiza el :name
+     * @Then actualiza la :name
+     */
+    public function actualizaEl($name)
+    {
+        $this->method($name, $this->urls[$name][1], 'patch', array(
+            'id' => $this->getObjectCreated($name)['id']
+        ));
+    }
+
+
+    /**
+     * @Then crea un nuevo :name
+     * @Then crea una nueva :name
+     */
+    public function post($name)
+    {
+        $this->method($name, $this->urls[$name][0]);
+    }
+
+    /**
+     * @Then crea un nuevo :name invalido
+     * @Then crea una nueva :name invalida
+     */
+    public function creaUnNuevoInvalido($name)
+    {
+        $this->postInvalid($name, $this->urls[$name][0]);
+    }
+
+    private function method($object, $url, $name = 'post', $args = null)
     {
         try {
             if (is_array($args)) {
@@ -75,17 +131,17 @@ class RestContext implements SnippetAcceptingContext
             }
             switch ($name) {
                 case 'post':
-                    $response = $this->client->post($url, array('body' => $this->object));
+                    $response = $this->client->post($url, array('body' => $this->object[$object]));
                     break;
                 case 'patch':
-                    $response = $this->client->patch($url, array('body' => $this->object));
+                    $response = $this->client->patch($url, array('body' => $this->object[$object]));
                     break;
                 default:
                     throw new \Exception("Method isn't defined");
             }
 
             //Fetch recent created record
-            $this->object_created = $this->client
+            $this->object_created[$object] = $this->client
                 ->get($response->getHeader('location'))
                 ->json();
         } catch (ClientException $e) {
@@ -96,25 +152,52 @@ class RestContext implements SnippetAcceptingContext
         }
     }
 
-    public function cget($url)
+    /**
+     * @Given que obtengo un listado de :name
+     */
+    public function queObtengoUnListadoDe($name)
     {
-        $this->objects = $this->client->get($url)->json();
+        $this->cget($name, $this->urls[$name][0]);
     }
 
-    public function patch($url, $args)
+    /**
+     * @Then existe un(a) :name de :prop :value
+     */
+    public function existeUnDe($name, $prop, $value)
     {
-        $this->method($url, 'patch', $args);
+        $exist = false;
+
+        foreach ($this->getObjects($name) as $obj) {
+            if ($obj[$prop] == $value) {
+                $exist = true;
+                break;
+            }
+        }
+
+        if (!$exist) {
+            \PHPUnit_Framework_TestCase::fail("{$name} no existe");
+        }
     }
 
-    public function put($url)
+    public function cget($name, $url)
     {
-        $this->method($url, 'put');
+        $this->objects[$name] = $this->client->get($url)->json();
     }
 
-    public function postInvalid($url)
+    public function patch($name, $url, $args)
+    {
+        $this->method($name, $url, 'patch', $args);
+    }
+
+    public function put($name, $url)
+    {
+        $this->method($name, $url, 'put');
+    }
+
+    public function postInvalid($name, $url)
     {
         try {
-            $this->client->post($url, array('body' => $this->object));
+            $this->client->post($url, array('body' => $this->object[$name]));
         } catch (ClientException $e) {
             \PHPUnit_Framework_TestCase::assertEquals(
                 Codes::HTTP_BAD_REQUEST,
@@ -123,38 +206,31 @@ class RestContext implements SnippetAcceptingContext
         }
     }
 
-    /**
-     * @return array
-     */
-    public function getObjects()
+    public function getObjects($name)
     {
-        return $this->objects;
+        return $this->objects[$name];
     }
 
-    /**
-     * @return array
-     */
-    public function getObject()
+    public function getObject($name)
     {
-        return $this->object;
+        return $this->object[$name];
     }
 
-    /**
-     * @return mixed
-     */
-    public function getObjectCreated()
+    public function getObjectCreated($name)
     {
-        return $this->object_created;
+        return $this->object_created[$name];
     }
 
-    public function existeUnObjetoDe($arg1, $arg2)
+    public function existeUnObjetoDe($name, $arg1, $arg2)
     {
-        foreach ($this->getObjects() as $objeto) {
+        foreach ($this->getObjects($name) as $objeto) {
             if ($objeto[$arg1] == $arg2) {
                 return true;
             }
         }
 
         \PHPUnit_Framework_TestCase::fail("No existe {$arg1} == {$arg2}");
+
+        return false;
     }
 }
