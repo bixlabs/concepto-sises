@@ -11,3 +11,6 @@
 # Symfony 2.5 files
 /app/check.php
 /app/SymfonyRequirements.php
+
+# Bower components
+bower_components

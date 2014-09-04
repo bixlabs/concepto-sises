@@ -1,0 +1,23 @@
+{
+  "name": "concepto-sises",
+  "version": "1.0.0",
+  "authors": [
+    "Julian Reyes Escrigas <julian.reyes.escrigas@gmail.com>"
+  ],
+  "license": "Privative",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "src/Concepto/Sises/WebClientBundle/Resources/public/components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "bootstrap-sass-official": "~3.2.0",
+    "angular": "~1.2.23",
+    "angular-animate": "~1.2.23",
+    "angular-route": "~1.2.23"
+  }
+}
