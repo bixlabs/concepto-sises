@@ -1,0 +1,26 @@
+{% extends '::base.html.twig' %}
+
+{% block javascripts %}
+
+    {% javascripts
+    '@SisesWebClientBundle/Resources/bower_components/angular/angular.js'
+    '@SisesWebClientBundle/Resources/bower_components/angular-route/angular-route.js'
+    '@SisesWebClientBundle/Resources/bower_components/angular-animate/angular-animate.js'
+    '@SisesWebClientBundle/Resources/bower_components/angular-resource/angular-resource.js'
+
+    '@FOSJsRoutingBundle/Resources/public/js/router.js'
+    '@SisesWebClientBundle/Resources/application/app.js'
+    %}
+    <script src="{{ asset_url }}"></script>
+    {% endjavascripts %}
+
+    <script src="{{ path('fos_js_routing_js', {"callback": "fos.Router.setData"}) }}"></script>
+{% endblock %}
+
+{% block stylesheets %}
+    {% stylesheets
+    '@SisesWebClientBundle/Resources/stylesheets/styles.scss'
+    %}
+    <link rel="stylesheet" href="{{ asset_url }}"/>
+    {% endstylesheets %}
+{% endblock %}

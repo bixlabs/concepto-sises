@@ -1,5 +1,7 @@
-{% extends '::base.html.twig' %}
+{% extends '@SisesWebClient/layout.html.twig' %}
 
 {% block body %}
-    
+    <div class="container" data-ng-app="sises">
+        <div data-ng-view></div>
+    </div>
 {% endblock %}
