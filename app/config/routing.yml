@@ -3,6 +3,8 @@ fos_js_routing:
 
 concepto_sises:
     resource: @SisesApplicationBundle/Resources/config/routing.yml
+    options:
+        expose: true
 
 concpeto_sises_web:
     resource: @SisesWebClientBundle/Resources/config/routing.yml
