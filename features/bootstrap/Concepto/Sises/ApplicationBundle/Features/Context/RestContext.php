@@ -60,6 +60,7 @@ class RestContext implements SnippetAcceptingContext
             'empresa' => array('api/empresas.json', 'api/empresas/{id}.json'),
             'contrato' => array('api/contratos.json', 'api/contratos/{id}.json'),
             'persona' => array('api/personas.json', 'api/personas/{id}.json'),
+            'adjunto' => array('api/adjuntos.json', 'api/adjuntos/{id}.json'),
         );
     }
 
@@ -91,6 +92,14 @@ class RestContext implements SnippetAcceptingContext
     public function laDelObtenidoDeEn($prop, $name, $name2, $prop2)
     {
         $this->setProp($name, $prop, $this->getObjectCreated($name2)[$prop2]);
+    }
+
+    /**
+     * @Given el :arg1 del :arg2 obtenido del listado :arg3 :arg5 :arg4
+     */
+    public function elDelObtenidoDelListado($prop, $name, $name2, $index, $prop2)
+    {
+        $this->setProp($name, $prop, $this->getObjects($name2)[$index][$prop2]);
     }
 
     /**
@@ -146,9 +155,7 @@ class RestContext implements SnippetAcceptingContext
                 ->json();
         } catch (ClientException $e) {
             var_dump($e->getResponse()->json());
-            \PHPUnit_Framework_TestCase::fail($e->getMessage());
-        } catch (ServerException $e) {
-            \PHPUnit_Framework_TestCase::fail($e->getResponse()->json()[0]['message']);
+            \PHPUnit_Framework_TestCase::fail('CLIENT: ' . $e->getMessage());
         }
     }
 

@@ -7,6 +7,4 @@ default:
             bundle: SisesApplicationBundle
             contexts:
                 - Concepto\Sises\ApplicationBundle\Features\Context\RestContext
-                - Concepto\Sises\ApplicationBundle\Features\Context\EmpresaDomainContext
-                - Concepto\Sises\ApplicationBundle\Features\Context\ContratoDomainContext
-                - Concepto\Sises\ApplicationBundle\Features\Context\PersonaDomainContext
+                - Concepto\Sises\ApplicationBundle\Features\Context\DomainContext
