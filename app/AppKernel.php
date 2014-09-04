@@ -21,6 +21,7 @@ class AppKernel extends Kernel
             new JMS\DiExtraBundle\JMSDiExtraBundle($this),
             new JMS\AopBundle\JMSAopBundle(),
             new Concepto\Sises\ApplicationBundle\SisesApplicationBundle(),
+            new Concepto\Sises\WebClientBundle\SisesWebClientBundle(),
         );
 
         if (in_array($this->getEnvironment(), array('dev', 'test'))) {
