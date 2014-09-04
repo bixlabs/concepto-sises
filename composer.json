@@ -1,6 +1,6 @@
 {
     "name": "concepto/sises",
-    "license": "propietary",
+    "license": "proprietary",
     "type": "project",
     "description": "Sistema de información de servicios entregados",
     "autoload": {
