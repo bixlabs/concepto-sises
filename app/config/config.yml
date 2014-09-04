@@ -29,7 +29,7 @@ twig:
 assetic:
     debug: %kernel.debug%
     use_controller: false
-    bundles: [ ]
+    bundles: [ SisesWebClientBundle ]
     filters:
         cssrewrite: ~
         scssphp:
@@ -68,7 +68,7 @@ fos_rest:
     format_listener:
         rules:
             - { path: ^/api, priorities: [ json, xml, html ], fallback_format: ~, prefer_extension: true }
-            - { path: ^/,    priorities: [ html, js, '*/*'], fallback_format: ~, prefer_extension: true }
+            - { path: ^/,    priorities: [ html, js, css, scss, '*/*'], fallback_format: ~, prefer_extension: true }
     body_listener: true
 
 
