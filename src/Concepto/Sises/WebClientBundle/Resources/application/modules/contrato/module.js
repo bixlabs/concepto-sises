@@ -25,7 +25,7 @@
                     templateUrl: G.template('contrato_nuevo')
                 })
                 .state('contratos.detalles', {
-                    url: ':id',
+                    url: '/:id',
                     controller: 'ContratoDetallesController',
                     templateUrl: G.template('contrato_detalles')
                 })
