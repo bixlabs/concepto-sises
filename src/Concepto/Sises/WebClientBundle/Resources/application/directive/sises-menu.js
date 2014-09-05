@@ -16,14 +16,10 @@
                 scope: true,
                 templateUrl: G.template('menu'),
                 link: function(scope) {
-                    scope.entries = [];
+                    scope.entries = $r.menu_entries;
                     scope.isActive = function (viewLocation) {
                         return viewLocation === $l.path();
                     };
-
-                    $r.$on('menu.entry.add', function(event, data) {
-                        scope.entries.push(data)
-                    });
                 }
             };
         }])

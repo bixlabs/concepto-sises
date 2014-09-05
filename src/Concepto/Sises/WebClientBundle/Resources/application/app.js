@@ -31,11 +31,13 @@
             });
         }])
 
-        .run(['$rootScope', '$location', function ($r, $l) {
+        .run(['$rootScope', '$location', 'MenuService', function ($r, $l, MS) {
             $r.go = function (path) {
                 $l.path(path);
             };
             $r.template = G.template;
+
+            MS.register({ url: '/empresas', label: 'Empresas'});
         }])
     ;
 })();

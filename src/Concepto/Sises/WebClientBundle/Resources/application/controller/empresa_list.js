@@ -5,9 +5,7 @@
     "use strict";
 
     angular.module(G.APP)
-        .controller('EmpresaController', ['$scope', 'Empresa', 'MenuService', function($s, Empresa, MS) {
+        .controller('EmpresaController', ['$scope', 'Empresa', function($s, Empresa) {
             $s.empresas = Empresa.query();
-
-            MS.register({ url: '/empresas', label: 'Empresas'});
         }])
 })();

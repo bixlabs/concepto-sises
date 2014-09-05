@@ -7,8 +7,12 @@
 
     angular.module(G.APP)
         .service('MenuService', ['$rootScope', function($r) {
+            $r.menu_entries = {};
+
             var register_entry = function(params) {
-                $r.$emit('menu.entry.add', params);
+                if (!$r.menu_entries[params.name]) {
+                    $r.menu_entries[params.name] = params;
+                }
             };
 
             return {
