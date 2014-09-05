@@ -26,7 +26,7 @@
                 canRemove = false;
                 mS.alert('Esta seguro de eliminar esta empresa?', function() {
                     $s.empresa.$delete(function() {
-                        $s.go('empresas');
+                        $s.go('empresas.listado');
                     }, function (response) {
                         console.error(response);
                         canRemove = true;

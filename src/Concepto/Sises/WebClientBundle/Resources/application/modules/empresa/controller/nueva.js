@@ -19,7 +19,7 @@
             $s.guardarEmpresa = function() {
                 canSave = false;
                 $s.empresa.$save(function () {
-                    $s.go('empresas');
+                    $s.go('empresas.listado');
                 }, function(response) {
                     switch (response.data.code) {
                         case 400:
