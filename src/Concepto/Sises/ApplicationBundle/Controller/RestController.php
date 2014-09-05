@@ -21,7 +21,6 @@ use Symfony\Component\HttpFoundation\Request;
  */
 abstract class RestController implements ClassResourceInterface
 {
-
     /**
      * @return RestHandlerInterface
      */
@@ -45,5 +44,15 @@ abstract class RestController implements ClassResourceInterface
     public function patchAction(Request $request, $id)
     {
         return $this->getHandler()->patch($id, $request->request->all());
+    }
+
+    public function putAction(Request $request, $id)
+    {
+        return $this->getHandler()->put($id, $request->request->all());
+    }
+
+    public function deleteAction($id)
+    {
+        return $this->getHandler()->delete($id);
     }
 }
