@@ -6,7 +6,8 @@
         'Empresa',
         '$location',
         '$routeParams',
-        function($s, Empresa, $l, $p) {
+        'modalService',
+        function($s, Empresa, $l, $p, mS) {
             $s.errors = {};
             $s.empresa = Empresa.get({id: $p.id});
 
@@ -23,12 +24,14 @@
 
             $s.eliminarEmpresa = function() {
                 canRemove = false;
-                $s.empresa.$delete(function() {
-                    $l.path('/empresas')
-                }, function (response) {
-                    console.error(response);
-                    canRemove = true;
-                });
+                mS.open('Borrar?').then(function() {
+                    $s.empresa.$delete(function() {
+                        $l.path('/empresas')
+                    }, function (response) {
+                        console.error(response);
+                        canRemove = true;
+                    });
+                })
             };
 
             $s.guardarEmpresa = function() {

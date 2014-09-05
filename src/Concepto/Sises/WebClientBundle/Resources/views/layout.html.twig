@@ -3,6 +3,8 @@
 {% block javascripts %}
 
     {% javascripts
+    '@SisesWebClientBundle/Resources/bower_components/jquery/dist/jquery.js'
+    '@SisesWebClientBundle/Resources/bower_components/bootstrap-sass-official/assets/javascripts/bootstrap.js'
     '@SisesWebClientBundle/Resources/bower_components/angular/angular.js'
     '@SisesWebClientBundle/Resources/bower_components/angular-route/angular-route.js'
     '@SisesWebClientBundle/Resources/bower_components/angular-animate/angular-animate.js'
@@ -15,6 +17,8 @@
     '@SisesWebClientBundle/Resources/application/controller/empresa_list.js'
     '@SisesWebClientBundle/Resources/application/controller/empresa_ver.js'
     '@SisesWebClientBundle/Resources/application/controller/empresa_nueva.js'
+    '@SisesWebClientBundle/Resources/application/directive/sises-modal.js'
+    '@SisesWebClientBundle/Resources/application/service/sises-modal.js'
     %}
     <script src="{{ asset_url }}"></script>
     {% endjavascripts %}
