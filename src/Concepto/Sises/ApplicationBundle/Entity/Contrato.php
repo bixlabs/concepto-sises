@@ -23,7 +23,6 @@ use JMS\Serializer\Annotation\SerializedName;
 use JMS\Serializer\Annotation\VirtualProperty;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Validator\Constraints\NotBlank;
-use Symfony\Component\Validator\Constraints\NotNull;
 
 /**
  * Class Contrato
@@ -65,14 +64,14 @@ class Contrato implements OrmPersistible {
     /**
      * @var double
      * @Column(name="valor", type="decimal", precision=64, scale=2)
-     * @NotNull()
+     * @NotBlank()
      */
     protected $valor;
 
     /**
      * @var Empresa
      * @ManyToOne(targetEntity="Concepto\Sises\ApplicationBundle\Entity\Empresa", fetch="LAZY")
-     * @NotNull(message="El valor 'empresa' no puede ser nulo")
+     * @NotBlank()
      * @JoinColumn(nullable=false)
      * @Exclude()
      */

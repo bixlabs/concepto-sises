@@ -4,13 +4,16 @@
             <fieldset>
                 <legend>Datos básicos</legend>
 
-                <div class="form-group">
+                <div class="form-group" data-ng-class="{'has-error': hasError('empresa')}">
                     <label for="contrato_empresa" class="col-lg-2 control-label">Empresa</label>
                     <div class="col-lg-10">
                         <select class="form-control"
                                 data-ng-model="contrato.empresa"
                                 data-ng-options="empresa.id as empresa.nombre for empresa in empresas"
                                 id="contrato_empresa" name="contrato[empresa]"></select>
+                        <p class="help-block"
+                           data-ng-repeat="error in errors.empresa.errors"
+                           data-ng-bind="error"></p>
                     </div>
                 </div>
 
