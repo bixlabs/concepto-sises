@@ -26,7 +26,7 @@
                 $s.guardarContrato = function() {
                     canSave = false;
                     $s.contrato.$save(function () {
-                        $s.go('contratos');
+                        $s.go('contratos.listado');
                     }, function(response) {
                         switch (response.data.code) {
                             case 400:
