@@ -1,0 +1,15 @@
+<div class="row">
+    <div class="col-lg-7">
+        <h2>Nueva empresa</h2>
+    </div>
+    <div class="col-lg-5">
+        <div class="actions pull-right">
+            <button class="btn btn-primary"
+                    data-ng-disabled="!canSave()"
+                    data-ng-click="guardarEmpresa()">Guardar</button>
+            <button class="btn btn-default" data-ng-click="go('/empresas')">Cancelar</button>
+        </div>
+    </div>
+</div>
+<div data-ng-include="template('_form_empresa')"></div>
+

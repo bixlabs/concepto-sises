@@ -15,6 +15,7 @@
     <tr>
         <th width="20%">NIT</th>
         <th width="50%">Nombre empresa</th>
+        <th></th>
     </tr>
     </thead>
     <tbody ng-if="empresas.length == 0">
@@ -26,8 +27,12 @@
     </tbody>
     <tbody ng-if="empresas.length > 0">
         <tr data-ng-repeat="empresa in empresas">
-            <td>{{empresa.nit}}</td>
-            <td>{{empresa.nombre}}</td>
+            <td data-ng-bind="empresa.nit"></td>
+            <td data-ng-bind="empresa.nombre"></td>
+            <td>
+                <button class="btn btn-primary"
+                        data-ng-click="go('/empresas/' + empresa.id)">Ver detalles</button>
+            </td>
         </tr>
     </tbody>
 </table>

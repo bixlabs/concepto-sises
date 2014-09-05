@@ -21,6 +21,7 @@ class EmpresaType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
+            ->add('id')
             ->add('nit')
             ->add('nombre')
             ->add('direccion')

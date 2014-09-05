@@ -126,18 +126,13 @@ abstract class RestHandler implements RestHandlerInterface {
         $type = $instantiator->instantiate($this->getTypeClassString());
 
         $form = $this->formfactory->create($type, $object);
-        $form->submit($parameters, 'PATCH' != $method);
+        $form->submit($parameters, 'PATCH' !== $method);
 
         $name = explode('\\', $this->getOrmClassString());
         $url = 'get_' . strtolower(end($name));
 
-        if (!$object->getId()) {
-            $code = Codes::HTTP_CREATED;
-        } else {
-            $code = Codes::HTTP_NO_CONTENT;
-        }
-
         if ($form->isValid()) {
+            $code = $object->getId() ? Codes::HTTP_NO_CONTENT : Codes::HTTP_CREATED;
             $this->em->persist($object);
             $this->em->flush();
 

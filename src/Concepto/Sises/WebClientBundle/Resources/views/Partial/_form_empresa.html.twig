@@ -1,0 +1,45 @@
+<div class="row">
+    <div class="col-lg-6">
+        <form class="form-horizontal sises-form">
+            <fieldset>
+                <legend>Datos básicos</legend>
+                <div class="form-group" data-ng-class="{'has-error': hasError('nombre')}">
+                    <label class="col-lg-2 control-label" for="empresa_nombre">Nombre empresa</label>
+                    <div class="col-lg-10">
+                        <input placeholder="Nombre empresa"
+                               data-ng-model="empresa.nombre"
+                               name="empresa[nombre]" required
+                               class="form-control" type="text" id="empresa_nombre"/>
+                        <p class="help-block"
+                           data-ng-repeat="error in errors.nombre.errors"
+                           data-ng-bind="error"></p>
+                    </div>
+                </div>
+                <div class="form-group" data-ng-class="{'has-error': hasError('nit')}">
+                    <label class="col-lg-2 control-label" for="empresa_nit">NIT</label>
+                    <div class="col-lg-10">
+                        <input placeholder="NIT"
+                               data-ng-model="empresa.nit"
+                               name="empresa[nit]" required
+                               class="form-control" type="text" id="empresa_nit"/>
+                        <p class="help-block"
+                           data-ng-repeat="error in errors.nombre.errors"
+                           data-ng-bind="error"></p>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-lg-2 control-label" for="empresa_email">Correo electrónico</label>
+                    <div class="col-lg-10">
+                        <input placeholder="Correo electrónico"
+                               data-ng-model="empresa.email"
+                               name="empresa[email]"
+                               class="form-control" type="text" id="empresa_email"/>
+                    </div>
+                </div>
+            </fieldset>
+        </form>
+    </div>
+    <div class="col-lg-6">
+
+    </div>
+</div>

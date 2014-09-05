@@ -12,6 +12,7 @@
 namespace Concepto\Sises\WebClientBundle\Controller;
 
 
+use FOS\RestBundle\View\View;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 
 class WebController {
@@ -22,5 +23,12 @@ class WebController {
     public function indexAction()
     {
         return array();
+    }
+
+    public function viewAction($name)
+    {
+        $name = "SisesWebClientBundle:Partial:{$name}.html.twig";
+
+        return View::create()->setTemplate($name);
     }
 }

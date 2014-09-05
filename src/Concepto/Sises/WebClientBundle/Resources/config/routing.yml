@@ -2,3 +2,10 @@ web_main:
     path: /
     defaults:
         _controller: SisesWebClientBundle:Web:index
+
+view_partials:
+    path: /views/{name}
+    defaults:
+        _controller: SisesWebClientBundle:Web:view
+    options:
+        expose: true
