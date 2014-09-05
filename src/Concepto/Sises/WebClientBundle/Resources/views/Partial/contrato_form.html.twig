@@ -3,6 +3,17 @@
         <form class="form-horizontal sises-form">
             <fieldset>
                 <legend>Datos básicos</legend>
+
+                <div class="form-group">
+                    <label for="contrato_empresa" class="col-lg-2 control-label">Empresa</label>
+                    <div class="col-lg-10">
+                        <select class="form-control"
+                                data-ng-model="contrato.empresa"
+                                data-ng-options="empresa.id as empresa.nombre for empresa in empresas"
+                                id="contrato_empresa" name="contrato[empresa]"></select>
+                    </div>
+                </div>
+
                 <div class="form-group" data-ng-class="{'has-error': hasError('nombre')}">
                     <label class="col-lg-2 control-label" for="contrato_nombre">Nombre contrato</label>
                     <div class="col-lg-10">
@@ -29,7 +40,7 @@
                     </div>
                 </div>
                 <div class="form-group" data-ng-class="{'has-error': hasError('resolucion')}">
-                    <label class="col-lg-2 control-label" for="contrato_resolucion">Resolucion</label>
+                    <label class="col-lg-2 control-label" for="contrato_resolucion">Resolución</label>
                     <div class="col-lg-10">
                         <input placeholder="Resolución"
                                data-ng-model="contrato.resolucion"
@@ -37,6 +48,18 @@
                                class="form-control" type="text" id="contrato_resolucion"/>
                         <p class="help-block"
                            data-ng-repeat="error in errors.resolucion.errors"
+                           data-ng-bind="error"></p>
+                    </div>
+                </div>
+                <div class="form-group" data-ng-class="{'has-error': hasError('valor')}">
+                    <label class="col-lg-2 control-label" for="contrato_valor">Valor</label>
+                    <div class="col-lg-10">
+                        <input placeholder="Valor"
+                               data-ng-model="contrato.valor"
+                               name="contrato[valor]" required
+                               class="form-control" type="text" id="contrato_valor"/>
+                        <p class="help-block"
+                           data-ng-repeat="error in errors.valor.errors"
                            data-ng-bind="error"></p>
                     </div>
                 </div>

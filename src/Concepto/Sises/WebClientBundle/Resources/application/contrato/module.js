@@ -6,7 +6,7 @@
     "use strict";
     G.modules.CONTRATO = 'CONTRATO';
 
-    angular.module(G.modules.CONTRATO, ['ngRoute' ,'ngResource'])
+    angular.module(G.modules.CONTRATO, ['ngRoute' ,'ngResource', 'EMPRESA'])
         .config(['$routeProvider', function ($routeProvider) {
             $routeProvider
                 .when('/contratos', {

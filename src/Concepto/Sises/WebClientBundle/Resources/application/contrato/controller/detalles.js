@@ -4,12 +4,14 @@
     angular.module(G.modules.CONTRATO).controller('ContratoDetallesController', [
         '$scope',
         'Contrato',
+        'Empresa',
         '$location',
         '$routeParams',
         'modalService',
-        function($s, Contrato, $l, $p, mS) {
+        function($s, Contrato, Empresa, $l, $p, mS) {
             $s.errors = {};
             $s.contrato = Contrato.get({id: $p.id});
+            $s.empresas = Empresa.query();
 
             var canSave = true;
             var canRemove = true;
