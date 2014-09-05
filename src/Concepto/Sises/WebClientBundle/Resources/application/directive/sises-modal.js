@@ -15,24 +15,25 @@
             return {
                 restrict: 'A',
                 scope: true,
+                replace: true,
                 templateUrl: G.template('modal'),
                 link: function(scope, el) {
-                    var m = el.find('#sises-modal');
                     scope.text = '';
 
                     scope.ok = function() {
-                        m.modal('hide');
+                        el.modal('hide');
                         $r.$emit('modal.close.ok');
                     };
 
                     scope.cancel = function() {
-                        m.modal('hide');
+                        el.modal('hide');
                         $r.$emit('modal.close.cancel');
                     };
 
                     $r.$on('modal.open.recive', function(event, data) {
                         scope.text = data.text;
-                        m.modal('show');
+                        scope.title = data.title;
+                        el.modal('show');
                     });
                 }
             };

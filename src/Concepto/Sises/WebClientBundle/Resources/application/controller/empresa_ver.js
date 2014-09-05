@@ -24,7 +24,7 @@
 
             $s.eliminarEmpresa = function() {
                 canRemove = false;
-                mS.open('Borrar?').then(function() {
+                mS.alert('Esta seguro de eliminar esta empresa?', function() {
                     $s.empresa.$delete(function() {
                         $l.path('/empresas')
                     }, function (response) {
