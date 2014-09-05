@@ -13,6 +13,7 @@ namespace Concepto\Sises\ApplicationBundle\Handler;
 
 
 use Concepto\Sises\ApplicationBundle\Entity\OrmPersistible;
+use Doctrine\DBAL\DBALException;
 use Doctrine\ORM\EntityManager;
 use FOS\RestBundle\Util\Codes;
 use FOS\RestBundle\View\View;
@@ -91,12 +92,16 @@ abstract class RestHandler implements RestHandlerInterface {
 
     public function delete($id)
     {
-        $object = $this->em->find($this->getOrmClassString(), $id);
+        try {
+            $object = $this->em->find($this->getOrmClassString(), $id);
 
-        if ($object) {
-            $this->em->remove($object);
-            $this->em->flush();
-            return View::create(null, Codes::HTTP_NO_CONTENT);
+            if ($object) {
+                $this->em->remove($object);
+                $this->em->flush();
+                return View::create(null, Codes::HTTP_NO_CONTENT);
+            }
+        } catch (DBALException $e) {
+            return View::create(null, Codes::HTTP_CONFLICT);
         }
 
         throw new NotFoundHttpException("Object {$id} not found");
