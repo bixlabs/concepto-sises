@@ -38,6 +38,7 @@
                 canSave = false;
                 $s.empresa.$update(function() {
                     canSave = true;
+                    $s.go('empresas.detalles', {id: $s.empresa.id}, {reload: true});
                 }, function(response) {
                     switch (response.data.code) {
                         case 400:

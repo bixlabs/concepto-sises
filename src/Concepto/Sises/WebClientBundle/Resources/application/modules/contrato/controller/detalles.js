@@ -40,6 +40,7 @@
                 canSave = false;
                 $s.contrato.$update(function() {
                     canSave = true;
+                    $s.go('contratos.detalles', {id: $s.contrato.id}, {reload: true});
                 }, function(response) {
                     switch (response.data.code) {
                         case 400:
