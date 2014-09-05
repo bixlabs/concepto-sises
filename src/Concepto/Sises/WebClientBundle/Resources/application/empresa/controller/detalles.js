@@ -37,7 +37,7 @@
             $s.guardarEmpresa = function() {
                 canSave = false;
                 $s.empresa.$update(function() {
-                    $l.path('/empresas/' + $s.empresa.id)
+                    canSave = true;
                 }, function(response) {
                     switch (response.data.code) {
                         case 400:

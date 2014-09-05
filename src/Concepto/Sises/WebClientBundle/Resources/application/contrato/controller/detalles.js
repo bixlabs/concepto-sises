@@ -28,7 +28,7 @@
                 canRemove = false;
                 mS.alert('Esta seguro de eliminar esta contrato?', function() {
                     $s.contrato.$delete(function() {
-                        $l.path('/contratos')
+                        $l.path('/contratos');
                     }, function (response) {
                         console.error(response);
                         canRemove = true;
@@ -39,7 +39,7 @@
             $s.guardarContrato = function() {
                 canSave = false;
                 $s.contrato.$update(function() {
-                    $l.path('/contratos/' + $s.contrato.id)
+                    canSave = true;
                 }, function(response) {
                     switch (response.data.code) {
                         case 400:
@@ -49,7 +49,6 @@
                             console.error(response);
                             break;
                     }
-
                     canSave = true;
                 });
             };
