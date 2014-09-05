@@ -6,7 +6,7 @@
         'Contrato',
         'Empresa',
         '$location',
-        '$routeParams',
+        '$stateParams',
         'modalService',
         function($s, Contrato, Empresa, $l, $p, mS) {
             $s.errors = {};
@@ -28,7 +28,7 @@
                 canRemove = false;
                 mS.alert('Esta seguro de eliminar esta contrato?', function() {
                     $s.contrato.$delete(function() {
-                        $l.path('/contratos');
+                        $s.go('contratos');
                     }, function (response) {
                         console.error(response);
                         canRemove = true;

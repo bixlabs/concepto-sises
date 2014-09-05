@@ -8,9 +8,10 @@
     G.modules.DASHBOARD = 'DASHBOARD';
 
     angular.module(G.modules.DASHBOARD, ['ngRoute' ,'ngResource'])
-        .config(['$routeProvider', function ($routeProvider) {
-            $routeProvider
-                .when('/dashboard', {
+        .config(['$stateProvider', function ($stateProvider) {
+            $stateProvider
+                .state('dashboard', {
+                    url : '/dashboard',
                     controller: 'DashboardController',
                     template: ''
                 })

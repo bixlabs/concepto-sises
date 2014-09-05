@@ -5,7 +5,7 @@
         '$scope',
         'Empresa',
         '$location',
-        '$routeParams',
+        '$stateParams',
         'modalService',
         function($s, Empresa, $l, $p, mS) {
             $s.errors = {};
@@ -26,7 +26,7 @@
                 canRemove = false;
                 mS.alert('Esta seguro de eliminar esta empresa?', function() {
                     $s.empresa.$delete(function() {
-                        $l.path('/empresas')
+                        $s.go('empresas');
                     }, function (response) {
                         console.error(response);
                         canRemove = true;

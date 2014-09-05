@@ -4,17 +4,14 @@
 (function() {
     "use strict";
 
-    angular.module(G.APP, ['EMPRESA', 'DASHBOARD', 'CONTRATO'])
-        .config(['$routeProvider', function ($routeProvider) {
-            $routeProvider
-                .otherwise({redirectTo: '/dashboard'})
+    angular.module(G.APP, ['EMPRESA', 'DASHBOARD', 'CONTRATO', 'ui.router'])
+        .config(['$urlRouterProvider', function ($urlRouterProvider) {
+            $urlRouterProvider
+                .otherwise('/dashboard')
             ;
         }])
-        .run(['$rootScope', '$location', function ($r, $l) {
-            $r.go = function (path) {
-                $l.path(path);
-            };
-
+        .run(['$rootScope', '$state', function ($r, $state) {
+            $r.go = $state.go;
             $r.template = G.template;
         }])
     ;

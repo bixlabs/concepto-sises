@@ -6,18 +6,26 @@
     "use strict";
     G.modules.CONTRATO = 'CONTRATO';
 
-    angular.module(G.modules.CONTRATO, ['ngRoute' ,'ngResource', 'EMPRESA'])
-        .config(['$routeProvider', function ($routeProvider) {
-            $routeProvider
-                .when('/contratos', {
+    angular.module(G.modules.CONTRATO, ['ngRoute' ,'ngResource', 'ui.router'])
+        .config(['$stateProvider', function ($stateProvider) {
+            $stateProvider
+                .state('contratos', {
+                    url: '/contratos',
+                    abstract: true,
+                    template: '<ui-view/>'
+                })
+                .state('contratos.listado', {
+                    url: '',
                     controller: 'ContratoListadoController',
                     templateUrl: G.template('contrato_listado')
                 })
-                .when('/contratos/nuevo', {
+                .state('contratos.nuevo', {
+                    url: '/nuevo',
                     controller: 'ContratoNuevoController',
                     templateUrl: G.template('contrato_nuevo')
                 })
-                .when('/contratos/:id', {
+                .state('contratos.detalles', {
+                    url: ':id',
                     controller: 'ContratoDetallesController',
                     templateUrl: G.template('contrato_detalles')
                 })
@@ -33,6 +41,6 @@
         }])
 
         .run(['MenuService', function(MS) {
-            MS.register({ name: G.modules.CONTRATO, url: '/contratos', label: 'Contratos'});
+            MS.register({ name: G.modules.CONTRATO, url: 'contratos.listado', label: 'Contratos'});
         }])
 })();

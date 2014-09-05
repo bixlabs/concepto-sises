@@ -5,7 +5,7 @@
     <div class="col-lg-5">
         <div class="actions pull-right">
             <button class="btn btn-primary"
-                    data-ng-click="go('/empresas/nueva')">Nueva empresa</button>
+                    data-ui-sref="empresas.nueva">Nueva empresa</button>
         </div>
     </div>
 </div>
@@ -31,7 +31,7 @@
             <td data-ng-bind="empresa.nombre"></td>
             <td>
                 <button class="btn btn-primary"
-                        data-ng-click="go('/empresas/' + empresa.id)">Ver detalles</button>
+                        data-ng-click="go('empresas.detalles', {id: empresa.id})">Ver detalles</button>
             </td>
         </tr>
     </tbody>

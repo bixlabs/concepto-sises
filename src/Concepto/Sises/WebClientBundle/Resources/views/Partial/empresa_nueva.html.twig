@@ -4,12 +4,12 @@
     </div>
     <div class="col-lg-5">
         <div class="actions pull-right">
-            <button class="btn btn-default" data-ng-click="go('/empresas')">Volver al listado</button>
+            <button class="btn btn-default" data-ng-click="go('empresas.listado')">Volver al listado</button>
             <button class="btn btn-primary"
                     data-ng-disabled="!canSave()"
                     data-ng-click="guardarEmpresa()">Guardar</button>
         </div>
     </div>
 </div>
-<div data-ng-include="template('_form_empresa')"></div>
+<div data-ng-include="template('empresa_form')"></div>
 

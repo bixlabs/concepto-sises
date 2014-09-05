@@ -7,20 +7,28 @@
 
     G.modules.EMPRESA = 'EMPRESA';
 
-    angular.module(G.modules.EMPRESA, ['ngRoute' ,'ngResource'])
-        .config(['$routeProvider', function ($routeProvider) {
-            $routeProvider
-                .when('/empresas', {
-                    controller: 'EmpresaListadoController',
-                    templateUrl: G.template('listado_empresa')
+    angular.module(G.modules.EMPRESA, ['ngRoute' ,'ngResource', 'ui.router'])
+        .config(['$stateProvider', function ($stateProvider) {
+            $stateProvider
+                .state('empresas', {
+                    url: '/empresas',
+                    abstract: true,
+                    template: '<ui-view/>'
                 })
-                .when('/empresas/nueva', {
+                .state('empresas.listado', {
+                    url: '',
+                    controller: 'EmpresaListadoController',
+                    templateUrl: G.template('empresa_listado')
+                })
+                .state('empresas.nueva', {
+                    url: '/nueva',
                     controller: 'EmpresaNuevaController',
                     templateUrl: G.template('empresa_nueva')
                 })
-                .when('/empresas/:id', {
+                .state('empresas.detalles', {
+                    url: '/:id',
                     controller: 'EmpresaDetallesController',
-                    templateUrl: G.template('empresa_ver')
+                    templateUrl: G.template('empresa_detalles')
                 })
             ;
         }])
@@ -34,7 +42,7 @@
         }])
 
         .run(['MenuService', function(MS) {
-            MS.register({ name: G.modules.EMPRESA, url: '/empresas', label: 'Empresas'});
+            MS.register({ name: G.modules.EMPRESA, url: 'empresas.listado', label: 'Empresas'});
         }])
     ;
 })();

@@ -9,7 +9,7 @@
     /**
      * menu.entry.add
      */
-        .directive('sisesMenu', ['$rootScope', '$location', function($r, $l) {
+        .directive('sisesMenu', ['$rootScope', '$state', function($r, $state) {
             return {
                 restrict: 'A',
                 replace: true,
@@ -18,7 +18,7 @@
                 link: function(scope) {
                     scope.entries = $r.menu_entries;
                     scope.isActive = function (viewLocation) {
-                        return viewLocation === $l.path();
+                        return $state.includes(viewLocation.split('.')[0]);
                     };
                 }
             };

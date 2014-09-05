@@ -19,7 +19,7 @@
             $s.guardarEmpresa = function() {
                 canSave = false;
                 $s.empresa.$save(function () {
-                    $l.path('/empresas')
+                    $s.go('empresas');
                 }, function(response) {
                     switch (response.data.code) {
                         case 400:

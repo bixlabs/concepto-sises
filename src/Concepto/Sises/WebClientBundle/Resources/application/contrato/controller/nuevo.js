@@ -26,7 +26,7 @@
                 $s.guardarContrato = function() {
                     canSave = false;
                     $s.contrato.$save(function () {
-                        $l.path('/contratos')
+                        $s.go('contratos');
                     }, function(response) {
                         switch (response.data.code) {
                             case 400:
