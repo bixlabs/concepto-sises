@@ -17,6 +17,7 @@ use Doctrine\ORM\Mapping\GeneratedValue;
 use Doctrine\ORM\Mapping\Id;
 use Doctrine\ORM\Mapping\Table;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\Validator\Constraints\Email;
 use Symfony\Component\Validator\Constraints\NotBlank;
 
 /**
@@ -38,14 +39,14 @@ class Empresa implements OrmPersistible {
     /**
      * @var string
      * @Column(name="nombre", length=250, nullable=false)
-     * @NotBlank(message="El campo 'nombre' no puede estar vacio")
+     * @NotBlank()
      */
     protected $nombre;
 
     /**
      * @var string
      * @Column(name="nit", length=15, unique=true, nullable=false)
-     * @NotBlank(message="El campo 'nit' no puede estar vacio")
+     * @NotBlank()
      */
     protected $nit;
 
@@ -70,6 +71,7 @@ class Empresa implements OrmPersistible {
     /**
      * @var string
      * @Column(name="email", type="string", nullable=true, length=255)
+     * @Email()
      */
     protected $email;
 
