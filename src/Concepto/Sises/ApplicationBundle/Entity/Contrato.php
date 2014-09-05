@@ -18,6 +18,9 @@ use Doctrine\ORM\Mapping\Id;
 use Doctrine\ORM\Mapping\JoinColumn;
 use Doctrine\ORM\Mapping\ManyToOne;
 use Doctrine\ORM\Mapping\Table;
+use JMS\Serializer\Annotation\Exclude;
+use JMS\Serializer\Annotation\SerializedName;
+use JMS\Serializer\Annotation\VirtualProperty;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Validator\Constraints\NotBlank;
 use Symfony\Component\Validator\Constraints\NotNull;
@@ -62,6 +65,7 @@ class Contrato implements OrmPersistible {
     /**
      * @var double
      * @Column(name="valor", type="decimal", precision=64, scale=2)
+     * @NotNull()
      */
     protected $valor;
 
@@ -70,6 +74,7 @@ class Contrato implements OrmPersistible {
      * @ManyToOne(targetEntity="Concepto\Sises\ApplicationBundle\Entity\Empresa", fetch="LAZY")
      * @NotNull(message="El valor 'empresa' no puede ser nulo")
      * @JoinColumn(nullable=false)
+     * @Exclude()
      */
     protected $empresa;
 
@@ -159,5 +164,18 @@ class Contrato implements OrmPersistible {
     public function setEmpresa($empresa)
     {
         $this->empresa = $empresa;
+    }
+
+    /**
+     * @VirtualProperty()
+     * @SerializedName("empresa")
+     */
+    public function getEmpresaId()
+    {
+        if ($this->empresa) {
+            return $this->empresa->getId();
+        }
+
+        return null;
     }
 }
