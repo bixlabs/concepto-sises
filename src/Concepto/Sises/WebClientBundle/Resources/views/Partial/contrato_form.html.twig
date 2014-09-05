@@ -1,0 +1,49 @@
+<div class="row">
+    <div class="col-lg-6">
+        <form class="form-horizontal sises-form">
+            <fieldset>
+                <legend>Datos básicos</legend>
+                <div class="form-group" data-ng-class="{'has-error': hasError('nombre')}">
+                    <label class="col-lg-2 control-label" for="contrato_nombre">Nombre contrato</label>
+                    <div class="col-lg-10">
+                        <input placeholder="Nombre contrato"
+                               data-ng-model="contrato.nombre"
+                               name="contrato[nombre]" required
+                               class="form-control" type="text" id="contrato_nombre"/>
+                        <p class="help-block"
+                           data-ng-repeat="error in errors.nombre.errors"
+                           data-ng-bind="error"></p>
+                    </div>
+                </div>
+
+                <div class="form-group" data-ng-class="{'has-error': hasError('descripcion')}">
+                    <label class="col-lg-2 control-label" for="contrato_descripcion">Descripción contrato</label>
+                    <div class="col-lg-10">
+                        <input placeholder="Descripción contrato"
+                               data-ng-model="contrato.descripcion"
+                               name="contrato[descripcion]" required
+                               class="form-control" type="text" id="contrato_descripcion"/>
+                        <p class="help-block"
+                           data-ng-repeat="error in errors.descripcion.errors"
+                           data-ng-bind="error"></p>
+                    </div>
+                </div>
+                <div class="form-group" data-ng-class="{'has-error': hasError('resolucion')}">
+                    <label class="col-lg-2 control-label" for="contrato_resolucion">Resolucion</label>
+                    <div class="col-lg-10">
+                        <input placeholder="Resolución"
+                               data-ng-model="contrato.resolucion"
+                               name="contrato[resolucion]" required
+                               class="form-control" type="text" id="contrato_resolucion"/>
+                        <p class="help-block"
+                           data-ng-repeat="error in errors.resolucion.errors"
+                           data-ng-bind="error"></p>
+                    </div>
+                </div>
+            </fieldset>
+        </form>
+    </div>
+    <div class="col-lg-6">
+
+    </div>
+</div>

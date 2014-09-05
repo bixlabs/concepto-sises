@@ -34,7 +34,7 @@
         }])
 
         .run(['MenuService', function(MS) {
-            MS.register({ url: '/empresas', label: 'Empresas'});
+            MS.register({ name: G.modules.EMPRESA, url: '/empresas', label: 'Empresas'});
         }])
     ;
 })();

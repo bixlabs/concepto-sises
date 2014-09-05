@@ -4,7 +4,7 @@
 (function() {
     "use strict";
 
-    angular.module(G.APP, ['EMPRESA', 'DASHBOARD'])
+    angular.module(G.APP, ['EMPRESA', 'DASHBOARD', 'CONTRATO'])
         .config(['$routeProvider', function ($routeProvider) {
             $routeProvider
                 .otherwise({redirectTo: '/dashboard'})
