@@ -12,6 +12,7 @@
     window.G = window.G || {
         APP: 'sises',
         template: template,
-        json_route: json_route
+        json_route: json_route,
+        modules: {}
     };
 })();

@@ -1,7 +1,7 @@
 ;(function() {
     "use strict";
 
-    angular.module(G.APP)
+    angular.module(G.modules.EMPRESA)
         .controller('EmpresaNuevaController', ['$scope', 'Empresa', '$location', function($s, Empresa, $l) {
             $s.empresa = new Empresa();
             $s.errors = {};

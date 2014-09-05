@@ -4,8 +4,8 @@
 ;(function() {
     "use strict";
 
-    angular.module(G.APP)
-        .controller('EmpresaController', ['$scope', 'Empresa', function($s, Empresa) {
+    angular.module(G.modules.EMPRESA)
+        .controller('EmpresaListadoController', ['$scope', 'Empresa', function($s, Empresa) {
             $s.empresas = Empresa.query();
         }])
 })();

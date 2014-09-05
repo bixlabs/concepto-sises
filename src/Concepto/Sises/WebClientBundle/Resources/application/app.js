@@ -4,40 +4,18 @@
 (function() {
     "use strict";
 
-    angular.module(G.APP, ['ngRoute' ,'ngResource'])
+    angular.module(G.APP, ['EMPRESA', 'DASHBOARD'])
         .config(['$routeProvider', function ($routeProvider) {
             $routeProvider
-                .when('/empresas', {
-                    controller: 'EmpresaController',
-                    templateUrl: G.template('listado_empresa')
-                })
-                .when('/empresas/nueva', {
-                    controller: 'EmpresaNuevaController',
-                    templateUrl: G.template('empresa_nueva')
-                })
-                .when('/empresas/:id', {
-                    controller: 'EmpresaVerController',
-                    templateUrl: G.template('empresa_ver')
-                })
-                .otherwise({redirectTo: '/empresas'})
+                .otherwise({redirectTo: '/dashboard'})
             ;
         }])
-
-        .factory('Empresa', ['$resource', function($r) {
-            return $r(G.json_route('/api/empresas/:id.json'), { id: '@id' }, {
-                update: { method: 'PUT'}
-            }, {
-                stripTrailingSlashes: false
-            });
-        }])
-
-        .run(['$rootScope', '$location', 'MenuService', function ($r, $l, MS) {
+        .run(['$rootScope', '$location', function ($r, $l) {
             $r.go = function (path) {
                 $l.path(path);
             };
-            $r.template = G.template;
 
-            MS.register({ url: '/empresas', label: 'Empresas'});
+            $r.template = G.template;
         }])
     ;
 })();

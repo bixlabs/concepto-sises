@@ -1,7 +1,7 @@
 ;(function() {
     "use strict";
 
-    angular.module(G.APP).controller('EmpresaVerController', [
+    angular.module(G.modules.EMPRESA).controller('EmpresaDetallesController', [
         '$scope',
         'Empresa',
         '$location',
