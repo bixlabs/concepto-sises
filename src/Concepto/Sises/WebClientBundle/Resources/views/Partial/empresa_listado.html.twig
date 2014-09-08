@@ -18,15 +18,15 @@
         <th></th>
     </tr>
     </thead>
-    <tbody ng-if="empresas.length == 0">
+    <tbody ng-if="elements.length == 0">
         <tr>
             <td colspan="2">
                 No existen empresas
             </td>
         </tr>
     </tbody>
-    <tbody ng-if="empresas.length > 0">
-        <tr data-ng-repeat="empresa in empresas">
+    <tbody ng-if="elements.length > 0">
+        <tr data-ng-repeat="empresa in elements">
             <td data-ng-bind="empresa.nit"></td>
             <td data-ng-bind="empresa.nombre"></td>
             <td>
