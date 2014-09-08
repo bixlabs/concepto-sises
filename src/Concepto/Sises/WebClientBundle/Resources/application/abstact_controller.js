@@ -5,7 +5,14 @@
 (function () {
     "use strict";
 
-    function ListController (scope, Factory) {
+    /**
+     * ListController
+     *
+     * @param scope
+     * @param Factory
+     * @constructor
+     */
+    function ListController(scope, Factory) {
         scope.elements = Factory.query();
 
         scope.details = function () {
@@ -17,6 +24,12 @@
         }
     }
 
+    /**
+     * CoreController
+     *
+     * @param scope
+     * @constructor
+     */
     function CoreController(scope) {
         scope.errors = {};
         scope.canSave = true;
@@ -55,7 +68,14 @@
         };
     }
 
-    function UpdateController (scope, Factory) {
+    /**
+     * UpdateController
+     *
+     * @param scope
+     * @param Factory
+     * @constructor
+     */
+    function UpdateController(scope, Factory) {
         CoreController.call(this, scope);
 
         scope.element = Factory.get({id: scope.routeParams.id});
@@ -86,15 +106,30 @@
         };
     }
 
+    /**
+     * Extends method from parent
+     * @type {CoreController.prototype}
+     */
     UpdateController.prototype = Object.create(CoreController.prototype);
 
 
-    function NewController (scope, Factory) {
+    /**
+     * NewController
+     *
+     * @param scope
+     * @param Factory
+     * @constructor
+     */
+    function NewController(scope, Factory) {
         CoreController.call(this, scope);
         scope.element = new Factory();
 
     }
 
+
+    /**
+     * Exports
+     */
     G.Base = {
         CoreController: CoreController,
         NewController: NewController,

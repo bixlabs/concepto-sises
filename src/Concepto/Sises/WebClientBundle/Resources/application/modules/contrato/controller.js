@@ -41,6 +41,14 @@
         };
     }
 
+    /**
+     * ContratoDetallesController
+     *
+     * @param scope
+     * @param ContratoFactory
+     * @param EmpresaFactory
+     * @constructor
+     */
     function ContratoDetallesController(scope, ContratoFactory, EmpresaFactory) {
         G.Base.UpdateController.call(this, scope, ContratoFactory);
         scope.empresas = EmpresaFactory.query();
@@ -50,6 +58,9 @@
         };
     }
 
+    /**
+     * Register like angular.js controllers
+     */
     angular.module(G.modules.CONTRATO)
         .controller('ContratoListadoController', ['$scope', 'Contrato', ContratoListadoController])
 
