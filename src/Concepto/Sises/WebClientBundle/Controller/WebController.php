@@ -31,4 +31,58 @@ class WebController {
 
         return View::create()->setTemplate($name);
     }
+
+    /**
+     * @Template()
+     */
+    public function actionsAction($name, $singular, $plural = '')
+    {
+        $action_save = array(
+            'icon' => 'save',
+            'action' => 'guardar()',
+            'label' => 'Guardar',
+            'style' => 'primary'
+        );
+
+        $action_list = array(
+            'icon' => 'list',
+            'action' => 'volver()',
+            'label' => "Volver al listado",
+            'style' => 'default'
+        );
+
+        $action_delete = array(
+            'icon' => 'remove-sign',
+            'action' => 'elminar()',
+            'label' => 'Eliminar',
+            'style' => 'danger'
+        );
+
+        $action_new = array(
+            'icon' => 'plus-sign',
+            'action' => 'nuevo()',
+            'label' => 'Agregar %singular%',
+            'style' => 'primary'
+        );
+
+        $action_edit = array(
+            'icon' => 'eye-open',
+            'action' => 'ver(' . strtolower($singular) . '.id)',
+            'label' => 'Ver detalles',
+            'style' => 'info'
+        );
+
+        $actions = array(
+            'new' => array($action_list, $action_save),
+            'update' => array($action_list, $action_save, $action_delete),
+            'list' => array($action_new),
+            'edit' => array($action_edit)
+        );
+
+        return array(
+            'actions' => $actions[$name],
+            'plural' => $plural,
+            'singular' => $singular
+        );
+    }
 }

@@ -4,10 +4,8 @@
     </div>
     <div class="col-lg-5">
         <div class="actions pull-right">
-            <button class="btn btn-primary"
-                    data-ui-sref="empresas.nueva">
-                <i class="glyphicon glyphicon-plus-sign"></i> Nueva empresa
-            </button>
+            {% set params = {'name':'list', 'singular': 'Empresa'} %}
+            {{render(controller('SisesWebClientBundle:Web:actions', params))}}
         </div>
     </div>
 </div>
@@ -32,10 +30,8 @@
             <td data-ng-bind="empresa.nit"></td>
             <td data-ng-bind="empresa.nombre"></td>
             <td>
-                <button class="btn btn-primary"
-                        data-ng-click="go('empresas.detalles', {id: empresa.id})">
-                    <i class="glyphicon glyphicon-eye-open"></i> Ver detalles
-                        </button>
+                {% set params = {'name':'edit', 'singular': 'Empresa'} %}
+                {{render(controller('SisesWebClientBundle:Web:actions', params))}}
             </td>
         </tr>
     </tbody>

@@ -1,0 +1,7 @@
+{% for action in actions %}
+    <button class="btn btn-{{action.style}}"
+            data-ng-click="{{action.action}}}">
+        <i class="glyphicon glyphicon-{{action.icon}}"></i>
+        {{action.label|replace({'%singular%': singular})}}
+    </button>
+{% endfor %}
