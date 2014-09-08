@@ -2,7 +2,7 @@
 <div class="form-group" data-ng-class="{'has-error': hasError(property)}">
     <label class="col-lg-4 control-label" for="{{name}}_{{property}}">{{label}}</label>
     <div class="col-lg-8">
-        <input placeholder="Nombre contrato"
+        <input placeholder="{{placeholder}}"
                data-ng-model="model"
                name="{{name}}[{{property}}]"
                class="form-control" type="text" id="{{name}}_{{property}}"/>
