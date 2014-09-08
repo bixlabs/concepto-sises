@@ -4,6 +4,17 @@
 ;
 (function () {
     "use strict";
+
+    var linkFunc = function(scope) {
+        scope.name = G.guid();
+
+        scope.hasError = function(name) {
+            return scope.errors[name]
+                && angular.isObject(scope.errors[name])
+                && scope.errors[name].errors
+                && scope.errors[name].errors.length;
+        };
+    };
     angular.module(G.APP)
         .directive('sisesInput', function() {
             return {
@@ -13,18 +24,11 @@
                 scope: {
                     errors: '=',
                     model: '=',
-                    propery: '@',
+                    property: '@',
                     label: '@',
                     placeholder: '@'
                 },
-                link: function(scope) {
-                    scope.name = G.guid();
-                    scope.hasError = function(name) {
-                        return scope.errors[name]
-                            && scope.errors[name].errors
-                            && scope.errors[name].errors.length;
-                    };
-                }
+                link: linkFunc
             };
         })
 
@@ -36,15 +40,13 @@
                 scope: {
                     errors: '=',
                     model: '=',
-                    propery: '@',
+                    property: '@',
                     label: '@',
                     optionsModel: '=',
                     optionKey: '@',
                     optionLabel: '@'
                 },
-                link: function(scope) {
-                    scope.name = G.guid();
-                }
+                link: linkFunc
             };
         })
 })();

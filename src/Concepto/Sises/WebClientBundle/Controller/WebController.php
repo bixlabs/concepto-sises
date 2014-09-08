@@ -39,35 +39,36 @@ class WebController {
     {
         $action_save = array(
             'icon' => 'save',
-            'action' => 'guardar()',
+            'action' => 'save()',
             'label' => 'Guardar',
-            'style' => 'primary'
+            'style' => 'primary',
+            'test' => 'testSave()'
         );
 
         $action_list = array(
             'icon' => 'list',
-            'action' => 'volver()',
+            'action' => 'list()',
             'label' => "Volver al listado",
             'style' => 'default'
         );
 
         $action_delete = array(
             'icon' => 'remove-sign',
-            'action' => 'elminar()',
+            'action' => 'delete()',
             'label' => 'Eliminar',
             'style' => 'danger'
         );
 
         $action_new = array(
             'icon' => 'plus-sign',
-            'action' => 'nuevo()',
+            'action' => 'new()',
             'label' => 'Agregar %singular%',
             'style' => 'primary'
         );
 
         $action_edit = array(
             'icon' => 'eye-open',
-            'action' => 'ver(' . strtolower($singular) . '.id)',
+            'action' => 'detail(' . strtolower($singular) . '.id)',
             'label' => 'Ver detalles',
             'style' => 'info'
         );

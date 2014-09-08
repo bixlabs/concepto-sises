@@ -7,7 +7,7 @@
                 data-ng-options="o.{{optionKey}} as o.{{optionLabel}} for o in optionsModel"
                 id="{{name}}_{{property}}" name="{{name}}[{{property}}]"></select>
         <p class="help-block"
-           data-ng-repeat="error in errors.empresa.errors"
+           data-ng-repeat="error in errors[property].errors"
            data-ng-bind="error"></p>
     </div>
 </div>
