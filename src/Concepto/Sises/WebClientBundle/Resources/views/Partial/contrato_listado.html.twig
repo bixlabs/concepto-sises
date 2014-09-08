@@ -5,7 +5,9 @@
     <div class="col-lg-5">
         <div class="actions pull-right">
             <button class="btn btn-primary"
-                    data-ui-sref="contratos.nuevo">Nuevo contrato</button>
+                    data-ui-sref="contratos.nuevo">
+                <i class="glyphicon glyphicon-plus-sign"></i> Nuevo contrato
+            </button>
         </div>
     </div>
 </div>
@@ -31,7 +33,9 @@
         <td data-ng-bind="contrato.nombre"></td>
         <td>
             <button class="btn btn-primary"
-                    data-ng-click="go('contratos.detalles', {id: contrato.id})">Ver detalles</button>
+                    data-ng-click="go('contratos.detalles', {id: contrato.id})">
+                <i class="glyphicon glyphicon-eye-open"></i> Ver detalles
+                    </button>
         </td>
     </tr>
     </tbody>
