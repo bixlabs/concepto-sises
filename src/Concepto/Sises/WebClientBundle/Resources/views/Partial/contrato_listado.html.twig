@@ -18,15 +18,15 @@
         <th></th>
     </tr>
     </thead>
-    <tbody ng-if="contratos.length == 0">
+    <tbody ng-if="elements.length == 0">
     <tr>
         <td colspan="2">
             No existen contratos
         </td>
     </tr>
     </tbody>
-    <tbody ng-if="contratos.length > 0">
-    <tr data-ng-repeat="contrato in contratos">
+    <tbody ng-if="elements.length > 0">
+    <tr data-ng-repeat="contrato in elements">
         <td data-ng-bind="contrato.resolucion"></td>
         <td data-ng-bind="contrato.nombre"></td>
         <td>

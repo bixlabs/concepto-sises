@@ -54,21 +54,22 @@ class WebController {
 
         $action_delete = array(
             'icon' => 'remove-sign',
-            'action' => 'delete()',
+            'action' => 'remove()',
             'label' => 'Eliminar',
-            'style' => 'danger'
+            'style' => 'danger',
+            'test' => 'testRemove()'
         );
 
         $action_new = array(
             'icon' => 'plus-sign',
-            'action' => 'new()',
+            'action' => 'add()',
             'label' => 'Agregar %singular%',
             'style' => 'primary'
         );
 
         $action_edit = array(
             'icon' => 'eye-open',
-            'action' => 'detail(' . strtolower($singular) . '.id)',
+            'action' => 'details(' . strtolower($singular) . '.id)',
             'label' => 'Ver detalles',
             'style' => 'info'
         );

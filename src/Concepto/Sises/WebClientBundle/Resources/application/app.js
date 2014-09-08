@@ -10,9 +10,11 @@
                 .otherwise('/dashboard')
             ;
         }])
-        .run(['$rootScope', '$state', function ($r, $state) {
+        .run(['$rootScope', '$state', '$stateParams', 'modalService', function ($r, $state, $sP, mS) {
             $r.go = $state.go;
             $r.template = G.template;
+            $r.routeParams = $sP;
+            $r.modal = mS;
         }])
     ;
 })();
