@@ -13,6 +13,7 @@ namespace Concepto\Sises\ApplicationBundle\Handler;
 
 
 use Concepto\Sises\ApplicationBundle\Entity\OrmPersistible;
+use Doctrine\Common\Inflector\Inflector;
 use Doctrine\DBAL\DBALException;
 use Doctrine\ORM\EntityManager;
 use FOS\RestBundle\Util\Codes;
@@ -68,8 +69,8 @@ abstract class RestHandler implements RestHandlerInterface {
 
     public function post($parameters)
     {
-        $instantiator = new Instantiator();
-        $object = $instantiator->instantiate($this->getOrmClassString());
+        $class = $this->getOrmClassString();
+        $object = new $class();
 
         return $this->process($parameters, $object, 'POST');
     }
@@ -77,7 +78,7 @@ abstract class RestHandler implements RestHandlerInterface {
     public function put($id, $parameters)
     {
         /** @var OrmPersistible $object */
-        $object = $this->em->find($this->getOrmClassString(), $id);
+        $object = $this->getEm()->find($this->getOrmClassString(), $id);
 
         return $this->process($parameters, $object, 'PUT');
     }
@@ -85,7 +86,7 @@ abstract class RestHandler implements RestHandlerInterface {
     public function patch($id, $parameters)
     {
         /** @var OrmPersistible $object */
-        $object = $this->em->find($this->getOrmClassString(), $id);
+        $object = $this->getEm()->find($this->getOrmClassString(), $id);
 
         return $this->process($parameters, $object, 'PATCH');
     }
@@ -93,11 +94,11 @@ abstract class RestHandler implements RestHandlerInterface {
     public function delete($id)
     {
         try {
-            $object = $this->em->find($this->getOrmClassString(), $id);
+            $object = $this->getEm()->find($this->getOrmClassString(), $id);
 
             if ($object) {
-                $this->em->remove($object);
-                $this->em->flush();
+                $this->getEm()->remove($object);
+                $this->getEm()->flush();
                 return View::create(null, Codes::HTTP_NO_CONTENT);
             }
         } catch (DBALException $e) {
@@ -109,12 +110,12 @@ abstract class RestHandler implements RestHandlerInterface {
 
     public function get($id)
     {
-        return $this->em->find($this->getOrmClassString(), $id);
+        return $this->getEm()->find($this->getOrmClassString(), $id);
     }
 
     public function cget()
     {
-        return $this->em->getRepository($this->getOrmClassString())->findAll();
+        return $this->getEm()->getRepository($this->getOrmClassString())->findAll();
     }
 
 
@@ -131,15 +132,15 @@ abstract class RestHandler implements RestHandlerInterface {
         $type = $instantiator->instantiate($this->getTypeClassString());
 
         $form = $this->formfactory->create($type, $object);
-        $form->submit($parameters, 'PATCH' !== $method);
+        $form->submit($this->camelizeParamers($parameters), 'PATCH' !== $method);
 
         $name = explode('\\', $this->getOrmClassString());
         $url = 'get_' . strtolower(end($name));
 
         if ($form->isValid()) {
             $code = $object->getId() ? Codes::HTTP_NO_CONTENT : Codes::HTTP_CREATED;
-            $this->em->persist($object);
-            $this->em->flush();
+            $this->getEm()->persist($object);
+            $this->getEm()->flush();
 
             $view = View::createRedirect(
                 $this->router->generate($url, array('id' => $object->getId())),
@@ -150,5 +151,43 @@ abstract class RestHandler implements RestHandlerInterface {
         }
 
         return View::create($form, Codes::HTTP_BAD_REQUEST);
+    }
+
+    /**
+     * @return \Doctrine\ORM\EntityManager
+     */
+    public function getEm()
+    {
+        return $this->em;
+    }
+
+    /**
+     * @return \Symfony\Component\Form\FormFactory
+     */
+    public function getFormfactory()
+    {
+        return $this->formfactory;
+    }
+
+    /**
+     * @return \Symfony\Component\Routing\Router
+     */
+    public function getRouter()
+    {
+        return $this->router;
+    }
+
+    protected function camelizeParamers($parameters)
+    {
+        if (!is_array($parameters)) {
+            return $parameters;
+        }
+
+        $camelizedParams = [];
+        foreach (array_keys($parameters) as $key) {
+            $camelizedParams[Inflector::camelize($key)] = $this->camelizeParamers($parameters[$key]);
+        }
+
+        return $camelizedParams;
     }
 }
