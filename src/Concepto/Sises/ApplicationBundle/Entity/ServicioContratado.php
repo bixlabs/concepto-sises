@@ -19,14 +19,19 @@ use Doctrine\ORM\Mapping\Id;
 use Doctrine\ORM\Mapping\JoinColumn;
 use Doctrine\ORM\Mapping\ManyToOne;
 use Doctrine\ORM\Mapping\Table;
+use Doctrine\ORM\Mapping\UniqueConstraint;
 use JMS\Serializer\Annotation\Exclude;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Validator\Constraints\NotBlank;
 
 /**
  * Class ServicioContratado
  * @package Concepto\Sises\ApplicationBundle\Entity
  * @Entity()
- * @Table("servicio_contratado")
+ * @Table(name="servicio_contratado", uniqueConstraints={
+ *     @UniqueConstraint(name="servicio_contrato", columns={"contrato_id", "nombre"})
+ * })
+ * @UniqueEntity(message="No puede existir un servicio duplicado", fields={"contrato", "nombre"})
  */
 class ServicioContratado {
     /**
