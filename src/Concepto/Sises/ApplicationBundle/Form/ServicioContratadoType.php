@@ -1,5 +1,5 @@
 <?php
- /**
+/**
  * Copyright © 2014 Julian Reyes Escrigas <julian.reyes.escrigas@gmail.com>
  *
  * This file is part of concepto-sises.
@@ -16,23 +16,19 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
-class ContratoType extends AbstractType
+class ServicioContratadoType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
             ->add('id')
             ->add('nombre')
-            ->add('descripcion')
-            ->add('resolucion')
-            ->add('valor')
-            ->add('empresa', null, array(
+            ->add('diasContratados')
+            ->add('unidadesDiarias')
+            ->add('valorUnitario')
+            ->add('costoUnitario')
+            ->add('contrato', null, array(
                 'property' => 'id'
-            ))
-            ->add('servicios', 'collection', array(
-                'type' => new ServicioContratadoType(),
-                'allow_add' => true,
-                'allow_delete' => true
             ))
         ;
     }
@@ -41,10 +37,9 @@ class ContratoType extends AbstractType
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => 'Concepto\Sises\ApplicationBundle\Entity\Contrato'
+            'data_class' => 'Concepto\Sises\ApplicationBundle\Entity\ServicioContratado'
         ));
     }
-
 
     /**
      * Returns the name of this type.

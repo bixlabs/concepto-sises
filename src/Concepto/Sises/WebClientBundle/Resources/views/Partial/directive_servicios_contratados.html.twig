@@ -1,0 +1,36 @@
+<fieldset>
+    <legend>Servicios contratados</legend>
+    <div class="sub-actions pull-right">
+        <button class="btn btn-info btn-sm"
+                data-ng-click="add()">
+            <i class="glyphicon glyphicon-plus-sign"></i> Agregar servicio
+        </button>
+    </div>
+    <table class="table">
+        <thead>
+        <tr>
+            <th>Nombre</th>
+            <th>Precio</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr data-ng-repeat="servicio in elements">
+            <td data-ng-bind="servicio.nombre"></td>
+            <td data-ng-bind="getPrecio(servicio)"></td>
+        </tr>
+        </tbody>
+    </table>
+
+    <div data-sises-modalize="handler" data-title="Agregar servicio">
+        <fieldset>
+            <legend>Datos del servicio</legend>
+
+            <div data-sises-input
+                 data-errors="errors"
+                 data-model="element.nombre"
+                 data-property="nombre"
+                 data-placeholder="Almuezos, Mercados, etc."
+                 data-label="Nombre servicio"></div>
+        </fieldset>
+    </div>
+</fieldset>

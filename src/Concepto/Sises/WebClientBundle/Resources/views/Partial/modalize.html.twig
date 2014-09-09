@@ -1,0 +1,26 @@
+{% verbatim %}
+<div class="modal fade"
+     id="modalize-{{name}}"
+     tabindex="-1"
+     role="dialog"
+     aria-labelledby="label-{{name}}" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-ng-click="dismiss()">
+                    <span aria-hidden="true">&times;</span><span class="sr-only">Cerrar</span>
+                </button>
+                <h4 class="modal-title" id="label-{{name}}" data-ng-bind="title"></h4>
+            </div>
+            <div class="modal-body">
+                <div data-ng-transclude></div>
+            </div>
+            <div class="modal-footer">
+                <button data-ng-repeat="(key,action) in actions"
+                        type="button" class="btn btn-{{actions[key].style}}"
+                        data-ng-click="call_action(key)">{{actions[key].label}}</button>
+            </div>
+        </div>
+    </div>
+</div>
+{% endverbatim %}
