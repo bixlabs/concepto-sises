@@ -35,7 +35,6 @@
 
                     angular.forEach(scope.handler.actions, function(value, key) {
                         scope.actions[key] = angular.extend({ style: 'default' }, value);
-                        console.debug(key, scope.actions[key]);
 
                         if (value.dismiss) {
                             dissmiss_key = key;
