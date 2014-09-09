@@ -31,6 +31,8 @@
      * @constructor
      */
     function CoreController(scope) {
+        var that = this;
+
         scope.errors = {};
         scope.canSave = true;
 
@@ -42,22 +44,20 @@
             return !scope.canSave;
         };
 
-        var that = this;
-
         scope.save = function() {
             scope.canSave = false;
             scope.element.$save(that.saveSuccess, that.saveFail);
         };
 
-        this.saveSuccess = function() {
+        that.saveSuccess = function() {
             scope.list();
         };
 
-        this.setErrors = function(errors) {
+        that.setErrors = function(errors) {
             scope.errors = errors;
         };
 
-        this.saveFail = function(response) {
+        that.saveFail = function(response) {
             switch (response.data.code) {
                 case 400:
                     that.setErrors(response.data.errors.children);
@@ -78,6 +78,7 @@
      * @constructor
      */
     function UpdateController(scope, Factory) {
+        var that = this;
         CoreController.call(this, scope);
 
         scope.element = Factory.get({id: scope.routeParams.id});
@@ -102,7 +103,6 @@
         /**
          * override save function to update
          */
-        var that = this;
         scope.save = function() {
             scope.canSave = false;
             scope.element.$update(that.saveSuccess, that.saveFail);
