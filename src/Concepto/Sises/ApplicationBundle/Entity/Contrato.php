@@ -11,12 +11,14 @@
 
 namespace Concepto\Sises\ApplicationBundle\Entity;
 
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping\Column;
 use Doctrine\ORM\Mapping\Entity;
 use Doctrine\ORM\Mapping\GeneratedValue;
 use Doctrine\ORM\Mapping\Id;
 use Doctrine\ORM\Mapping\JoinColumn;
 use Doctrine\ORM\Mapping\ManyToOne;
+use Doctrine\ORM\Mapping\OneToMany;
 use Doctrine\ORM\Mapping\Table;
 use JMS\Serializer\Annotation\Exclude;
 use JMS\Serializer\Annotation\SerializedName;
@@ -76,6 +78,15 @@ class Contrato implements OrmPersistible {
      * @Exclude()
      */
     protected $empresa;
+
+    /**
+     * @var Collection
+     * @OneToMany(
+     *      targetEntity="Concepto\Sises\ApplicationBundle\Entity\ServicioContratado",
+     *      mappedBy="contrato"
+     * )
+     */
+    protected $servicios;
 
     /**
      * @return string
@@ -176,5 +187,52 @@ class Contrato implements OrmPersistible {
         }
 
         return null;
+    }
+
+    /**
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getServicios()
+    {
+        return $this->servicios;
+    }
+
+    /**
+     * @param \Doctrine\Common\Collections\Collection $servicios
+     */
+    public function setServicios($servicios)
+    {
+        $this->servicios = $servicios;
+    }
+
+    /**
+     * @param ServicioContratado $servicio
+     *
+     * @return bool
+     */
+    public function hasServicio($servicio)
+    {
+        return $this->servicios->contains($servicio);
+    }
+
+    /**
+     * @param ServicioContratado $servicio
+     */
+    public function addServicio($servicio)
+    {
+        if (!$this->hasServicio($servicio)) {
+            $servicio->setContrato($this);
+            $this->servicios->add($servicio);
+        }
+    }
+
+    /**
+     * @param ServicioContratado $servicio
+     */
+    public function removeServicio($servicio) {
+        if ($this->hasServicio($servicio)) {
+            $servicio->setContrato(null);
+            $this->servicios->removeElement($servicio);
+        }
     }
 }
