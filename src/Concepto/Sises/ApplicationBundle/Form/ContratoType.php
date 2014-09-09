@@ -32,7 +32,8 @@ class ContratoType extends AbstractType
             ->add('servicios', 'collection', array(
                 'type' => new ServicioContratadoType(),
                 'allow_add' => true,
-                'allow_delete' => true
+                'allow_delete' => true,
+                'by_reference' => false
             ))
         ;
     }

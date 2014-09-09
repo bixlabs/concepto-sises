@@ -21,6 +21,8 @@ use Doctrine\ORM\Mapping\ManyToOne;
 use Doctrine\ORM\Mapping\Table;
 use Doctrine\ORM\Mapping\UniqueConstraint;
 use JMS\Serializer\Annotation\Exclude;
+use JMS\Serializer\Annotation\SerializedName;
+use JMS\Serializer\Annotation\VirtualProperty;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Validator\Constraints\NotBlank;
 
@@ -190,5 +192,17 @@ class ServicioContratado {
         $this->contrato = $contrato;
     }
 
+    /**
+     * @VirtualProperty()
+     * @SerializedName("contrato")
+     */
+    public function getRelatedId()
+    {
+        if ($this->contrato) {
+            return $this->contrato->getId();
+        }
+
+        return null;
+    }
 
 }

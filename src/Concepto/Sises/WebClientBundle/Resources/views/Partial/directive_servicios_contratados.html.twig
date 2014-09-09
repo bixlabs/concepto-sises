@@ -6,31 +6,64 @@
             <i class="glyphicon glyphicon-plus-sign"></i> Agregar servicio
         </button>
     </div>
-    <table class="table">
+    <table class="table table-hover">
         <thead>
         <tr>
             <th>Nombre</th>
             <th>Precio</th>
+            <th width="5%"></th>
         </tr>
         </thead>
         <tbody>
         <tr data-ng-repeat="servicio in elements">
             <td data-ng-bind="servicio.nombre"></td>
-            <td data-ng-bind="getPrecio(servicio)"></td>
+            <td data-ng-bind="getPrecio(servicio)|currency"></td>
+            <td>
+                <button class="btn btn-warning" title="Elmina este servicio"
+                        data-ng-click="remove(servicio)">
+                    <i class="glyphicon glyphicon-remove-sign"></i>
+                </button>
+            </td>
         </tr>
         </tbody>
     </table>
 
     <div data-sises-modalize="handler" data-title="Agregar servicio">
-        <fieldset>
-            <legend>Datos del servicio</legend>
+        <form action="" class="form-horizontal">
+            <fieldset>
+                <legend>Datos del servicio</legend>
 
-            <div data-sises-input
-                 data-errors="errors"
-                 data-model="element.nombre"
-                 data-property="nombre"
-                 data-placeholder="Almuezos, Mercados, etc."
-                 data-label="Nombre servicio"></div>
-        </fieldset>
+                <div data-sises-input
+                     data-errors="errors"
+                     data-model="element.nombre"
+                     data-property="nombre"
+                     data-placeholder="Almuezos, Mercados, etc."
+                     data-label="Nombre servicio"></div>
+
+                <div data-sises-input
+                     data-errors="errors"
+                     data-model="element.dias_contratados"
+                     data-property="dias_contratados"
+                     data-label="Dias contratados"></div>
+
+                <div data-sises-input
+                     data-errors="errors"
+                     data-model="element.unidades_diarias"
+                     data-property="unidades_diarias"
+                     data-label="Unidades diarias"></div>
+
+                <div data-sises-input
+                     data-errors="errors"
+                     data-model="element.valor_unitario"
+                     data-property="valor_unitario"
+                     data-label="Valor unitario"></div>
+
+                <div data-sises-input
+                     data-errors="errors"
+                     data-model="element.costo_unitario"
+                     data-property="costo_unitario"
+                     data-label="Costo unitario"></div>
+            </fieldset>
+        </form>
     </div>
 </fieldset>

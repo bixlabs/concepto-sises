@@ -11,6 +11,7 @@
 
 namespace Concepto\Sises\ApplicationBundle\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping\Column;
 use Doctrine\ORM\Mapping\Entity;
@@ -83,10 +84,16 @@ class Contrato implements OrmPersistible {
      * @var Collection
      * @OneToMany(
      *      targetEntity="Concepto\Sises\ApplicationBundle\Entity\ServicioContratado",
-     *      mappedBy="contrato"
+     *      mappedBy="contrato",
+     *      cascade={"persist"}
      * )
      */
     protected $servicios;
+
+    function __construct()
+    {
+        $this->servicios = new ArrayCollection();
+    }
 
     /**
      * @return string
@@ -207,20 +214,10 @@ class Contrato implements OrmPersistible {
 
     /**
      * @param ServicioContratado $servicio
-     *
-     * @return bool
-     */
-    public function hasServicio($servicio)
-    {
-        return $this->servicios->contains($servicio);
-    }
-
-    /**
-     * @param ServicioContratado $servicio
      */
     public function addServicio($servicio)
     {
-        if (!$this->hasServicio($servicio)) {
+        if (!$this->servicios->contains($servicio)) {
             $servicio->setContrato($this);
             $this->servicios->add($servicio);
         }
@@ -230,9 +227,9 @@ class Contrato implements OrmPersistible {
      * @param ServicioContratado $servicio
      */
     public function removeServicio($servicio) {
-        if ($this->hasServicio($servicio)) {
-            $servicio->setContrato(null);
+        if ($this->servicios->contains($servicio)) {
             $this->servicios->removeElement($servicio);
+            $servicio->setContrato(null);
         }
     }
 }

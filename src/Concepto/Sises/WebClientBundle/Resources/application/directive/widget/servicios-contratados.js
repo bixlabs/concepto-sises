@@ -6,14 +6,19 @@
     "use strict";
 
     angular.module(G.APP)
+
         .directive('sisesServiciosContratados', ['$rootScope', function($r) {
             return {
                 restrict: 'A',
                 replace: true,
                 templateUrl: G.template('directive_servicios_contratados'),
-                scope: true,
+                scope: {
+                    elements: '=sisesServiciosContratados'
+                },
                 link: function(scope) {
 
+                    scope.errors = {};
+                    scope.element = {};
                     scope.handler = {
                         id: 'ss',
                         actions: {
@@ -28,16 +33,47 @@
                         }
                     };
 
+                    var findService = function(service) {
+                        var result = -1;
+
+                        angular.forEach(scope.elements, function(value, index) {
+                            if (value.nombre === service.nombre) {
+                                result = index;
+                            }
+                        });
+
+                        return result;
+                    };
+
                     $r.$on('modalize.action.ss', function(event, data) {
-                        console.debug('Llego', data);
+                        switch (data) {
+                            case "ok":
+                                if (!scope.elements) {
+                                    scope.elements = [];
+                                }
+                                scope.elements.push(angular.extend({}, scope.element));
+                                scope.element = {};
+                                scope.handler.hide();
+                                break;
+                        }
                     });
 
                     scope.getPrecio = function(servicio) {
-                        return 0;
+                        return servicio.dias_contratados
+                            * servicio.unidades_diarias
+                            * servicio.valor_unitario;
                     };
 
                     scope.add = function() {
                         scope.handler.show();
+                    };
+
+                    scope.remove = function(servicio) {
+                        var index = findService(servicio);
+
+                        if (index >= 0) {
+                            scope.elements.splice(index, 1)
+                        }
                     };
                 }
             };
