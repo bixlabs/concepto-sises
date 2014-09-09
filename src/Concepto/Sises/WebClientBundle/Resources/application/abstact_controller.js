@@ -44,21 +44,21 @@
 
         scope.save = function() {
             scope.canSave = false;
-            scope.element.$save(saveSuccess, saveFail);
+            scope.element['$save'](scope._saveSuccess, scope._saveFail);
         };
 
-        var saveSuccess = function() {
+        scope._saveSuccess = function() {
             scope.list();
         };
 
-        var setErrors = function(errors) {
+        scope._setErrors = function(errors) {
             scope.errors = errors;
         };
 
-        var saveFail = function(response) {
+        scope._saveFail = function(response) {
             switch (response.data.code) {
                 case 400:
-                    setErrors(response.data.errors.children);
+                    scope._setErrors(response.data.errors.children);
                     break;
                 default:
                     console.error(response);
@@ -88,7 +88,7 @@
         scope.remove = function() {
             scope.canRemove = false;
             scope.modal.alert('Esta seguro de eliminar estos datos?', function() {
-                scope.element.$delete(function() {
+                scope.element['$delete'](function() {
                     scope.list();
                 }, function (response) {
                     console.error(response);
@@ -102,7 +102,7 @@
          */
         scope.save = function() {
             scope.canSave = false;
-            scope.element.$update(saveSuccess, saveFail);
+            scope.element['$update'](scope._saveSuccess, scope._saveFail);
         };
     }
 
@@ -111,7 +111,6 @@
      * @type {CoreController.prototype}
      */
     UpdateController.prototype = Object.create(CoreController.prototype);
-
 
     /**
      * NewController
