@@ -21,11 +21,25 @@
         };
     })();
 
+    var extractGuid = function(string) {
+        var pattern = /([\w+]{8}-[\w+]{4}-[\w+]{4}-[\w+]{4}-[\w+]{12})/,
+            matches = [];
+
+        matches = string.match(pattern);
+
+        if (matches.length == 0) {
+            throw "'" + string + "' not contains a guid";
+        }
+
+        return matches[0];
+    };
+
     window.G = window.G || {
         APP: 'sises',
         template: template,
         json_route: json_route,
         modules: {},
-        guid: guid
+        guid: guid,
+        extractGuid: extractGuid
     };
 })();

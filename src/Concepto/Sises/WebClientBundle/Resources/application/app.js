@@ -12,6 +12,13 @@
         }])
         .run(['$rootScope', '$state', '$stateParams', 'modalService', function ($r, $state, $sP, mS) {
             $r.go = $state.go;
+            $r.refresh = function(state, params) {
+                $state.go(state, params, {
+                    reload: true,
+                    inherit: false,
+                    notify: true
+                })
+            };
             $r.template = G.template;
             $r.routeParams = $sP;
             $r.modal = mS;

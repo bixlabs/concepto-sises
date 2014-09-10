@@ -40,6 +40,10 @@
             throw " list() Not implemented!";
         };
 
+        scope.detailsLocation = function(location) {
+            throw  "detailsLocation(location) not implemented! " + location;
+        };
+
         scope.testSave = function() {
             return !scope.canSave;
         };
@@ -49,8 +53,8 @@
             scope.element.$save(that.saveSuccess, that.saveFail);
         };
 
-        that.saveSuccess = function() {
-            scope.list();
+        that.saveSuccess = function(data, headers) {
+            scope.detailsLocation(headers('Location'))
         };
 
         that.setErrors = function(errors) {

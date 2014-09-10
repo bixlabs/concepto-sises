@@ -20,6 +20,10 @@
         scope.list = function() {
             scope.go('contratos.listado');
         };
+
+        scope.detailsLocation = function(location) {
+            scope.go('contratos.detalles', {id: G.extractGuid(location)});
+        };
     }
 
     /**
