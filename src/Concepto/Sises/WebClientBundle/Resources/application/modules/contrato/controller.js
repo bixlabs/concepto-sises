@@ -70,7 +70,7 @@
      * Register like angular.js controllers
      */
     angular.module(G.modules.CONTRATO)
-        .controller('ContratoListadoController', ['$scope', 'Contrato', ContratoListadoController])
+        .controller('ContratoListadoController', ['$scope', 'Contrato', ContratoListadoController]);
 
     angular.module(G.modules.CONTRATO)
         .controller('ContratoNuevoController', ['$scope', 'Contrato', 'Empresa', ContratoNuevoController]);
