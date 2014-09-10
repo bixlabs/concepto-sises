@@ -20,7 +20,7 @@ class BeneficiarioController extends RestController
 
     /**
      * @return RestHandlerInterface
-     * @LookupMethod("concepto_sises_persona.handler")
+     * @LookupMethod("concepto_sises_beneficiario.handler")
      */
     public function getHandler() {}
 }
