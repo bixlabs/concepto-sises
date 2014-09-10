@@ -49,7 +49,7 @@
         EmpresaListado.call(this, scope);
 
         scope.detailsLocation = function(location) {
-            scope.go('contratos.detalles', {id: G.extractGuid(location)});
+            scope.go('empresas.detalles', {id: G.extractGuid(location)});
         };
     }
 
@@ -63,6 +63,10 @@
     function EmpresaDetallesController(scope, EmpresaFactory) {
         G.Base.UpdateController.call(this, scope, EmpresaFactory);
         EmpresaListado.call(this, scope);
+
+        scope.detailsLocation = function(location) {
+            scope.refresh('empresas.detalles', {id: G.extractGuid(location)});
+        };
     }
 
     /**

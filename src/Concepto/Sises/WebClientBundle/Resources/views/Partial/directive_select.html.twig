@@ -3,6 +3,7 @@
     <label for="{{name}}_{{property}}" class="col-lg-4 control-label">{{label}}</label>
     <div class="col-lg-8">
         <select class="form-control"
+                data-chosen
                 data-ng-model="model"
                 data-ng-options="o.{{optionKey}} as o.{{optionLabel}} for o in optionsModel"
                 id="{{name}}_{{property}}" name="{{name}}[{{property}}]"></select>

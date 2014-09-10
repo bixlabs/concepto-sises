@@ -4,7 +4,7 @@
 (function() {
     "use strict";
 
-    angular.module(G.APP, ['EMPRESA', 'DASHBOARD', 'CONTRATO', 'ui.router'])
+    angular.module(G.APP, ['EMPRESA', 'DASHBOARD', 'CONTRATO', 'ui.router', 'localytics.directives'])
         .config(['$urlRouterProvider', function ($urlRouterProvider) {
             $urlRouterProvider
                 .otherwise('/dashboard')

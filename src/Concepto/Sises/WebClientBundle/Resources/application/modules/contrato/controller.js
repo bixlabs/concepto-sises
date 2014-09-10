@@ -60,6 +60,10 @@
         scope.list = function() {
             scope.go('contratos.listado');
         };
+
+        scope.detailsLocation = function(location) {
+            scope.refresh('contratos.detalles', {id: G.extractGuid(location)});
+        };
     }
 
     /**

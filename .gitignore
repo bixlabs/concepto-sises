@@ -17,3 +17,5 @@ bower_components
 
 # Linked assets
 /src/Concepto/Sises/WebClientBundle/Resources/public/fonts
+/src/Concepto/Sises/WebClientBundle/Resources/public/images/chosen-sprite.png
+/src/Concepto/Sises/WebClientBundle/Resources/public/images/chosen-sprite@2x.png
