@@ -10,3 +10,7 @@ persona:
     type: rest
     prefix: /api
     resource: @SisesApplicationBundle/Controller/PersonaController.php
+lugar_entrega:
+    type: rest
+    prefix: /api
+    resource: @SisesApplicationBundle/Controller/LugaresController.php
