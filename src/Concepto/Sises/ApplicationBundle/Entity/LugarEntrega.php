@@ -18,6 +18,9 @@ use Doctrine\ORM\Mapping\Id;
 use Doctrine\ORM\Mapping\ManyToOne;
 use Doctrine\ORM\Mapping\Table;
 use Doctrine\ORM\Mapping\UniqueConstraint;
+use JMS\Serializer\Annotation\Groups;
+use JMS\Serializer\Annotation\SerializedName;
+use JMS\Serializer\Annotation\VirtualProperty;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Validator\Constraints\NotNull;
 
@@ -42,6 +45,7 @@ class LugarEntrega {
      * @Id()
      * @GeneratedValue(strategy="UUID")
      * @Column(name="id", length=36)
+     * @Groups({"list", "details"})
      */
     protected $id;
 
@@ -49,6 +53,7 @@ class LugarEntrega {
      * @var string
      * @Column(name="nombre", length=250)
      * @NotNull()
+     * @Groups({"list", "details"})
      */
     protected $nombre;
 
@@ -56,8 +61,19 @@ class LugarEntrega {
      * @var Ubicacion\CentroPoblado
      * @ManyToOne(targetEntity="Concepto\Sises\ApplicationBundle\Entity\Ubicacion\CentroPoblado")
      * @NotNull()
+     * @Groups({"list"})
      */
     protected $ubicacion;
+
+    /**
+     * @VirtualProperty()
+     * @SerializedName("ubicacion")
+     * @Groups({"details"})
+     */
+    public function getUbicacionId()
+    {
+        return $this->ubicacion->getId();
+    }
 
     /**
      * @return string
