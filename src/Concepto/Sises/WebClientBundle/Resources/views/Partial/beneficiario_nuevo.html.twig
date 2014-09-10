@@ -1,0 +1,13 @@
+<div class="row">
+    <div class="col-lg-7">
+        <h2>Nueva beneficiario</h2>
+    </div>
+    <div class="col-lg-5">
+        <div class="actions pull-right">
+            {% set params = {'name':'new', 'singular': 'Beneficiario'} %}
+            {{render(controller('SisesWebClientBundle:Web:actions', params))}}
+        </div>
+    </div>
+</div>
+<div data-ng-include="template('beneficiario_form')"></div>
+
