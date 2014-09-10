@@ -16,6 +16,9 @@ use Doctrine\ORM\Mapping\Entity;
 use Doctrine\ORM\Mapping\GeneratedValue;
 use Doctrine\ORM\Mapping\Id;
 use Doctrine\ORM\Mapping\Table;
+use JMS\Serializer\Annotation\Groups;
+use JMS\Serializer\Annotation\SerializedName;
+use JMS\Serializer\Annotation\VirtualProperty;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Validator\Constraints\NotBlank;
 
@@ -33,6 +36,7 @@ class Persona implements OrmPersistible
      * @Id()
      * @Column(name="id", length=36)
      * @GeneratedValue(strategy="UUID")
+     * @Groups({"list","detalles"})
      */
     protected $id;
 
@@ -40,6 +44,7 @@ class Persona implements OrmPersistible
      * @var string
      * @Column(name="nombre", length=250, nullable=false)
      * @NotBlank(message="El campo 'nombre' no puede estar vacio")
+     * @Groups({"list","detalles"})
      */
     protected $nombre;
 
@@ -47,6 +52,7 @@ class Persona implements OrmPersistible
      * @var string
      * @Column(name="apellidos", length=250, nullable=false)
      * @NotBlank(message="El campo 'apellidos' no puede estar vacio")
+     * @Groups({"list","detalles"})
      */
     protected $apellidos;
 
@@ -54,8 +60,19 @@ class Persona implements OrmPersistible
      * @var string
      * @Column(name="documento", length=20, nullable=false, unique=true)
      * @NotBlank(message="El campo 'documento' no puede estar vacio")
+     * @Groups({"list","detalles"})
      */
     protected $documento;
+
+    /**
+     * @VirtualProperty()
+     * @SerializedName("nombre_completo")
+     * @Groups({"list"})
+     */
+    public function getNombreCompleto()
+    {
+        return trim("{$this->nombre} {$this->apellidos}");
+    }
 
     /**
      * @return string
