@@ -26,7 +26,7 @@
     </tbody>
     <tbody ng-if="elements.length > 0">
     <tr data-ng-repeat="beneficiario in elements">
-        <td data-ng-bind="beneficiario.nombre"></td>
+        <td data-ng-bind="beneficiario.nombre_completo"></td>
         <td>
             {% set params = {'name':'edit', 'singular': 'Beneficiario'} %}
             {{render(controller('SisesWebClientBundle:Web:actions', params))}}

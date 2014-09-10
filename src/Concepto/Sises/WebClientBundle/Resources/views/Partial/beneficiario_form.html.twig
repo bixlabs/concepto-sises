@@ -1,19 +1,53 @@
 <div class="row">
-    <div class="col-lg-6">
+    <div class="col-lg-8">
         <form class="form-horizontal sises-form">
             <fieldset>
-                <legend>Datos básicos</legend>
-
-                <div data-sises-select
-                     data-errors="errors"
-                     data-model="element.persona"
-                     data-property="persona"
-                     data-label="Persona"
-                     data-options-model="personas"
-                     data-option-key="id"
-                     data-option-label="nombre"></div>
-
+                <legend></legend>
+                <div class="row">
+                    <div class="col-lg-10">
+                        <div data-sises-select
+                             data-errors="errors"
+                             data-model="element.persona"
+                             data-property="persona"
+                             data-label="Seleccione beneficiado"
+                             data-options-model="personas"
+                             data-option-key="id"
+                             data-option-label="nombre_completo"></div>
+                    </div>
+                    <div class="col-lg-2">
+                        <button class="btn btn-info" data-ng-click="persona_add()">
+                            <i class="glyphicon glyphicon-plus-sign"></i>
+                        </button>
+                    </div>
+                </div>
             </fieldset>
+            <div data-sises-modalize="persona_handler" data-title="Agregar persona">
+                <form class="form-horizontal" action="">
+                    <fieldset>
+                        <legend>Datos personales</legend>
+                        <div data-sises-input
+                             data-errors="persona_errors"
+                             data-model="persona_element.nombre"
+                             data-property="nombre"
+                             data-label="Nombre persona"
+                             data-placeholder=""></div>
+
+                        <div data-sises-input
+                             data-errors="persona_errors"
+                             data-model="persona_element.apellidos"
+                             data-property="apellidos"
+                             data-label="Apellidos"
+                             data-placeholder=""></div>
+
+                        <div data-sises-input
+                             data-errors="persona_errors"
+                             data-model="persona_element.documento"
+                             data-property="documento"
+                             data-label="N° Documento"
+                             data-placeholder=""></div>
+                    </fieldset>
+                </form>
+            </div>
         </form>
     </div>
 </div>
