@@ -36,19 +36,19 @@ class CentroPoblado {
 
     /**
      * @var string
-     * @Column(name="codigo_dane", length=2, unique=true, nullable=false)
+     * @Column(name="codigo_dane", length=10, unique=true, nullable=false)
      */
     protected $codigoDane;
 
     /**
      * @var  string
-     * @Column(name="tipo_Date", length=5)
+     * @Column(name="tipo_dane", length=5)
      */
     protected $tipoDane;
 
     /**
      * @var string
-     * @Column(name="nombre", length=255, unique=true, nullable=false)
+     * @Column(name="nombre", length=255, nullable=false)
      */
     protected $nombre;
 

@@ -41,7 +41,7 @@ class Municipio {
 
     /**
      * @var string
-     * @Column(name="nombre", length=255, unique=true, nullable=false)
+     * @Column(name="nombre", length=255, nullable=false)
      */
     protected $nombre;
 
