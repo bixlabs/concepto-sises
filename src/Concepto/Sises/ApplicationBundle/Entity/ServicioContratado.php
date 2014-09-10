@@ -25,6 +25,7 @@ use JMS\Serializer\Annotation\SerializedName;
 use JMS\Serializer\Annotation\VirtualProperty;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Validator\Constraints\NotBlank;
+use Symfony\Component\Validator\Constraints\NotNull;
 
 /**
  * Class ServicioContratado
@@ -47,42 +48,42 @@ class ServicioContratado {
     /**
      * @var string
      * @Column(name="nombre", length=250)
-     * @NotBlank()
+     * @NotNull()
      */
     protected $nombre;
 
     /**
      * @var int
      * @Column(name="dias_contratados", type="integer")
-     * @NotBlank()
+     * @NotNull()
      */
     protected $diasContratados;
 
     /**
      * @var int
      * @Column(name="unidades_diarias", type="integer")
-     * @NotBlank()
+     * @NotNull()
      */
     protected $unidadesDiarias;
 
     /**
      * @var double
      * @Column(name="valor_unitario", type="decimal", precision=64, scale=2)
-     * @NotBlank()
+     * @NotNull()
      */
     protected $valorUnitario;
 
     /**
      * @var double
      * @Column(name="costo_unitario", type="decimal", precision=64, scale=2)
-     * @NotBlank()
+     * @NotNull()
      */
     protected $costoUnitario;
 
     /**
      * @var Contrato
      * @ManyToOne(targetEntity="Concepto\Sises\ApplicationBundle\Entity\Contrato", fetch="LAZY", inversedBy="servicios")
-     * @NotBlank()
+     * @NotNull()
      * @JoinColumn(nullable=false)
      * @Exclude()
      */

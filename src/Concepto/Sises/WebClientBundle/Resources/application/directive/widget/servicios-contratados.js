@@ -16,11 +16,13 @@
                     elements: '=sisesServiciosContratados'
                 },
                 link: function(scope) {
-
+                    var id = G.guid();
                     scope.errors = {};
-                    scope.element = {};
+                    scope.element = {
+                        id: G.guid()
+                    };
                     scope.handler = {
-                        id: 'ss',
+                        id: id,
                         actions: {
                             ok: {
                                 label: 'Agregar',
@@ -37,7 +39,7 @@
                         var result = -1;
 
                         angular.forEach(scope.elements, function(value, index) {
-                            if (value.nombre === service.nombre) {
+                            if (value.id === service.id) {
                                 result = index;
                             }
                         });
@@ -45,26 +47,52 @@
                         return result;
                     };
 
-                    $r.$on('modalize.action.ss', function(event, data) {
+                    $r.$on('modalize.action.' + id, function(event, data) {
                         switch (data) {
                             case "ok":
                                 if (!scope.elements) {
                                     scope.elements = [];
                                 }
-                                scope.elements.push(angular.extend({}, scope.element));
-                                scope.element = {};
+                                var element = angular.extend({}, scope.element),
+                                    index = findService(element);
+
+                                if (index < 0) {
+                                    scope.elements.push(element);
+                                } else {
+                                    scope.elements[index] = element;
+                                }
+
+                                scope.element = {
+                                    id: G.guid()
+                                };
                                 scope.handler.hide();
                                 break;
                         }
                     });
 
-                    scope.getPrecio = function(servicio) {
+                    scope.getValorBruto = function(servicio) {
                         return servicio.dias_contratados
                             * servicio.unidades_diarias
                             * servicio.valor_unitario;
                     };
 
+                    scope.getValorNeto = function(servicio) {
+                        return servicio.dias_contratados
+                            * servicio.unidades_diarias
+                            * (servicio.valor_unitario - servicio.costo_unitario);
+                    };
+
+                    scope.getCurrentTitle = function() {
+                        return scope.element.title ? "Actualizar servicio" : "Agregar servicio";
+                    };
+
                     scope.add = function() {
+                        scope.element = {};
+                        scope.handler.show();
+                    };
+
+                    scope.edit = function(servicio) {
+                        scope.element = angular.extend({}, servicio);
                         scope.handler.show();
                     };
 

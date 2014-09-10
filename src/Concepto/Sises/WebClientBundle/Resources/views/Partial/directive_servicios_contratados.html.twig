@@ -10,14 +10,18 @@
         <thead>
         <tr>
             <th>Nombre</th>
-            <th>Precio</th>
+            <th>Valor bruto</th>
+            <th>Valor neto</th>
             <th width="5%"></th>
         </tr>
         </thead>
         <tbody>
-        <tr data-ng-repeat="servicio in elements">
+        <tr data-ng-repeat="servicio in elements"
+            data-ng-click="edit(servicio)"
+            class="pointer">
             <td data-ng-bind="servicio.nombre"></td>
-            <td data-ng-bind="getPrecio(servicio)|currency"></td>
+            <td data-ng-bind="getValorBruto(servicio)|currency"></td>
+            <td data-ng-bind="getValorNeto(servicio)|currency"></td>
             <td>
                 <button class="btn btn-warning" title="Elmina este servicio"
                         data-ng-click="remove(servicio)">
@@ -29,7 +33,7 @@
     </table>
 
     <div data-sises-modalize="handler" data-title="Agregar servicio">
-        <form action="" class="form-horizontal">
+        <form class="form-horizontal">
             <fieldset>
                 <legend>Datos del servicio</legend>
 
