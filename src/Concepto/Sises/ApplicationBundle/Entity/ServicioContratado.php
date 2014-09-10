@@ -21,6 +21,7 @@ use Doctrine\ORM\Mapping\ManyToOne;
 use Doctrine\ORM\Mapping\Table;
 use Doctrine\ORM\Mapping\UniqueConstraint;
 use JMS\Serializer\Annotation\Exclude;
+use JMS\Serializer\Annotation\Groups;
 use JMS\Serializer\Annotation\SerializedName;
 use JMS\Serializer\Annotation\VirtualProperty;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
@@ -42,6 +43,7 @@ class ServicioContratado {
      * @Id()
      * @Column(length=36, name="id")
      * @GeneratedValue(strategy="UUID")
+     * @Groups({"list", "details"})
      */
     protected $id;
 
@@ -49,6 +51,7 @@ class ServicioContratado {
      * @var string
      * @Column(name="nombre", length=250)
      * @NotNull()
+     * @Groups({"list", "details"})
      */
     protected $nombre;
 
@@ -56,6 +59,7 @@ class ServicioContratado {
      * @var int
      * @Column(name="dias_contratados", type="integer")
      * @NotNull()
+     * @Groups({"list", "details"})
      */
     protected $diasContratados;
 
@@ -63,6 +67,7 @@ class ServicioContratado {
      * @var int
      * @Column(name="unidades_diarias", type="integer")
      * @NotNull()
+     * @Groups({"list", "details"})
      */
     protected $unidadesDiarias;
 
@@ -70,6 +75,7 @@ class ServicioContratado {
      * @var double
      * @Column(name="valor_unitario", type="decimal", precision=64, scale=2)
      * @NotNull()
+     * @Groups({"list", "details"})
      */
     protected $valorUnitario;
 
@@ -77,6 +83,7 @@ class ServicioContratado {
      * @var double
      * @Column(name="costo_unitario", type="decimal", precision=64, scale=2)
      * @NotNull()
+     * @Groups({"list", "details"})
      */
     protected $costoUnitario;
 
@@ -85,7 +92,7 @@ class ServicioContratado {
      * @ManyToOne(targetEntity="Concepto\Sises\ApplicationBundle\Entity\Contrato", fetch="LAZY", inversedBy="servicios")
      * @NotNull()
      * @JoinColumn(nullable=false)
-     * @Exclude()
+     * @Groups({"list"})
      */
     protected $contrato;
 
@@ -196,9 +203,11 @@ class ServicioContratado {
     /**
      * @VirtualProperty()
      * @SerializedName("contrato")
+     * @Groups({"details"})
      */
     public function getRelatedId()
     {
+        /** @var OrmPersistible  */
         if ($this->contrato) {
             return $this->contrato->getId();
         }

@@ -22,6 +22,7 @@ use Doctrine\ORM\Mapping\ManyToOne;
 use Doctrine\ORM\Mapping\OneToMany;
 use Doctrine\ORM\Mapping\Table;
 use JMS\Serializer\Annotation\Exclude;
+use JMS\Serializer\Annotation\Groups;
 use JMS\Serializer\Annotation\SerializedName;
 use JMS\Serializer\Annotation\VirtualProperty;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
@@ -40,6 +41,7 @@ class Contrato implements OrmPersistible {
      * @Id()
      * @Column(name="id", length=36)
      * @GeneratedValue(strategy="UUID")
+     * @Groups({"list", "details"})
      */
     protected $id;
 
@@ -47,6 +49,7 @@ class Contrato implements OrmPersistible {
      * @var string
      * @Column(name="nombre", length=250, nullable=false)
      * @NotBlank(message="EL campo 'nombre' no puede estar vacio")
+     * @Groups({"list", "details"})
      */
     protected $nombre;
 
@@ -54,6 +57,7 @@ class Contrato implements OrmPersistible {
      * @var string
      * @Column(name="descripcion", length=300, nullable=false)
      * @NotBlank(message="El campo 'descripcion' no puede estar vacio")
+     * @Groups({"list", "details"})
      */
     protected $descripcion;
 
@@ -61,6 +65,7 @@ class Contrato implements OrmPersistible {
      * @var string
      * @Column(name="resolucion", length=250, nullable=false, unique=true)
      * @NotBlank(message="El campo 'resolucion' no puede estar vacio")
+     * @Groups({"list", "details"})
      */
     protected $resolucion;
 
@@ -68,6 +73,7 @@ class Contrato implements OrmPersistible {
      * @var double
      * @Column(name="valor", type="decimal", precision=64, scale=2)
      * @NotBlank()
+     * @Groups({"list", "details"})
      */
     protected $valor;
 
@@ -76,7 +82,7 @@ class Contrato implements OrmPersistible {
      * @ManyToOne(targetEntity="Concepto\Sises\ApplicationBundle\Entity\Empresa", fetch="LAZY")
      * @NotBlank()
      * @JoinColumn(nullable=false)
-     * @Exclude()
+     * @Groups({"list"})
      */
     protected $empresa;
 
@@ -87,6 +93,7 @@ class Contrato implements OrmPersistible {
      *      mappedBy="contrato",
      *      cascade={"persist"}
      * )
+     * @Groups({"details"})
      */
     protected $servicios;
 
@@ -186,6 +193,7 @@ class Contrato implements OrmPersistible {
     /**
      * @VirtualProperty()
      * @SerializedName("empresa")
+     * @Groups({"details"})
      */
     public function getEmpresaId()
     {

@@ -16,6 +16,7 @@ use Doctrine\ORM\Mapping\Entity;
 use Doctrine\ORM\Mapping\GeneratedValue;
 use Doctrine\ORM\Mapping\Id;
 use Doctrine\ORM\Mapping\Table;
+use JMS\Serializer\Annotation\Groups;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Validator\Constraints\Email;
 use Symfony\Component\Validator\Constraints\NotBlank;
@@ -33,6 +34,7 @@ class Empresa implements OrmPersistible {
      * @Id()
      * @Column(name="id", length=36)
      * @GeneratedValue(strategy="UUID")
+     * @Groups({"list", "details"})
      */
     protected $id;
 
@@ -40,6 +42,7 @@ class Empresa implements OrmPersistible {
      * @var string
      * @Column(name="nombre", length=250, nullable=false)
      * @NotBlank()
+     * @Groups({"list", "details"})
      */
     protected $nombre;
 
@@ -47,24 +50,28 @@ class Empresa implements OrmPersistible {
      * @var string
      * @Column(name="nit", length=15, unique=true, nullable=false)
      * @NotBlank()
+     * @Groups({"list", "details"})
      */
     protected $nit;
 
     /**
      * @var string
      * @Column(name="logo", length=255, nullable=true)
+     * @Groups({"list", "details"})
      */
     protected $logo;
 
     /**
      * @var string
      * @Column(name="telefono", type="string", nullable=true)
+     * @Groups({"list", "details"})
      */
     protected $telefono;
 
     /**
      * @var string
      * @Column(name="direccion", type="string", nullable=true, length=255)
+     * @Groups({"list", "details"})
      */
     protected $direccion;
 
@@ -72,6 +79,7 @@ class Empresa implements OrmPersistible {
      * @var string
      * @Column(name="email", type="string", nullable=true, length=255)
      * @Email()
+     * @Groups({"list", "details"})
      */
     protected $email;
 

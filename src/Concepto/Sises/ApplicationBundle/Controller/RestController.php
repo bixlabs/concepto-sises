@@ -12,6 +12,7 @@
 namespace Concepto\Sises\ApplicationBundle\Controller;
 
 use Concepto\Sises\ApplicationBundle\Handler\RestHandlerInterface;
+use FOS\RestBundle\Controller\Annotations\View;
 use FOS\RestBundle\Routing\ClassResourceInterface;
 use Symfony\Component\HttpFoundation\Request;
 
@@ -26,11 +27,17 @@ abstract class RestController implements ClassResourceInterface
      */
     abstract public function getHandler();
 
+    /**
+     * @View(serializerGroups={"details"})
+     */
     public function getAction($id)
     {
         return $this->getHandler()->get($id);
     }
 
+    /**
+     * @View(serializerGroups={"list"})
+     */
     public function cgetAction()
     {
         return $this->getHandler()->cget();
