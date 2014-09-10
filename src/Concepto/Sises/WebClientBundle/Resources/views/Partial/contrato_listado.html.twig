@@ -13,6 +13,7 @@
 <table class="table table-hover table-condensed">
     <thead>
     <tr>
+        <th width="20%">Empresa</th>
         <th width="20%">Resolucion</th>
         <th width="50%">Nombre contrato</th>
         <th></th>
@@ -27,6 +28,7 @@
     </tbody>
     <tbody ng-if="elements.length > 0">
     <tr data-ng-repeat="contrato in elements">
+        <td data-ng-bind="contrato.empresa.nombre"></td>
         <td data-ng-bind="contrato.resolucion"></td>
         <td data-ng-bind="contrato.nombre"></td>
         <td>
