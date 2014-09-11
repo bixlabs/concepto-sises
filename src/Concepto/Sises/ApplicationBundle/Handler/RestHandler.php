@@ -12,6 +12,7 @@
 namespace Concepto\Sises\ApplicationBundle\Handler;
 
 
+use Concepto\Sises\ApplicationBundle\Entity\EntityRepository;
 use Concepto\Sises\ApplicationBundle\Entity\OrmPersistible;
 use Doctrine\Common\Inflector\Inflector;
 use Doctrine\DBAL\DBALException;
@@ -26,7 +27,6 @@ use Pagerfanta\Adapter\ArrayAdapter;
 use Pagerfanta\Pagerfanta;
 use Symfony\Component\Form\FormFactory;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
-use Symfony\Component\PropertyAccess\PropertyAccess;
 use Symfony\Component\Routing\Router;
 
 /**
@@ -118,17 +118,9 @@ abstract class RestHandler implements RestHandlerInterface {
 
     public function cget($pagerParams, $extraParams = array())
     {
-        if (count($extraParams) > 0) {
-
-            foreach($extraParams as $key => $extraParam) {
-
-            }
-
-            $results = $this->getEm()->getRepository($this->getOrmClassString())
-                ->findAllBy($extraParams);
-        } else {
-            $results = $this->getEm()->getRepository($this->getOrmClassString())->findAll();
-        }
+        /** @var EntityRepository $repository */
+        $repository = $this->getEm()->getRepository($this->getOrmClassString());
+        $results = $repository->findAll($extraParams);
 
         $pager = new Pagerfanta(new ArrayAdapter($results));
 
@@ -136,6 +128,13 @@ abstract class RestHandler implements RestHandlerInterface {
         $pager->setCurrentPage($pagerParams['page']);
 
         return $pager;
+    }
+
+    protected function getRouteName()
+    {
+        $name = explode('\\', $this->getOrmClassString());
+
+        return 'get_' . strtolower(end($name));
     }
 
 
@@ -154,8 +153,7 @@ abstract class RestHandler implements RestHandlerInterface {
         $form = $this->formfactory->create($type, $object);
         $form->submit($this->camelizeParamers($parameters), 'PATCH' !== $method);
 
-        $name = explode('\\', $this->getOrmClassString());
-        $url = 'get_' . strtolower(end($name));
+        $url = $this->getRouteName();
 
         if ($form->isValid()) {
             $code = $object->getId() ? Codes::HTTP_NO_CONTENT : Codes::HTTP_CREATED;
