@@ -4,6 +4,7 @@
     <div class="col-lg-8">
         <select class="form-control"
                 data-chosen
+                data-width="'100%'"
                 data-ng-model="model"
                 data-ng-options="o.{{optionKey}} as o.{{optionLabel}} for o in optionsModel"
                 id="{{name}}_{{property}}" name="{{name}}[{{property}}]"></select>
