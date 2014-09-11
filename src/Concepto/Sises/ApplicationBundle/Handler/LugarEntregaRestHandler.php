@@ -29,4 +29,9 @@ class LugarEntregaRestHandler extends RestHandler {
     {
         return 'Concepto\Sises\ApplicationBundle\Entity\LugarEntrega';
     }
+
+    protected function getRouteName()
+    {
+        return 'get_lugares';
+    }
 }
