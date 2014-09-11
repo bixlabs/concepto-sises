@@ -14,8 +14,12 @@ namespace Concepto\Sises\ApplicationBundle\Entity;
 
 class EntityRepository extends \Doctrine\ORM\EntityRepository
 {
-    public function findAllBy($parameters)
+    public function findAll($parameters = null)
     {
+        if (!$parameters || count($parameters) == 0) {
+            return parent::findAll();
+        }
+
         $qb = $this->createQueryBuilder('t');
 
         foreach($parameters as $key => $parameter) {
