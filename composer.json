@@ -21,7 +21,8 @@
         "friendsofsymfony/jsrouting-bundle": "~1.5",
         "jms/di-extra-bundle": "~1.4",
         "leafo/scssphp": "~0.1",
-        "doctrine/doctrine-fixtures-bundle": "2.2.*"
+        "doctrine/doctrine-fixtures-bundle": "2.2.*",
+        "pagerfanta/pagerfanta": "~1.0"
     },
     "scripts": {
         "post-root-package-install": [
