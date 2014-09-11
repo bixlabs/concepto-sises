@@ -1,9 +1,11 @@
 /**
- * Created by julian on 10/09/14.
+ * Created by julian on 11/09/14.
  */
 ;
 (function () {
     "use strict";
+
+    // Controllers
 
     function Common(scope, Factory, $r, propertyName, propertiesName) {
         var id = G.guid();
@@ -56,13 +58,13 @@
     /**
      * BeneficiarioNuevoController
      */
-    function BeneficiarioNuevoController(scope, $r, BeneficiarioFactory, PersonaFactory, LugarFactory, UF) {
-        Common.call(this, scope, PersonaFactory, $r, 'persona', 'personas');
-        Common.call(this, scope, LugarFactory, $r, 'lugar', 'lugares');
+    function BeneficiarioNuevoController(scope, $r, RR) {
+        Common.call(this, scope, RR.persona, $r, 'persona', 'personas');
+        Common.call(this, scope, RR.lugar, $r, 'lugar', 'lugares');
 
-        scope.ubicaciones = UF.query();
+        scope.ubicaciones = RR.ubicacion.query();
 
-        G.Base.NewController.call(this, scope, BeneficiarioFactory);
+        G.Base.NewController.call(this, scope, RR.beneficiario);
 
         scope.list = function() {
             scope.go('beneficiarios.listado');
@@ -77,11 +79,11 @@
      * BeneficiarioListadoController
      *
      * @param scope
-     * @param BeneficiarioFactory
+     * @param ResourceFactory
      * @constructor
      */
-    function BeneficiarioListadoController(scope, BeneficiarioFactory) {
-        G.Base.ListController.call(this, scope, BeneficiarioFactory);
+    function BeneficiarioListadoController(scope, ResourceFactory) {
+        G.Base.ListController.call(this, scope, ResourceFactory.beneficiario);
 
         scope.details = function (id) {
             scope.go('beneficiarios.detalles', {id: id});
@@ -96,13 +98,12 @@
      * BeneficiarioDetallesController
      *
      * @param scope
-     * @param BeneficiarioFactory
-     * @param PersonaFactory
+     * @param ResourceFactory
      * @param $r
      * @constructor
      */
-    function BeneficiarioDetallesController(scope, BeneficiarioFactory, PersonaFactory, $r) {
-        G.Base.UpdateController.call(this, scope, BeneficiarioFactory);
+    function BeneficiarioDetallesController(scope, ResourceFactory, $r) {
+        G.Base.UpdateController.call(this, scope, ResourceFactory.beneficiario);
 
         scope.list = function() {
             scope.go('beneficiarios.listado');
@@ -113,29 +114,54 @@
         };
     }
 
-    /**
-     * Register like angular.js controllers
-     */
-    angular.module(G.modules.BENEFICIARIO)
-        .controller('BeneficiarioListadoController', ['$scope', 'Beneficiario', BeneficiarioListadoController]);
+    G.modules.BENEFICIARIO = 'BENEFICIARIO';
 
-    angular.module(G.modules.BENEFICIARIO)
+    angular.module(G.modules.BENEFICIARIO, ['ngRoute' ,'ngResource', 'ui.router', 'RESOURCE'])
+        .config(['$stateProvider', function ($stateProvider) {
+            $stateProvider
+                .state('beneficiarios', {
+                    url: '/beneficiarios',
+                    abstract: true,
+                    template: '<ui-view/>'
+                })
+                .state('beneficiarios.listado', {
+                    url: '',
+                    controller: 'BeneficiarioListadoController',
+                    templateUrl: G.template('beneficiario_listado')
+                })
+                .state('beneficiarios.nuevo', {
+                    url: '/nuevo',
+                    controller: 'BeneficiarioNuevoController',
+                    templateUrl: G.template('beneficiario_nuevo')
+                })
+                .state('beneficiarios.detalles', {
+                    url: '/:id',
+                    controller: 'BeneficiarioDetallesController',
+                    templateUrl: G.template('beneficiario_detalles')
+                })
+            ;
+        }])
+
+        /**
+         * Register like angular.js controllers
+         */
+        .controller('BeneficiarioListadoController', [
+            '$scope',
+            'RestResources',
+            BeneficiarioListadoController])
         .controller('BeneficiarioNuevoController', [
             '$scope',
             '$rootScope',
-            'Beneficiario',
-            'Persona',
-            'Lugar',
-            'Ubicacion',
-            BeneficiarioNuevoController
-        ]);
+            'RestResources',
+            BeneficiarioNuevoController])
 
-    angular.module(G.modules.BENEFICIARIO)
         .controller('BeneficiarioDetallesController', [
             '$scope',
-            'Beneficiario',
-            'Persona',
             '$rootScope',
-            BeneficiarioDetallesController
-        ]);
+            'RestResources',
+            BeneficiarioDetallesController])
+
+        .run(['MenuService', function(MS) {
+            MS.register({ name: G.modules.BENEFICIARIO, url: 'beneficiarios.listado', label: 'Beneficiarios'});
+        }])
 })();
