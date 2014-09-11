@@ -7,5 +7,7 @@ view_partials:
     path: /views/{name}
     defaults:
         _controller: SisesWebClientBundle:Web:view
+    requirements:
+        name: .+
     options:
         expose: true

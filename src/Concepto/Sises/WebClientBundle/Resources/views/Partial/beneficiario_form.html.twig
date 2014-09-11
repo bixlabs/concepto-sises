@@ -1,92 +1,19 @@
 <div class="row">
-    <div class="col-lg-8">
+    <div class="col-lg-6">
         <form class="form-horizontal sises-form">
             <fieldset>
                 <legend></legend>
-                <div class="row">
-                    <div class="col-lg-10">
-                        <div data-sises-select
-                             data-errors="errors"
-                             data-model="element.persona"
-                             data-property="persona"
-                             data-label="Seleccione beneficiado"
-                             data-options-model="personas"
-                             data-option-key="id"
-                             data-option-label="nombre_completo"></div>
-                    </div>
-                    <div class="col-lg-2">
-                        <button class="btn btn-info" data-ng-click="persona_add()">
-                            <i class="glyphicon glyphicon-plus-sign"></i>
-                        </button>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-lg-10">
-                        <div data-sises-select
-                             data-errors="errors"
-                             data-model="element.lugar"
-                             data-property="lugar"
-                             data-label="Lugar de entrega"
-                             data-options-model="lugares"
-                             data-option-key="id"
-                             data-option-label="nombre_detallado"></div>
-                    </div>
-                    <div class="col-lg-2">
-                        <button class="btn btn-info" data-ng-click="lugar_add()">
-                            <i class="glyphicon glyphicon-plus-sign"></i>
-                        </button>
-                    </div>
-                </div>
+                <div data-select-crud="persona"
+                     data-errors="errors"
+                     data-model="element.persona"
+                     data-show-property="nombre_completo"
+                     data-label="Selecciona persona"></div>
+                <div data-select-crud="lugar"
+                     data-errors="errors"
+                     data-model="element.lugar"
+                     data-show-property="nombre_detallado"
+                     data-label="Selecciona lugar"></div>
             </fieldset>
-            <div data-sises-modalize="persona_handler" data-title="Agregar persona">
-                <form class="form-horizontal" action="">
-                    <fieldset>
-                        <legend>Datos personales</legend>
-                        <div data-sises-input
-                             data-errors="persona_errors"
-                             data-model="persona_element.nombre"
-                             data-property="nombre"
-                             data-label="Nombre persona"
-                             data-placeholder=""></div>
-
-                        <div data-sises-input
-                             data-errors="persona_errors"
-                             data-model="persona_element.apellidos"
-                             data-property="apellidos"
-                             data-label="Apellidos"
-                             data-placeholder=""></div>
-
-                        <div data-sises-input
-                             data-errors="persona_errors"
-                             data-model="persona_element.documento"
-                             data-property="documento"
-                             data-label="N° Documento"
-                             data-placeholder=""></div>
-                    </fieldset>
-                </form>
-            </div>
-            <div data-sises-modalize="lugar_handler" data-title="Agregar lugar de entrega">
-                <form class="form-horizontal" action="">
-                    <fieldset>
-                        <legend>Datos del lugar</legend>
-                        <div data-sises-input
-                             data-errors="lugar_errors"
-                             data-model="lugar_element.nombre"
-                             data-property="nombre"
-                             data-label="Nombre lugar"
-                             data-placeholder="Institución, recinto, plaza, etc."></div>
-
-                        <div data-sises-select
-                             data-errors="lugar_errors"
-                             data-model="lugar_element.ubicacion"
-                             data-property="ubicacion"
-                             data-label="Ubicación del lugar"
-                             data-options-model="ubicaciones"
-                             data-option-key="id"
-                             data-option-label="nombre_detallado"></div>
-                    </fieldset>
-                </form>
-            </div>
         </form>
     </div>
 </div>

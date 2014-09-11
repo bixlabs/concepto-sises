@@ -58,12 +58,7 @@
     /**
      * BeneficiarioNuevoController
      */
-    function BeneficiarioNuevoController(scope, $r, RR) {
-        Common.call(this, scope, RR.persona, $r, 'persona', 'personas');
-        Common.call(this, scope, RR.lugar, $r, 'lugar', 'lugares');
-
-        scope.ubicaciones = RR.ubicacion.query();
-
+    function BeneficiarioNuevoController(scope, RR) {
         G.Base.NewController.call(this, scope, RR.beneficiario);
 
         scope.list = function() {
@@ -151,7 +146,6 @@
             BeneficiarioListadoController])
         .controller('BeneficiarioNuevoController', [
             '$scope',
-            '$rootScope',
             'RestResources',
             BeneficiarioNuevoController])
 
