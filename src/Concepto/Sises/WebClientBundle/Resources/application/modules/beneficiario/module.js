@@ -49,6 +49,22 @@
             });
         }])
 
+        .factory('Lugar', ['$resource', function($r) {
+            return $r(G.json_route('/api/lugares/:id.json'), { id: '@id' }, {
+                update: { method: 'PUT'}
+            }, {
+                stripTrailingSlashes: false
+            });
+        }])
+
+        .factory('Ubicacion', ['$resource', function($r) {
+            return $r(G.json_route('/api/ubicacions/:id.json'), { id: '@id' }, {
+                update: { method: 'PUT'}
+            }, {
+                stripTrailingSlashes: false
+            });
+        }])
+
         .run(['MenuService', function(MS) {
             MS.register({ name: G.modules.BENEFICIARIO, url: 'beneficiarios.listado', label: 'Beneficiarios'});
         }])

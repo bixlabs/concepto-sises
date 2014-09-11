@@ -5,13 +5,14 @@
 (function () {
     "use strict";
 
-    function PersonaCommon(scope, PersonaFactory, $r) {
-
+    function Common(scope, Factory, $r, propertyName, propertiesName) {
         var id = G.guid();
 
-        scope.persona_element = {};
-        scope.persona_errors = {};
-        scope.persona_handler = {
+        scope[propertiesName] = Factory.query();
+
+        scope[propertyName + '_element'] = {};
+        scope[propertyName + '_errors'] = {};
+        scope[propertyName + '_handler'] = {
             id: id,
             actions: {
                 ok: {
@@ -28,14 +29,14 @@
         $r.$on('modalize.action.' + id, function(event, data) {
             switch (data) {
                 case 'ok':
-                    scope.persona_element['$save'](function(data, headers) {
-                        scope.personas = PersonaFactory.query();
-                        scope.element.persona = G.extractGuid(headers('Location'));
-                        scope.persona_handler.hide();
+                    scope[propertyName + '_element']['$save'](function(data, headers) {
+                        scope[propertiesName] = Factory.query();
+                        scope.element[propertyName] = G.extractGuid(headers('Location'));
+                        scope[propertyName + '_handler'].hide();
                     }, function(response) {
                         switch (response.data.code) {
                             case 400:
-                                scope.persona_errors = response.data.errors.children;
+                                scope[propertyName + '_errors'] = response.data.errors.children;
                                 break;
                             default:
                                 console.error(response);
@@ -46,26 +47,22 @@
             }
         });
 
-        scope.persona_add = function() {
-            scope.persona_element = new PersonaFactory();
-            scope.persona_handler.show();
+        scope[propertyName + '_add'] = function() {
+            scope[propertyName + '_element'] = new Factory();
+            scope[propertyName + '_handler'].show();
         };
     }
 
     /**
      * BeneficiarioNuevoController
-     *
-     * @param scope
-     * @param BeneficiarioFactory
-     * @param PersonaFactory
-     * @param $r
-     * @constructor
      */
-    function BeneficiarioNuevoController(scope, BeneficiarioFactory, PersonaFactory, $r) {
-        PersonaCommon.call(this, scope, PersonaFactory, $r);
-        G.Base.NewController.call(this, scope, BeneficiarioFactory);
+    function BeneficiarioNuevoController(scope, $r, BeneficiarioFactory, PersonaFactory, LugarFactory, UF) {
+        Common.call(this, scope, PersonaFactory, $r, 'persona', 'personas');
+        Common.call(this, scope, LugarFactory, $r, 'lugar', 'lugares');
 
-        scope.personas = PersonaFactory.query();
+        scope.ubicaciones = UF.query();
+
+        G.Base.NewController.call(this, scope, BeneficiarioFactory);
 
         scope.list = function() {
             scope.go('beneficiarios.listado');
@@ -105,7 +102,6 @@
      * @constructor
      */
     function BeneficiarioDetallesController(scope, BeneficiarioFactory, PersonaFactory, $r) {
-        PersonaCommon.call(this, scope, PersonaFactory, $r);
         G.Base.UpdateController.call(this, scope, BeneficiarioFactory);
 
         scope.list = function() {
@@ -126,9 +122,11 @@
     angular.module(G.modules.BENEFICIARIO)
         .controller('BeneficiarioNuevoController', [
             '$scope',
+            '$rootScope',
             'Beneficiario',
             'Persona',
-            '$rootScope',
+            'Lugar',
+            'Ubicacion',
             BeneficiarioNuevoController
         ]);
 

@@ -12,8 +12,13 @@
 namespace Concepto\Sises\ApplicationBundle\Controller;
 
 use Concepto\Sises\ApplicationBundle\Handler\RestHandlerInterface;
+use FOS\RestBundle\Controller\Annotations\QueryParam;
 use FOS\RestBundle\Controller\Annotations\View;
+use FOS\RestBundle\Request\ParamFetcher;
 use FOS\RestBundle\Routing\ClassResourceInterface;
+use FOS\RestBundle\Util\Codes;
+use Pagerfanta\Pagerfanta;
+use Pagerfanta\PagerfantaInterface;
 use Symfony\Component\HttpFoundation\Request;
 
 /**
@@ -37,10 +42,30 @@ abstract class RestController implements ClassResourceInterface
 
     /**
      * @View(serializerGroups={"list"})
+     * @QueryParam(name="page", requirements="\d+", default="1")
+     * @QueryParam(name="limit", requirements="\d+", default="10")
      */
-    public function cgetAction()
+    public function cgetAction(Request $request, ParamFetcher $paramFetcher)
     {
-        return $this->getHandler()->cget();
+
+        // Custom parameter
+
+
+
+        /** @var Pagerfanta $pager */
+        $pager = $this->getHandler()->cget($paramFetcher->all(), $request->query->all());
+
+        $view = \FOS\RestBundle\View\View::create(
+            $pager->getCurrentPageResults(),
+            Codes::HTTP_OK,
+            array(
+                'X-Current-Page' => $pager->getCurrentPage(),
+                'X-Total-Count' => $pager->getNbResults(),
+                'X-Total-Pages' => $pager->getNbPages()
+            )
+        );
+
+        return $view;
     }
 
     public function postAction(Request $request)

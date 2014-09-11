@@ -76,6 +76,16 @@ class LugarEntrega {
     }
 
     /**
+     * @VirtualProperty()
+     * @SerializedName("nombre_detallado")
+     * @Groups({"list"})
+     */
+    public function getNombreDetallado()
+    {
+        return "{$this->nombre} - {$this->ubicacion}";
+    }
+
+    /**
      * @return string
      */
     public function getId()

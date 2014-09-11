@@ -18,11 +18,15 @@ use Doctrine\ORM\Mapping\GeneratedValue;
 use Doctrine\ORM\Mapping\Id;
 use Doctrine\ORM\Mapping\ManyToOne;
 use Doctrine\ORM\Mapping\Table;
+use JMS\Serializer\Annotation\Exclude;
+use JMS\Serializer\Annotation\Groups;
+use JMS\Serializer\Annotation\SerializedName;
+use JMS\Serializer\Annotation\VirtualProperty;
 
 /**
  * Class CentroPoblado
  * @package Concepto\Sises\ApplicationBundle\Entity\Ubicacion
- * @Entity()
+ * @Entity(repositoryClass="Concepto\Sises\ApplicationBundle\Entity\EntityRepository")
  * @Table(name="ubicacion_centro_poblado")
  */
 class CentroPoblado {
@@ -31,6 +35,7 @@ class CentroPoblado {
      * @Id()
      * @GeneratedValue(strategy="UUID")
      * @Column(name="id", length=36)
+     * @Groups({"list", "detalles"})
      */
     protected $id;
 
@@ -49,14 +54,35 @@ class CentroPoblado {
     /**
      * @var string
      * @Column(name="nombre", length=255, nullable=false)
+     * @Groups({"list", "detalles"})
      */
     protected $nombre;
 
     /**
      * @var Municipio
      * @ManyToOne(targetEntity="Concepto\Sises\ApplicationBundle\Entity\Ubicacion\Municipio")
+     * @Exclude()
      */
     protected $municipio;
+
+    /**
+     * @VirtualProperty()
+     * @SerializedName("nombre_detallado")
+     * @Groups({"list"})
+     */
+    public function getNombreDetallado()
+    {
+        return $this->__toString();
+    }
+
+    public function __toString()
+    {
+       if ($this->getNombre() === $this->municipio->getNombre()) {
+           return "{$this->municipio->getNombre()}, {$this->municipio->getDepartamento()->getNombre()}";
+       }
+
+       return "{$this->nombre} - {$this->municipio->getNombre()}, {$this->municipio->getDepartamento()->getNombre()}";
+    }
 
     /**
      * @return string

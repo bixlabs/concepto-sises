@@ -18,5 +18,5 @@ interface RestHandlerInterface {
     public function patch($id, $parameters);
     public function delete($id);
     public function get($id);
-    public function cget();
+    public function cget($pagerParams, $extraParams);
 }

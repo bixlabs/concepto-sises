@@ -18,3 +18,7 @@ lugar_entrega:
     type: rest
     prefix: /api
     resource: @SisesApplicationBundle/Controller/LugaresController.php
+ubicacion:
+    type: rest
+    prefix: /api
+    resource: @SisesApplicationBundle/Controller/UbicacionController.php

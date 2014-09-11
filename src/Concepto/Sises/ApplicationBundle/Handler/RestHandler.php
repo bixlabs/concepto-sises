@@ -22,8 +22,11 @@ use Instantiator\Instantiator;
 use JMS\DiExtraBundle\Annotation\Inject;
 use JMS\DiExtraBundle\Annotation\InjectParams;
 use JMS\DiExtraBundle\Annotation\Service;
+use Pagerfanta\Adapter\ArrayAdapter;
+use Pagerfanta\Pagerfanta;
 use Symfony\Component\Form\FormFactory;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Symfony\Component\PropertyAccess\PropertyAccess;
 use Symfony\Component\Routing\Router;
 
 /**
@@ -113,9 +116,26 @@ abstract class RestHandler implements RestHandlerInterface {
         return $this->getEm()->find($this->getOrmClassString(), $id);
     }
 
-    public function cget()
+    public function cget($pagerParams, $extraParams = array())
     {
-        return $this->getEm()->getRepository($this->getOrmClassString())->findAll();
+        if (count($extraParams) > 0) {
+
+            foreach($extraParams as $key => $extraParam) {
+
+            }
+
+            $results = $this->getEm()->getRepository($this->getOrmClassString())
+                ->findAllBy($extraParams);
+        } else {
+            $results = $this->getEm()->getRepository($this->getOrmClassString())->findAll();
+        }
+
+        $pager = new Pagerfanta(new ArrayAdapter($results));
+
+        $pager->setMaxPerPage($pagerParams['limit']);
+        $pager->setCurrentPage($pagerParams['page']);
+
+        return $pager;
     }
 
 
