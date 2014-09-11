@@ -49,7 +49,10 @@ doctrine:
 
     orm:
         auto_generate_proxy_classes: %kernel.debug%
-        auto_mapping: true
+        entity_managers:
+            default:
+                default_repository_class: Concepto\Sises\ApplicationBundle\Entity\EntityRepository
+                auto_mapping: true
 
 sensio_framework_extra:
     view:    { annotations: false }

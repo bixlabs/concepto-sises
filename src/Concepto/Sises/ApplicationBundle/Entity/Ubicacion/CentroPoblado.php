@@ -26,7 +26,7 @@ use JMS\Serializer\Annotation\VirtualProperty;
 /**
  * Class CentroPoblado
  * @package Concepto\Sises\ApplicationBundle\Entity\Ubicacion
- * @Entity(repositoryClass="Concepto\Sises\ApplicationBundle\Entity\EntityRepository")
+ * @Entity()
  * @Table(name="ubicacion_centro_poblado")
  */
 class CentroPoblado {
