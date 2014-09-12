@@ -22,7 +22,7 @@ class LugarEntregaRestHandler extends RestHandler {
 
     protected function  getTypeClassString()
     {
-        return 'Concepto\Sises\ApplicationBundle\Form\LugarEntregaType';
+        return 'lugar';
     }
 
     protected function getOrmClassString()
