@@ -18,7 +18,6 @@ use FOS\RestBundle\Request\ParamFetcher;
 use FOS\RestBundle\Routing\ClassResourceInterface;
 use FOS\RestBundle\Util\Codes;
 use Pagerfanta\Pagerfanta;
-use Pagerfanta\PagerfantaInterface;
 use Symfony\Component\HttpFoundation\Request;
 
 /**
@@ -47,13 +46,10 @@ abstract class RestController implements ClassResourceInterface
      */
     public function cgetAction(Request $request, ParamFetcher $paramFetcher)
     {
-
-        // Custom parameter
-
-
+        $params = array_intersect_assoc($paramFetcher->all(), $request->query->all());
 
         /** @var Pagerfanta $pager */
-        $pager = $this->getHandler()->cget($paramFetcher->all(), $request->query->all());
+        $pager = $this->getHandler()->cget($paramFetcher->all(), array_diff_assoc($params, $request->query->all()));
 
         $view = \FOS\RestBundle\View\View::create(
             $pager->getCurrentPageResults(),
@@ -61,7 +57,8 @@ abstract class RestController implements ClassResourceInterface
             array(
                 'X-Current-Page' => $pager->getCurrentPage(),
                 'X-Total-Count' => $pager->getNbResults(),
-                'X-Total-Pages' => $pager->getNbPages()
+                'X-Total-Pages' => $pager->getNbPages(),
+                'X-Per-Page' => $pager->getMaxPerPage()
             )
         );
 
