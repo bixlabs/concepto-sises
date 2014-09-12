@@ -19,7 +19,7 @@
                 'contrato':     '/api/contratos/:id.json',
                 'beneficiario': '/api/beneficiarios/:id.json',
                 'persona':      '/api/personas/:id.json',
-                'lugar':        '/api/lugares/:id.json',
+                'lugar':        '/api/lugars/:id.json',
                 'ubicacion':    '/api/ubicacions/:id.json'
             };
 

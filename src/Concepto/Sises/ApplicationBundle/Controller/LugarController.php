@@ -15,7 +15,7 @@ namespace Concepto\Sises\ApplicationBundle\Controller;
 use Concepto\Sises\ApplicationBundle\Handler\RestHandlerInterface;
 use JMS\DiExtraBundle\Annotation\LookupMethod;
 
-class LugaresController extends RestController
+class LugarController extends RestController
 {
 
     /**

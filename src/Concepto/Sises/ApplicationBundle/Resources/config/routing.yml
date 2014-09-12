@@ -17,7 +17,7 @@ beneficiario:
 lugar_entrega:
     type: rest
     prefix: /api
-    resource: @SisesApplicationBundle/Controller/LugaresController.php
+    resource: @SisesApplicationBundle/Controller/LugarController.php
 ubicacion:
     type: rest
     prefix: /api
