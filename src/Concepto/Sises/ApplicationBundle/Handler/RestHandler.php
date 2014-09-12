@@ -148,7 +148,10 @@ abstract class RestHandler implements RestHandlerInterface {
     protected function process(array $parameters, $object, $method = 'PUT')
     {
         $instantiator = new Instantiator();
-        $type = $instantiator->instantiate($this->getTypeClassString());
+
+        $type = class_exists($this->getTypeClassString()) ?
+            $instantiator->instantiate($this->getTypeClassString()): $this->getTypeClassString();
+
 
         $form = $this->formfactory->create($type, $object);
         $form->submit($this->camelizeParamers($parameters), 'PATCH' !== $method);
