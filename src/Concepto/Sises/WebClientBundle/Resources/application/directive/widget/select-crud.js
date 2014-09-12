@@ -31,9 +31,11 @@
                         }
                     };
 
+                    var selected = false;
+
                     // Show the name selectedElement
                     scope.$watch('model', function(newVal, oldVal) {
-                        if (newVal !== oldVal && typeof oldVal === 'undefined') {
+                        if (newVal !== oldVal && typeof oldVal === 'undefined' && !selected) {
                             var el = RR[scope.selectCrud].get({id: newVal}, function() {
                                 scope.selectedElement = el[scope.showProperty];
                             });
@@ -57,11 +59,13 @@
                     scope.template = G.template;
 
                     scope.open = function() {
+                        selected = false;
                         scope.list();
                         scope.handler.show();
                     };
 
                     scope.select = function(element) {
+                        selected = true;
                         scope.model = element.id;
                         scope.selectedElement = element[scope.showProperty];
                         scope.handler.hide();
