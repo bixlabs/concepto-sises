@@ -18,7 +18,6 @@ use Doctrine\ORM\Mapping\GeneratedValue;
 use Doctrine\ORM\Mapping\Id;
 use Doctrine\ORM\Mapping\ManyToOne;
 use Doctrine\ORM\Mapping\Table;
-use JMS\Serializer\Annotation\Exclude;
 use JMS\Serializer\Annotation\Groups;
 use JMS\Serializer\Annotation\SerializedName;
 use JMS\Serializer\Annotation\VirtualProperty;
@@ -61,7 +60,7 @@ class CentroPoblado {
     /**
      * @var Municipio
      * @ManyToOne(targetEntity="Concepto\Sises\ApplicationBundle\Entity\Ubicacion\Municipio")
-     * @Exclude()
+     * @Groups({"list"})
      */
     protected $municipio;
 
