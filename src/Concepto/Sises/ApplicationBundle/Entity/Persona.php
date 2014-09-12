@@ -36,7 +36,7 @@ class Persona implements OrmPersistible
      * @Id()
      * @Column(name="id", length=36)
      * @GeneratedValue(strategy="UUID")
-     * @Groups({"list","detalles"})
+     * @Groups({"list","details"})
      */
     protected $id;
 
@@ -44,7 +44,7 @@ class Persona implements OrmPersistible
      * @var string
      * @Column(name="nombre", length=250, nullable=false)
      * @NotBlank(message="El campo 'nombre' no puede estar vacio")
-     * @Groups({"list","detalles"})
+     * @Groups({"list","details"})
      */
     protected $nombre;
 
@@ -52,7 +52,7 @@ class Persona implements OrmPersistible
      * @var string
      * @Column(name="apellidos", length=250, nullable=false)
      * @NotBlank(message="El campo 'apellidos' no puede estar vacio")
-     * @Groups({"list","detalles"})
+     * @Groups({"list","details"})
      */
     protected $apellidos;
 
@@ -60,7 +60,7 @@ class Persona implements OrmPersistible
      * @var string
      * @Column(name="documento", length=20, nullable=false, unique=true)
      * @NotBlank(message="El campo 'documento' no puede estar vacio")
-     * @Groups({"list","detalles"})
+     * @Groups({"list","details"})
      */
     protected $documento;
 
