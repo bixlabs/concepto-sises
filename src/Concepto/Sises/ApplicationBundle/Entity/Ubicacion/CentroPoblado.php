@@ -34,7 +34,7 @@ class CentroPoblado {
      * @Id()
      * @GeneratedValue(strategy="UUID")
      * @Column(name="id", length=36)
-     * @Groups({"list", "detalles"})
+     * @Groups({"list", "details"})
      */
     protected $id;
 
@@ -53,7 +53,7 @@ class CentroPoblado {
     /**
      * @var string
      * @Column(name="nombre", length=255, nullable=false)
-     * @Groups({"list", "detalles"})
+     * @Groups({"list", "details"})
      */
     protected $nombre;
 
@@ -67,7 +67,7 @@ class CentroPoblado {
     /**
      * @VirtualProperty()
      * @SerializedName("nombre_detallado")
-     * @Groups({"list"})
+     * @Groups({"list", "details"})
      */
     public function getNombreDetallado()
     {
