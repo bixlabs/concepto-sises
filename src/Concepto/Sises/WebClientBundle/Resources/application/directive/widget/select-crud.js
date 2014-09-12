@@ -15,7 +15,8 @@
                     label: '@',
                     showProperty: '@',
                     errors: '=',
-                    required: '='
+                    required: '=',
+                    readOnly: '='
                 },
                 templateUrl: G.template('directive_select_crud'),
                 link: function(scope) {

@@ -97,6 +97,16 @@ class ServicioContratado {
     protected $contrato;
 
     /**
+     * @VirtualProperty()
+     * @SerializedName("nombre_detallado")
+     * @Groups({"list"})
+     */
+    public function getNombreDetallado()
+    {
+        return "{$this->nombre} - {$this->contrato->getNombre()}";
+    }
+
+    /**
      * @return string
      */
     public function getId()

@@ -20,7 +20,8 @@
                 'beneficiario': '/api/beneficiarios/:id.json',
                 'persona':      '/api/personas/:id.json',
                 'lugar':        '/api/lugars/:id.json',
-                'ubicacion':    '/api/ubicacions/:id.json'
+                'ubicacion':    '/api/ubicacions/:id.json',
+                'sevicio':      '/api/ubicacions/:id.json'
             };
 
             var methods = {};

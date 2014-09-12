@@ -2,6 +2,7 @@ fos_js_routing:
     resource: "@FOSJsRoutingBundle/Resources/config/routing/routing.xml"
 
 concepto_sises:
+    type: rest
     resource: @SisesApplicationBundle/Resources/config/routing.yml
     options:
         expose: true
