@@ -71,8 +71,14 @@
                         };
                     };
 
-                    scope.changeFiler = function(filter) {
+                    scope.changeFilter = function(filter) {
                         scope._filter = filter;
+                    };
+
+                    scope.clearFilter = function() {
+                        scope._filter = {};
+                        scope.filter_value.text = '';
+                        scope.query();
                     };
 
                     scope.query = function(page) {

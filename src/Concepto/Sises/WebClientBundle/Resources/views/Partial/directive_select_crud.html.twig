@@ -71,7 +71,7 @@
         {# Listado #}
         <div data-ng-switch-when="list">
             <div class="row">
-                <div class="col-lg-8">
+                <div class="col-lg-6">
                     <form class="inline-form" action="">
                         <div class="input-group">
                             <div class="input-group-btn">
@@ -80,7 +80,7 @@
                                     <span class="caret"></span></button>
                                 <ul class="dropdown-menu" role="menu">
                                     <li data-ng-repeat="filter in filters">
-                                        <a href data-ng-bind="filter.label" data-ng-click="changeFiler(filter)"></a>
+                                        <a href data-ng-bind="filter.label" data-ng-click="changeFilter(filter)"></a>
                                     </li>
                                 </ul>
                             </div>
@@ -97,6 +97,13 @@
                             </div>
                         </div>
                     </form>
+                </div>
+                <div class="col-lg-2">
+                    <button type="button" class="btn btn-default"
+                            tabindex="-1"
+                            data-ng-click="clearFilter()">
+                        <i class="glyphicon glyphicon-refresh"></i> Limpiar
+                    </button>
                 </div>
                 <div class="col-lg-4">
                     <button class="btn btn-primary pull-right" data-ng-click="add()">

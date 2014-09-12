@@ -35,7 +35,9 @@
         .factory('FilterResources', function() {
             return {
                 persona: {
-                    documento: {label: 'Documento', value: 'documento', comp: 'L'}
+                    documento: {label: 'Documento', value: 'documento', comp: 'L'},
+                    nombre: {label: 'Nombre', value: 'nombre', comp: 'L'},
+                    apellidos: {label: 'Apellidos', value: 'apellidos', comp: 'L'}
                 },
                 lugar: {
                     nombre: {label: 'Nombre', value: 'nombre', comp: 'L'}
