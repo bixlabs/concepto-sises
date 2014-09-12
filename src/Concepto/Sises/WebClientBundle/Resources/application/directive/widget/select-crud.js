@@ -129,7 +129,7 @@
 
                     scope.save = function() {
                         scope.canSave = false;
-                        scope.element.$save(function() {
+                        scope.element['$save'](function() {
                             scope.list();
                         }, saveFail);
                     };
