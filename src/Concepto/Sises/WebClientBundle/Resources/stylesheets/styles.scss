@@ -33,3 +33,16 @@
     margin: 0 20px;
   }
 }
+
+// Required star
+.form-group {
+  &.required {
+    .control-label:after {
+      content:" *";
+      color:red;
+      font-size: $font-size-base * 2;
+      vertical-align: bottom;
+      line-height: $font-size-base - 4px;
+    }
+  }
+}
