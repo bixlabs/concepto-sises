@@ -142,12 +142,6 @@
                     scope.add = function() {
                         scope.element = new RR[scope.selectCrud]();
                         scope.logic = 'new';
-                        //TODO: Show newAction
-                        //TODO: Allow append an item to list
-                        //TODO: Allow append item to list and select an item
-                    };
-                    scope.remove = function() {
-                        //TODO: Allow remove a item from list
                     };
 
                     scope.hasError = function(name) {
