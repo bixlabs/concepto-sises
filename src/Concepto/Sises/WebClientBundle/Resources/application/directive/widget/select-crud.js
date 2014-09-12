@@ -6,7 +6,7 @@
     "use strict";
 
     angular.module(G.APP)
-        .directive('selectCrud', ['RestResources', function(RR) {
+        .directive('selectCrud', ['RestResources', 'FilterResources', function(RR, FR) {
             return {
                 restrict: 'A',
                 scope: {
@@ -30,7 +30,17 @@
                         }
                     };
 
+                    scope.filters = FR[scope.selectCrud];
+                    scope.filter_value = '';
+                    scope._filter = {};
+                    scope.errors = {};
                     scope.element = {};
+                    scope.pager = {
+                        current: 1,
+                        last: 1,
+                        count: 0,
+                        limit: 10
+                    };
 
                     scope.template = G.template;
 
@@ -45,11 +55,92 @@
                         scope.handler.hide();
                     };
 
+                    scope.edit = function(element) {
+                        scope.element = RR[scope.selectCrud].get({id: element.id});
+                        scope.logic = 'new';
+                    };
+
+                    var getPager = function(data, headers) {
+                        scope.pager = {
+                            current: parseInt(headers('X-Current-Page')),
+                            last: parseInt(headers('X-Total-Pages')),
+                            count: parseInt(headers('X-Total-Count')),
+                            limit: parseInt(headers('X-Per-Page'))
+                        };
+                    };
+
+                    scope.changeFiler = function(filter) {
+                        scope._filter = filter;
+                    };
+
+                    scope.query = function(page) {
+                        var query_params = page ? {page: page} : {};
+
+                        if (scope._filter.value && scope.filter_value) {
+                            query_params[scope._filter.value] = scope._filter.comp + ',' + scope.filter_value;
+                        }
+
+                        scope.elements = RR[scope.selectCrud].query(query_params, getPager);
+                    };
+
+                    scope.previousPage = function() {
+                        if (scope.pager.current && scope.pager.current > 1) {
+                            scope.query(scope.pager.current - 1);
+                        }
+                    };
+
+                    scope.showing = function() {
+                        var length,
+                            offset = ((scope.pager.current - 1) * scope.pager.limit);
+
+                        if (scope.pager.current === scope.pager.last) {
+                            length = scope.pager.count;
+                        } else {
+                            length = offset + scope.pager.limit;
+                        }
+
+                        return (1 + offset) + " - " + length + ' de ' + scope.pager.count;
+                    };
+
+                    scope.nextPage = function() {
+                        if (scope.pager.current < scope.pager.last) {
+                            scope.query(scope.pager.current + 1);
+                        }
+                    };
+
+                    var saveFail = function(response) {
+                        switch (response.data.code) {
+                            case 400:
+                                scope.errors = response.data.errors.children;
+                                break;
+                            default:
+                                console.error(response);
+                                break;
+                        }
+                        scope.canSave = true;
+                    };
+
+                    scope.update = function() {
+                        scope.canSave = false;
+                        scope.element['$update'](function() {
+                            scope.list();
+                        }, saveFail);
+                    };
+
+                    scope.save = function() {
+                        scope.canSave = false;
+                        scope.element.$save(function() {
+                            scope.list();
+                        }, saveFail);
+                    };
+
                     scope.list = function() {
-                        scope.elements = RR[scope.selectCrud].query();
+                        scope.query();
                         scope.logic = 'list';
                     };
+
                     scope.add = function() {
+                        scope.element = new RR[scope.selectCrud]();
                         scope.logic = 'new';
                         //TODO: Show newAction
                         //TODO: Allow append an item to list
@@ -57,9 +148,6 @@
                     };
                     scope.remove = function() {
                         //TODO: Allow remove a item from list
-                    };
-                    scope.update = function() {
-                        //TODO: Allow update a item content
                     };
 
                     scope.hasError = function(name) {

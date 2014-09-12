@@ -1,15 +1,15 @@
 {# Input fields - disabled #}
 <div class="form-group" data-ng-class="{'has-error': hasError(selectCrud)}">
-    <label class="col-lg-4 control-label" for="'select_crud_' + selectCrud"
+    <label class="col-lg-4 control-label" {% verbatim%}for="{{id}}"{%endverbatim%}
            data-ng-bind="label"></label>
     <div class="col-lg-8">
         <div class="input-group">
             <input name="selectCrud + ''"
                    data-ng-model="selectedElement"
-                   class="form-control" type="text" id="'select_crud_' + selectCrud"
-                   readonly/>
+                   class="form-control" type="text" {% verbatim%}id="{{id}}"{%endverbatim%}
+                   />
             <div class="input-group-btn">
-                <button type="button" class="btn btn-default"
+                <button type="button" class="btn btn-primary"
                         tabindex="-1"
                         data-ng-click="open()">
                     <i class="glyphicon glyphicon-open"></i>
@@ -30,33 +30,114 @@
 {# Show the modal #}
 <div data-sises-modalize="handler" {% verbatim %}data-title="{{label}}"{% endverbatim%}>
     <div data-ng-switch data-on="logic">
-        <div data-ng-switch-when="list">
-
+        {# Formulario new #}
+        <div data-ng-switch-when="new">
             <div class="row">
                 <div class="col-lg-12">
+                    <div class="subactions pull-right">
+                        <button class="btn btn-default" data-ng-click="list()">
+                            <i class="glyphicon glyphicon-list"></i> Volver al listado
+                        </button>
+                        <button class="btn btn-primary" data-ng-click="save()">
+                            <i class="glyphicon glyphicon-save"></i> Guardar
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-12" data-ng-include="template(selectCrud + '/form')"></div>
+            </div>
+        </div>
+
+        {# Formulario update #}
+        <div data-ng-switch-when="update">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="subactions pull-right">
+                        <button class="btn btn-default" data-ng-click="list()">
+                            <i class="glyphicon glyphicon-list"></i> Volver al listado
+                        </button>
+                        <button class="btn btn-primary" data-ng-click="update()">
+                            <i class="glyphicon glyphicon-save"></i> Actualizar
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-12" data-ng-include="template(selectCrud + '/form')"></div>
+            </div>
+        </div>
+
+        {# Listado #}
+        <div data-ng-switch-when="list">
+            <div class="row">
+                <div class="col-lg-8">
+                    <form class="inline-form" action="">
+                        <div class="input-group">
+                            <div class="input-group-btn">
+                                <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+                                    <span data-ng-bind="_filter.label"></span>
+                                    <span class="caret"></span></button>
+                                <ul class="dropdown-menu" role="menu">
+                                    <li data-ng-repeat="filter in filters">
+                                        <a href data-ng-bind="filter.label" data-ng-click="changeFiler(filter)"></a>
+                                    </li>
+                                </ul>
+                            </div>
+
+                            <label for="'filter_crud_' + selectCrud" class="sr-only">Filtro</label>
+                            <input name="selectCrud + '_filter'"
+                                   data-ng-model="filter_value"
+                                   class="form-control" type="text" id="'filter_crud_' + selectCrud"/>
+                            <div class="input-group-btn">
+                                <button type="button" class="btn btn-primary btn-icon"
+                                        tabindex="-1"
+                                        data-ng-click="query()">
+                                    <i class="glyphicon glyphicon-search"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="col-lg-4">
                     <button class="btn btn-primary pull-right" data-ng-click="add()">
                         <i class="glyphicon glyphicon-plus-sign"></i> Agregar
                     </button>
                 </div>
             </div>
 
-            <table class="table table-hover table-condensed">
-                <thead>
-                <tr data-ng-include="template(selectCrud  + '/list_header')"></tr>
-                </thead>
-                <tbody ng-if="elements.length == 0">
-                <tr>
-                    <td colspan="2">
-                        No existen elementos
-                    </td>
-                </tr>
-                </tbody>
-                <tbody ng-if="elements.length > 0">
-                <tr data-ng-repeat="single in elements"
-                    data-ng-include="template(selectCrud + '/list_content')">
-                </tr>
-                </tbody>
-            </table>
+            <div class="row">
+                <div class="col-lg-12">
+                    <table class="table table-hover table-condensed">
+                        <thead>
+                        <tr data-ng-include="template(selectCrud  + '/list_header')"></tr>
+                        </thead>
+                        <tbody ng-if="elements.length == 0">
+                        <tr>
+                            <td colspan="2">
+                                No existen elementos
+                            </td>
+                        </tr>
+                        </tbody>
+                        <tbody ng-if="elements.length > 0">
+                        <tr data-ng-repeat="single in elements"
+                            data-ng-include="template(selectCrud + '/list_content')">
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="row" data-ng-if="pager.last > 1">
+                <div class="col-lg-12">
+                    <ul class="pager">
+                        <li><a href data-ng-click="previousPage()">Anterior</a></li>
+                        <li></li>
+                        <li data-ng-bind="showing()"></li>
+                        <li></li>
+                        <li><a href data-ng-click="nextPage()">Siguiente</a></li>
+                    </ul>
+                </div>
+            </div>
         </div>
     </div>
 </div>

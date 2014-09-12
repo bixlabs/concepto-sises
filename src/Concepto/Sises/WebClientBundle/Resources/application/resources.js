@@ -31,5 +31,16 @@
 
             return methods;
         }])
+
+        .factory('FilterResources', function() {
+            return {
+                persona: {
+                    documento: {label: 'Documento', value: 'documento', comp: 'L'}
+                },
+                lugar: {
+                    nombre: {label: 'Nombre', value: 'nombre', comp: 'L'}
+                }
+            };
+        })
     ;
 })();
