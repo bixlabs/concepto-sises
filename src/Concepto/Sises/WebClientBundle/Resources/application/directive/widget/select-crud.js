@@ -31,6 +31,15 @@
                         }
                     };
 
+                    // Show the name selectedElement
+                    scope.$watch('model', function(newVal, oldVal) {
+                        if (newVal !== oldVal && typeof oldVal === 'undefined') {
+                            var el = RR[scope.selectCrud].get({id: newVal}, function() {
+                                scope.selectedElement = el[scope.showProperty];
+                            });
+                        }
+                    });
+
                     scope.filters = FR[scope.selectCrud];
                     scope.filter_value = {
                         text: ''
