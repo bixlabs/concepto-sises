@@ -26,7 +26,8 @@
                     model: '=',
                     property: '@',
                     label: '@',
-                    placeholder: '@'
+                    placeholder: '@',
+                    required: '='
                 },
                 link: linkFunc
             };
@@ -44,7 +45,8 @@
                     label: '@',
                     optionsModel: '=',
                     optionKey: '@',
-                    optionLabel: '@'
+                    optionLabel: '@',
+                    required: '='
                 },
                 link: linkFunc
             };

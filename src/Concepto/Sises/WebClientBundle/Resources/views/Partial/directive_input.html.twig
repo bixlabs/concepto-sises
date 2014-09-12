@@ -1,5 +1,5 @@
 {% verbatim %}
-<div class="form-group" data-ng-class="{'has-error': hasError(property)}">
+<div class="form-group" data-ng-class="{'has-error': hasError(property), 'required': required}">
     <label class="col-lg-4 control-label" for="{{name}}_{{property}}">{{label}}</label>
     <div class="col-lg-8">
         <input placeholder="{{placeholder}}"

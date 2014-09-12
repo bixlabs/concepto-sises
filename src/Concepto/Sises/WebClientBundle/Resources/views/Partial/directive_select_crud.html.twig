@@ -1,5 +1,5 @@
 {# Input fields - disabled #}
-<div class="form-group" data-ng-class="{'has-error': hasError(selectCrud)}">
+<div class="form-group" data-ng-class="{'has-error': hasError(selectCrud), 'required': required}">
     <label class="col-lg-4 control-label" {% verbatim%}for="{{id}}"{%endverbatim%}
            data-ng-bind="label"></label>
     <div class="col-lg-8">
