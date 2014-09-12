@@ -57,7 +57,7 @@
 
                     scope.edit = function(element) {
                         scope.element = RR[scope.selectCrud].get({id: element.id});
-                        scope.logic = 'new';
+                        scope.logic = 'update';
                     };
 
                     var getPager = function(data, headers) {
