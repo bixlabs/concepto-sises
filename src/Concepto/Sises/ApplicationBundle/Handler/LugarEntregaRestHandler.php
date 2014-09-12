@@ -32,6 +32,6 @@ class LugarEntregaRestHandler extends RestHandler {
 
     protected function getRouteName()
     {
-        return 'get_lugares';
+        return 'get_lugar';
     }
 }
