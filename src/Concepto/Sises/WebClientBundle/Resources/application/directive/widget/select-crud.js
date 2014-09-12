@@ -31,7 +31,9 @@
                     };
 
                     scope.filters = FR[scope.selectCrud];
-                    scope.filter_value = '';
+                    scope.filter_value = {
+                        text: ''
+                    };
                     scope._filter = {};
                     scope.errors = {};
                     scope.element = {};
@@ -76,8 +78,9 @@
                     scope.query = function(page) {
                         var query_params = page ? {page: page} : {};
 
-                        if (scope._filter.value && scope.filter_value) {
-                            query_params[scope._filter.value] = scope._filter.comp + ',' + scope.filter_value;
+                        if (scope._filter.value && scope.filter_value.text) {
+                            query_params[scope._filter.value] =
+                                scope._filter.comp + ',' + scope.filter_value.text;
                         }
 
                         scope.elements = RR[scope.selectCrud].query(query_params, getPager);

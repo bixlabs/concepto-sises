@@ -85,10 +85,9 @@
                                 </ul>
                             </div>
 
-                            <label for="'filter_crud_' + selectCrud" class="sr-only">Filtro</label>
-                            <input name="selectCrud + '_filter'"
-                                   data-ng-model="filter_value"
-                                   class="form-control" type="text" id="'filter_crud_' + selectCrud"/>
+                            <label {% verbatim%}for="filter_{{id}}"{%endverbatim%} class="sr-only">Filtro</label>
+                            <input data-ng-model="filter_value.text"
+                                   class="form-control" type="text" {% verbatim%}id="filter_{{id}}"{%endverbatim%}/>
                             <div class="input-group-btn">
                                 <button type="button" class="btn btn-primary btn-icon"
                                         tabindex="-1"

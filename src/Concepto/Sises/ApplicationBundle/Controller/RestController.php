@@ -49,7 +49,7 @@ abstract class RestController implements ClassResourceInterface
         $params = array_intersect_assoc($paramFetcher->all(), $request->query->all());
 
         /** @var Pagerfanta $pager */
-        $pager = $this->getHandler()->cget($paramFetcher->all(), array_diff_assoc($params, $request->query->all()));
+        $pager = $this->getHandler()->cget($paramFetcher->all(), array_diff_assoc($request->query->all(), $params));
 
         $view = \FOS\RestBundle\View\View::create(
             $pager->getCurrentPageResults(),
