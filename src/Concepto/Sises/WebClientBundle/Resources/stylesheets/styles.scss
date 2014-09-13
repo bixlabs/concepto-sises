@@ -19,9 +19,14 @@
     tr {
       td {
         vertical-align: middle;
+        height: 45px; // Works like min-height on tables
       }
     }
   }
+}
+
+.table-wrapper {
+  min-height: 367px;
 }
 
 .pointer {
@@ -45,4 +50,8 @@
       line-height: $font-size-base - 4px;
     }
   }
+}
+
+.pager {
+  margin: 0 0 10px;
 }

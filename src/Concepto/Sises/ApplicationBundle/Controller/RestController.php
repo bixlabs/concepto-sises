@@ -42,7 +42,7 @@ abstract class RestController implements ClassResourceInterface
     /**
      * @View(serializerGroups={"list"})
      * @QueryParam(name="page", requirements="\d+", default="1")
-     * @QueryParam(name="limit", requirements="\d+", default="10")
+     * @QueryParam(name="limit", requirements="\d+", default="7")
      */
     public function cgetAction(Request $request, ParamFetcher $paramFetcher)
     {

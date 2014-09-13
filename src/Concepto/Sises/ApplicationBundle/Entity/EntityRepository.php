@@ -24,6 +24,12 @@ class EntityRepository extends \Doctrine\ORM\EntityRepository
 
         foreach($parameters as $key => $parameter) {
             $comp = $this->extractComparator($parameter);
+
+            // If some parameter is empty or null
+            if (empty($comp[1]) || is_null($comp[1])) {
+                return [];
+            }
+
             $qb->andWhere("t.{$key} {$comp[0]} :{$key}");
             $qb->setParameter($key, $comp[1]);
         }

@@ -20,6 +20,11 @@
                 },
                 templateUrl: G.template('directive_select_crud'),
                 link: function(scope) {
+
+                    if (!scope.readOnly) {
+                        scope.readOnly = false;
+                    }
+
                     scope.id = G.guid();
                     scope.logic = 'list';
                     scope.handler = {

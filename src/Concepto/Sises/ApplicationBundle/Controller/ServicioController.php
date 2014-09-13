@@ -13,15 +13,13 @@ namespace Concepto\Sises\ApplicationBundle\Controller;
 
 
 use Concepto\Sises\ApplicationBundle\Handler\RestHandlerInterface;
+use JMS\DiExtraBundle\Annotation\LookupMethod;
 
 class ServicioController extends SubRestController
 {
-
     /**
      * @return RestHandlerInterface
+     * @LookupMethod("concepto_sises_servicio.handler")
      */
-    public function getHandler()
-    {
-        // TODO: Implement getHandler() method.
-    }
+    public function getHandler() {}
 }

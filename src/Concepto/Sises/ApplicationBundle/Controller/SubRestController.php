@@ -12,11 +12,51 @@
 namespace Concepto\Sises\ApplicationBundle\Controller;
 
 
+use FOS\RestBundle\Controller\Annotations\QueryParam;
+use FOS\RestBundle\Controller\Annotations\View;
+use FOS\RestBundle\Request\ParamFetcher;
+use Symfony\Component\HttpFoundation\Request;
+
 abstract class SubRestController extends RestController
 {
+
+    /**
+     * @View(serializerGroups={"details"})
+     */
     public function getAction($parent, $id = null)
     {
-
+        return parent::getAction($id);
     }
 
+    /**
+     * @View(serializerGroups={"list"})
+     * @QueryParam(name="page", requirements="\d+", default="1")
+     * @QueryParam(name="limit", requirements="\d+", default="7")
+     */
+    public function cgetAction(Request $request, ParamFetcher $paramFetcher, $parent = null)
+    {
+        $request->query->add(array('_parent' => $parent));
+
+        return parent::cgetAction($request, $paramFetcher);
+    }
+
+    public function postAction(Request $request, $parent = null)
+    {
+        return parent::postAction($request);
+    }
+
+    public function patchAction(Request $request, $parent, $id = null)
+    {
+        return parent::patchAction($request, $id);
+    }
+
+    public function putAction(Request $request, $parent, $id = null)
+    {
+        return parent::putAction($request, $id);
+    }
+
+    public function deleteAction($parent, $id = null)
+    {
+        return parent::deleteAction($id);
+    }
 }
