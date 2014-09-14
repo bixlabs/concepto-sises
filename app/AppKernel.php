@@ -23,6 +23,7 @@ class AppKernel extends Kernel
             new Concepto\Sises\ApplicationBundle\SisesApplicationBundle(),
             new Concepto\Sises\WebClientBundle\SisesWebClientBundle(),
             new Doctrine\Bundle\FixturesBundle\DoctrineFixturesBundle(),
+            new Oneup\UploaderBundle\OneupUploaderBundle(),
         );
 
         if (in_array($this->getEnvironment(), array('dev', 'test'))) {
