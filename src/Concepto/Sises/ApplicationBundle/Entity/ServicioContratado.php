@@ -50,7 +50,7 @@ class ServicioContratado {
     /**
      * @var string
      * @Column(name="nombre", length=250)
-     * @NotNull()
+     * @NotBlank()
      * @Groups({"list", "details"})
      */
     protected $nombre;
@@ -58,7 +58,7 @@ class ServicioContratado {
     /**
      * @var int
      * @Column(name="dias_contratados", type="integer")
-     * @NotNull()
+     * @NotBlank()
      * @Groups({"list", "details"})
      */
     protected $diasContratados;
@@ -66,7 +66,7 @@ class ServicioContratado {
     /**
      * @var int
      * @Column(name="unidades_diarias", type="integer")
-     * @NotNull()
+     * @NotBlank()
      * @Groups({"list", "details"})
      */
     protected $unidadesDiarias;
@@ -74,7 +74,7 @@ class ServicioContratado {
     /**
      * @var double
      * @Column(name="valor_unitario", type="decimal", precision=64, scale=2)
-     * @NotNull()
+     * @NotBlank()
      * @Groups({"list", "details"})
      */
     protected $valorUnitario;
@@ -82,7 +82,7 @@ class ServicioContratado {
     /**
      * @var double
      * @Column(name="costo_unitario", type="decimal", precision=64, scale=2)
-     * @NotNull()
+     * @NotBlank()
      * @Groups({"list", "details"})
      */
     protected $costoUnitario;

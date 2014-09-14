@@ -33,7 +33,7 @@ class ContratoType extends AbstractType
                 'type' => new ServicioContratadoType(),
                 'allow_add' => true,
                 'allow_delete' => true,
-                'by_reference' => false
+                'by_reference' => false,
             ))
         ;
     }
@@ -42,6 +42,7 @@ class ContratoType extends AbstractType
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
         $resolver->setDefaults(array(
+            'cascade_validation' => true,
             'data_class' => 'Concepto\Sises\ApplicationBundle\Entity\Contrato'
         ));
     }
