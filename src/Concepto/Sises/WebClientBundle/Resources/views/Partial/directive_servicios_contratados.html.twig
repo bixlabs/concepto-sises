@@ -33,41 +33,29 @@
     </table>
 
     <div data-sises-modalize="handler" data-title="Agregar servicio">
-        <form class="form-horizontal">
-            <fieldset>
-                <legend>Datos del servicio</legend>
+        <div data-sises-form="element" data-errors="errors">
+            <div data-sises-form-input="nombre"
+                 data-placeholder="'Almuerzos, Mercados, etc.'"
+                 data-required="true"
+                 data-label="'Nombre servicio'"></div>
 
-                <div data-sises-input
-                     data-errors="errors"
-                     data-model="element.nombre"
-                     data-property="nombre"
-                     data-placeholder="Almuezos, Mercados, etc."
-                     data-label="Nombre servicio"></div>
+            <div data-sises-form-input="dias_contratados"
+                 data-type="number"
+                 data-required="true"
+                 data-label="'Dias contratados'"></div>
 
-                <div data-sises-input
-                     data-errors="errors"
-                     data-model="element.dias_contratados"
-                     data-property="dias_contratados"
-                     data-label="Dias contratados"></div>
+            <div data-sises-form-input="unidades_diarias"
+                 data-type="number"
+                 data-required="true"
+                 data-label="'Unidades diarias'"></div>
 
-                <div data-sises-input
-                     data-errors="errors"
-                     data-model="element.unidades_diarias"
-                     data-property="unidades_diarias"
-                     data-label="Unidades diarias"></div>
+            <div data-sises-form-input="valor_unitario"
+                 data-required="true"
+                 data-label="'Valor por unidad'"></div>
 
-                <div data-sises-input
-                     data-errors="errors"
-                     data-model="element.valor_unitario"
-                     data-property="valor_unitario"
-                     data-label="Valor unitario"></div>
-
-                <div data-sises-input
-                     data-errors="errors"
-                     data-model="element.costo_unitario"
-                     data-property="costo_unitario"
-                     data-label="Costo unitario"></div>
-            </fieldset>
-        </form>
+            <div data-sises-form-input="costo_unitario"
+                 data-required="true"
+                 data-label="'Costo por unidad'"></div>
+        </div>
     </div>
 </fieldset>

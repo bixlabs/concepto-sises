@@ -1,13 +1,9 @@
-<form class="form-horizontal sises-form">
+<div data-sises-form="element" data-errors="errors">
     <fieldset>
         <legend>Datos del lugar</legend>
-
-        <div data-sises-input
-             data-errors="errors"
-             data-model="element.nombre"
-             data-property="nombre"
-             data-required="true"
-             data-label="Nombre del lugar"></div>
+        <div data-sises-form-input="nombre"
+             data-label="'Nombre del lugar'"
+             data-required="true"></div>
 
         <div data-select-crud="ubicacion"
              data-errors="errors"
@@ -16,4 +12,4 @@
              data-show-property="nombre_detallado"
              data-label="Selecciona ubicacion"></div>
     </fieldset>
-</form>
+</div>

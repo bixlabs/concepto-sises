@@ -14,9 +14,14 @@
 
         scope.form = form.scope;
 
+        var attribs = [
+            'placeholder',
+            'label',
+            'required'
+        ];
 
         // Proccess extra attributes
-        angular.forEach(['placeholder', 'label', 'required'], function(attr) {
+        angular.forEach(attribs, function(attr) {
             scope.tt[attr] = attrs[attr] ? scope.$eval(attrs[attr]) : '';
         });
 
@@ -94,29 +99,14 @@
                 restrict: 'A',
                 replace: true,
                 require: '^sisesForm',
-                template: G.template('directive/form_select'),
+                templateUrl: G.template('directive/form_select'),
                 scope: {
-                    property: '@sisesFormSelect'
-                }
-            }
-        })
-
-        .directive('sisesSelect', function() {
-            return {
-                replace: true,
-                restrict: 'A',
-                templateUrl: G.template('directive_select'),
-                scope: {
-                    errors: '=',
-                    model: '=',
-                    property: '@',
-                    label: '@',
-                    optionsModel: '=',
-                    optionKey: '@',
-                    optionLabel: '@',
-                    required: '='
+                    property: '@sisesFormSelect',
+                    options: '=',
+                    optionsKey: '@',
+                    optionsLabel: '@'
                 },
                 link: inputLinkFunc
-            };
+            }
         })
 })();

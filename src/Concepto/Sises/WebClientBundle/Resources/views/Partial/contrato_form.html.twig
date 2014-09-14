@@ -1,54 +1,35 @@
 <div class="row">
     <div class="col-lg-6">
-        <form class="form-horizontal sises-form">
+        <div data-sises-form="element" data-errors="errors">
             <fieldset>
                 <legend>Datos básicos</legend>
 
-                <div data-sises-select
-                     data-errors="errors"
-                     data-model="element.empresa"
-                     data-property="empresa"
-                     data-label="Empresa"
-                     data-required="true"
-                     data-options-model="empresas"
-                     data-option-key="id"
-                     data-option-label="nombre"></div>
+                <div data-sises-form-select="empresa"
+                     data-label="'Seleccione Empresa'"
+                     data-options="empresas"
+                     data-options-key="id"
+                     data-options-label="nombre"
+                     data-required="true"></div>
 
-                <div data-sises-input
-                     data-errors="errors"
-                     data-model="element.nombre"
-                     data-property="nombre"
+                <div data-sises-form-input="nombre"
                      data-required="true"
-                     data-placeholder="Nombre contrato"
-                     data-label="Nombre contrato"></div>
+                     data-label="'Nombre contrato'"></div>
 
-                <div data-sises-input
-                     data-errors="errors"
-                     data-model="element.descripcion"
-                     data-property="descripcion"
+                <div data-sises-form-input="descripcion"
                      data-required="true"
-                     data-placeholder="Descripción contrato"
-                     data-label="Descripción contrato"></div>
+                     data-label="'Descripción contrato'"></div>
 
-                <div data-sises-input
-                     data-errors="errors"
-                     data-model="element.resolucion"
-                     data-property="resolucion"
+                <div data-sises-form-input="resolucion"
                      data-required="true"
-                     data-placeholder="Resolución contrato"
-                     data-label="Resolución contrato"></div>
+                     data-label="'Resolución contrato'"></div>
 
-                <div data-sises-input
-                     data-errors="errors"
-                     data-model="element.valor"
-                     data-property="valor"
+                <div data-sises-form-input="valor"
                      data-required="true"
-                     data-placeholder="En pesos"
-                     data-label="Valor contrato"></div>
+                     data-label="'Valor del contrato'"></div>
             </fieldset>
-        </form>
+        </div>
     </div>
     <div class="col-lg-6">
-            <div data-sises-servicios-contratados="element.servicios"></div>
+        <div data-sises-servicios-contratados="element.servicios"></div>
     </div>
 </div>

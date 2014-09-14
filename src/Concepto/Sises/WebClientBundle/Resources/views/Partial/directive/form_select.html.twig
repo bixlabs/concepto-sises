@@ -1,15 +1,15 @@
 {% verbatim %}
 <div class="form-group" data-ng-class="{'has-error': hasErrors(), 'required': isRequired()}">
-    <label for="{{tt.id}}_select" class="col-lg-4 control-label">{{label}}</label>
+    <label for="{{tt.id}}_select" class="col-lg-4 control-label">{{tt.label}}</label>
     <div class="col-lg-8">
         <select class="form-control"
                 data-chosen
                 data-width="'100%'"
                 data-ng-model="form.model[property]"
-                data-ng-options="o.{{tt.optionKey}} as o.{{tt.optionLabel}} for o in tt.optionsModel"
+                data-ng-options="o.{{optionsKey}} as o.{{optionsLabel}} for o in options"
                 id="{{tt.id}}_select"></select>
         <p class="help-block"
-           data-ng-repeat="error in errors[property].errors"
+           data-ng-repeat="error in getErrors()"
            data-ng-bind="error"></p>
     </div>
 </div>

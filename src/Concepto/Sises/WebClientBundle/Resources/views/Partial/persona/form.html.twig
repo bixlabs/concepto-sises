@@ -1,26 +1,16 @@
-<form class="form-horizontal sises-form">
+<div data-sises-form="element" data-errors="errors">
     <fieldset>
         <legend>Datos básicos</legend>
+        <div data-sises-form-input="documento"
+             data-label="'Documento de identidad'"
+             data-required="true"></div>
 
-        <div data-sises-input
-             data-errors="errors"
-             data-model="element.documento"
-             data-property="documento"
-             data-required="true"
-             data-label="N° documento"></div>
+        <div data-sises-form-input="nombre"
+             data-label="'Nombre'"
+             data-required="true"></div>
 
-        <div data-sises-input
-             data-errors="errors"
-             data-model="element.nombre"
-             data-property="nombre"
-             data-required="true"
-             data-label="Nombre"></div>
-
-        <div data-sises-input
-             data-errors="errors"
-             data-model="element.apellidos"
-             data-property="apellidos"
-             data-required="true"
-             data-label="Apellidos"></div>
+        <div data-sises-form-input="apellidos"
+             data-label="'Apellidos'"
+             data-required="true"></div>
     </fieldset>
-</form>
+</div>
