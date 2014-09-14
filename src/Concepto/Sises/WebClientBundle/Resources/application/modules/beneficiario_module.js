@@ -61,6 +61,8 @@
     function BeneficiarioNuevoController(scope, RR) {
         G.Base.NewController.call(this, scope, RR.beneficiario);
 
+        scope.contratos = RR.contrato.query();
+
         scope.list = function() {
             scope.go('beneficiarios.listado');
         };
@@ -94,10 +96,9 @@
      *
      * @param scope
      * @param ResourceFactory
-     * @param $r
      * @constructor
      */
-    function BeneficiarioDetallesController(scope, ResourceFactory, $r) {
+    function BeneficiarioDetallesController(scope, ResourceFactory) {
         G.Base.UpdateController.call(this, scope, ResourceFactory.beneficiario);
 
         scope.list = function() {

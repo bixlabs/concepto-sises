@@ -1,0 +1,13 @@
+{% verbatim %}
+<div class="form-group" data-ng-class="{'has-error': hasErrors(), 'required': isRequired()}">
+    <label class="col-lg-4 control-label" for="{{id}}_input">{{label}}</label>
+    <div class="col-lg-8">
+        <input placeholder="{{placeholder}}"
+               data-ng-model="form[property]"
+               class="form-control" type="text" id="{{id}}_input"/>
+        <p class="help-block"
+           data-ng-repeat="error in getErrors()"
+           data-ng-bind="error"></p>
+    </div>
+</div>
+{% endverbatim %}

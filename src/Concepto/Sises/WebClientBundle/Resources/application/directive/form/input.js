@@ -16,6 +16,63 @@
         };
     };
     angular.module(G.APP)
+        .directive('sisesForm', function() {
+            return {
+                restrict: 'A',
+                transclude: true,
+                replace: true,
+                template: '<form class="form-horizontal sises-form" data-ng-transclude></form>',
+                scope: {
+                    model: '=sisesForm',
+                    errors: '='
+                },
+                controller: function($scope) {}
+            };
+        })
+        .directive('sisesFormInput', function() {
+            return {
+                restrict: 'A',
+                replace: true,
+                require: '^sisesForm',
+                templateUrl: G.template('directive/form_input'),
+                scope: {
+                    property: '@sisesFormInput'
+                },
+                link: function(scope, el, attrs, form) {
+
+                    scope.id = G.guid();
+
+                    scope.form = form;
+
+                    // Proccess extra attributes
+                    angular.forEach(['placeholder', 'label', 'required'], function(attr) {
+                        scope[attr] = attrs[attr] ? scope.$eval(attrs[attr]) : '';
+                    });
+
+                    scope.isRequired = function() {
+                        if (scope.required) {
+                            return scope.required;
+                        }
+
+                        return false;
+                    };
+
+                    scope.hasErrors = function() {
+                        return scope.getErrors().length > 0;
+                    };
+
+                    scope.getErrors = function() {
+                        if (form.errors
+                            && form.errors[scope.property]
+                            && form.errors[scope.property].errors) {
+                            return form.errors[scope.property].errors;
+                        }
+
+                        return [];
+                    };
+                }
+            };
+        })
         .directive('sisesInput', function() {
             return {
                 replace: true,

@@ -1,30 +1,10 @@
 <div class="row">
     <div class="col-lg-6">
-        <form class="form-horizontal sises-form">
+        <div data-sises-form="element" data-error="errors">
             <fieldset>
-                <legend></legend>
-                <div data-select-crud="persona"
-                     data-errors="errors"
-                     data-model="element.persona"
-                     data-required="true"
-                     data-show-property="nombre_completo"
-                     data-label="Selecciona persona"></div>
-
-                <div data-select-crud="lugar"
-                     data-errors="errors"
-                     data-model="element.lugar"
-                     data-required="true"
-                     data-show-property="nombre_detallado"
-                     data-label="Selecciona lugar"></div>
-
-                <div data-select-crud="servicio"
-                     data-errors="errors"
-                     data-model="element.servicio"
-                     data-required="true"
-                     data-read-only="true"
-                     data-show-property="nombre_detallado"
-                     data-label="Selecciona servicio"></div>
+                <div data-sises-form-input="empresa"
+                     data-label="'Nombre empresa'"></div>
             </fieldset>
-        </form>
+        </div>
     </div>
 </div>
