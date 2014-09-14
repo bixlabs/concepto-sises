@@ -1,10 +1,10 @@
 {% verbatim %}
 <div class="form-group" data-ng-class="{'has-error': hasErrors(), 'required': isRequired()}">
-    <label class="col-lg-4 control-label" for="{{id}}_input">{{label}}</label>
+    <label class="col-lg-4 control-label" for="{{tt.id}}_input">{{tt.label}}</label>
     <div class="col-lg-8">
-        <input placeholder="{{placeholder}}"
-               data-ng-model="form[property]"
-               class="form-control" type="text" id="{{id}}_input"/>
+        <input placeholder="{{tt.placeholder}}"
+               data-ng-model="form.model[property]"
+               class="form-control" type="{{tt.type}}" id="{{tt.id}}_input"/>
         <p class="help-block"
            data-ng-repeat="error in getErrors()"
            data-ng-bind="error"></p>

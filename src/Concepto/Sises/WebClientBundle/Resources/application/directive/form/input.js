@@ -5,16 +5,44 @@
 (function () {
     "use strict";
 
-    var linkFunc = function(scope) {
-        scope.name = G.guid();
+    var inputLinkFunc = function(scope, el, attrs, form) {
 
-        scope.hasError = function(name) {
-            return scope.errors[name]
-                && angular.isObject(scope.errors[name])
-                && scope.errors[name].errors
-                && scope.errors[name].errors.length;
+        scope.tt = {
+            id: G.guid(),
+            type: 'text'
+        };
+
+        scope.form = form.scope;
+
+
+        // Proccess extra attributes
+        angular.forEach(['placeholder', 'label', 'required'], function(attr) {
+            scope.tt[attr] = attrs[attr] ? scope.$eval(attrs[attr]) : '';
+        });
+
+        scope.isRequired = function() {
+            if (scope.tt.required) {
+                return scope.tt.required;
+            }
+
+            return false;
+        };
+
+        scope.hasErrors = function() {
+            return scope.getErrors().length > 0;
+        };
+
+        scope.getErrors = function() {
+            if (scope.$parent.errors
+                && scope.$parent.errors[scope.property]
+                && scope.$parent.errors[scope.property].errors) {
+                return scope.$parent.errors[scope.property].errors;
+            }
+
+            return [];
         };
     };
+
     angular.module(G.APP)
         .directive('sisesForm', function() {
             return {
@@ -26,7 +54,10 @@
                     model: '=sisesForm',
                     errors: '='
                 },
-                controller: function($scope) {}
+                link: function(scope){},
+                controller: function($scope) {
+                    this.scope = $scope;
+                }
             };
         })
         .directive('sisesFormInput', function() {
@@ -38,56 +69,36 @@
                 scope: {
                     property: '@sisesFormInput'
                 },
-                link: function(scope, el, attrs, form) {
-
-                    scope.id = G.guid();
-
-                    scope.form = form;
-
-                    // Proccess extra attributes
-                    angular.forEach(['placeholder', 'label', 'required'], function(attr) {
-                        scope[attr] = attrs[attr] ? scope.$eval(attrs[attr]) : '';
-                    });
-
-                    scope.isRequired = function() {
-                        if (scope.required) {
-                            return scope.required;
-                        }
-
-                        return false;
-                    };
-
-                    scope.hasErrors = function() {
-                        return scope.getErrors().length > 0;
-                    };
-
-                    scope.getErrors = function() {
-                        if (form.errors
-                            && form.errors[scope.property]
-                            && form.errors[scope.property].errors) {
-                            return form.errors[scope.property].errors;
-                        }
-
-                        return [];
-                    };
-                }
+                link: inputLinkFunc
             };
         })
-        .directive('sisesInput', function() {
+        .directive('sisesFormEmail', function() {
             return {
-                replace: true,
                 restrict: 'A',
-                templateUrl: G.template('directive_input'),
+                replace: true,
+                require: '^sisesForm',
+                templateUrl: G.template('directive/form_input'),
                 scope: {
-                    errors: '=',
-                    model: '=',
-                    property: '@',
-                    label: '@',
-                    placeholder: '@',
-                    required: '='
+                    property: '@sisesFormEmail'
                 },
-                link: linkFunc
-            };
+                link: function(scope, el, attrs, form) {
+                    inputLinkFunc.call(this, scope, el, attrs, form);
+                    scope.tt.placeholder = 'nombre@ejemplo.com';
+                    scope.tt.type = 'email';
+                }
+            }
+        })
+
+        .directive('sisesFormSelect', function() {
+            return {
+                restrict: 'A',
+                replace: true,
+                require: '^sisesForm',
+                template: G.template('directive/form_select'),
+                scope: {
+                    property: '@sisesFormSelect'
+                }
+            }
         })
 
         .directive('sisesSelect', function() {
@@ -105,7 +116,7 @@
                     optionLabel: '@',
                     required: '='
                 },
-                link: linkFunc
+                link: inputLinkFunc
             };
         })
 })();
