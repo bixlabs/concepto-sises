@@ -24,6 +24,7 @@
     "angular-ui-router": "~0.2.11",
     "angular-chosen-localytics": "~1.0.6",
     "bootstrap-chosen": "*",
-    "bootstrap-modal": "~2.2.5"
+    "bootstrap-modal": "~2.2.5",
+    "dropzone": "~3.10.2"
   }
 }

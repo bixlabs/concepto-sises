@@ -80,3 +80,8 @@ jms_di_extra:
         all_bundles: false
         bundles: [SisesApplicationBundle]
         directories: ["%kernel.root_dir%/../src"]
+
+oneup_uploader:
+    mappings:
+        documentable:
+            frontend: dropzone
