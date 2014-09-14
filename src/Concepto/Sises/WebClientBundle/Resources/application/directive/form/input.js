@@ -33,10 +33,10 @@
         };
 
         scope.getErrors = function() {
-            if (scope.$parent.errors
-                && scope.$parent.errors[scope.property]
-                && scope.$parent.errors[scope.property].errors) {
-                return scope.$parent.errors[scope.property].errors;
+            if (scope.form.errors
+                && scope.form.errors[scope.property]
+                && scope.form.errors[scope.property].errors) {
+                return scope.form.errors[scope.property].errors;
             }
 
             return [];
