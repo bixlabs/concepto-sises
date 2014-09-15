@@ -162,8 +162,8 @@ abstract class RestHandler implements RestHandlerInterface {
 
         if ($form->isValid()) {
             $code = $object->getId() ? Codes::HTTP_NO_CONTENT : Codes::HTTP_CREATED;
-            $this->getEm()->persist($object);
             list($object, ) = $this->preFlush($object, $bag);
+            $this->getEm()->persist($object);
             $this->getEm()->flush();
 
             $view = View::createRedirect(

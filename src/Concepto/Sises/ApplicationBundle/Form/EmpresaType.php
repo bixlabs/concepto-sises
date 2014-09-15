@@ -12,6 +12,7 @@
 namespace Concepto\Sises\ApplicationBundle\Form;
 
 
+use Concepto\Sises\ApplicationBundle\Form\Archivos\ArchivoEmpresaType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
@@ -32,8 +33,11 @@ class EmpresaType extends AbstractType
             ->add('encargado',  null, array(
                 'property' => 'id'
             ))
-            ->add('archivos', 'documentable', array(
-                'data_class' => $options['data_class'],
+            ->add('archivos', 'collection', array(
+                'type' => new ArchivoEmpresaType(),
+                'allow_add' => true,
+                'allow_delete' => true,
+                'by_reference' => false,
             ))
         ;
     }

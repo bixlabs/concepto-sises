@@ -15,6 +15,7 @@ use Doctrine\ORM\Mapping\GeneratedValue;
 use Doctrine\ORM\Mapping\Id;
 use Doctrine\ORM\Mapping\MappedSuperclass;
 use JMS\Serializer\Annotation\Groups;
+use Symfony\Component\Validator\Constraints\NotBlank;
 
 /**
  * Class Archivo
@@ -35,8 +36,18 @@ class Archivo {
     /**
      * @var string
      * @Column(name="nombre", length=255)
+     * @NotBlank()
+     * @Groups({"list", "details"})
      */
     protected $nombre;
+
+    /**
+     * @var string
+     * @Column(name="file", length=255)
+     * @NotBlank()
+     * @Groups({"list", "details"})
+     */
+    protected $file;
 
     /**
      * @var Documentable
@@ -81,5 +92,21 @@ class Archivo {
     public function setNombre($nombre)
     {
         $this->nombre = $nombre;
+    }
+
+    /**
+     * @return string
+     */
+    public function getFile()
+    {
+        return $this->file;
+    }
+
+    /**
+     * @param string $file
+     */
+    public function setFile($file)
+    {
+        $this->file = $file;
     }
 }

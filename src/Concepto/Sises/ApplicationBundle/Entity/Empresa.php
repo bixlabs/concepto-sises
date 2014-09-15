@@ -104,6 +104,7 @@ class Empresa extends Documentable implements OrmPersistible {
      *  mappedBy="documentable",
      *  cascade={"persist"}
      * )
+     * @Groups({"details"})
      */
     protected $archivos;
 

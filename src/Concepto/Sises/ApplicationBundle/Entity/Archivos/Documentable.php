@@ -11,6 +11,7 @@
 
 namespace Concepto\Sises\ApplicationBundle\Entity\Archivos;
 
+use Concepto\Sises\ApplicationBundle\Entity\OrmPersistible;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 
@@ -18,7 +19,7 @@ use Doctrine\Common\Collections\Collection;
  * Class Documentable
  * @package Concepto\Sises\ApplicationBundle\Entity\Archivos
  */
-abstract class Documentable
+abstract class Documentable implements OrmPersistible
 {
 
     /**
@@ -53,6 +54,7 @@ abstract class Documentable
     public function addArchivo($archivo)
     {
         if (!$this->archivos->contains($archivo)) {
+            $archivo->setDocumentable($this);
             $this->archivos->add($archivo);
         }
     }
@@ -63,8 +65,8 @@ abstract class Documentable
     public function removeArchivo($archivo)
     {
         if ($this->archivos->contains($archivo)) {
-            $archivo->setDocumentable(null);
             $this->archivos->removeElement($archivo);
+            $archivo->setDocumentable(null);
         }
     }
 }

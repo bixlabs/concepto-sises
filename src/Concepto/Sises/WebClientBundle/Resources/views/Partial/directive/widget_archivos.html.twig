@@ -1,0 +1,43 @@
+<fieldset>
+    <legend>Adjuntos</legend>
+    <button
+            class="btn btn-info"
+            data-pl-upload
+            data-pl-files-model="files"
+            data-on-file-added="fileAdded()"
+            data-on-file-uploaded="fileUploaded($response)"
+            data-pl-progress-model="tt.percent">
+        <i class="glyphicon glyphicon-cloud-upload"></i> Subir archivo
+    </button>
+    <div class="progress" data-ng-if="active">
+        {% verbatim %}
+        <div class="progress-bar progress-bar-striped"
+             role="progressbar"
+             aria-valuenow="{{percent}}"
+             aria-valuemin="0"
+             aria-valuemax="100" style="width: {{percent}}%">
+            <span class="sr-only">{{percent}}% Completado</span>
+        </div>
+        {% endverbatim %}
+    </div>
+    <table class="table table-hover">
+        <thead>
+        <tr>
+            <th>Nombre</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr data-ng-repeat="archivo in elements"
+            data-ng-click="edit(servicio)"
+            class="pointer">
+            <td data-ng-bind="archivo.nombre"></td>
+            <td>
+                <button class="btn btn-warning" title="Elmina este archivo"
+                        data-ng-click="remove(archivo)">
+                    <i class="glyphicon glyphicon-remove-sign"></i>
+                </button>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</fieldset>

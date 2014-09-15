@@ -21,7 +21,6 @@ use Doctrine\ORM\Mapping\JoinColumn;
 use Doctrine\ORM\Mapping\ManyToOne;
 use Doctrine\ORM\Mapping\OneToMany;
 use Doctrine\ORM\Mapping\Table;
-use JMS\Serializer\Annotation\Exclude;
 use JMS\Serializer\Annotation\Groups;
 use JMS\Serializer\Annotation\SerializedName;
 use JMS\Serializer\Annotation\VirtualProperty;

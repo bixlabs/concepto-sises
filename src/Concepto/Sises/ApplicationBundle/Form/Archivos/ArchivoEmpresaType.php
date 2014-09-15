@@ -11,39 +11,20 @@
 
 namespace Concepto\Sises\ApplicationBundle\Form\Archivos;
 
-
-use Doctrine\Common\Persistence\ObjectManager;
-use JMS\DiExtraBundle\Annotation\FormType;
-use JMS\DiExtraBundle\Annotation\Inject;
-use JMS\DiExtraBundle\Annotation\InjectParams;
-use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\Form\FormEvent;
-use Symfony\Component\Form\FormEvents;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
 /**
- * Class ArchivoType
+ * Class ArchivoEmpresaType
  * @package Concepto\Sises\ApplicationBundle\Form\Archivos
- * @FormType(alias="archivo")
  */
-class ArchivoType extends AbstractType
+class ArchivoEmpresaType extends ArchivoType
 {
-
-    public function buildForm(FormBuilderInterface $builder, array $options)
-    {
-        $builder
-            ->add('id')
-            ->add('nombre')
-            ->add('file')
-            ->add('documentable')
-        ;
-    }
 
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
         $resolver->setDefaults(array(
-            'inherit_data' => true
+            'inherit_data' => true,
+            'data_class' => 'Concepto\Sises\ApplicationBundle\Entity\Archivos\ArchivoEmpresa',
         ));
     }
 
@@ -54,6 +35,6 @@ class ArchivoType extends AbstractType
      */
     public function getName()
     {
-        return 'archivo';
+        return '';
     }
 }

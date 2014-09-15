@@ -10,6 +10,8 @@
  */
 
 namespace Concepto\Sises\ApplicationBundle\Handler;
+
+use Concepto\Sises\ApplicationBundle\Entity\OrmPersistible;
 use JMS\DiExtraBundle\Annotation\Service;
 
 /**
@@ -34,4 +36,54 @@ class EmpresaRestHandler extends RestHandler
     {
         return 'Concepto\Sises\ApplicationBundle\Form\EmpresaType';
     }
+
+    /**
+     * @param \Concepto\Sises\ApplicationBundle\Entity\Empresa  $object
+     * @param array                                             $bag
+     *
+     * @return array
+     */
+    protected function preSubmit($object, $bag = array())
+    {
+        $archivos = array();
+
+        foreach ($object->getArchivos() as $s) {
+            $archivos[] = $s;
+        }
+
+        $bag['archivos'] = $archivos;
+
+        return parent::preSubmit($object, $bag);
+    }
+
+    /**
+     * @param \Concepto\Sises\ApplicationBundle\Entity\Empresa  $object
+     * @param array                                             $bag
+     *
+     * @return array
+     */
+    protected function preFlush($object, $bag = array())
+    {
+        $archivos = $bag['archivos'];
+
+        /**
+         * @var OrmPersistible $archivo
+         * @var OrmPersistible $oArchivo
+         */
+        foreach($object->getArchivos() as $archivo) {
+            foreach($archivos as $oKey => $oArchivo) {
+                if ($oArchivo->getId() === $archivo->getId()) {
+                    unset($archivos[$oKey]);
+                }
+            }
+        }
+
+        foreach ($archivos as $toDel) {
+            $object->removeArchivo($toDel);
+            $this->getEm()->remove($toDel);
+        }
+
+        return parent::preFlush($object, $bag);
+    }
+
 }
