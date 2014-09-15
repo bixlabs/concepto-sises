@@ -11,8 +11,6 @@
 
 namespace Concepto\Sises\ApplicationBundle\Entity;
 
-use Concepto\Sises\ApplicationBundle\Archivos\Annotations\Archivo;
-use Concepto\Sises\ApplicationBundle\Archivos\Annotations\Documentable;
 use Doctrine\ORM\Mapping\Column;
 use Doctrine\ORM\Mapping\Entity;
 use Doctrine\ORM\Mapping\GeneratedValue;
@@ -33,7 +31,6 @@ use Symfony\Component\Validator\Constraints\NotBlank;
  * @Entity()
  * @Table(name="empresa")
  * @UniqueEntity(fields={"nit"}, message="No puede existir dos empresas con un mismo nit")
- * @Documentable()
  */
 class Empresa implements OrmPersistible {
     /**

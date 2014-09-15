@@ -11,8 +11,6 @@
 
 namespace Concepto\Sises\ApplicationBundle\Handler;
 
-
-use Concepto\Sises\ApplicationBundle\Archivos\ManagerService;
 use Concepto\Sises\ApplicationBundle\Entity\EntityRepository;
 use Concepto\Sises\ApplicationBundle\Entity\OrmPersistible;
 use Doctrine\Common\Inflector\Inflector;
@@ -53,25 +51,18 @@ abstract class RestHandler implements RestHandlerInterface {
     private $formfactory;
 
     /**
-     * @var ManagerService
-     */
-    private $am;
-
-    /**
      *
      * @InjectParams({
      *   "em" = @Inject("doctrine.orm.default_entity_manager"),
      *   "formfactory" = @Inject("form.factory"),
-     *   "router" = @Inject("router"),
-     *   "am" = @Inject("concepto_sise_archivos.manager")
+     *   "router" = @Inject("router")
      * })
      */
-    function __construct($em, $formfactory, $router, $am)
+    function __construct($em, $formfactory, $router)
     {
         $this->em = $em;
         $this->formfactory = $formfactory;
         $this->router = $router;
-        $this->am = $am;
     }
 
     abstract protected function getTypeClassString();
@@ -167,9 +158,6 @@ abstract class RestHandler implements RestHandlerInterface {
         $url = $this->getRouteName();
 
         if ($form->isValid()) {
-
-            // Proccess files
-            $this->am->proccess($object);
 
             $code = $object->getId() ? Codes::HTTP_NO_CONTENT : Codes::HTTP_CREATED;
             $this->getEm()->persist($object);
