@@ -4,8 +4,8 @@
 ;
 (function () {
     "use strict";
-
     angular.module(G.APP)
+
         .directive('selectCrud', ['RestResources', 'FilterResources', function(RR, FR) {
             return {
                 restrict: 'A',

@@ -1,5 +1,5 @@
 <?php
- /**
+/**
  * Copyright © 2014 Julian Reyes Escrigas <julian.reyes.escrigas@gmail.com>
  *
  * This file is part of concepto-sises.
@@ -12,36 +12,38 @@
 namespace Concepto\Sises\ApplicationBundle\Form;
 
 
+use JMS\DiExtraBundle\Annotation\FormType;
+use JMS\DiExtraBundle\Annotation\Service;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
-class EmpresaType extends AbstractType
+/**
+ * Class PersonaCargoType
+ * @package Concepto\Sises\ApplicationBundle\Form
+ * @Service()
+ * @FormType(alias="persona_cargo")
+ */
+class PersonaCargoType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
             ->add('id')
-            ->add('nit')
-            ->add('nombre')
-            ->add('direccion')
-            ->add('telefono')
-            ->add('direccion')
-            ->add('email')
-            ->add('logo')
-            ->add('encargado',  null, array(
+            ->add('persona', null, array(
                 'property' => 'id'
             ))
-        ;
+            ->add('cargo', null, array(
+                'property' => 'id'
+            ));
     }
 
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
         $resolver->setDefaults(array(
-           'data_class' => 'Concepto\Sises\ApplicationBundle\Entity\Empresa'
+            'data_class' => 'Concepto\Sises\ApplicationBundle\Entity\PersonaCargo'
         ));
     }
-
 
     /**
      * Returns the name of this type.
@@ -50,6 +52,6 @@ class EmpresaType extends AbstractType
      */
     public function getName()
     {
-        return '';
+        return 'persona_cargo';
     }
 }

@@ -17,6 +17,8 @@ use Doctrine\ORM\Mapping\Column;
 use Doctrine\ORM\Mapping\Entity;
 use Doctrine\ORM\Mapping\GeneratedValue;
 use Doctrine\ORM\Mapping\Id;
+use Doctrine\ORM\Mapping\JoinColumn;
+use Doctrine\ORM\Mapping\ManyToOne;
 use Doctrine\ORM\Mapping\Table;
 use JMS\Serializer\Annotation\Groups;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
@@ -85,6 +87,13 @@ class Empresa implements OrmPersistible {
      * @Groups({"list", "details"})
      */
     protected $email;
+
+    /**
+     * @var PersonaCargo
+     * @ManyToOne(targetEntity="Concepto\Sises\ApplicationBundle\Entity\PersonaCargo", cascade={"persist"})
+     * @JoinColumn(nullable=true)
+     */
+    protected $encargado;
 
     /**
      * @return string
@@ -188,5 +197,21 @@ class Empresa implements OrmPersistible {
     public function setEmail($email)
     {
         $this->email = $email;
+    }
+
+    /**
+     * @return \Concepto\Sises\ApplicationBundle\Entity\PersonaCargo
+     */
+    public function getEncargado()
+    {
+        return $this->encargado;
+    }
+
+    /**
+     * @param \Concepto\Sises\ApplicationBundle\Entity\PersonaCargo $encargado
+     */
+    public function setEncargado($encargado)
+    {
+        $this->encargado = $encargado;
     }
 }

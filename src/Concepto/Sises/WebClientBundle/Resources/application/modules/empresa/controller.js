@@ -48,6 +48,10 @@
         G.Base.NewController.call(this, scope, EmpresaFactory);
         EmpresaListado.call(this, scope);
 
+        if (!scope.element.encargado) {
+            scope.element.encargado = {};
+        }
+
         scope.detailsLocation = function(location) {
             scope.go('empresas.detalles', {id: G.extractGuid(location)});
         };
