@@ -12,38 +12,43 @@
 namespace Concepto\Sises\ApplicationBundle\Form\Archivos;
 
 
-use Doctrine\Common\Persistence\ObjectManager;
 use JMS\DiExtraBundle\Annotation\FormType;
-use JMS\DiExtraBundle\Annotation\Inject;
-use JMS\DiExtraBundle\Annotation\InjectParams;
+use JMS\DiExtraBundle\Annotation\Service;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\Form\FormEvent;
-use Symfony\Component\Form\FormEvents;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
 /**
- * Class ArchivoType
+ * Class DocumentableType
  * @package Concepto\Sises\ApplicationBundle\Form\Archivos
- * @FormType(alias="archivo")
+ * @Service()
+ * @FormType(alias="documentable")
  */
-class ArchivoType extends AbstractType
+class DocumentableType extends AbstractType
 {
+    const ARCHIVOS_CLASS = 'archivos_class';
 
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('id')
-            ->add('nombre')
-            ->add('documentable')
+            ->add('archivos', 'collection', array(
+                'type' => 'archivo',
+                'data_class' => $options[self::ARCHIVOS_CLASS],
+                'allow_add' => true,
+                'allow_delete' => true,
+                'by_reference' => false,
+            ))
         ;
     }
 
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
         $resolver->setDefaults(array(
-            'inherit_data' => true
+            'inherit_data' => true,
+            self::ARCHIVOS_CLASS => null
         ));
+
+        $resolver->setRequired(array(self::ARCHIVOS_CLASS));
     }
 
     /**
@@ -53,6 +58,6 @@ class ArchivoType extends AbstractType
      */
     public function getName()
     {
-        return 'archivo';
+        return 'documentable';
     }
 }
