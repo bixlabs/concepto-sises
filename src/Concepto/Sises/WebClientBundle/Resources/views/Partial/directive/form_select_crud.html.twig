@@ -28,7 +28,7 @@
 </div>
 
 {# Show the modal #}
-<div data-sises-modalize="tt.handler" {% verbatim %}data-title="{{label}}"{% endverbatim%}>
+<div data-sises-modalize="tt.handler" {% verbatim %}data-title="{{tt.label}}"{% endverbatim%}>
     <div data-ng-switch data-on="logic">
         {# Formulario new #}
         <div data-ng-switch-when="new">
@@ -80,7 +80,7 @@
                                     <span class="caret"></span></button>
                                 <ul class="dropdown-menu" role="menu">
                                     <li data-ng-repeat="filter in tt.filters">
-                                        <a href data-ng-bind="tt.filter.label" data-ng-click="changeFilter(filter)"></a>
+                                        <a href data-ng-bind="filter.label" data-ng-click="changeFilter(filter)"></a>
                                     </li>
                                 </ul>
                             </div>
