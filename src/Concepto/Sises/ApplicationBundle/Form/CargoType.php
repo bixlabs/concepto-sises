@@ -9,7 +9,7 @@
  * permission of Julian Reyes Escrigas <julian.reyes.escrigas@gmail.com>
  */
 
-namespace Concepto\Sises\ApplicationBundle\Form\Archivos;
+namespace Concepto\Sises\ApplicationBundle\Form;
 
 
 use JMS\DiExtraBundle\Annotation\FormType;
