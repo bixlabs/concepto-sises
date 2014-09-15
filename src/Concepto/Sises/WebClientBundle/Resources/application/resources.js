@@ -21,7 +21,8 @@
                 'persona':      '/api/personas/:id.json',
                 'lugar':        '/api/lugars/:id.json',
                 'ubicacion':    '/api/ubicacions/:id.json',
-                'sevicio':      '/api/ubicacions/:id.json'
+                'sevicio':      '/api/ubicacions/:id.json',
+                'cargo':        '/api/cargos/:id.json'
             };
 
             var methods = {};
@@ -41,6 +42,9 @@
                     apellidos: {label: 'Apellidos', value: 'apellidos', comp: 'L'}
                 },
                 lugar: {
+                    nombre: {label: 'Nombre', value: 'nombre', comp: 'L'}
+                },
+                cargo: {
                     nombre: {label: 'Nombre', value: 'nombre', comp: 'L'}
                 }
             };

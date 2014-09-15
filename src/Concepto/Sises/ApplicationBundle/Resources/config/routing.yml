@@ -26,3 +26,7 @@ ubicacion:
     type: rest
     prefix: /api
     resource: @SisesApplicationBundle/Controller/UbicacionController.php
+cargo:
+    type: rest
+    prefix: /api
+    resource: @SisesApplicationBundle/Controller/CargoController.php
