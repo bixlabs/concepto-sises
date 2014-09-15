@@ -18,6 +18,7 @@
                 'empresa':      '/api/empresas/:id.json',
                 'contrato':     '/api/contratos/:id.json',
                 'beneficiario': '/api/beneficiarios/:id.json',
+                'encargado':    '/api/encargados/:id.json',
                 'persona':      '/api/personas/:id.json',
                 'lugar':        '/api/lugars/:id.json',
                 'ubicacion':    '/api/ubicacions/:id.json',

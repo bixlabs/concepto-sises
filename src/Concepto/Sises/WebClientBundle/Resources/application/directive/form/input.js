@@ -20,11 +20,18 @@
 
         var selected = false;
 
+        var selectedValue = function(el) {
+            var childScope = angular.extend(scope.$new(), el);
+            scope.tt.selectedElement = childScope.$eval(scope.showProperty);
+        };
+
         // Show the name selectedElement
-        scope.$watch('model', function(newVal, oldVal) {
+        scope.$watch(function() {
+            return scope.form.model[scope.modelProperty];
+        }, function(newVal, oldVal) {
             if (newVal !== oldVal && typeof oldVal === 'undefined' && !selected) {
-                var el = RR[scope.property].get({id: newVal}, function() {
-                    scope.tt.selectedElement = el[scope.showProperty];
+                var el = RR[scope.property].get({id: newVal, extra: 'list'}, function() {
+                    selectedValue(el);
                 });
             }
         });
@@ -54,12 +61,12 @@
         scope.select = function(element) {
             selected = true;
             scope.form.model[scope.modelProperty] = element.id;
-            scope.tt.selectedElement = element[scope.showProperty];
+            selectedValue(element);
             scope.tt.handler.hide();
         };
 
         scope.edit = function(element) {
-            scope.element = RR[scope.selectCrud].get({id: element.id});
+            scope.element = RR[scope.property].get({id: element.id});
             scope.logic = 'update';
         };
 

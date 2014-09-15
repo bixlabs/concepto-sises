@@ -30,3 +30,7 @@ cargo:
     type: rest
     prefix: /api
     resource: @SisesApplicationBundle/Controller/CargoController.php
+encargado:
+    type: rest
+    prefix: /api
+    resource: @SisesApplicationBundle/Controller/EncargadoController.php

@@ -17,8 +17,10 @@ use FOS\RestBundle\Controller\Annotations\View;
 use FOS\RestBundle\Request\ParamFetcher;
 use FOS\RestBundle\Routing\ClassResourceInterface;
 use FOS\RestBundle\Util\Codes;
+use JMS\Serializer\SerializationContext;
 use Pagerfanta\Pagerfanta;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 /**
  * Class RestController
@@ -33,10 +35,28 @@ abstract class RestController implements ClassResourceInterface
 
     /**
      * @View(serializerGroups={"details"})
+     * @QueryParam(name="extra", requirements="^list$")
      */
-    public function getAction($id)
+    public function getAction(ParamFetcher $paramFetcher, $id)
     {
-        return $this->getHandler()->get($id);
+        $object = $this->getHandler()->get($id);
+
+        if (!$object) {
+            throw new NotFoundHttpException("resource '{$id}' not found!");
+        }
+
+        if (!empty($paramFetcher->get('extra'))) {
+            $view = \FOS\RestBundle\View\View::create($object);
+            $context = SerializationContext::create();
+            $context->setGroups(array('list'));
+
+            $view->setSerializationContext($context);
+
+            return $view;
+        }
+
+        return $object;
+
     }
 
     /**

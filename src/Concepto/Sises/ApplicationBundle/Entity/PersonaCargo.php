@@ -17,6 +17,9 @@ use Doctrine\ORM\Mapping\GeneratedValue;
 use Doctrine\ORM\Mapping\Id;
 use Doctrine\ORM\Mapping\ManyToOne;
 use Doctrine\ORM\Mapping\Table;
+use JMS\Serializer\Annotation\Groups;
+use JMS\Serializer\Annotation\SerializedName;
+use JMS\Serializer\Annotation\VirtualProperty;
 use Symfony\Component\Validator\Constraints\NotNull;
 
 /**
@@ -32,6 +35,7 @@ class PersonaCargo
      * @Id()
      * @GeneratedValue(strategy="UUID")
      * @Column(name="id", length=36)
+     * @Groups({"list", "details"})
      */
     protected $id;
 
@@ -39,6 +43,7 @@ class PersonaCargo
      * @var Cargo
      * @ManyToOne(targetEntity="Concepto\Sises\ApplicationBundle\Entity\Cargo")
      * @NotNull()
+     * @Groups({"list"})
      */
     protected $cargo;
 
@@ -46,8 +51,39 @@ class PersonaCargo
      * @var Persona
      * @ManyToOne(targetEntity="Concepto\Sises\ApplicationBundle\Entity\Persona")
      * @NotNull()
+     * @Groups({"list"})
      */
     protected $persona;
+
+    /**
+     * @VirtualProperty()
+     * @SerializedName("cargo")
+     * @Groups({"details"})
+     */
+    public function cargoId()
+    {
+        return $this->cargo->getId();
+    }
+
+    /**
+     * @VirtualProperty()
+     * @SerializedName("persona")
+     * @Groups({"details"})
+     */
+    public function PersonaId()
+    {
+        return $this->persona->getId();
+    }
+
+    /**
+     * @VirtualProperty()
+     * @SerializedName("nombre_detallado")
+     * @Groups({"list"})
+     */
+    public function getDetallado()
+    {
+        return "{$this->cargo->getNombre()} - {$this->persona->getNombreCompleto()}";
+    }
 
     /**
      * @return string

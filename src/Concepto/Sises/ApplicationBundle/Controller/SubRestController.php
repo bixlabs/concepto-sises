@@ -23,9 +23,9 @@ abstract class SubRestController extends RestController
     /**
      * @View(serializerGroups={"details"})
      */
-    public function getAction($parent, $id = null)
+    public function getAction(ParamFetcher $paramFetcher, $parent, $id = null)
     {
-        return parent::getAction($id);
+        return parent::getAction($paramFetcher, $id);
     }
 
     /**

@@ -16,6 +16,7 @@ use Doctrine\ORM\Mapping\Entity;
 use Doctrine\ORM\Mapping\GeneratedValue;
 use Doctrine\ORM\Mapping\Id;
 use Doctrine\ORM\Mapping\Table;
+use JMS\Serializer\Annotation\Groups;
 use Symfony\Component\Validator\Constraints\NotBlank;
 
 /**
@@ -30,6 +31,7 @@ class Cargo {
      * @Id()
      * @GeneratedValue(strategy="UUID")
      * @Column(name="id", length=36)
+     * @Groups({"list", "details"})
      */
     protected $id;
 
@@ -37,6 +39,7 @@ class Cargo {
      * @var
      * @Column(name="nombre", length=250, unique=true)
      * @NotBlank()
+     * @Groups({"list", "details"})
      */
     protected $nombre;
 

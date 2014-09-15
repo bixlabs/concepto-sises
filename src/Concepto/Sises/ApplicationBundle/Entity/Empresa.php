@@ -21,6 +21,8 @@ use Doctrine\ORM\Mapping\JoinColumn;
 use Doctrine\ORM\Mapping\ManyToOne;
 use Doctrine\ORM\Mapping\Table;
 use JMS\Serializer\Annotation\Groups;
+use JMS\Serializer\Annotation\SerializedName;
+use JMS\Serializer\Annotation\VirtualProperty;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Validator\Constraints\Email;
 use Symfony\Component\Validator\Constraints\NotBlank;
@@ -92,8 +94,23 @@ class Empresa implements OrmPersistible {
      * @var PersonaCargo
      * @ManyToOne(targetEntity="Concepto\Sises\ApplicationBundle\Entity\PersonaCargo", cascade={"persist"})
      * @JoinColumn(nullable=true)
+     * @Groups({"list"})
      */
     protected $encargado;
+
+    /**
+     * @VirtualProperty()
+     * @SerializedName("encargado")
+     * @Groups({"details"})
+     */
+    public function getEncargadoId()
+    {
+        if ($this->encargado) {
+            return $this->encargado->getId();
+        }
+
+        return null;
+    }
 
     /**
      * @return string
