@@ -151,6 +151,9 @@ abstract class RestHandler implements RestHandlerInterface {
         $type = class_exists($this->getTypeClassString()) ?
             $instantiator->instantiate($this->getTypeClassString()): $this->getTypeClassString();
 
+        $bag = array();
+
+        list($object, $bag) = $this->preSubmit($object, $bag);
 
         $form = $this->formfactory->create($type, $object);
         $form->submit($this->camelizeParamers($parameters), 'PATCH' !== $method);
@@ -158,9 +161,9 @@ abstract class RestHandler implements RestHandlerInterface {
         $url = $this->getRouteName();
 
         if ($form->isValid()) {
-
             $code = $object->getId() ? Codes::HTTP_NO_CONTENT : Codes::HTTP_CREATED;
             $this->getEm()->persist($object);
+            list($object, ) = $this->preFlush($object, $bag);
             $this->getEm()->flush();
 
             $view = View::createRedirect(
@@ -210,5 +213,15 @@ abstract class RestHandler implements RestHandlerInterface {
         }
 
         return $camelizedParams;
+    }
+
+    protected  function preSubmit($object, $bag = array())
+    {
+        return array($object, $bag);
+    }
+
+    protected  function preFlush($object, $bag = array())
+    {
+        return array($object, $bag);
     }
 }
