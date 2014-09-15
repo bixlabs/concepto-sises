@@ -20,6 +20,12 @@
                     scope.files = [];
                     scope.current_edit = null;
 
+                    scope.filters = [
+                        { title : "Image files", extensions : "jpg,gif,png,jpeg,gif" },
+                        { title : "Zip files", extensions : "zip,rar,tar" },
+                        { title : "Documents", extensions : "pdf,doc,xls,docx,xlsx,ppt" },
+                    ];
+
                     var append = function(archivo) {
 
                         var founded = -1;
