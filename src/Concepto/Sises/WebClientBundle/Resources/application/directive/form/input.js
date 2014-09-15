@@ -29,7 +29,7 @@
         scope.$watch(function() {
             return scope.form.model[scope.modelProperty];
         }, function(newVal) {
-            if (!selected) {
+            if (!selected && typeof newVal !== 'undefined') {
                 var el = RR[scope.property].get({id: newVal, extra: 'list'}, function() {
                     selectedValue(el);
                 });
