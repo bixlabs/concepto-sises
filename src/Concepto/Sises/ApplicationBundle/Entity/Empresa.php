@@ -11,12 +11,14 @@
 
 namespace Concepto\Sises\ApplicationBundle\Entity;
 
+use Concepto\Sises\ApplicationBundle\Entity\Archivos\Documentable;
 use Doctrine\ORM\Mapping\Column;
 use Doctrine\ORM\Mapping\Entity;
 use Doctrine\ORM\Mapping\GeneratedValue;
 use Doctrine\ORM\Mapping\Id;
 use Doctrine\ORM\Mapping\JoinColumn;
 use Doctrine\ORM\Mapping\ManyToOne;
+use Doctrine\ORM\Mapping\OneToMany;
 use Doctrine\ORM\Mapping\Table;
 use JMS\Serializer\Annotation\Groups;
 use JMS\Serializer\Annotation\SerializedName;
@@ -32,7 +34,7 @@ use Symfony\Component\Validator\Constraints\NotBlank;
  * @Table(name="empresa")
  * @UniqueEntity(fields={"nit"}, message="No puede existir dos empresas con un mismo nit")
  */
-class Empresa implements OrmPersistible {
+class Empresa extends Documentable implements OrmPersistible {
     /**
      * @var string
      * @Id()
@@ -94,6 +96,16 @@ class Empresa implements OrmPersistible {
      * @Groups({"list"})
      */
     protected $encargado;
+
+    /**
+     * @{inheridoc}
+     * @OneToMany(
+     *  targetEntity="Concepto\Sises\ApplicationBundle\Entity\Archivos\ArchivoEmpresa",
+     *  mappedBy="documentable",
+     *  cascade={"persist"}
+     * )
+     */
+    protected $archivos;
 
     /**
      * @VirtualProperty()

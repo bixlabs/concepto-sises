@@ -32,6 +32,9 @@ class EmpresaType extends AbstractType
             ->add('encargado',  null, array(
                 'property' => 'id'
             ))
+            ->add('archivos', 'documentable', array(
+                'data_class' => $options['data_class'],
+            ))
         ;
     }
 
