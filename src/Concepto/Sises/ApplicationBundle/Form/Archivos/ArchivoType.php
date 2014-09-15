@@ -36,7 +36,9 @@ class ArchivoType extends AbstractType
             ->add('id')
             ->add('nombre')
             ->add('file')
-            ->add('documentable')
+            ->add('documentable', null, array(
+                'property' => 'id'
+            ))
         ;
     }
 

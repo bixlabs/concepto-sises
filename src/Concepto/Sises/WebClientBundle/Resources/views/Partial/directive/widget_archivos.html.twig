@@ -28,13 +28,31 @@
         </thead>
         <tbody>
         <tr data-ng-repeat="archivo in elements"
-            data-ng-click="edit(servicio)"
+            data-ng-click="edit(archivo)"
             class="pointer">
-            <td data-ng-bind="archivo.nombre"></td>
             <td>
+                {# Non editable #}
+                <span data-ng-bind="archivo.nombre"
+                      style="padding-left: 12px"
+                      data-ng-if="!editable(archivo)"></span>
+                {# Editable #}
+                <input data-ng-model="archivo.nombre"
+                       data-ng-if="editable(archivo)"
+                       data-ng-required="true"
+                       class="form-control" type="text" {% verbatim %}id="{{id}}"{% endverbatim %}/>
+            </td>
+            <td width="20%">
+                {# Non editable #}
                 <button class="btn btn-warning" title="Elmina este archivo"
+                        data-ng-if="!editable(archivo)"
                         data-ng-click="remove(archivo)">
                     <i class="glyphicon glyphicon-remove-sign"></i>
+                </button>
+                {# Editable #}
+                <button class="btn btn-primary"
+                        data-ng-if="editable(archivo)"
+                        data-ng-click="editOff($event)">
+                    <i class="glyphicon glyphicon-ok"></i>
                 </button>
             </td>
         </tr>

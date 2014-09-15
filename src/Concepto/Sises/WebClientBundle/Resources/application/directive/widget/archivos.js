@@ -14,16 +14,19 @@
                 },
                 link: function(scope) {
 
+                    scope.id = G.guid();
                     scope.active = false;
                     scope.percent = 0;
                     scope.files = [];
+                    scope.current_edit = null;
 
                     var append = function(archivo) {
 
                         var founded = -1;
 
+                        // Se busca por archivos, tiene nombres unicos
                         angular.forEach(scope.elements, function(value, index) {
-                            if (value.nombre === archivo.nombre) {
+                            if (value.file === archivo.file) {
                                 founded = index;
                             }
                         });
@@ -34,6 +37,22 @@
                             }
                             scope.elements.push(archivo);
                         }
+                    };
+
+                    scope.edit = function(archivo) {
+                        scope.current_edit = archivo;
+                    };
+                    scope.editOff = function($event) {
+                        scope.current_edit = null;
+                        $event.stopPropagation()
+                    };
+
+                    scope.editable = function(archivo) {
+                        if (!scope.current_edit) {
+                            return false;
+                        }
+
+                        return scope.current_edit.file === archivo.file;
                     };
 
                     scope.fileUploaded = function(res) {
