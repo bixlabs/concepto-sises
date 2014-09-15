@@ -15,6 +15,8 @@ use Doctrine\ORM\Mapping\GeneratedValue;
 use Doctrine\ORM\Mapping\Id;
 use Doctrine\ORM\Mapping\MappedSuperclass;
 use JMS\Serializer\Annotation\Groups;
+use JMS\Serializer\Annotation\SerializedName;
+use JMS\Serializer\Annotation\VirtualProperty;
 use Symfony\Component\Validator\Constraints\NotBlank;
 
 /**
@@ -51,8 +53,19 @@ class Archivo {
 
     /**
      * @var Documentable
+     * @Groups({"list"})
      */
     protected $documentable;
+
+    /**
+     * @VirtualProperty()
+     * @SerializedName("documentable")
+     * @Groups({"details"})
+     */
+    public function getDocumentableId()
+    {
+        return $this->documentable->getId();
+    }
 
     /**
      * @return \Concepto\Sises\ApplicationBundle\Entity\Archivos\Documentable

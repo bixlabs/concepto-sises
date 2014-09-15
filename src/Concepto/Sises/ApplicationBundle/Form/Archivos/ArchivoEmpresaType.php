@@ -23,7 +23,6 @@ class ArchivoEmpresaType extends ArchivoType
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
         $resolver->setDefaults(array(
-            'inherit_data' => true,
             'data_class' => 'Concepto\Sises\ApplicationBundle\Entity\Archivos\ArchivoEmpresa',
         ));
     }
