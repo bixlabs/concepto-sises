@@ -9,3 +9,9 @@ concepto_sises:
 
 concpeto_sises_web:
     resource: @SisesWebClientBundle/Resources/config/routing.yml
+
+oneup_uploader:
+    resource: .
+    type: uploader
+    options:
+        expose: true

@@ -84,4 +84,4 @@ jms_di_extra:
 oneup_uploader:
     mappings:
         documentable:
-            frontend: dropzone
+            frontend: plupload

@@ -5,6 +5,12 @@
         return Routing.getBaseUrl() + (name);
     };
 
+    var route = function(name, args) {
+        var arg_params = args || {};
+
+        return Routing.generate(name, arg_params);
+    }
+
     var template = function (name) {
         return Routing.generate('view_partials', {name: name});
     };
@@ -38,6 +44,7 @@
         APP: 'sises',
         template: template,
         json_route: json_route,
+        route: route,
         modules: {},
         guid: guid,
         extractGuid: extractGuid

@@ -1,0 +1,29 @@
+{% verbatim %}
+<div id="{{tt.id}}">
+    <div class="row">
+        <div class="col-lg-6">
+            <img src="" data-ng-src="{{tt.logo}}" class="img-thumbnail" style="max-width: 214px"/>
+        </div>
+        <div class="col-lg-6">
+            <button
+                    class="btn btn-info"
+                    data-pl-upload
+                    data-on-file-added="fileAdded()"
+                    data-on-file-uploaded="fileUploaded($response)"
+                    data-pl-progress-model="tt.percent">
+                <i class="glyphicon glyphicon-cloud-upload"></i> {{tt.buttonLabel}}
+            </button>
+
+            <div class="progress" data-ng-if="tt.active">
+                <div class="progress-bar progress-bar-striped" data-ng-class="{'active': tt.active}"
+                     role="progressbar"
+                     aria-valuenow="{{tt.percent}}"
+                     aria-valuemin="0"
+                     aria-valuemax="100" style="width: {{tt.percent}}%">
+                    <span class="sr-only">{{tt.percent}}% Completado</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endverbatim %}

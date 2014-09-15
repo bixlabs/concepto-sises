@@ -109,4 +109,50 @@
                 link: inputLinkFunc
             }
         })
+
+        .directive('sisesFormImage', function($timeout) {
+            return {
+                restrict: 'A',
+                replace: true,
+                require: '^sisesForm',
+                templateUrl: G.template('directive/form_image'),
+                scope: {
+                    property: '@sisesFormImage'
+                },
+                link: function(scope, el, attrs, form) {
+                    inputLinkFunc.call(this, scope, el, attrs, form);
+                    scope.uploader = {};
+                    scope.tt.active = false;
+                    scope.tt.percent = 0;
+
+                    scope.$watch('form.model.' + scope.property, function(val) {
+                        updateImage(val);
+                    });
+
+                    var defaultImage = '/bundles/siseswebclient/images/logo-default.png';
+
+                    var updateImage = function(img) {
+                        scope.tt.logo = img ? ('/uploads/documentable/' + img ): defaultImage;
+                    };
+
+                    scope.fileUploaded = function(res) {
+                        scope.form.model[scope.property] = JSON.parse(res.response).file;
+
+                        $timeout(function() {
+                            scope.tt.active = false;
+                            scope.tt.percent = 0;
+                        }, 100);
+                    };
+
+                    scope.fileAdded = function() {
+                        scope.tt.percent = 0;
+                        scope.tt.active = true;
+                    };
+
+                    if (!attrs.buttonLabel) {
+                        scope.tt.buttonLabel = 'Subir imagen';
+                    }
+                }
+            }
+        })
 })();

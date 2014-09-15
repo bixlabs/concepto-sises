@@ -1,20 +1,28 @@
-<div class="row">
-    <div class="col-lg-7">
-        <div data-sises-form="element" data-errors="errors">
-            <fieldset>Datos básicos</fieldset>
+<div data-sises-form="element" data-errors="errors">
+    <div class="row">
+        <div class="col-lg-7">
+            <fieldset>
+                <legend>Datos básicos</legend>
 
-            <div data-sises-form-input="nombre"
-                 data-placeholder="'Nombre o razón social'"
-                 data-required="true"
-                 data-label="'Nombre empresa'"></div>
+                <div data-sises-form-input="nombre"
+                     data-placeholder="'Nombre o razón social'"
+                     data-required="true"
+                     data-label="'Nombre empresa'"></div>
 
-            <div data-sises-form-input="nit"
-                 data-required="true"
-                 data-placeholder="'800.000.000-1'"
-                 data-label="'NIT'"></div>
+                <div data-sises-form-input="nit"
+                     data-required="true"
+                     data-placeholder="'800.000.000-1'"
+                     data-label="'NIT'"></div>
 
-            <div data-sises-form-email="email"
-                 data-label="'Correo electrónico'"></div>
+                <div data-sises-form-email="email"
+                     data-label="'Correo electrónico'"></div>
+            </fieldset>
+        </div>
+        <div class="col-lg-5">
+                <fieldset>
+                    <legend>Logo empresa</legend>
+                    <div data-sises-form-image="logo"></div>
+                </fieldset>
         </div>
     </div>
 </div>

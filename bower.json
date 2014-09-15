@@ -25,6 +25,7 @@
     "angular-chosen-localytics": "~1.0.6",
     "bootstrap-chosen": "*",
     "bootstrap-modal": "~2.2.5",
-    "dropzone": "~3.10.2"
+    "dropzone": "~3.10.2",
+    "plupload-angular-directive": "~0.1.2"
   }
 }
