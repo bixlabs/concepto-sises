@@ -96,6 +96,20 @@ class Contrato implements OrmPersistible {
      */
     protected $servicios;
 
+    /**
+     * @var \DateTime
+     * @Column(name="fecha_inicio", type="datetime")
+     * @Groups({"details"})
+     */
+    protected $fechaInicio;
+
+    /**
+     * @var \DateTime
+     * @Column(name="fecha_cierre", type="datetime")
+     * @Groups({"details"})
+     */
+    protected $fechaCierre;
+
     function __construct()
     {
         $this->servicios = new ArrayCollection();
@@ -238,5 +252,37 @@ class Contrato implements OrmPersistible {
             $this->servicios->removeElement($servicio);
             $servicio->setContrato(null);
         }
+    }
+
+    /**
+     * @return \DateTime
+     */
+    public function getFechaInicio()
+    {
+        return $this->fechaInicio;
+    }
+
+    /**
+     * @param \DateTime $fechaInicio
+     */
+    public function setFechaInicio($fechaInicio)
+    {
+        $this->fechaInicio = $fechaInicio;
+    }
+
+    /**
+     * @return \DateTime
+     */
+    public function getFechaCierre()
+    {
+        return $this->fechaCierre;
+    }
+
+    /**
+     * @param \DateTime $fechaCierre
+     */
+    public function setFechaCierre($fechaCierre)
+    {
+        $this->fechaCierre = $fechaCierre;
     }
 }
