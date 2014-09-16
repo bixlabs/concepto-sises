@@ -109,6 +109,13 @@ class Empresa extends Documentable implements OrmPersistible {
     protected $archivos;
 
     /**
+     * @var bool
+     * @Column(type="boolean", name="privada")
+     * @Groups({"list", "details"})
+     */
+    protected $privada;
+
+    /**
      * @VirtualProperty()
      * @SerializedName("encargado")
      * @Groups({"details"})
@@ -240,5 +247,21 @@ class Empresa extends Documentable implements OrmPersistible {
     public function setEncargado($encargado)
     {
         $this->encargado = $encargado;
+    }
+
+    /**
+     * @param boolean $privada
+     */
+    public function setPrivada($privada)
+    {
+        $this->privada = $privada;
+    }
+
+    /**
+     * @return boolean
+     */
+    public function isPrivada()
+    {
+        return $this->privada;
     }
 }

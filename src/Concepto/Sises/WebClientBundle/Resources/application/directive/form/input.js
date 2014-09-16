@@ -203,7 +203,8 @@
         var attribs = [
             'placeholder',
             'label',
-            'required'
+            'required',
+            'type'
         ];
 
         // Proccess extra attributes

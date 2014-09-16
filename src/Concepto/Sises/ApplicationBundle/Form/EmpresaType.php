@@ -30,6 +30,7 @@ class EmpresaType extends AbstractType
             ->add('direccion')
             ->add('email')
             ->add('logo')
+            ->add('privada')
             ->add('encargado',  null, array(
                 'property' => 'id'
             ))

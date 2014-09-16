@@ -1,13 +1,32 @@
 {% verbatim %}
-<div class="form-group" data-ng-class="{'has-error': hasErrors(), 'required': isRequired()}">
-    <label class="col-lg-4 control-label" for="{{tt.id}}_input">{{tt.label}}</label>
-    <div class="col-lg-8">
-        <input placeholder="{{tt.placeholder}}"
-               data-ng-model="form.model[property]"
-               class="form-control" type="{{tt.type}}" id="{{tt.id}}_input"/>
-        <p class="help-block"
-           data-ng-repeat="error in getErrors()"
-           data-ng-bind="error"></p>
+<div data-ng-switch="tt.type">
+    <div class="form-group"
+         data-ng-switch-when="checkbox"
+         data-ng-class="{'has-error': hasErrors(), 'required': isRequired()}">
+        <label class="col-lg-4 control-label" for="{{tt.id}}_checkbox">{{tt.label}}</label>
+        <div class="col-lg-8">
+            <div class="checkbox">
+                <label>
+                    <input type="checkbox" id="{{tt.id}}_checkbox" data-ng-model="form.model[property]"> &nbsp;
+                </label>
+            </div>
+            <p class="help-block"
+               data-ng-repeat="error in getErrors()"
+               data-ng-bind="error"></p>
+        </div>
+    </div>
+    <div class="form-group"
+         data-ng-switch-default
+         data-ng-class="{'has-error': hasErrors(), 'required': isRequired()}">
+        <label class="col-lg-4 control-label" for="{{tt.id}}_input">{{tt.label}}</label>
+        <div class="col-lg-8">
+            <input placeholder="{{tt.placeholder}}"
+                   data-ng-model="form.model[property]"
+                   class="form-control" type="{{tt.type}}" id="{{tt.id}}_input"/>
+            <p class="help-block"
+               data-ng-repeat="error in getErrors()"
+               data-ng-bind="error"></p>
+        </div>
     </div>
 </div>
 {% endverbatim %}
