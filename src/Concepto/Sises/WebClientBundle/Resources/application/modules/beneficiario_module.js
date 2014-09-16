@@ -76,11 +76,11 @@
      * BeneficiarioListadoController
      *
      * @param scope
-     * @param ResourceFactory
+     * @param RR
      * @constructor
      */
-    function BeneficiarioListadoController(scope, ResourceFactory) {
-        G.Base.ListController.call(this, scope, ResourceFactory.beneficiario);
+    function BeneficiarioListadoController(scope, RR) {
+        G.Base.ListController.call(this, scope, RR.beneficiario);
 
         scope.details = function (id) {
             scope.go('beneficiarios.detalles', {id: id});
@@ -95,11 +95,11 @@
      * BeneficiarioDetallesController
      *
      * @param scope
-     * @param ResourceFactory
+     * @param RR
      * @constructor
      */
-    function BeneficiarioDetallesController(scope, ResourceFactory) {
-        G.Base.UpdateController.call(this, scope, ResourceFactory.beneficiario);
+    function BeneficiarioDetallesController(scope, RR) {
+        G.Base.UpdateController.call(this, scope, RR.beneficiario);
 
         scope.list = function() {
             scope.go('beneficiarios.listado');
@@ -152,7 +152,6 @@
 
         .controller('BeneficiarioDetallesController', [
             '$scope',
-            '$rootScope',
             'RestResources',
             BeneficiarioDetallesController])
 

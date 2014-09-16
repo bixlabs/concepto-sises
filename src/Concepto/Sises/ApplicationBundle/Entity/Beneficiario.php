@@ -11,35 +11,28 @@
 
 namespace Concepto\Sises\ApplicationBundle\Entity;
 
+use Concepto\Sises\ApplicationBundle\Entity\Archivos\Documentable;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping\Column;
 use Doctrine\ORM\Mapping\Entity;
 use Doctrine\ORM\Mapping\GeneratedValue;
 use Doctrine\ORM\Mapping\Id;
 use Doctrine\ORM\Mapping\ManyToOne;
+use Doctrine\ORM\Mapping\OneToMany;
 use Doctrine\ORM\Mapping\Table;
-use Doctrine\ORM\Mapping\UniqueConstraint;
 use JMS\Serializer\Annotation\Groups;
 use JMS\Serializer\Annotation\SerializedName;
 use JMS\Serializer\Annotation\VirtualProperty;
-use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Validator\Constraints\NotNull;
 
 /**
  * Class Beneficiario
  * @package Concepto\Sises\ApplicationBundle\Entity
  * @Entity()
- * @Table(
- *      name="beneficiario",
- *      uniqueConstraints={
- *          @UniqueConstraint(name="beneficiario", columns={"lugar_id", "servicio_id", "persona_id"})
- *      }
- * )
- * @UniqueEntity(
- *      message="No puede brindar un servcio dos veces a una misma persona",
- *      fields={"lugar","servicio","persona"}
- * )
+ * @Table(name="beneficiario")
  */
-class Beneficiario {
+class Beneficiario extends Documentable implements OrmPersistible {
     /**
      * @var string
      * @Id()
@@ -50,28 +43,38 @@ class Beneficiario {
     protected $id;
 
     /**
-     * @var LugarEntrega
-     * @ManyToOne(targetEntity="Concepto\Sises\ApplicationBundle\Entity\LugarEntrega")
-     * @NotNull()
-     * @Groups({"list"})
-     */
-    protected $lugar;
-
-    /**
-     * @var ServicioContratado
-     * @ManyToOne(targetEntity="Concepto\Sises\ApplicationBundle\Entity\ServicioContratado")
-     * @NotNull()
-     * @Groups({"list"})
-     */
-    protected $servicio;
-
-    /**
      * @var Persona
      * @ManyToOne(targetEntity="Concepto\Sises\ApplicationBundle\Entity\Persona")
      * @NotNull()
      * @Groups({"list"})
      */
     protected $persona;
+
+    /**
+     * @var Collection
+     * @OneToMany(
+     *  targetEntity="Concepto\Sises\ApplicationBundle\Entity\Beneficio",
+     *  mappedBy="beneficiario",
+     *  cascade={"persist"}
+     * )
+     */
+    protected $beneficios;
+
+    /**
+     * @{inheridoc}
+     * @OneToMany(
+     *  targetEntity="Concepto\Sises\ApplicationBundle\Entity\Archivos\ArchivoBeneficiario",
+     *  mappedBy="documentable",
+     *  cascade={"persist"}
+     * )
+     * @Groups({"details"})
+     */
+    protected $archivos;
+
+    function __construct()
+    {
+        $this->beneficios = new ArrayCollection();
+    }
 
     /**
      * @VirtualProperty()
@@ -84,63 +87,11 @@ class Beneficiario {
     }
 
     /**
-     * @VirtualProperty()
-     * @SerializedName("servicio")
-     * @Groups({"details"})
-     */
-    public function getServicioId()
-    {
-        return $this->servicio->getId();
-    }
-
-    /**
-     * @VirtualProperty()
-     * @SerializedName("lugar")
-     * @Groups({"details"})
-     */
-    public function getLugarId()
-    {
-        return $this->lugar->getId();
-    }
-
-    /**
      * @return string
      */
     public function getId()
     {
         return $this->id;
-    }
-
-    /**
-     * @return \Concepto\Sises\ApplicationBundle\Entity\LugarEntrega
-     */
-    public function getLugar()
-    {
-        return $this->lugar;
-    }
-
-    /**
-     * @param \Concepto\Sises\ApplicationBundle\Entity\LugarEntrega $lugar
-     */
-    public function setLugar($lugar)
-    {
-        $this->lugar = $lugar;
-    }
-
-    /**
-     * @return \Concepto\Sises\ApplicationBundle\Entity\ServicioContratado
-     */
-    public function getServicio()
-    {
-        return $this->servicio;
-    }
-
-    /**
-     * @param \Concepto\Sises\ApplicationBundle\Entity\ServicioContratado $servicio
-     */
-    public function setServicio($servicio)
-    {
-        $this->servicio = $servicio;
     }
 
     /**
@@ -157,5 +108,43 @@ class Beneficiario {
     public function setPersona($persona)
     {
         $this->persona = $persona;
+    }
+
+    /**
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getBeneficios()
+    {
+        return $this->beneficios;
+    }
+
+    /**
+     * @param \Doctrine\Common\Collections\Collection $beneficios
+     */
+    public function setBeneficios($beneficios)
+    {
+        $this->beneficios = $beneficios;
+    }
+
+    /**
+     * @param Beneficio $beneficio
+     */
+    public function addBeneficio($beneficio)
+    {
+        if (!$this->beneficios->contains($beneficio)) {
+            $beneficio->setBeneficiario($this);
+            $this->beneficios->add($beneficio);
+        }
+    }
+
+    /**
+     * @param Beneficio $beneficio
+     */
+    public function removeBeneficio($beneficio)
+    {
+        if ($this->beneficios->contains($beneficio)) {
+            $beneficio->setBeneficiario(null);
+            $this->beneficios->removeElement($beneficio);
+        }
     }
 }

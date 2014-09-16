@@ -1,0 +1,34 @@
+<fieldset>
+    <legend>Beneficios</legend>
+    <button class="btn btn-info">
+        <i class="glyphicon glyphicon-plus-sign"></i> Agregar beneficio
+    </button>
+    <table class="table table-hover">
+        <thead>
+        <tr>
+            <th>Contrato</th>
+            <th>Lugar entrega</th>
+            <th>Nombre</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr data-ng-repeat="beneficio in elements"
+            data-ng-click="edit(beneficio)"
+            class="pointer">
+            <td>
+                {# Non editable #}
+                <span data-ng-bind="beneficio.nombre"
+                      style="padding-left: 13px"></span>
+
+            </td>
+            <td width="20%">
+                {# Non editable #}
+                <button class="btn btn-warning" title="Elmina este beneficio"
+                        data-ng-click="remove(beneficio)">
+                    <i class="glyphicon glyphicon-remove-sign"></i>
+                </button>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</fieldset>

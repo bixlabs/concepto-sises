@@ -12,40 +12,27 @@
 namespace Concepto\Sises\ApplicationBundle\Form;
 
 
-use Concepto\Sises\ApplicationBundle\Form\Archivos\ArchivoBeneficiarioType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
-class BeneficiarioType extends AbstractType {
+class BeneficioType extends AbstractType
+{
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         //TODO: posible necesidad de optimizar larga coleccion
         $builder
             ->add('id')
-            ->add('persona', null, array(
-                'property' => 'id'
-            ))
-            ->add('beneficios', 'collection', array(
-                'type' => new BeneficioType(),
-                'allow_add' => true,
-                'allow_delete' => false,
-                'by_reference' => false
-            ))
-            ->add('archivos', 'collection', array(
-                'type' => new ArchivoBeneficiarioType(),
-                'allow_add' => true,
-                'allow_delete' => true,
-                'by_reference' => false,
-            ))
-            ;
+            ->add('beneficiario')
+            ->add('lugar')
+            ->add('servicio')
+        ;
     }
 
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => 'Concepto\Sises\ApplicationBundle\Entity\Beneficiario',
-            'cascade_validation' => true
+            'data_class' => 'Concepto\Sises\ApplicationBundle\Entity\Beneficio'
         ));
     }
 

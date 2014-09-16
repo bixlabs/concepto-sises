@@ -13,8 +13,9 @@
 <table class="table table-hover table-condensed">
     <thead>
     <tr>
+        <th width="20%">Documento</th>
         <th>Nombre beneficiario</th>
-        <th></th>
+        <th width="20%"></th>
     </tr>
     </thead>
     <tbody ng-if="elements.length == 0">
@@ -26,7 +27,8 @@
     </tbody>
     <tbody ng-if="elements.length > 0">
     <tr data-ng-repeat="beneficiario in elements">
-        <td data-ng-bind="beneficiario.nombre_completo"></td>
+        <td data-ng-bind="beneficiario.persona.documento"></td>
+        <td data-ng-bind="beneficiario.persona.nombre_completo"></td>
         <td>
             {% set params = {'name':'edit', 'singular': 'Beneficiario'} %}
             {{render(controller('SisesWebClientBundle:Web:actions', params))}}
