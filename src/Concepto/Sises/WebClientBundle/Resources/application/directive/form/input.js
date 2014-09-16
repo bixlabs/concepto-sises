@@ -219,6 +219,13 @@
 
             return false;
         };
+
+        scope.open = function($event) {
+            $event.preventDefault();
+            $event.stopPropagation();
+
+            scope.opened = true;
+        };
     };
 
     angular.module(G.APP)

@@ -15,6 +15,31 @@
                data-ng-bind="error"></p>
         </div>
     </div>
+
+    <div class="form-group"
+         data-ng-switch-when="date"
+         data-ng-class="{'has-error': hasErrors(), 'required': isRequired()}">
+        <label class="col-lg-4 control-label" for="{{tt.id}}_date">{{tt.label}}</label>
+        <div class="col-lg-8">
+            <div class="input-group">
+                <input placeholder="{{tt.placeholder}}"
+                       data-ng-model="form.model[property]"
+                       data-datepicker-popup="dd-MM-yyyy"
+                       data-is-open="opened"
+                       data-close-text="Cerrar"
+                       class="form-control" type="text" id="{{tt.id}}_date"/>
+                <span class="input-group-btn">
+                    <button type="button" class="btn btn-default" ng-click="open($event)">
+                        <i class="glyphicon glyphicon-calendar"></i>
+                    </button>
+              </span>
+            </div>
+            <p class="help-block"
+               data-ng-repeat="error in getErrors()"
+               data-ng-bind="error"></p>
+        </div>
+    </div>
+
     <div class="form-group"
          data-ng-switch-default
          data-ng-class="{'has-error': hasErrors(), 'required': isRequired()}">

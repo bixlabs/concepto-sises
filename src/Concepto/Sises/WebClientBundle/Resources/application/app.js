@@ -4,7 +4,7 @@
 (function() {
     "use strict";
 
-    angular.module(G.APP, ['EMPRESA', 'DASHBOARD', 'CONTRATO', 'BENEFICIARIO', 'ui.router', 'localytics.directives', 'plupload.directive'])
+    angular.module(G.APP, ['EMPRESA', 'DASHBOARD', 'CONTRATO', 'BENEFICIARIO', 'ui.router', 'localytics.directives', 'plupload.directive', 'ui.bootstrap'])
         .config(['$urlRouterProvider', 'plUploadServiceProvider', function ($urlRouterProvider, plUploadServiceProvider) {
             $urlRouterProvider
                 .otherwise('/dashboard')
