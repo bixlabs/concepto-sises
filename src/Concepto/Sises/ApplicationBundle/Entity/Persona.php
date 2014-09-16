@@ -65,6 +65,13 @@ class Persona implements OrmPersistible
     protected $documento;
 
     /**
+     * @var string
+     * @Column(name="foto", length=255, nullable=true)
+     * @Groups({"list", "details"})
+     */
+    protected $foto;
+
+    /**
      * @VirtualProperty()
      * @SerializedName("nombre_completo")
      * @Groups({"list"})
@@ -128,5 +135,21 @@ class Persona implements OrmPersistible
     public function setDocumento($documento)
     {
         $this->documento = $documento;
+    }
+
+    /**
+     * @return string
+     */
+    public function getFoto()
+    {
+        return $this->foto;
+    }
+
+    /**
+     * @param string $foto
+     */
+    public function setFoto($foto)
+    {
+        $this->foto = $foto;
     }
 }

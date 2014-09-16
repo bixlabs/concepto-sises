@@ -1,16 +1,26 @@
 <div data-sises-form="element" data-errors="errors">
-    <fieldset>
-        <legend>Datos básicos</legend>
-        <div data-sises-form-input="documento"
-             data-label="'Documento de identidad'"
-             data-required="true"></div>
+    <div class="row">
+        <div class="col-lg-7">
+            <fieldset>
+                <legend>Datos básicos</legend>
+                <div data-sises-form-input="documento"
+                     data-label="'Documento de identidad'"
+                     data-required="true"></div>
 
-        <div data-sises-form-input="nombre"
-             data-label="'Nombre'"
-             data-required="true"></div>
+                <div data-sises-form-input="nombre"
+                     data-label="'Nombre'"
+                     data-required="true"></div>
 
-        <div data-sises-form-input="apellidos"
-             data-label="'Apellidos'"
-             data-required="true"></div>
-    </fieldset>
+                <div data-sises-form-input="apellidos"
+                     data-label="'Apellidos'"
+                     data-required="true"></div>
+            </fieldset>
+        </div>
+        <div class="col-lg-5">
+            <fieldset>
+                <legend>Fotografía</legend>
+                <div data-sises-form-image="foto"></div>
+            </fieldset>
+        </div>
+    </div>
 </div>

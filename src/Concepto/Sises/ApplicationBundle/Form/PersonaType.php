@@ -25,6 +25,7 @@ class PersonaType extends AbstractType
             ->add('nombre')
             ->add('apellidos')
             ->add('documento')
+            ->add('foto')
         ;
     }
 
