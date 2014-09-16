@@ -26,6 +26,7 @@ use JMS\Serializer\Annotation\SerializedName;
 use JMS\Serializer\Annotation\VirtualProperty;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Validator\Constraints\NotBlank;
+use Symfony\Component\Validator\Constraints\NotNull;
 
 /**
  * Class Contrato
@@ -99,16 +100,29 @@ class Contrato implements OrmPersistible {
     /**
      * @var \DateTime
      * @Column(name="fecha_inicio", type="datetime")
+     * @NotNull()
      * @Groups({"details"})
+     * @SerializedName("fechaInicio")
      */
     protected $fechaInicio;
 
     /**
      * @var \DateTime
      * @Column(name="fecha_cierre", type="datetime")
+     * @NotNull()
      * @Groups({"details"})
+     * @SerializedName("fechaCierre")
      */
     protected $fechaCierre;
+
+    /**
+     * @var Empresa
+     * @ManyToOne(targetEntity="Concepto\Sises\ApplicationBundle\Entity\Empresa", fetch="LAZY")
+     * @NotBlank()
+     * @JoinColumn(nullable=false)
+     * @Groups({"list"})
+     */
+    protected $contratante;
 
     function __construct()
     {
@@ -218,6 +232,20 @@ class Contrato implements OrmPersistible {
     }
 
     /**
+     * @VirtualProperty()
+     * @SerializedName("contratante")
+     * @Groups({"details"})
+     */
+    public function getContratanteId()
+    {
+        if ($this->contratante) {
+            return $this->contratante->getId();
+        }
+
+        return null;
+    }
+
+    /**
      * @return \Doctrine\Common\Collections\Collection
      */
     public function getServicios()
@@ -284,5 +312,21 @@ class Contrato implements OrmPersistible {
     public function setFechaCierre($fechaCierre)
     {
         $this->fechaCierre = $fechaCierre;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getContratante()
+    {
+        return $this->contratante;
+    }
+
+    /**
+     * @param mixed $contratante
+     */
+    public function setContratante($contratante)
+    {
+        $this->contratante = $contratante;
     }
 }

@@ -37,6 +37,9 @@ class ContratoType extends AbstractType
             ->add('empresa', null, array(
                 'property' => 'id'
             ))
+            ->add('contratante', null, array(
+                'property' => 'id'
+            ))
             ->add('servicios', 'collection', array(
                 'type' => new ServicioContratadoType(),
                 'allow_add' => true,
