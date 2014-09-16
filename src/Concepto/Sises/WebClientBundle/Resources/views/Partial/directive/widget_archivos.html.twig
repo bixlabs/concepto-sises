@@ -46,7 +46,7 @@
                 {# Non editable #}
                 <button class="btn btn-warning" title="Elmina este archivo"
                         data-ng-if="!editable(archivo)"
-                        data-ng-click="remove(archivo)">
+                        data-ng-click="remove(archivo, $event)">
                     <i class="glyphicon glyphicon-remove-sign"></i>
                 </button>
                 {# Editable #}

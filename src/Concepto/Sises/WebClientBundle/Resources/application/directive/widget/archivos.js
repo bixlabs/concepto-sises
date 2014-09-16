@@ -26,8 +26,7 @@
                         { title : "Documents", extensions : "pdf,doc,xls,docx,xlsx,ppt" },
                     ];
 
-                    var append = function(archivo) {
-
+                    var find = function(archivo) {
                         var founded = -1;
 
                         // Se busca por archivos, tiene nombres unicos
@@ -36,6 +35,13 @@
                                 founded = index;
                             }
                         });
+
+                        return founded;
+                    };
+
+                    var append = function(archivo) {
+
+                        var founded = find(archivo);
 
                         if (founded < 0) {
                             if (!scope.elements) {
@@ -48,9 +54,20 @@
                     scope.edit = function(archivo) {
                         scope.current_edit = archivo;
                     };
+
                     scope.editOff = function($event) {
                         scope.current_edit = null;
                         $event.stopPropagation()
+                    };
+
+                    scope.remove = function(archivo, $event) {
+                        $event.stopPropagation();
+
+                        var founded = find(archivo);
+
+                        if (founded >= 0) {
+                            scope.elements.splice(founded, 1);
+                        }
                     };
 
                     scope.editable = function(archivo) {
