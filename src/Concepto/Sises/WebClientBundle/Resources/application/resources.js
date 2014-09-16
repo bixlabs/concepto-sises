@@ -22,7 +22,7 @@
                 'persona':      '/api/personas/:id.json',
                 'lugar':        '/api/lugars/:id.json',
                 'ubicacion':    '/api/ubicacions/:id.json',
-                'servicio':      '/api/ubicacions/:id.json',
+                'servicio':     '/api/contratos/:parent/servicios/:id.json',
                 'cargo':        '/api/cargos/:id.json'
             };
 

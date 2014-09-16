@@ -97,6 +97,10 @@
                     scope.tt._filter.comp + ',' + scope.tt.filter_value;
             }
 
+            if (scope.parentId) {
+                query_params['parent'] = scope.parentId;
+            }
+
             scope.elements = RR[scope.property].query(query_params, getPager);
         };
 
@@ -311,7 +315,8 @@
                 scope: {
                     modelProperty: '@sisesFormSelectCrud',
                     property: '@crud',
-                    showProperty: '@'
+                    showProperty: '@',
+                    parentId: '='
                 },
                  link: function(scope, el, attrs, controllers) {
                      inputLinkFunc.call(this, scope, el, attrs, controllers);

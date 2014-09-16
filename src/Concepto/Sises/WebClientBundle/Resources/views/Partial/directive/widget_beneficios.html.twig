@@ -35,7 +35,16 @@
 
 <div data-sises-modalize="handler" data-title="Agregar beneficio">
     <div data-sises-form="element" data-errors="errors">
+
+        <div data-sises-form-select="contrato"
+             data-label="'Seleccione contrato'"
+             data-options="contratos"
+             data-options-key="id"
+             data-options-label="nombre"
+             data-required="true"></div>
+
         <div data-sises-form-select-crud="servicio"
+             data-parent-id="element.contrato"
              data-label="'Servicio'"
              data-show-property="nombre"
              data-crud="servicio"></div>

@@ -5,12 +5,14 @@
 (function () {
     "use strict";
     angular.module(G.APP)
-        .directive('sisesWidgetBeneficios', [function() {
+        .directive('sisesWidgetBeneficios', ['RestResources', function(RR) {
             return {
                 restricti: 'A',
                 templateUrl: G.template('directive/widget_beneficios'),
                 link: function(scope) {
                     scope.id = G.guid();
+
+                    scope.contratos = RR.contrato.query();
 
                     scope.handler = {
                         id: scope.id,
