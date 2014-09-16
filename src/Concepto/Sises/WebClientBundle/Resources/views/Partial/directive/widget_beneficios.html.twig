@@ -1,6 +1,6 @@
 <fieldset>
     <legend>Beneficios</legend>
-    <button class="btn btn-info">
+    <button class="btn btn-info" data-ng-click="add()">
         <i class="glyphicon glyphicon-plus-sign"></i> Agregar beneficio
     </button>
     <table class="table table-hover">
@@ -32,3 +32,17 @@
         </tbody>
     </table>
 </fieldset>
+
+<div data-sises-modalize="handler" data-title="Agregar beneficio">
+    <div data-sises-form="element" data-errors="errors">
+        <div data-sises-form-select-crud="servicio"
+             data-label="'Servicio'"
+             data-show-property="nombre"
+             data-crud="servicio"></div>
+
+        <div data-sises-form-select-crud="lugar"
+             data-label="'Lugar entrega'"
+             data-show-property="nombre_detallado"
+             data-crud="lugar"></div>
+    </div>
+</div>
