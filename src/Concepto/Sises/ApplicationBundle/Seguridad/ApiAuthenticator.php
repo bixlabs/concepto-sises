@@ -19,6 +19,7 @@ use Symfony\Component\Security\Core\Authentication\Token\PreAuthenticatedToken;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Exception\AuthenticationException;
 use Symfony\Component\Security\Core\Exception\BadCredentialsException;
+use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Security\Core\User\UserProviderInterface;
 use JMS\DiExtraBundle\Annotation\Service;
 
@@ -29,7 +30,7 @@ use JMS\DiExtraBundle\Annotation\Service;
 class ApiAuthenticator implements SimplePreAuthenticatorInterface
 {
     const API_HEADER = 'X-Api-Token';
-    const API_QUERY = 'apiKey';
+    const API_QUERY = 'api_key';
 
     /**
      * @param TokenInterface                         $token
@@ -40,9 +41,14 @@ class ApiAuthenticator implements SimplePreAuthenticatorInterface
      */
     public function authenticateToken(TokenInterface $token, UserProviderInterface $userProvider, $providerKey)
     {
-        $apiKey = $token->getCredentials();
-        /** @var Usuario $user */
-        $user = $userProvider->loadUserByToken($apiKey);
+        if ($token->getUser() instanceof UserInterface)  {
+            $user = $token->getUser();
+            $apiKey = $token->getUser()->getToken();
+        } else {
+            $apiKey = $token->getCredentials();
+            /** @var Usuario $user */
+            $user = $userProvider->loadUserByToken($apiKey);
+        }
 
         if (!$user) {
             throw new AuthenticationException(sprintf(
