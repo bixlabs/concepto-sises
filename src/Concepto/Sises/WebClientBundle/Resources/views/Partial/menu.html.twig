@@ -7,12 +7,14 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="" data-ng-click="go('dashboard')">SISES</a>
+            <a class="navbar-brand" href="" data-ui-sref="dashboard">SISES</a>
         </div>
         <div class="collapse navbar-collapse">
             <ul class="nav navbar-nav">
                 <li data-ng-repeat="entry in entries" data-ng-class="{ active: isActive(entry.url)}">
-                    <a href data-ng-click="go(entry.url)" data-ng-bind="entry.label"></a>
+                    {% verbatim %}
+                    <a href data-ui-sref="{{entry.url}}">{{ entry.label }}</a>
+                    {% endverbatim %}
                 </li>
             </ul>
         </div>
