@@ -12,21 +12,21 @@
 namespace Concepto\Sises\ApplicationBundle\Seguridad;
 
 
+use Concepto\Sises\ApplicationBundle\Seguridad\Provider\UsuarioProvider;
 use JMS\DiExtraBundle\Annotation\Inject;
 use JMS\DiExtraBundle\Annotation\InjectParams;
 use JMS\DiExtraBundle\Annotation\Service;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 use Symfony\Component\Security\Core\Authentication\SimpleFormAuthenticatorInterface;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
 use Symfony\Component\Security\Core\Encoder\EncoderFactory;
 use Symfony\Component\Security\Core\Exception\AuthenticationException;
-use Symfony\Component\Security\Core\Exception\UsernameNotFoundException;
 use Symfony\Component\Security\Core\User\UserProviderInterface;
-use Symfony\Component\Security\Http\Authentication\AuthenticationFailureHandlerInterface;
 use Symfony\Component\Security\Http\Authentication\AuthenticationSuccessHandlerInterface;
+use Symfony\Component\Security\Http\Authentication\AuthenticationFailureHandlerInterface;
 
 /**
  * Class FormAuthenticator
@@ -55,24 +55,21 @@ class FormAuthenticator implements
         $this->factory = $factory;
     }
 
+    /**
+     * @param TokenInterface                        $token
+     * @param UserProviderInterface|UsuarioProvider $userProvider
+     * @param                                       $providerKey
+     *
+     * @return UsernamePasswordToken
+     */
     public function authenticateToken(TokenInterface $token, UserProviderInterface $userProvider, $providerKey)
     {
-        try {
-            $user = $userProvider->loadUserByUsername($token->getUsername());
+        $user = $userProvider->loadUserByUsername($token->getUsername());
+        $tokenKey = $userProvider->validate($user, $token->getCredentials());
 
-            $valid = $this->factory->getEncoder($user)
-                ->isPasswordValid($user->getPassword(), $token->getCredentials(), $user->getSalt());
-
-            if ($valid) {
-                return new UsernamePasswordToken(
-                    $user, $token->getCredentials(), $providerKey, $user->getRoles()
-                );
-            }
-
-        } catch (UsernameNotFoundException $e) {
-        }
-
-        throw new AuthenticationException("Username or password invalid!");
+        return new UsernamePasswordToken(
+            $user, $tokenKey, $providerKey, $user->getRoles()
+        );
     }
 
     public function supportsToken(TokenInterface $token, $providerKey)
@@ -83,14 +80,6 @@ class FormAuthenticator implements
     public function createToken(Request $request, $username, $password, $providerKey)
     {
         return new UsernamePasswordToken($username, $password, $providerKey);
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function onAuthenticationFailure(Request $request, AuthenticationException $exception)
-    {
-        throw new AccessDeniedHttpException($exception->getMessage());
     }
 
     /**
@@ -105,9 +94,25 @@ class FormAuthenticator implements
      */
     public function onAuthenticationSuccess(Request $request, TokenInterface $token)
     {
-        $response = new Response();
-        $request->headers->add(array(ApiAuthenticator::API_HEADER => $token->getCredentials()));
+        $response = new Response("", Response::HTTP_NO_CONTENT, array(
+            ApiAuthenticator::API_HEADER => $token->getUser()->getToken())
+        );
 
         return $response;
+    }
+
+    /**
+     * This is called when an interactive authentication attempt fails. This is
+     * called by authentication listeners inheriting from
+     * AbstractAuthenticationListener.
+     *
+     * @param Request                 $request
+     * @param AuthenticationException $exception
+     *
+     * @return Response The response to return, never null
+     */
+    public function onAuthenticationFailure(Request $request, AuthenticationException $exception)
+    {
+        return new Response("", Response::HTTP_UNAUTHORIZED);
     }
 }

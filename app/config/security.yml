@@ -35,12 +35,18 @@ security:
             security: false
 
         api:
-            pattern: ^/api
+            pattern: ^/
+            entry_point: concepto_sises_form_auth.entry
             anonymous: true
             stateless: true
             provider: concepto
             simple-preauth:
                 authenticator: concepto_sises_api.authenticator
+            simple_form:
+                authenticator: concepto_sises_form.authenticator
+                login_path: login
+                check_path: login_check
 
     access_control:
         - { path: ^/api, roles: ROLE_API }
+        - { path: ^/   , roles: IS_AUTHENTICATED_ANONYMOUSLY }

@@ -15,3 +15,8 @@ oneup_uploader:
     type: uploader
     options:
         expose: true
+
+login:
+    path: /login
+login_check:
+    path: /login_check

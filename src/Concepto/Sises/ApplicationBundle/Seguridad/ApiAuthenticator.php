@@ -14,7 +14,6 @@ namespace Concepto\Sises\ApplicationBundle\Seguridad;
 use Concepto\Sises\ApplicationBundle\Entity\Seguridad\Usuario;
 use Concepto\Sises\ApplicationBundle\Seguridad\Provider\UsuarioProvider;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 use Symfony\Component\Security\Core\Authentication\SimplePreAuthenticatorInterface;
 use Symfony\Component\Security\Core\Authentication\Token\PreAuthenticatedToken;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
@@ -22,15 +21,14 @@ use Symfony\Component\Security\Core\Exception\AuthenticationException;
 use Symfony\Component\Security\Core\Exception\BadCredentialsException;
 use Symfony\Component\Security\Core\User\UserProviderInterface;
 use JMS\DiExtraBundle\Annotation\Service;
-use Symfony\Component\Security\Http\Authentication\AuthenticationFailureHandlerInterface;
 
 /**
  * Class ApiAuthenticator
  * @Service(id="concepto_sises_api.authenticator")
  */
-class ApiAuthenticator implements SimplePreAuthenticatorInterface, AuthenticationFailureHandlerInterface
+class ApiAuthenticator implements SimplePreAuthenticatorInterface
 {
-    const API_HEADER = 'X-Api-Key';
+    const API_HEADER = 'X-Api-Token';
     const API_QUERY = 'apiKey';
 
     /**
@@ -74,13 +72,5 @@ class ApiAuthenticator implements SimplePreAuthenticatorInterface, Authenticatio
         }
 
         return new PreAuthenticatedToken('anon.', $apiKey, $providerKey);
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function onAuthenticationFailure(Request $request, AuthenticationException $exception)
-    {
-        throw new AccessDeniedHttpException($exception->getMessage());
     }
 }

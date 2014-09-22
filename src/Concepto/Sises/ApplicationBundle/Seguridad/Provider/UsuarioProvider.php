@@ -95,23 +95,18 @@ class UsuarioProvider implements UserProviderInterface
     }
 
     /**
-     * @param $username
-     * @param $password
-     *
+     * @param UserInterface $usuario
+     * @param               $password
      * @return string
      */
-    public function validate($username, $password)
+    public function validate(UserInterface $usuario, $password)
     {
-        try {
-            $usuario = $this->loadUserByUsername($username);
+        $valid = $this->factory->getEncoder($usuario)
+            ->isPasswordValid($usuario->getPassword(), $password, $usuario->getSalt());
 
-            $valid = $this->factory->getEncoder($usuario)
-                ->isPasswordValid($usuario->getPassword(), $password, $usuario->getSalt());
-
-            if ($valid) {
-                return $this->generateToken($usuario);
-            }
-        } catch (UsernameNotFoundException $e) {}
+        if ($valid) {
+            return $this->generateToken($usuario);
+        }
 
         throw new AuthenticationException("Username or password invalid!");
     }
