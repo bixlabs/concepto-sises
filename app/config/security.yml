@@ -1,7 +1,7 @@
 security:
     encoders:
         Symfony\Component\Security\Core\User\User: plaintext
-        Concepto\Sises\ApplicationBundle\Entity\Seguridad:
+        Concepto\Sises\ApplicationBundle\Entity\Seguridad\Usuario:
             algorithm: sha256
             iterations: 100
             encode_as_base64: false
@@ -36,12 +36,11 @@ security:
 
         api:
             pattern: ^/api
-            anonymous: false
-            provider: concepto
+            anonymous: true
             stateless: true
-            simple_preauth:
+            provider: concepto
+            simple-preauth:
                 authenticator: concepto_sises_api.authenticator
 
     access_control:
         - { path: ^/api, roles: ROLE_API }
-        #- { path: ^/login, roles: IS_AUTHENTICATED_ANONYMOUSLY, requires_channel: https }

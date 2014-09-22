@@ -65,7 +65,7 @@ class Usuario implements UserInterface
 
     /**
      * @var string
-     * @Column(name="token", length=20)
+     * @Column(name="token", length=20, nullable=true)
      */
     protected $token;
 
@@ -74,6 +74,7 @@ class Usuario implements UserInterface
     function __construct()
     {
         $this->rolesArray = array();
+        $this->salt = hash('sha256', uniqid('s_'));
     }
 
     /**

@@ -14,14 +14,12 @@ namespace Concepto\Sises\ApplicationBundle\Seguridad;
 use Concepto\Sises\ApplicationBundle\Entity\Seguridad\Usuario;
 use Concepto\Sises\ApplicationBundle\Seguridad\Provider\UsuarioProvider;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 use Symfony\Component\Security\Core\Authentication\SimplePreAuthenticatorInterface;
 use Symfony\Component\Security\Core\Authentication\Token\PreAuthenticatedToken;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Exception\AuthenticationException;
 use Symfony\Component\Security\Core\Exception\BadCredentialsException;
-use Symfony\Component\Security\Core\User\User;
 use Symfony\Component\Security\Core\User\UserProviderInterface;
 use JMS\DiExtraBundle\Annotation\Service;
 use Symfony\Component\Security\Http\Authentication\AuthenticationFailureHandlerInterface;
@@ -79,14 +77,7 @@ class ApiAuthenticator implements SimplePreAuthenticatorInterface, Authenticatio
     }
 
     /**
-     * This is called when an interactive authentication attempt fails. This is
-     * called by authentication listeners inheriting from
-     * AbstractAuthenticationListener.
-     *
-     * @param Request                 $request
-     * @param AuthenticationException $exception
-     *
-     * @return Response The response to return, never null
+     * {@inheritdoc}
      */
     public function onAuthenticationFailure(Request $request, AuthenticationException $exception)
     {

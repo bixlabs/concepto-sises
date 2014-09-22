@@ -34,3 +34,8 @@ encargado:
     type: rest
     prefix: /api
     resource: @SisesApplicationBundle/Controller/EncargadoController.php
+
+login:
+    prefix: /login
+    type: rest
+    resource: @SisesApplicationBundle/Controller/Seguridad/LoginController.php

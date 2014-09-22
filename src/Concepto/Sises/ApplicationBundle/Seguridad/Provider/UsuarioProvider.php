@@ -18,6 +18,8 @@ use Doctrine\Common\Util\ClassUtils;
 use JMS\DiExtraBundle\Annotation\Inject;
 use JMS\DiExtraBundle\Annotation\InjectParams;
 use JMS\DiExtraBundle\Annotation\Service;
+use Symfony\Component\Security\Core\Encoder\EncoderFactory;
+use Symfony\Component\Security\Core\Exception\AuthenticationException;
 use Symfony\Component\Security\Core\Exception\UnsupportedUserException;
 use Symfony\Component\Security\Core\Exception\UsernameNotFoundException;
 use Symfony\Component\Security\Core\User\UserInterface;
@@ -36,13 +38,20 @@ class UsuarioProvider implements UserProviderInterface
     protected $em;
 
     /**
+     * @var EncoderFactory
+     */
+    protected $factory;
+
+    /**
      * @InjectParams({
-     *  "em" = @Inject("doctrine.orm.default_entity_manager")
+     *  "em" = @Inject("doctrine.orm.default_entity_manager"),
+     *  "factory" = @Inject("security.encoder_factory")
      * })
      */
-    function __construct($em)
+    function __construct($em, $factory)
     {
         $this->em = $em;
+        $this->factory = $factory;
     }
 
     /**
@@ -83,6 +92,46 @@ class UsuarioProvider implements UserProviderInterface
         }
 
         return $this->loadUserByUsername($user->getUsername());
+    }
+
+    /**
+     * @param $username
+     * @param $password
+     *
+     * @return string
+     */
+    public function validate($username, $password)
+    {
+        try {
+            $usuario = $this->loadUserByUsername($username);
+
+            $valid = $this->factory->getEncoder($usuario)
+                ->isPasswordValid($usuario->getPassword(), $password, $usuario->getSalt());
+
+            if ($valid) {
+                return $this->generateToken($usuario);
+            }
+        } catch (UsernameNotFoundException $e) {}
+
+        throw new AuthenticationException("Username or password invalid!");
+    }
+
+    public function generateToken(UserInterface $user)
+    {
+        if (!$user instanceof Usuario) {
+            throw new UnsupportedUserException(sprintf(
+                'Instances of "%s" are not supported',
+                ClassUtils::getClass($user)
+            ));
+        }
+        $token = base64_encode(hash('sha256', uniqid('_token')));
+        $token = substr($token, 0, -2);
+
+        $user->setToken($token);
+        $this->em->persist($user);
+        $this->em->flush();
+
+        return $token;
     }
 
     /**
