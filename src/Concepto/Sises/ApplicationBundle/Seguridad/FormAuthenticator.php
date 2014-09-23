@@ -13,6 +13,7 @@ namespace Concepto\Sises\ApplicationBundle\Seguridad;
 
 
 use Concepto\Sises\ApplicationBundle\Seguridad\Provider\UsuarioProvider;
+use FOS\RestBundle\Util\FormatNegotiator;
 use JMS\DiExtraBundle\Annotation\Inject;
 use JMS\DiExtraBundle\Annotation\InjectParams;
 use JMS\DiExtraBundle\Annotation\Service;
@@ -39,20 +40,20 @@ class FormAuthenticator implements
     AuthenticationSuccessHandlerInterface
 {
     /**
-     * @var EncoderFactory
+     * @var FormatNegotiator
      */
-    protected $factory;
+    protected $negotiator;
 
     /**
-     * @param $factory
+     * @param $negotiator
      *
      * @InjectParams({
-     *  "factory" = @Inject("security.encoder_factory")
+     *  "negotiator" = @Inject("fos_rest.format_negotiator")
      * })
      */
-    function __construct($factory)
+    function __construct($negotiator)
     {
-        $this->factory = $factory;
+        $this->negotiator = $negotiator;
     }
 
     /**
@@ -113,6 +114,16 @@ class FormAuthenticator implements
      */
     public function onAuthenticationFailure(Request $request, AuthenticationException $exception)
     {
-        return new Response("", Response::HTTP_UNAUTHORIZED);
+        $headers = array('X-Status-Reason' => $exception->getMessage());
+        $code = Response::HTTP_FORBIDDEN;
+        switch ($this->negotiator->getBestFormat($request)) {
+            case 'json':
+                $response = JsonResponse::create("", $code, $headers);
+                break;
+            default:
+                $response = Response::create("", $code, $headers);
+        }
+
+        return $response;
     }
 }
