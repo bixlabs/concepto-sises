@@ -16,6 +16,12 @@
                 scope: true,
                 templateUrl: G.template('menu'),
                 link: function(scope) {
+
+                    // If module PROFILE isn't present always show menu
+                    if (angular.module(G.APP).requires.indexOf(G.modules.PROFILE) === -1) {
+                        $r.authState = true;
+                    }
+
                     scope.entries = $r.menu_entries;
                     scope.isActive = function (viewLocation) {
                         return $state.includes(viewLocation.split('.')[0]);

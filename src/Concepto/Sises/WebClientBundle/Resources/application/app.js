@@ -9,12 +9,15 @@
         'DASHBOARD',
         'CONTRATO',
         'BENEFICIARIO',
-        'PROFILE',
         'ui.router',
         'localytics.directives',
         'plupload.directive',
         'ui.bootstrap'
     ];
+
+    if (G.json_route('') !== '') {
+        modules.push('PROFILE');
+    }
 
     angular.module(G.APP, modules)
         .config(['plUploadServiceProvider', function (plUploadServiceProvider) {

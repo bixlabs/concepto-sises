@@ -24,3 +24,8 @@ monolog:
 
 assetic:
     use_controller: true
+
+security:
+    access_control:
+        - { path: ^/api, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/   , roles: IS_AUTHENTICATED_ANONYMOUSLY }
