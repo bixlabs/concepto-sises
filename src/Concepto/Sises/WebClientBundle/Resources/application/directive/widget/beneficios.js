@@ -42,25 +42,6 @@
                     scope.add = function() {
                         scope.handler.show();
                     };
-
-                    var append = function(archivo) {
-
-                        var founded = -1;
-
-                        // Se busca por archivos, tiene nombres unicos
-                        angular.forEach(scope.elements, function(value, index) {
-                            if (value.file === archivo.file) {
-                                founded = index;
-                            }
-                        });
-
-                        if (founded < 0) {
-                            if (!scope.elements) {
-                                scope.elements = [];
-                            }
-                            scope.elements.push(archivo);
-                        }
-                    };
                 }
             };
         }])
