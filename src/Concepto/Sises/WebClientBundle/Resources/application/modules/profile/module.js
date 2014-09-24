@@ -40,13 +40,15 @@
                 }
             };
         }])
-        .config(['$stateProvider', function($stateProvider) {
+        .config(['$stateProvider', '$httpProvider', function($stateProvider, $httpProvider) {
             $stateProvider
                 .state('login', {
                     url: '/login',
                     controller: 'ProfileLoginController',
                     templateUrl: G.template('profile/login')
-                })
+                });
+
+            $httpProvider.interceptors.push('sisesHttpInterceptor');
         }])
 
         .run(['$rootScope', '$state', function($rootScope, $state) {

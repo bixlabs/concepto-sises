@@ -17,16 +17,10 @@
     ];
 
     angular.module(G.APP, modules)
-        .config(['$urlRouterProvider', 'plUploadServiceProvider', '$httpProvider', function ($urlRouterProvider, plUploadServiceProvider, $httpProvider) {
-            $urlRouterProvider
-                .otherwise('/dashboard')
-            ;
-
+        .config(['plUploadServiceProvider', function (plUploadServiceProvider) {
             //plUploadServiceProvider.setConfig('flashPath', 'bower_components/plupload-angular-directive/plupload.flash.swf');
             //plUploadServiceProvider.setConfig('silverLightPath', 'bower_components/plupload-angular-directive/plupload.silverlight.xap');
             plUploadServiceProvider.setConfig('uploadPath', G.route('_uploader_upload_documentable'));
-
-            $httpProvider.interceptors.push('sisesHttpInterceptor');
         }])
         .run(['$rootScope', '$state', '$stateParams', 'modalService', function ($r, $state, $sP, mS) {
             $r.authState = false;

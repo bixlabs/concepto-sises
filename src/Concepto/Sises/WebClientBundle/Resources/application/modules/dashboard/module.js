@@ -8,14 +8,15 @@
     G.modules.DASHBOARD = 'DASHBOARD';
 
     angular.module(G.modules.DASHBOARD, ['ngRoute' ,'ngResource'])
-        .config(['$stateProvider', function ($stateProvider) {
+        .config(['$stateProvider', '$urlRouterProvider', function ($stateProvider, $urlRouterProvider) {
             $stateProvider
                 .state('dashboard', {
                     url : '/dashboard',
                     controller: 'DashboardController',
                     template: ''
-                })
-            ;
+                });
+            $urlRouterProvider
+                .otherwise('/dashboard');
         }])
     ;
 })();
