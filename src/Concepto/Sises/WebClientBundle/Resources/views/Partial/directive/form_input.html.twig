@@ -25,11 +25,11 @@
                 <input placeholder="{{tt.placeholder}}"
                        data-ng-model="form.model[property]"
                        data-datepicker-popup="dd-MM-yyyy"
-                       data-is-open="opened"
+                       data-is-open="tt.openedCalendar"
                        data-close-text="Cerrar"
                        class="form-control" type="text" id="{{tt.id}}_date"/>
                 <span class="input-group-btn">
-                    <button type="button" class="btn btn-default" ng-click="open($event)">
+                    <button type="button" class="btn btn-default" ng-click="openCalendar($event)">
                         <i class="glyphicon glyphicon-calendar"></i>
                     </button>
               </span>

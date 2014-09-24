@@ -195,7 +195,8 @@
 
         scope.tt = {
             id: G.guid(),
-            type: 'text'
+            type: 'text',
+            openedCalendar: false
         };
 
         if (controllers[1]) {
@@ -224,11 +225,11 @@
             return false;
         };
 
-        scope.open = function($event) {
+        scope.openCalendar = function($event) {
             $event.preventDefault();
             $event.stopPropagation();
 
-            scope.opened = true;
+            scope.tt.openedCalendar = true;
         };
     };
 
