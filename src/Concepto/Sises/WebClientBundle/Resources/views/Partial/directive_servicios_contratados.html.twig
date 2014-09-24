@@ -10,8 +10,8 @@
         <thead>
         <tr>
             <th>Nombre</th>
-            <th>Valor bruto</th>
-            <th>Valor neto</th>
+            <th>Total Contratado</th>
+            <th>Total Costo</th>
             <th width="5%"></th>
         </tr>
         </thead>
@@ -21,7 +21,7 @@
             class="pointer">
             <td data-ng-bind="servicio.nombre"></td>
             <td data-ng-bind="getValorBruto(servicio)|currency"></td>
-            <td data-ng-bind="getValorNeto(servicio)|currency"></td>
+            <td data-ng-bind="getValorCostos(servicio)|currency"></td>
             <td>
                 <button class="btn btn-warning" title="Elmina este servicio"
                         data-ng-click="remove(servicio)">

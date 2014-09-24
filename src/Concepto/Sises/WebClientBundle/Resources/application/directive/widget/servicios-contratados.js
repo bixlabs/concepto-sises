@@ -76,10 +76,10 @@
                             * servicio.valor_unitario;
                     };
 
-                    scope.getValorNeto = function(servicio) {
+                    scope.getValorCostos = function(servicio) {
                         return servicio.dias_contratados
                             * servicio.unidades_diarias
-                            * (servicio.valor_unitario - servicio.costo_unitario);
+                            * servicio.costo_unitario;
                     };
 
                     scope.getCurrentTitle = function() {
