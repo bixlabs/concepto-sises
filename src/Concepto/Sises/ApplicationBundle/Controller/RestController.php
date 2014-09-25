@@ -17,6 +17,7 @@ use FOS\RestBundle\Controller\Annotations\View;
 use FOS\RestBundle\Request\ParamFetcher;
 use FOS\RestBundle\Routing\ClassResourceInterface;
 use FOS\RestBundle\Util\Codes;
+use FOS\RestBundle\View\View as RestView;
 use JMS\Serializer\SerializationContext;
 use Pagerfanta\Pagerfanta;
 use Symfony\Component\HttpFoundation\Request;
@@ -36,6 +37,10 @@ abstract class RestController implements ClassResourceInterface
     /**
      * @View(serializerGroups={"details"})
      * @QueryParam(name="extra", requirements="^list$")
+     * @param ParamFetcher $paramFetcher
+     * @param              $id
+     *
+     * @return RestView
      */
     public function getAction(ParamFetcher $paramFetcher, $id)
     {
@@ -46,7 +51,7 @@ abstract class RestController implements ClassResourceInterface
         }
 
         if (!empty($paramFetcher->get('extra'))) {
-            $view = \FOS\RestBundle\View\View::create($object);
+            $view = RestView::create($object);
             $context = SerializationContext::create();
             $context->setGroups(array('list'));
 
@@ -71,7 +76,7 @@ abstract class RestController implements ClassResourceInterface
         /** @var Pagerfanta $pager */
         $pager = $this->getHandler()->cget($paramFetcher->all(), array_diff_assoc($request->query->all(), $params));
 
-        $view = \FOS\RestBundle\View\View::create(
+        $view = RestView::create(
             $pager->getCurrentPageResults(),
             Codes::HTTP_OK,
             array(
