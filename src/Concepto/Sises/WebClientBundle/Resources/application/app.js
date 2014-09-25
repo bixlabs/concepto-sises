@@ -20,10 +20,24 @@
     }
 
     angular.module(G.APP, modules)
-        .config(['plUploadServiceProvider', function (plUploadServiceProvider) {
+        .config(['plUploadServiceProvider', '$provide', function (plUploadServiceProvider, $provide) {
             //plUploadServiceProvider.setConfig('flashPath', 'bower_components/plupload-angular-directive/plupload.flash.swf');
             //plUploadServiceProvider.setConfig('silverLightPath', 'bower_components/plupload-angular-directive/plupload.silverlight.xap');
             plUploadServiceProvider.setConfig('uploadPath', G.route('_uploader_upload_documentable'));
+
+            // Format monkeypatch angular ui bootstrap datepicker
+            $provide.decorator('dateParser', function($delegate){
+
+                var oldParse = $delegate.parse;
+                $delegate.parse = function(input, format) {
+                    if ( !angular.isString(input) || !format ) {
+                        return input;
+                    }
+                    return oldParse.apply(this, arguments);
+                };
+
+                return $delegate;
+            });
         }])
         .run(['$rootScope', '$state', '$stateParams', 'modalService', function ($r, $state, $sP, mS) {
             $r.authState = false;
