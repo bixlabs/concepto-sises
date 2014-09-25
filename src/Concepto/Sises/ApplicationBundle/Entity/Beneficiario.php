@@ -21,6 +21,7 @@ use Doctrine\ORM\Mapping\Id;
 use Doctrine\ORM\Mapping\ManyToOne;
 use Doctrine\ORM\Mapping\OneToMany;
 use Doctrine\ORM\Mapping\Table;
+use JMS\Serializer\Annotation\ExclusionPolicy;
 use JMS\Serializer\Annotation\Groups;
 use JMS\Serializer\Annotation\MaxDepth;
 use JMS\Serializer\Annotation\SerializedName;
@@ -59,7 +60,7 @@ class Beneficiario extends Documentable implements OrmPersistible {
      *  cascade={"persist"}
      * )
      * @Groups({"details", "list"})
-     * @MaxDepth(depth=4)
+     * @MaxDepth(depth=3)
      */
     protected $beneficios;
 
@@ -70,12 +71,12 @@ class Beneficiario extends Documentable implements OrmPersistible {
      *  mappedBy="documentable",
      *  cascade={"persist"}
      * )
-     * @Groups({"details"})
      */
     protected $archivos;
 
     function __construct()
     {
+        parent::__construct();
         $this->beneficios = new ArrayCollection();
     }
 
