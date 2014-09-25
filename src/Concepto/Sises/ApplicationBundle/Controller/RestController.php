@@ -54,6 +54,7 @@ abstract class RestController implements ClassResourceInterface
             $view = RestView::create($object);
             $context = SerializationContext::create();
             $context->setGroups(array('list'));
+            $context->enableMaxDepthChecks();
 
             $view->setSerializationContext($context);
 
