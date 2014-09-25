@@ -57,6 +57,7 @@ class Beneficiario extends Documentable implements OrmPersistible {
      *  mappedBy="beneficiario",
      *  cascade={"persist"}
      * )
+     * @Groups({"details"})
      */
     protected $beneficios;
 
