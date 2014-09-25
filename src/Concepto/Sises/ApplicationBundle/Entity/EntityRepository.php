@@ -25,12 +25,17 @@ class EntityRepository extends \Doctrine\ORM\EntityRepository
         foreach($parameters as $key => $parameter) {
             $comp = $this->extractComparator($parameter);
 
-            // If some parameter is empty or null
-            if (empty($comp[1]) || is_null($comp[1])) {
+            // If some parameter is empty or null or empty array
+            if (empty($comp[1]) || is_null($comp[1]) || count($comp[1]) == 0) {
                 return [];
             }
 
-            $qb->andWhere("t.{$key} {$comp[0]} :{$key}");
+            if (is_array($comp[1])) {
+                $qb->andWhere($qb->expr()->in("t.{$key}", ":{$key}"));
+            } else {
+                $qb->andWhere("t.{$key} {$comp[0]} :{$key}");
+            }
+
             $qb->setParameter($key, $comp[1]);
         }
 
@@ -46,6 +51,10 @@ class EntityRepository extends \Doctrine\ORM\EntityRepository
                 case 'L':
                     $explodedValue[0] = 'LIKE';
                     $explodedValue[1] = "%{$explodedValue[1]}%";
+                    break;
+                case 'A':
+                    $explodedValue[0] = 'IN';
+                    $explodedValue[1] = explode(';', $explodedValue[1]);
                     break;
             }
 
