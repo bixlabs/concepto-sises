@@ -22,6 +22,7 @@ use Doctrine\ORM\Mapping\ManyToOne;
 use Doctrine\ORM\Mapping\OneToMany;
 use Doctrine\ORM\Mapping\Table;
 use JMS\Serializer\Annotation\Groups;
+use JMS\Serializer\Annotation\MaxDepth;
 use JMS\Serializer\Annotation\SerializedName;
 use JMS\Serializer\Annotation\VirtualProperty;
 use Symfony\Component\Validator\Constraints\NotNull;
@@ -57,7 +58,8 @@ class Beneficiario extends Documentable implements OrmPersistible {
      *  mappedBy="beneficiario",
      *  cascade={"persist"}
      * )
-     * @Groups({"details"})
+     * @Groups({"details", "list"})
+     * @MaxDepth(depth=4)
      */
     protected $beneficios;
 
