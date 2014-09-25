@@ -23,9 +23,15 @@ class BeneficioType extends AbstractType
         //TODO: posible necesidad de optimizar larga coleccion
         $builder
             ->add('id')
-            ->add('beneficiario')
-            ->add('lugar')
-            ->add('servicio')
+            ->add('beneficiario', null, array(
+                'property' => 'id'
+            ))
+            ->add('lugar', null, array(
+                'property' => 'id'
+            ))
+            ->add('servicio', null, array(
+                'property' => 'id'
+            ))
         ;
     }
 
