@@ -29,7 +29,7 @@ abstract class SubRestController extends RestController
     }
 
     /**
-     * @View(serializerGroups={"list"})
+     * @View(serializerGroups={"list"}, serializerEnableMaxDepthChecks=true)
      * @QueryParam(name="page", requirements="\d+", default="1")
      * @QueryParam(name="limit", requirements="\d+", default="7")
      */
