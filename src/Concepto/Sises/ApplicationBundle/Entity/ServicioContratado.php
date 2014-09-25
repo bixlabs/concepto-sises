@@ -22,6 +22,7 @@ use Doctrine\ORM\Mapping\Table;
 use Doctrine\ORM\Mapping\UniqueConstraint;
 use JMS\Serializer\Annotation\Exclude;
 use JMS\Serializer\Annotation\Groups;
+use JMS\Serializer\Annotation\MaxDepth;
 use JMS\Serializer\Annotation\SerializedName;
 use JMS\Serializer\Annotation\VirtualProperty;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
@@ -93,6 +94,7 @@ class ServicioContratado {
      * @NotNull()
      * @JoinColumn(nullable=false)
      * @Groups({"list"})
+     * @MaxDepth(depth=1)
      */
     protected $contrato;
 
