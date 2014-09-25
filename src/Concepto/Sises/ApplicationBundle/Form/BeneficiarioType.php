@@ -29,7 +29,7 @@ class BeneficiarioType extends AbstractType {
             ->add('beneficios', 'collection', array(
                 'type' => new BeneficioType(),
                 'allow_add' => true,
-                'allow_delete' => false,
+                'allow_delete' => true,
                 'by_reference' => false
             ))
             ->add('archivos', 'collection', array(
