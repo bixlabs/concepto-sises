@@ -1,17 +1,17 @@
 {# Input fields - disabled #}
 <div class="form-group" data-ng-class="{'has-error': hasErrors(), 'required': isRequired()}">
-    <label class="col-lg-4 control-label" {% verbatim%}for="{{tt.id}}"{%endverbatim%}
-           data-ng-bind="tt.label"></label>
+    <label class="col-lg-4 control-label" {% verbatim%}for="{{formProperties.id}}"{%endverbatim%}
+           data-ng-bind="formProperties.label"></label>
     <div class="col-lg-8">
         <div class="input-group">
             <input
-                   data-ng-model="tt.selectedElement"
-                   class="form-control" type="text" {% verbatim%}id="{{tt.id}}"{%endverbatim%}
+                   data-ng-model="formProperties.selectedElement"
+                   class="form-control" type="text" {% verbatim%}id="{{formProperties.id}}"{%endverbatim%}
                     />
             <div class="input-group-btn">
                 <button type="button" class="btn btn-primary"
                         tabindex="-1"
-                        data-ng-click="open()">
+                        data-ng-click="showDialog()">
                     <i class="glyphicon glyphicon-open"></i>
                 </button>
                 {#
@@ -28,17 +28,17 @@
 </div>
 
 {# Show the modal #}
-<div data-sises-modalize="tt.handler" {% verbatim %}data-title="{{tt.label}}"{% endverbatim%}>
-    <div data-ng-switch data-on="logic">
+<div data-sises-modalize="formProperties.handler" {% verbatim %}data-title="{{formProperties.label}}"{% endverbatim%}>
+    <div data-ng-switch data-on="formProperties.view">
         {# Formulario new #}
         <div data-ng-switch-when="new">
             <div class="row">
                 <div class="col-lg-12">
                     <div class="subactions pull-right">
-                        <button class="btn btn-default" data-ng-click="list()">
+                        <button class="btn btn-default" data-ng-click="showList()">
                             <i class="glyphicon glyphicon-list"></i> Volver al listado
                         </button>
-                        <button class="btn btn-primary" data-ng-click="save()">
+                        <button class="btn btn-primary" data-ng-click="saveElement()">
                             <i class="glyphicon glyphicon-save"></i> Guardar
                         </button>
                     </div>
@@ -54,10 +54,10 @@
             <div class="row">
                 <div class="col-lg-12">
                     <div class="subactions pull-right">
-                        <button class="btn btn-default" data-ng-click="list()">
+                        <button class="btn btn-default" data-ng-click="showList()">
                             <i class="glyphicon glyphicon-list"></i> Volver al listado
                         </button>
-                        <button class="btn btn-primary" data-ng-click="update()">
+                        <button class="btn btn-primary" data-ng-click="saveElement()">
                             <i class="glyphicon glyphicon-save"></i> Actualizar
                         </button>
                     </div>
@@ -76,22 +76,22 @@
                         <div class="input-group">
                             <div class="input-group-btn">
                                 <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
-                                    <span data-ng-bind="tt._filter.label"></span>
+                                    <span data-ng-bind="formProperties.filter.current.label"></span>
                                     <span class="caret"></span></button>
                                 <ul class="dropdown-menu" role="menu">
-                                    <li data-ng-repeat="filter in tt.filters">
-                                        <a href data-ng-bind="filter.label" data-ng-click="changeFilter(filter)"></a>
+                                    <li data-ng-repeat="filter in formProperties.filter.filters">
+                                        <a href data-ng-bind="filter.label" data-ng-click="setFilter(filter)"></a>
                                     </li>
                                 </ul>
                             </div>
 
                             <label {% verbatim%}for="filter_{{id}}"{%endverbatim%} class="sr-only">Filtro</label>
-                            <input data-ng-model="tt.filter_value"
+                            <input data-ng-model="formProperties.filter.value"
                                    class="form-control" type="text" {% verbatim%}id="filter_{{id}}"{%endverbatim%}/>
                             <div class="input-group-btn">
                                 <button type="button" class="btn btn-primary btn-icon"
                                         tabindex="-1"
-                                        data-ng-click="query()">
+                                        data-ng-click="queryList()">
                                     <i class="glyphicon glyphicon-search"></i>
                                 </button>
                             </div>
@@ -105,8 +105,8 @@
                         <i class="glyphicon glyphicon-refresh"></i> Limpiar
                     </button>
                 </div>
-                <div class="col-lg-4" data-ng-if="!readOnly">
-                    <button class="btn btn-primary pull-right" data-ng-click="add()">
+                <div class="col-lg-4" data-ng-if="!formProperties.readOnly">
+                    <button class="btn btn-primary pull-right" data-ng-click="newElement()">
                         <i class="glyphicon glyphicon-plus-sign"></i> Agregar
                     </button>
                 </div>
@@ -133,14 +133,14 @@
                     </table>
                 </div>
             </div>
-            <div class="row" data-ng-if="pager.last > 1">
+            <div class="row" data-ng-if="formProperties.pager.last > 1">
                 <div class="col-lg-12">
                     <ul class="pager">
-                        <li><a href data-ng-click="previousPage()">Anterior</a></li>
+                        <li><a href data-ng-click="formProperties.pager.previousPage()">Anterior</a></li>
                         <li></li>
-                        <li data-ng-bind="showing()"></li>
+                        <li data-ng-bind="formProperties.pager.showingMessage()"></li>
                         <li></li>
-                        <li><a href data-ng-click="nextPage()">Siguiente</a></li>
+                        <li><a href data-ng-click="formProperties.pager.nextPage()">Siguiente</a></li>
                     </ul>
                 </div>
             </div>

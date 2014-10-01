@@ -52,7 +52,7 @@
             LIST: 'list',
             FORM: 'form',
             NEW: 'new',
-            UPDATE: 'updates'
+            UPDATE: 'update'
         }
     };
 })();
