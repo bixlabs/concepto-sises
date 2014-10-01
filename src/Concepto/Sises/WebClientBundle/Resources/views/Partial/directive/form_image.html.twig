@@ -1,8 +1,8 @@
 {% verbatim %}
-<div id="{{tt.id}}">
+<div id="{{formProperties.id}}">
     <div class="row">
         <div class="col-lg-6">
-            <img src="" data-ng-src="{{tt.logo}}" class="img-thumbnail img-responsive" style="max-width: 214px"/>
+            <img src="" data-ng-src="{{formProperties.logo}}" class="img-thumbnail img-responsive" style="max-width: 214px"/>
         </div>
         <div class="col-lg-6">
             <button
@@ -10,17 +10,17 @@
                     data-pl-upload
                     data-on-file-added="fileAdded()"
                     data-on-file-uploaded="fileUploaded($response)"
-                    data-pl-progress-model="tt.percent">
-                <i class="glyphicon glyphicon-cloud-upload"></i> {{tt.buttonLabel}}
+                    data-pl-progress-model="formProperties.percent">
+                <i class="glyphicon glyphicon-cloud-upload"></i> {{formProperties.buttonLabel}}
             </button>
 
-            <div class="progress" data-ng-if="tt.active">
-                <div class="progress-bar progress-bar-striped" data-ng-class="{'active': tt.active}"
+            <div class="progress" data-ng-if="formProperties.active">
+                <div class="progress-bar progress-bar-striped" data-ng-class="{'active': formProperties.active}"
                      role="progressbar"
-                     aria-valuenow="{{tt.percent}}"
+                     aria-valuenow="{{formProperties.percent}}"
                      aria-valuemin="0"
-                     aria-valuemax="100" style="width: {{tt.percent}}%">
-                    <span class="sr-only">{{tt.percent}}% Completado</span>
+                     aria-valuemax="100" style="width: {{formProperties.percent}}%">
+                    <span class="sr-only">{{formProperties.percent}}% Completado</span>
                 </div>
             </div>
         </div>
