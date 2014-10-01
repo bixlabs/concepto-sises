@@ -11,6 +11,22 @@
 (function () {
     "use strict";
 
+    var InputFormDate = function(scope) {
+        scope.formProperties.type = "date";
+
+        scope.formProperties.openedCalendar =
+            scope.formProperties.openedCalendar || false;
+
+        scope.openCalendar = function($event) {
+            if ($event) {
+                $event.preventDefault();
+                $event.stopPropagation();
+            }
+
+            scope.formProperties.openedCalendar = true;
+        };
+    };
+
     angular.module(G.APP)
     /**
      * directive sisesFormInput
@@ -24,7 +40,13 @@
                 },
                 require: ['^sisesForm', '?^sisesCompound'],
                 templateUrl: G.template('directive/form_input'),
-                link: G.Form.InputFormLink
+                link: function(scope, el, attrs, controllers) {
+                    G.Form.InputFormLink.call(this, scope, el, attrs, controllers);
+
+                    if (scope.formProperties.type === 'date') {
+                        InputFormDate.call(this, scope);
+                    }
+                }
             };
         })
     /**
@@ -65,20 +87,7 @@
                 },
                 link: function(scope, el, attrs, controllers) {
                     G.Form.InputFormLink.call(this, scope, el, attrs, controllers);
-
-                    scope.formProperties.type = "date";
-
-                    scope.formProperties.openedCalendar =
-                        scope.formProperties.openedCalendar || false;
-
-                    scope.openCalendar = function($event) {
-                        if ($event) {
-                            $event.preventDefault();
-                            $event.stopPropagation();
-                        }
-
-                        scope.formProperties.openedCalendar = true;
-                    };
+                    InputFormDate.call(this, scope);
                 }
             };
         })
