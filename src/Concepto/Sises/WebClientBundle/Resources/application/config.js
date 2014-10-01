@@ -9,7 +9,7 @@
         var arg_params = args || {};
 
         return Routing.generate(name, arg_params);
-    }
+    };
 
     var template = function (name) {
         return Routing.generate('view_partials', {name: name});
@@ -47,6 +47,12 @@
         route: route,
         modules: {},
         guid: guid,
-        extractGuid: extractGuid
+        extractGuid: extractGuid,
+        views: {
+            LIST: 'list',
+            FORM: 'form',
+            NEW: 'new',
+            UPDATE: 'updates'
+        }
     };
 })();
