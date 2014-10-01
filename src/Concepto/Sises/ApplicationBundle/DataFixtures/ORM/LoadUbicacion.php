@@ -17,7 +17,6 @@ use Concepto\Sises\ApplicationBundle\Entity\Ubicacion\Departamento;
 use Concepto\Sises\ApplicationBundle\Entity\Ubicacion\Municipio;
 use Doctrine\Common\DataFixtures\FixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
-use Symfony\Component\Debug\Exception\ContextErrorException;
 
 class LoadUbicacion implements FixtureInterface
 {
