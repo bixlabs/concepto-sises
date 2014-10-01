@@ -11,6 +11,7 @@
 
 namespace Concepto\Sises\ApplicationBundle\Entity;
 
+use Concepto\Sises\ApplicationBundle\Entity\Archivos\Documentable;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping\Column;
@@ -35,7 +36,7 @@ use Symfony\Component\Validator\Constraints\NotNull;
  * @Table(name="contrato")
  * @UniqueEntity(fields={"resolucion"}, message="No pueden existir dos contratos con la misma resolucion")
  */
-class Contrato implements OrmPersistible {
+class Contrato extends Documentable implements OrmPersistible {
     /**
      * @var string
      * @Id()
@@ -124,8 +125,19 @@ class Contrato implements OrmPersistible {
      */
     protected $contratante;
 
+    /**
+     * @{inheridoc}
+     * @OneToMany(
+     *  targetEntity="Concepto\Sises\ApplicationBundle\Entity\Archivos\ArchivoContrato",
+     *  mappedBy="documentable",
+     *  cascade={"persist"}
+     * )
+     */
+    protected $archivos;
+
     function __construct()
     {
+        parent::__construct();
         $this->servicios = new ArrayCollection();
     }
 

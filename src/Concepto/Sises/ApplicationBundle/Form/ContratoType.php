@@ -12,6 +12,7 @@
 namespace Concepto\Sises\ApplicationBundle\Form;
 
 
+use Concepto\Sises\ApplicationBundle\Form\Archivos\ArchivoContratoType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
@@ -42,6 +43,12 @@ class ContratoType extends AbstractType
             ))
             ->add('servicios', 'collection', array(
                 'type' => new ServicioContratadoType(),
+                'allow_add' => true,
+                'allow_delete' => true,
+                'by_reference' => false,
+            ))
+            ->add('archivos', 'collection', array(
+                'type' => new ArchivoContratoType(),
                 'allow_add' => true,
                 'allow_delete' => true,
                 'by_reference' => false,
