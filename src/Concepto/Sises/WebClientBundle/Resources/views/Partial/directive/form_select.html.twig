@@ -1,13 +1,13 @@
 {% verbatim %}
 <div class="form-group" data-ng-class="{'has-error': hasErrors(), 'required': isRequired()}">
-    <label for="{{tt.id}}_select" class="col-lg-4 control-label">{{tt.label}}</label>
+    <label for="{{formProperties.id}}_select" class="col-lg-4 control-label">{{formProperties.label}}</label>
     <div class="col-lg-8">
         <select class="form-control"
                 data-chosen
                 data-width="'100%'"
                 data-ng-model="form.model[property]"
                 data-ng-options="o.{{optionsKey}} as o.{{optionsLabel}} for o in options"
-                id="{{tt.id}}_select"></select>
+                id="{{formProperties.id}}_select"></select>
         <p class="help-block"
            data-ng-repeat="error in getErrors()"
            data-ng-bind="error"></p>
