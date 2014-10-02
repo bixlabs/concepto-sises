@@ -42,7 +42,9 @@
                 scope: {
                     elements: '=sisesFormEmbedCollection',
                     uniqueTest:  '=',
-                    buttonLabel: '@'
+                    buttonLabel: '@',
+                    tableHeaders: '=',
+                    tableFields: '='
                 },
                 link: function (scope, el, attrs, controllers) {
                     var getHandler,
@@ -50,7 +52,7 @@
 
                     G.Form.InputFormLink.call(this, scope, el, attrs, controllers);
 
-
+                    // Encuentra y devuelve el indice del elemento en el listado
                     find = function(element) {
                         var founded = -1,
                             test;
@@ -69,6 +71,7 @@
                         return founded;
                     };
 
+                    // Elimina un elemento del listado si lo encuentra
                     scope.removeElement = function(element, $event) {
                         $event && $event.stopPropagation();
 
@@ -79,6 +82,7 @@
                         }
                     };
 
+                    // Agrega un elemento al listado si no lo encuentra
                     scope.addElement = function(element, $event) {
                         $event && $event.stopPropagation();
 
@@ -90,9 +94,27 @@
                         }
                     };
 
+                    // Inicializa propiedades
                     if (!scope.formProperties.label) {
                         scope.formProperties.label = scope.buttonLabel;
                     }
+
+                    if (!scope.tableHeaders || !angular.isArray(scope.tableHeaders)) {
+                        scope.tableHeaders = [];
+                    }
+
+                    if (!scope.tableFields) {
+                        scope.tableFields = {};
+                    }
+
+                    scope.resolveValue = function(element, propertyName) {
+                        var property = scope.tableFields[propertyName];
+                        if (property) {
+                            return element[property];
+                        } else {
+                            return '';
+                        }
+                    };
 
                     // Define el manejador para el dialogo
                     scope.formProperties.handler = {
@@ -133,8 +155,25 @@
 
                     // Agrega el elemento y cierra el dialogo del formulario
                     scope.saveElement = function() {
-                        scope.addElement(scope.element);
+
+                        var finded = find(scope.element);
+
+                        // Actualiza
+                        if (finded >= 0) {
+                            scope.elements[finded] = angular.extend({}, scope.element);
+                            scope.element = {};
+                        }
+                        // Guarda
+                        else {
+                            scope.addElement(scope.element);
+                        }
+
                         getHandler().hide();
+                    };
+
+                    scope.editElement = function(element) {
+                        scope.element = element;
+                        getHandler().show();
                     };
                 }
             };
@@ -182,6 +221,9 @@
                     // Determina si debe actualizar el valor del input
                     scope.$watch('form.model.' + scope.modelProperty, function(val) {
                         if (!(!selected && typeof val !== 'undefined')) {
+                            var emptyOb = {};
+                            emptyOb[scope.showProperty] = '';
+                            selectedValue(emptyOb);
                             return;
                         }
 
