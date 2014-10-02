@@ -1,0 +1,15 @@
+{% verbatim %}
+    <div class="embed-collection">
+        <div class="sub-actions pull-right">
+            <button class="btn btn-info btn-sm"
+                    data-ng-click="showDialog()">
+                <i class="glyphicon glyphicon-plus-sign"></i> {{ formProperties.label }}
+            </button>
+        </div>
+        <div data-sises-modalize="formProperties.handler" data-title="{{formProperties.label}}">
+            <div data-sises-form="element" data-errors="errors" >
+                <div data-ng-transclude></div>
+            </div>
+        </div>
+    </div>
+{% endverbatim %}

@@ -11,7 +11,6 @@
 (function () {
     "use strict";
 
-
     angular.module(G.APP)
     /**
      * directive sisesFormSelect
@@ -33,7 +32,116 @@
                 }
             }
         })
+        .directive('sisesFormEmbedCollection', ['RestResources', '$rootScope', function(RR, $rootScope) {
+            return {
+                restrict: 'A',
+                require: ['^sisesForm', '?^sisesCompound'],
+                templateUrl: G.template('directive/form_embed_collection'),
+                transclude: true,
+                replace: true,
+                scope: {
+                    elements: '=sisesFormEmbedCollection',
+                    uniqueTest:  '=',
+                    buttonLabel: '@'
+                },
+                link: function (scope, el, attrs, controllers) {
+                    var getHandler,
+                        find;
 
+                    G.Form.InputFormLink.call(this, scope, el, attrs, controllers);
+
+
+                    find = function(element) {
+                        var founded = -1,
+                            test;
+
+                        // Se busca el elemento si cumple con la condicion de unico
+                        angular.forEach(scope.elements, function(value, index) {
+                            for (var i = scope.uniqueTest.length - 1; i >= 0; i++) {
+                                test = scope.uniqueTest[i];
+                                if (element[test] === value[test]) {
+                                    founded = index;
+                                    break;
+                                }
+                            }
+                        });
+
+                        return founded;
+                    };
+
+                    scope.removeElement = function(element, $event) {
+                        $event && $event.stopPropagation();
+
+                        var found = find(element);
+
+                        if (found !== -1) {
+                            scope.elements.splice(found, 1);
+                        }
+                    };
+
+                    scope.addElement = function(element, $event) {
+                        $event && $event.stopPropagation();
+
+                        var found = find(element);
+
+                        if (found === -1) {
+                            scope.elements = scope.elements || [];
+                            scope.elements.push(element);
+                        }
+                    };
+
+                    if (!scope.formProperties.label) {
+                        scope.formProperties.label = scope.buttonLabel;
+                    }
+
+                    // Define el manejador para el dialogo
+                    scope.formProperties.handler = {
+                        id: scope.formProperties.id,
+                        actions: {
+                            ok: {
+                                label: 'Agregar',
+                                style: 'primary'
+                            },
+                            cancel: {
+                                label: 'Volver',
+                                dismiss: true
+                            }
+                        }
+                    };
+
+                    // Espera por el boton Agregar 'ok'
+                    $rootScope.$on('modalize.action.' + scope.formProperties.id, function(event, data) {
+                        switch (data) {
+                            case "ok":
+                                scope.saveElement();
+                                break;
+                            default:
+                                break;
+                        }
+                    });
+
+                    // Devuelve el handler del dialogo principal
+                    getHandler = function() {
+                        return scope.formProperties.handler;
+                    };
+
+                    // Abre el cuadro de dialogo del formulario
+                    scope.showDialog = function() {
+                        scope.element = {};
+                        getHandler().show();
+                    };
+
+                    // Agrega el elemento y cierra el dialogo del formulario
+                    scope.saveElement = function() {
+                        scope.addElement(scope.element);
+                        getHandler().hide();
+                    };
+                }
+            };
+        }])
+    /**
+     * directive sisesFormSelectCrud
+     */
         .directive('sisesFormSelectCrud', ['RestResources', 'FilterResources', function(RR, FR) {
             return {
                 restrict: 'A',
@@ -90,7 +198,7 @@
 
                     // Define las acciones del dialogo
                     scope.formProperties.handler = {
-                        id: scope.id,
+                        id: scope.formProperties.id,
                         actions: {
                             cancel: {
                                 label: 'Volver',
@@ -191,7 +299,7 @@
                             length =
                                 this.current === this.last ? this.count : offset + this.limit;
 
-                            return (1 + offset) + " - " + length + ' de ' + scope.pager.count;
+                            return (1 + offset) + " - " + length + ' de ' + this.count;
                         }
                     };
 
