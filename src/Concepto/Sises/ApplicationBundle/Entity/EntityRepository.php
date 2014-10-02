@@ -33,6 +33,9 @@ class EntityRepository extends \Doctrine\ORM\EntityRepository
                 }
             }
 
+            // Case especial uuid
+            $key = $key == 'uuid' ? 'id': $key;
+
             if (is_array($comp[1])) {
                 $qb->andWhere($qb->expr()->in("t.{$key}", ":{$key}"));
             } else {
