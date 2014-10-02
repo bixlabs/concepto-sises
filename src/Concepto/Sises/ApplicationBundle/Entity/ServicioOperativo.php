@@ -33,7 +33,7 @@ use Symfony\Component\Validator\Constraints\NotNull;
  * @package Concepto\Sises\ApplicationBundle\Entity
  * @Entity()
  * @Table(name="servicio_operativo", uniqueConstraints={
- *     @UniqueConstraint(name="servicio_operativo", columns={"contrato_id", "nombre"})
+ *     @UniqueConstraint(name="servicio_operativo", columns={"recursoHumano_id", "nombre"})
  * })
  * @UniqueEntity(message="No puede existir un servicio duplicado", fields={"contrato", "nombre"})
  */
@@ -56,6 +56,14 @@ class ServicioOperativo {
     protected $nombre;
 
     /**
+     * @var LugarEntrega
+     * @ManyToOne(targetEntity="Concepto\Sises\ApplicationBundle\Entity\LugarEntrega")
+     * @NotNull()
+     * @Groups({"list"})
+     */
+    protected $lugar;
+
+    /**
      * @var double
      * @Column(name="valor_unitario", type="decimal", precision=64, scale=2)
      * @NotBlank()
@@ -64,14 +72,14 @@ class ServicioOperativo {
     protected $valorUnitario;
 
     /**
-     * @var Contrato
-     * @ManyToOne(targetEntity="Concepto\Sises\ApplicationBundle\Entity\Contrato", fetch="LAZY", inversedBy="servicios")
+     * @var RecursoHumano
+     * @ManyToOne(targetEntity="Concepto\Sises\ApplicationBundle\Entity\RecursoHumano", fetch="LAZY", inversedBy="servicios")
      * @NotNull()
      * @JoinColumn(nullable=false)
      * @Groups({"list"})
      * @MaxDepth(depth=1)
      */
-    protected $contrato;
+    protected $recursoHumano;
 
     /**
      * @return string
@@ -114,31 +122,61 @@ class ServicioOperativo {
     }
 
     /**
-     * @return Contrato
+     * @return RecursoHumano
      */
-    public function getContrato()
+    public function getRecursoHumano()
     {
-        return $this->contrato;
-    }
-
-    /**
-     * @param Contrato $contrato
-     */
-    public function setContrato($contrato)
-    {
-        $this->contrato = $contrato;
+        return $this->recursoHumano;
     }
 
     /**
      * @VirtualProperty()
-     * @SerializedName("contrato")
+     * @SerializedName("recurso_humano")
      * @Groups({"details"})
      */
     public function getRelatedId()
     {
-        /** @var OrmPersistible  */
-        if ($this->contrato) {
-            return $this->contrato->getId();
+        if ($this->recursoHumano) {
+            return $this->recursoHumano->getId();
+        }
+
+        return null;
+    }
+
+    /**
+     * @param RecursoHumano $recursoHumano
+     */
+    public function setRecursoHumano($recursoHumano)
+    {
+        $this->recursoHumano = $recursoHumano;
+    }
+
+    /**
+     * @return LugarEntrega
+     */
+    public function getLugar()
+    {
+        return $this->lugar;
+    }
+
+    /**
+     * @param LugarEntrega $lugar
+     */
+    public function setLugar($lugar)
+    {
+        $this->lugar = $lugar;
+    }
+
+    /**
+     * @VirtualProperty()
+     * @SerializedName("lugar")
+     * @Groups({"details"})
+     * @return null|string
+     */
+    public function getLugarId()
+    {
+        if ($this->lugar) {
+            return $this->lugar->getId();
         }
 
         return null;

@@ -34,3 +34,19 @@ encargado:
     type: rest
     prefix: /api
     resource: @SisesApplicationBundle/Controller/EncargadoController.php
+cargo_operativo:
+    type: rest
+    prefix: /api
+    resource: @SisesApplicationBundle/Controller/OperativoController.php
+entidad_financiera:
+    type: rest
+    prefix: /api/financiera
+    resource: @SisesApplicationBundle/Controller/Financiera/EntidadController.php
+tipo_entidad_financiera:
+    type: rest
+    prefix: /api/financiera
+    resource: @SisesApplicationBundle/Controller/Financiera/TipoController.php
+rrhh:
+    type: rest
+    prefix: /api
+    resource: @SisesApplicationBundle/Controller/RecursoController.php

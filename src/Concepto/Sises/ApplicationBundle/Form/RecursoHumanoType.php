@@ -26,11 +26,16 @@ class RecursoHumanoType extends AbstractType
             ->add('persona', null, array('property' => 'id'))
             ->add('cargo', null, array('property' => 'id'))
             ->add('entidadFinanciera', null, array('property' => 'id'))
-            ->add('empresa', null, array(
-                'property' => 'id'
-            ))
+            ->add('numeroCuenta')
+            ->add('contrato', null, array('property' => 'id'))
             ->add('archivos', 'collection', array(
                 'type' => new ArchivoRecursoHumanoType(),
+                'allow_add' => true,
+                'allow_delete' => true,
+                'by_reference' => false,
+            ))
+            ->add('servicios', 'collection', array(
+                'type' => new ServicioOperativoType(),
                 'allow_add' => true,
                 'allow_delete' => true,
                 'by_reference' => false,

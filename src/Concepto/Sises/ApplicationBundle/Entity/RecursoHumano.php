@@ -14,6 +14,7 @@ namespace Concepto\Sises\ApplicationBundle\Entity;
 
 use Concepto\Sises\ApplicationBundle\Entity\Archivos\Documentable;
 use Concepto\Sises\ApplicationBundle\Entity\Financiera\Entidad as EntidadFinanciera;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping\Column;
 use Doctrine\ORM\Mapping\Entity;
 use Doctrine\ORM\Mapping\GeneratedValue;
@@ -46,13 +47,13 @@ class RecursoHumano extends Documentable implements OrmPersistible
     protected $id;
 
     /**
-     * @var Empresa
-     * @ManyToOne(targetEntity="Concepto\Sises\ApplicationBundle\Entity\Empresa", fetch="LAZY")
+     * @var Contrato
+     * @ManyToOne(targetEntity="Concepto\Sises\ApplicationBundle\Entity\Contrato", fetch="LAZY")
      * @NotBlank()
      * @JoinColumn(nullable=false)
      * @Groups({"list"})
      */
-    protected $empresa;
+    protected $contrato;
 
     /**
      * @var CargoOperativo
@@ -78,6 +79,19 @@ class RecursoHumano extends Documentable implements OrmPersistible
     protected $entidadFinanciera;
 
     /**
+     * @var string
+     * @Column(name="numero_cuenta", length=250, nullable=true)
+     * @Groups({"details"})
+     */
+    protected $numeroCuenta;
+
+    /**
+     * @var string
+     * @Column(name="observaciones_financieras", type="text", nullable=true)
+     */
+    protected $observacionesFinancieras;
+
+    /**
      * @{inheridoc}
      * @OneToMany(
      *  targetEntity="Concepto\Sises\ApplicationBundle\Entity\Archivos\ArchivoRecursoHumano",
@@ -86,6 +100,17 @@ class RecursoHumano extends Documentable implements OrmPersistible
      * )
      */
     protected $archivos;
+
+    /**
+     * @var Collection
+     * @OneToMany(
+     *      targetEntity="Concepto\Sises\ApplicationBundle\Entity\ServicioOperativo",
+     *      mappedBy="recursoHumano",
+     *      cascade={"persist"}
+     * )
+     * @Groups({"details"})
+     */
+    protected $servicios;
 
     /**
      * @return string
@@ -186,30 +211,99 @@ class RecursoHumano extends Documentable implements OrmPersistible
     }
 
     /**
-     * @return Empresa
+     * @return string
      */
-    public function getEmpresa()
+    public function getNumeroCuenta()
     {
-        return $this->empresa;
+        return $this->numeroCuenta;
     }
 
     /**
-     * @param Empresa $empresa
+     * @param string $numeroCuenta
      */
-    public function setEmpresa($empresa)
+    public function setNumeroCuenta($numeroCuenta)
     {
-        $this->empresa = $empresa;
+        $this->numeroCuenta = $numeroCuenta;
+    }
+
+    /**
+     * @return string
+     */
+    public function getObservacionesFinancieras()
+    {
+        return $this->observacionesFinancieras;
+    }
+
+    /**
+     * @param string $observacionesFinancieras
+     */
+    public function setObservacionesFinancieras($observacionesFinancieras)
+    {
+        $this->observacionesFinancieras = $observacionesFinancieras;
+    }
+
+    /**
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getServicios()
+    {
+        return $this->servicios;
+    }
+
+    /**
+     * @param \Doctrine\Common\Collections\Collection $servicios
+     */
+    public function setServicios($servicios)
+    {
+        $this->servicios = $servicios;
+    }
+
+    /**
+     * @param ServicioOperativo $servicio
+     */
+    public function addServicio($servicio)
+    {
+        if (!$this->servicios->contains($servicio)) {
+            $servicio->setRecursoHumano($this);
+            $this->servicios->add($servicio);
+        }
+    }
+
+    /**
+     * @param ServicioOperativo $servicio
+     */
+    public function removeServicio($servicio) {
+        if ($this->servicios->contains($servicio)) {
+            $this->servicios->removeElement($servicio);
+            $servicio->setRecursoHumano(null);
+        }
+    }
+
+    /**
+     * @return Contrato
+     */
+    public function getContrato()
+    {
+        return $this->contrato;
+    }
+
+    /**
+     * @param Contrato $contrato
+     */
+    public function setContrato($contrato)
+    {
+        $this->contrato = $contrato;
     }
 
     /**
      * @VirtualProperty()
-     * @SerializedName("empresa")
+     * @SerializedName("contrato")
      * @Groups({"details"})
      */
-    public function getEmpresaId()
+    public function getContratoId()
     {
-        if ($this->empresa) {
-            return $this->empresa->getId();
+        if ($this->contrato) {
+            return $this->contrato->getId();
         }
 
         return null;

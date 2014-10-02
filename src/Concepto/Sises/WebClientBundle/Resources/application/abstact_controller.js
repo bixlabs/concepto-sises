@@ -54,6 +54,7 @@
         };
 
         that.saveSuccess = function(data, headers) {
+            scope.canSave = true;
             scope.detailsLocation(headers('Location'))
         };
 

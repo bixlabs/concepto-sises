@@ -91,5 +91,20 @@
                 }
             };
         })
+    /**
+     * directive sisesFormTextArea
+     */
+        .directive('sisesFormTextArea', function() {
+            return {
+                restrict: 'A',
+                replace: true,
+                require: ['^sisesForm', '?^sisesCompound'],
+                templateUrl: G.template('directive/form_textarea'),
+                scope: {
+                    property: '@sisesFormTextArea'
+                },
+                link: G.Form.InputFormLink
+            };
+        })
     ;
 })();

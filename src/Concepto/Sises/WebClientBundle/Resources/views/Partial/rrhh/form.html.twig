@@ -1,0 +1,47 @@
+<div class="row">
+    <div class="col-lg-7">
+        <div data-sises-form="element" data-errors="errors">
+            <fieldset>
+                <legend>Datos básicos</legend>
+
+                <div data-sises-form-select="contrato"
+                     data-label="'Seleccione contrato'"
+                     data-options="contratos"
+                     data-options-key="id"
+                     data-options-label="nombre"
+                     data-required="true"></div>
+
+                <div data-sises-form-select-crud="persona"
+                     data-label="'Persona'"
+                     data-required="true"
+                     data-show-property="nombre_completo"
+                     data-crud="persona"></div>
+
+                <div data-sises-form-select="cargo"
+                     data-label="'Seleccione cargo'"
+                     data-options="cargos"
+                     data-options-key="id"
+                     data-options-label="nombre"
+                     data-required="true"></div>
+            </fieldset>
+            <fieldset>
+                <legend>Datos financieros</legend>
+
+                <div data-sises-form-select-crud="entidad_financiera"
+                     data-label="'Entidad financiera'"
+                     data-show-property="nombre_detallado"
+                     data-crud="entidad_financiera"></div>
+
+                <div data-sises-form-input="numero_cuenta"
+                     data-label="'Número de cuenta'"></div>
+
+                <div data-sises-form-text-area="observaciones_financieras"
+                     data-label="'Observaciones'"></div>
+            </fieldset>
+        </div>
+    </div>
+    <div class="col-lg-5">
+        <div data-sises-servicios-operativos="element.servicios"></div>
+        <div data-sises-widget-archivos="element.archivos"></div>
+    </div>
+</div>

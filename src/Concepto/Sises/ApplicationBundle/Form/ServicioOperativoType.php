@@ -24,7 +24,10 @@ class ServicioOperativoType extends AbstractType
             ->add('id')
             ->add('nombre')
             ->add('valorUnitario')
-            ->add('contrato', null, array(
+            ->add('recursoHumano', null, array(
+                'property' => 'id'
+            ))
+            ->add('lugar', null, array(
                 'property' => 'id'
             ))
         ;

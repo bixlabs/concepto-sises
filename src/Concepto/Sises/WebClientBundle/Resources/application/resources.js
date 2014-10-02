@@ -15,15 +15,19 @@
             };
 
             var factories = {
-                'empresa':      '/api/empresas/:id.json',
-                'contrato':     '/api/contratos/:id.json',
-                'beneficiario': '/api/beneficiarios/:id.json',
-                'encargado':    '/api/encargados/:id.json',
-                'persona':      '/api/personas/:id.json',
-                'lugar':        '/api/lugars/:id.json',
-                'ubicacion':    '/api/ubicacions/:id.json',
-                'servicio':     '/api/contratos/:parent/servicios/:id.json',
-                'cargo':        '/api/cargos/:id.json'
+                'empresa':                 '/api/empresas/:id.json',
+                'contrato':                '/api/contratos/:id.json',
+                'beneficiario':            '/api/beneficiarios/:id.json',
+                'encargado':               '/api/encargados/:id.json',
+                'persona':                 '/api/personas/:id.json',
+                'lugar':                   '/api/lugars/:id.json',
+                'ubicacion':               '/api/ubicacions/:id.json',
+                'servicio':                '/api/contratos/:parent/servicios/:id.json',
+                'cargo':                   '/api/cargos/:id.json',
+                'recurso_humano':          '/api/recursos/:id.json',
+                'cargo_operativo':         '/api/operativos/:id.json',
+                'entidad_financiera':      '/api/financiera/entidads/:id.json',
+                'entidad_financiera_tipo': '/api/financiera/tipos/:id.json'
             };
 
             var methods = {};

@@ -1,0 +1,15 @@
+{% verbatim %}
+<div class="form-group" data-ng-class="{'has-error': hasErrors(), 'required': isRequired()}">
+    <label for="{{formProperties.id}}_ta" class="col-lg-4 control-label">{{formProperties.label}}</label>
+    <div class="col-lg-8">
+        <textarea
+                id="{{formProperties.id}}_ta"
+                class="form-control"
+                rows="3"
+                data-ng-model="form.model[property]"></textarea>
+        <p class="help-block"
+           data-ng-repeat="error in getErrors()"
+           data-ng-bind="error"></p>
+    </div>
+</div>
+{% endverbatim %}

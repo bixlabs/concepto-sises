@@ -9,6 +9,7 @@
         'DASHBOARD',
         'CONTRATO',
         'BENEFICIARIO',
+        'RRHH',
         'ui.router',
         'localytics.directives',
         'plupload.directive',
@@ -42,6 +43,7 @@
         .run(['$rootScope', '$state', '$stateParams', 'modalService', function ($r, $state, $sP, mS) {
             $r.authState = false;
             $r.go = $state.go;
+            G.stateGo = $state.go;
             $r.refresh = function(state, params) {
                 $state.go(state, params, {
                     reload: true,
