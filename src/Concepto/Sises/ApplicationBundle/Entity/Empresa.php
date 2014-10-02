@@ -113,7 +113,7 @@ class Empresa extends Documentable implements OrmPersistible {
      * @Column(type="boolean", name="privada")
      * @Groups({"list", "details"})
      */
-    protected $privada;
+    protected $privada = false;
 
     /**
      * @VirtualProperty()
