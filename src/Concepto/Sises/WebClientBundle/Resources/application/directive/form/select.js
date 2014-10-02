@@ -57,16 +57,19 @@
                         var founded = -1,
                             test;
 
-                        // Se busca el elemento si cumple con la condicion de unico
-                        angular.forEach(scope.elements, function(value, index) {
-                            for (var i = scope.uniqueTest.length - 1; i >= 0; i++) {
-                                test = scope.uniqueTest[i];
-                                if (element[test] === value[test]) {
-                                    founded = index;
-                                    break;
+                        // Solo para arrays
+                        if (angular.isArray(scope.elements)) {
+                            // Se busca el elemento si cumple con la condicion de unico
+                            angular.forEach(scope.elements, function(value, index) {
+                                for (var i = scope.uniqueTest.length - 1; i >= 0; i--) {
+                                    test = scope.uniqueTest[i];
+                                    if (element[test] === value[test]) {
+                                        founded = index;
+                                        break;
+                                    }
                                 }
-                            }
-                        });
+                            });
+                        }
 
                         return founded;
                     };
@@ -107,10 +110,15 @@
                         scope.tableFields = {};
                     }
 
+                    // Devuelve el valor apropiado
                     scope.resolveValue = function(element, propertyName) {
                         var property = scope.tableFields[propertyName];
                         if (property) {
-                            return element[property];
+                            if (angular.isFunction(property)) {
+                                return property.call(element[property]);
+                            } else {
+                                return element[property];
+                            }
                         } else {
                             return '';
                         }
@@ -158,14 +166,16 @@
 
                         var finded = find(scope.element);
 
+                        // Guarda
+                        if (finded === -1) {
+                            console.log("Guardando el elemento");
+                            scope.addElement(scope.element);
+                        }
                         // Actualiza
-                        if (finded >= 0) {
+                        else {
+                            console.log("actualizando el elemento");
                             scope.elements[finded] = angular.extend({}, scope.element);
                             scope.element = {};
-                        }
-                        // Guarda
-                        else {
-                            scope.addElement(scope.element);
                         }
 
                         getHandler().hide();
@@ -208,6 +218,7 @@
                         var isolateScope = angular.extend(scope.$new(), el);
                         scope.formProperties.selectedElement =
                             isolateScope.$eval(scope.showProperty);
+                        selected = false;
                     };
 
                     // Permite cambiar el valor actual
@@ -224,12 +235,11 @@
                             var emptyOb = {};
                             emptyOb[scope.showProperty] = '';
                             selectedValue(emptyOb);
-                            return;
+                        } else {
+                            var el = RR[scope.property].get({id: val, extra: 'list'}, function() {
+                                selectedValue(el);
+                            });
                         }
-
-                        var el = RR[scope.property].get({id: val, extra: 'list'}, function() {
-                            selectedValue(el);
-                        });
                     });
 
                     // No muestra el boton agregar
