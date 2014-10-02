@@ -16,9 +16,10 @@ use Concepto\Sises\ApplicationBundle\Entity\Ubicacion\CentroPoblado;
 use Concepto\Sises\ApplicationBundle\Entity\Ubicacion\Departamento;
 use Concepto\Sises\ApplicationBundle\Entity\Ubicacion\Municipio;
 use Doctrine\Common\DataFixtures\FixtureInterface;
+use Doctrine\Common\DataFixtures\OrderedFixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
 
-class LoadUbicacion implements FixtureInterface
+class LoadUbicacion implements FixtureInterface, OrderedFixtureInterface
 {
     const DELIMITER = ',';
     const ENCLOSURE = '"';
@@ -108,5 +109,15 @@ class LoadUbicacion implements FixtureInterface
         $value[0] = mb_strtoupper($value[0], 'UTF-8');
 
         return $value;
+    }
+
+    /**
+     * Get the order of this fixture
+     *
+     * @return integer
+     */
+    function getOrder()
+    {
+        return 20;
     }
 }

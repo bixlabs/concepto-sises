@@ -12,12 +12,12 @@
 namespace Concepto\Sises\ApplicationBundle\DataFixtures\ORM;
 
 
-use Concepto\Sises\ApplicationBundle\Entity\CargoOperativo;
+use Concepto\Sises\ApplicationBundle\Entity\Empresa;
 use Doctrine\Common\DataFixtures\FixtureInterface;
 use Doctrine\Common\DataFixtures\OrderedFixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
 
-class LoadCargoOperativo implements FixtureInterface, OrderedFixtureInterface
+class LoadEmpresa implements FixtureInterface, OrderedFixtureInterface
 {
 
     /**
@@ -27,14 +27,17 @@ class LoadCargoOperativo implements FixtureInterface, OrderedFixtureInterface
      */
     function load(ObjectManager $manager)
     {
-        $cargos = array('Operador(a)', 'Manipulador(a)');
+        $empresa = new Empresa();
+        $empresa->setNombre("DINCO");
+        $empresa->setNit("800900123-4");
+        $empresa->setPrivada(true);
 
-        foreach($cargos as $nombreCargo) {
-            $cargo = new CargoOperativo();
-            $cargo->setNombre($nombreCargo);
-            $manager->persist($cargo);
-        }
+        $contratante = new Empresa();
+        $contratante->setNombre('Gobernacion del Cesar');
+        $contratante->setNit('800123899-12');
 
+        $manager->persist($empresa);
+        $manager->persist($contratante);
         $manager->flush();
     }
 
@@ -45,6 +48,6 @@ class LoadCargoOperativo implements FixtureInterface, OrderedFixtureInterface
      */
     function getOrder()
     {
-        return 10;
+        return 100;
     }
 }
