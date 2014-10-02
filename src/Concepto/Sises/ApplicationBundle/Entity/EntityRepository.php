@@ -25,9 +25,12 @@ class EntityRepository extends \Doctrine\ORM\EntityRepository
         foreach($parameters as $key => $parameter) {
             $comp = $this->extractComparator($parameter);
 
-            // If some parameter is empty or null or empty array
-            if (empty($comp[1]) || is_null($comp[1]) || count($comp[1]) == 0) {
-                return [];
+            // Only for non-boolean values
+            if (!is_bool($comp[1])) {
+                // If some parameter is empty or null or empty array
+                if (empty($comp[1]) || is_null($comp[1]) || count($comp[1]) == 0) {
+                    return [];
+                }
             }
 
             if (is_array($comp[1])) {
@@ -59,6 +62,15 @@ class EntityRepository extends \Doctrine\ORM\EntityRepository
             }
 
             return $explodedValue;
+        }
+
+        switch($value) {
+            case 'true':
+                $value = true;
+                break;
+            case 'false':
+                $value = false;
+                break;
         }
 
         return array('=', $value);
