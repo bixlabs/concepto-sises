@@ -27,6 +27,7 @@ class RecursoHumanoType extends AbstractType
             ->add('cargo', null, array('property' => 'id'))
             ->add('entidadFinanciera', null, array('property' => 'id'))
             ->add('numeroCuenta')
+            ->add('observacionesFinancieras')
             ->add('contrato', null, array('property' => 'id'))
             ->add('archivos', 'collection', array(
                 'type' => new ArchivoRecursoHumanoType(),
