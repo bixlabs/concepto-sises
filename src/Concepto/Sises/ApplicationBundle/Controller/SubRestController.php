@@ -22,6 +22,7 @@ abstract class SubRestController extends RestController
 
     /**
      * @View(serializerGroups={"details"})
+     * @QueryParam(name="extra", requirements="^list$")
      */
     public function getAction(ParamFetcher $paramFetcher, $parent, $id = null)
     {

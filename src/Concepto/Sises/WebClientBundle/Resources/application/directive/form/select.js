@@ -354,7 +354,7 @@
                             emptyOb[scope.showProperty] = '';
                             selectedValue(emptyOb);
                         } else {
-                            var el = RR[scope.property].get({id: val, extra: 'list'}, function() {
+                            var el = RR[scope.property].get(buildFilterParams({id: val, extra: 'list'}), function() {
                                 selectedValue(el);
                             });
                         }
