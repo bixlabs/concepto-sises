@@ -15,13 +15,13 @@
     function ListController(scope, Factory) {
         scope.elements = Factory.query();
 
-        scope.details = function () {
-            throw "details() Not implemented!";
+        scope.details = function (id) {
+            scope.go('^.detalles', {id: id});
         };
 
         scope.add = function() {
-            throw "add() Not implemented!";
-        }
+            scope.go('^.nuevo');
+        };
     }
 
     /**
@@ -112,6 +112,14 @@
             scope.canSave = false;
             scope.element.$update(that.saveSuccess, that.saveFail);
         };
+
+        scope.list = function() {
+            scope.go('^.listado');
+        };
+
+        scope.detailsLocation = function(location) {
+            scope.go('^.detalles', {id: G.extractGuid(location)});
+        };
     }
 
     /**
@@ -132,6 +140,13 @@
         CoreController.call(this, scope);
         scope.element = new Factory();
 
+        scope.list = function() {
+            scope.go('^.listado');
+        };
+
+        scope.detailsLocation = function(location) {
+            scope.go('^.detalles', {id: G.extractGuid(location)});
+        };
     }
 
 

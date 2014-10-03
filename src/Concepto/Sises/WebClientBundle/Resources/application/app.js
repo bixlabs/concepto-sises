@@ -10,6 +10,7 @@
         'CONTRATO',
         'BENEFICIARIO',
         'RRHH',
+        'COORDINADOR',
         'ui.router',
         'localytics.directives',
         'plupload.directive',
