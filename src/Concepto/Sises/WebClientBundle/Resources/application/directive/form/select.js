@@ -176,6 +176,7 @@
                                         // Liberamos recursos
                                         delete transformer.deferred[valueTotransform];
                                     });
+                                    resolveTransformedValues();
                                 }
 
                                 return transformer.transformedValue[valueTotransform];
@@ -187,15 +188,39 @@
                         }
                     };
 
+                    // Indica cuando hay una transformacion en progreso
+                    var transformInProgress = false;
+
                     // Resuelve las transformaciones de datos
                     var resolveTransformedValues = function() {
+                        if (transformInProgress) {
+                            return;
+                        }
+                        // Ejecuta cada transformador
                         angular.forEach(getDataTransformer(), function(transformer) {
+                            // Si no hay valores a transformar no hacer nada
                             if (transformer.values.length > 0) {
-                                var result = transformer.resource.query({uuid: 'A,' + transformer.values.join(';')}, function() {
+                                var values = transformer.values.concat(),
+                                    index;
+                                transformer.values = [];
+                                transformInProgress = true;
+                                // Se consultan en grupos si hay mas de un valor para consultar
+                                var result = transformer.resource.query({uuid: 'A,' + values.join(';')}, function() {
+                                    // Una vez obtenido el resultado el valor no es mas necesario
                                     angular.forEach(result, function(value) {
                                         transformer.deferred[value.id].resolve(value[transformer.showProperty]);
+                                        index = transformer.values.indexOf(value.id);
+                                        if (index !== -1) {
+                                            transformer.values.splice(index, 1);
+                                        }
                                     });
-                                    transformer.values = [];
+                                    transformInProgress = false;
+                                    // Si hay valores pendientes (agregaron asincronamente), volvemos a transformar
+                                    if (transformer.values.length > 0) {
+                                        resolveTransformedValues();
+                                    }
+                                }, function() {
+                                    transformInProgress = false;
                                 });
                             }
                         });
@@ -254,7 +279,6 @@
                         }
 
                         getHandler().hide();
-                        resolveTransformedValues();
                     };
 
                     scope.editElement = function(element) {
