@@ -153,6 +153,14 @@
                                 transformedValue: {}
                             });
                         }
+
+                        // Prepara los transformadores dependientes
+                        if (attrKey.match(/^transformParent/)) {
+                            attrName = camelToUnder(attrKey.replace('transformParent', ''));
+
+                            var transformer = getDataTransformer(attrName);
+                            transformer.parentId = attrValue;
+                        }
                     });
 
                     // Organiza los encabezados ya que son invertidos al leerlos
@@ -197,15 +205,25 @@
                             return;
                         }
                         // Ejecuta cada transformador
-                        angular.forEach(getDataTransformer(), function(transformer) {
+                        angular.forEach(getDataTransformer(), function(transformer, key) {
                             // Si no hay valores a transformar no hacer nada
                             if (transformer.values.length > 0) {
+                                // se hace copia values puede cambiar durante el proceso
                                 var values = transformer.values.concat(),
-                                    index;
+                                    index,
+                                    query_params = {};
                                 transformer.values = [];
                                 transformInProgress = true;
+
+                                // Si hay un valor padre definido
+                                if (transformer.parentId) {
+                                    query_params['parent'] = scope.$parent.$eval(transformer.parentId);
+                                }
+
                                 // Se consultan en grupos si hay mas de un valor para consultar
-                                var result = transformer.resource.query({uuid: 'A,' + values.join(';')}, function() {
+                                query_params['uuid'] = 'A,' + values.join(';');
+
+                                var result = transformer.resource.query(query_params, function() {
                                     // Una vez obtenido el resultado el valor no es mas necesario
                                     angular.forEach(result, function(value) {
                                         transformer.deferred[value.id].resolve(value[transformer.showProperty]);
