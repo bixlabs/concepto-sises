@@ -153,7 +153,7 @@ abstract class RestHandler implements RestHandlerInterface {
 
         $bag = array();
 
-        list($object, $bag) = $this->preSubmit($object, $bag);
+        list($object, $bag, $parameters) = $this->preSubmit($object, $bag, $parameters);
 
         $form = $this->formfactory->create($type, $object);
         $form->submit($this->camelizeParamers($parameters), 'PATCH' !== $method);
@@ -215,9 +215,9 @@ abstract class RestHandler implements RestHandlerInterface {
         return $camelizedParams;
     }
 
-    protected  function preSubmit($object, $bag = array())
+    protected  function preSubmit($object, $bag = array(), $parameters = array())
     {
-        return array($object, $bag);
+        return array($object, $bag, $parameters);
     }
 
     protected  function preFlush($object, $bag = array())

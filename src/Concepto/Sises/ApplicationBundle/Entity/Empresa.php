@@ -12,11 +12,14 @@
 namespace Concepto\Sises\ApplicationBundle\Entity;
 
 use Concepto\Sises\ApplicationBundle\Entity\Archivos\Documentable;
+use Concepto\Sises\ApplicationBundle\Entity\Personal\Director;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping\Column;
 use Doctrine\ORM\Mapping\Entity;
 use Doctrine\ORM\Mapping\GeneratedValue;
 use Doctrine\ORM\Mapping\Id;
 use Doctrine\ORM\Mapping\JoinColumn;
+use Doctrine\ORM\Mapping\ManyToMany;
 use Doctrine\ORM\Mapping\ManyToOne;
 use Doctrine\ORM\Mapping\OneToMany;
 use Doctrine\ORM\Mapping\Table;
@@ -114,6 +117,16 @@ class Empresa extends Documentable implements OrmPersistible {
      * @Groups({"list", "details"})
      */
     protected $privada = false;
+
+    /**
+     * @var Director
+     * @ManyToOne(
+     *  targetEntity="Concepto\Sises\ApplicationBundle\Entity\Personal\Director",
+     *  inversedBy="empresas"
+     * )
+     * @Groups({"list"})
+     */
+    protected $director;
 
     /**
      * @VirtualProperty()
@@ -264,4 +277,50 @@ class Empresa extends Documentable implements OrmPersistible {
     {
         return $this->privada;
     }
+
+    /**
+     * @param string $id
+     */
+    public function setId($id)
+    {
+        $this->id = $id;
+    }
+
+    /**
+     * @return Director
+     */
+    public function getDirector()
+    {
+        return $this->director;
+    }
+
+    /**
+     * @param Director $director
+     */
+    public function setDirector($director)
+    {
+        $this->director = $director;
+    }
+
+    /**
+     * @VirtualProperty()
+     * @SerializedName("director")
+     * @Groups({"details"})
+     * @return null|string
+     */
+    public function getRelatedId()
+    {
+        if ($this->director) {
+            return $this->getDirector()->getId();
+        }
+
+        return null;
+    }
+
+    function __toString()
+    {
+        return $this->getNombre();
+    }
+
+
 }

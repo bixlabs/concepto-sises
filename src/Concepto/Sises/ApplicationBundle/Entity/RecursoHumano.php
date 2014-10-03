@@ -39,6 +39,15 @@ use Symfony\Component\Validator\Constraints\NotNull;
 class RecursoHumano extends AbstractPersonal
 {
     /**
+     * @var Contrato
+     * @ManyToOne(targetEntity="Concepto\Sises\ApplicationBundle\Entity\Contrato", fetch="LAZY")
+     * @NotBlank()
+     * @JoinColumn(nullable=false)
+     * @Groups({"list"})
+     */
+    protected $contrato;
+
+    /**
      * @var CargoOperativo
      * @ManyToOne(targetEntity="Concepto\Sises\ApplicationBundle\Entity\CargoOperativo")
      * @NotNull()

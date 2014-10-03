@@ -12,14 +12,18 @@
 namespace Concepto\Sises\ApplicationBundle\Entity\Personal;
 
 
+use Concepto\Sises\ApplicationBundle\Entity\Contrato;
 use Concepto\Sises\ApplicationBundle\Entity\CoordinadorAsignacion;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping\Entity;
+use Doctrine\ORM\Mapping\JoinColumn;
+use Doctrine\ORM\Mapping\ManyToOne;
 use Doctrine\ORM\Mapping\OneToMany;
 use Doctrine\ORM\Mapping\Table;
 use JMS\Serializer\Annotation\Groups;
 use JMS\Serializer\Annotation\MaxDepth;
+use Symfony\Component\Validator\Constraints\NotBlank;
 
 /**
  * Class Coordinador
@@ -38,6 +42,15 @@ class Coordinador extends AbstractPersonal
      * )
      */
     protected $archivos;
+
+    /**
+     * @var Contrato
+     * @ManyToOne(targetEntity="Concepto\Sises\ApplicationBundle\Entity\Contrato", fetch="LAZY")
+     * @NotBlank()
+     * @JoinColumn(nullable=false)
+     * @Groups({"list"})
+     */
+    protected $contrato;
 
     /**
      * @var Collection

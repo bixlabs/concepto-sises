@@ -40,10 +40,11 @@ class ContratoRestHandler extends RestHandler
     /**
      * @param \Concepto\Sises\ApplicationBundle\Entity\Contrato $object
      * @param array                                             $bag
+     * @param array                                             $parameters
      *
      * @return array
      */
-    protected function preSubmit($object, $bag = array())
+    protected function preSubmit($object, $bag = array(), $parameters = array())
     {
         $servicios = array();
 
@@ -54,7 +55,7 @@ class ContratoRestHandler extends RestHandler
 
         $bag['servicios'] = $servicios;
 
-        return parent::preSubmit($object, $bag);
+        return parent::preSubmit($object, $bag, $parameters);
     }
 
     /**

@@ -54,3 +54,7 @@ coordinador:
     type: rest
     prefix: /api
     resource: @SisesApplicationBundle/Controller/Personal/CoordinadorController.php
+director:
+    type: rest
+    prefix: /api
+    resource: @SisesApplicationBundle/Controller/Personal/DirectorController.php

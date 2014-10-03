@@ -28,7 +28,8 @@
                 'cargo_operativo':         '/api/operativos/:id.json',
                 'entidad_financiera':      '/api/financiera/entidads/:id.json',
                 'entidad_financiera_tipo': '/api/financiera/tipos/:id.json',
-                'coordinador':             '/api/coordinadors/:id.json'
+                'coordinador':             '/api/coordinadors/:id.json',
+                'director':                '/api/directors/:id.json'
             };
 
             var methods = {};

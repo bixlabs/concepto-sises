@@ -45,13 +45,6 @@ abstract class AbstractPersonal extends Documentable implements OrmPersistible
      */
     protected $id;
 
-    /**
-     * @var Contrato
-     * @ManyToOne(targetEntity="Concepto\Sises\ApplicationBundle\Entity\Contrato", fetch="LAZY")
-     * @NotBlank()
-     * @JoinColumn(nullable=false)
-     * @Groups({"list"})
-     */
     protected $contrato;
 
     /**

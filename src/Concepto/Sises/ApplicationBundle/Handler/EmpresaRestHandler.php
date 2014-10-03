@@ -38,12 +38,13 @@ class EmpresaRestHandler extends RestHandler
     }
 
     /**
-     * @param \Concepto\Sises\ApplicationBundle\Entity\Empresa  $object
-     * @param array                                             $bag
+     * @param \Concepto\Sises\ApplicationBundle\Entity\Empresa $object
+     * @param array                                            $bag
+     * @param array                                            $parameters
      *
      * @return array
      */
-    protected function preSubmit($object, $bag = array())
+    protected function preSubmit($object, $bag = array(), $parameters = array())
     {
         $archivos = array();
 
@@ -53,7 +54,7 @@ class EmpresaRestHandler extends RestHandler
 
         $bag['archivos'] = $archivos;
 
-        return parent::preSubmit($object, $bag);
+        return parent::preSubmit($object, $bag, $parameters);
     }
 
     /**

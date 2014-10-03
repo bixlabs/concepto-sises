@@ -11,6 +11,7 @@
         'BENEFICIARIO',
         'RRHH',
         'COORDINADOR',
+        'DIRECTOR',
         'ui.router',
         'localytics.directives',
         'plupload.directive',
