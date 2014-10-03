@@ -155,12 +155,17 @@
                             });
                         }
 
+                        // TODO: las dependencias de los tranformadores deben ir primero
                         // Prepara los transformadores dependientes
                         if (attrKey.match(/^transformParent/)) {
                             attrName = camelToUnder(attrKey.replace('transformParent', ''));
 
-                            var transformer = getDataTransformer(attrName);
-                            transformer.parentId = attrValue;
+                            try {
+                                var transformer = getDataTransformer(attrName);
+                                transformer.parentId = attrValue;
+                            } catch (err) {
+                                console.error("El transformer", attrName, "no esta definido");
+                            }
                         }
                     });
 
