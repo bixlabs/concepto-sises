@@ -62,6 +62,9 @@
         G.Base.NewController.call(this, scope, RR.beneficiario);
 
         scope.contratos = RR.contrato.query();
+        scope.contrato = {
+            elegido: ''
+        };
 
         scope.list = function() {
             scope.go('beneficiarios.listado');
