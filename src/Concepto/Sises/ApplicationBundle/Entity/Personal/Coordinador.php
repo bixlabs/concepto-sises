@@ -19,6 +19,7 @@ use Doctrine\ORM\Mapping\Entity;
 use Doctrine\ORM\Mapping\OneToMany;
 use Doctrine\ORM\Mapping\Table;
 use JMS\Serializer\Annotation\Groups;
+use JMS\Serializer\Annotation\MaxDepth;
 
 /**
  * Class Coordinador
@@ -46,6 +47,7 @@ class Coordinador extends AbstractPersonal
      *      cascade={"persist"}
      * )
      * @Groups({"details"})
+     * @MaxDepth(depth=2)
      */
     protected $asignacion;
 
