@@ -146,6 +146,7 @@
                             var params = attrValue.split(',');
 
                             setDataTransformer(attrName, {
+                                name: attrName,
                                 values: [],
                                 resource: RR[params[0]],
                                 showProperty: params[1],
@@ -184,7 +185,7 @@
                                         // Liberamos recursos
                                         delete transformer.deferred[valueTotransform];
                                     });
-                                    resolveTransformedValues();
+                                    resolveTransformedValues(property);
                                 }
 
                                 return transformer.transformedValue[valueTotransform];
@@ -197,51 +198,56 @@
                     };
 
                     // Indica cuando hay una transformacion en progreso
-                    var transformInProgress = false;
+                    var transformInProgress = {};
 
                     // Resuelve las transformaciones de datos
-                    var resolveTransformedValues = function() {
-                        if (transformInProgress) {
+                    var resolveTransformedValues = function(name) {
+                        var transformer;
+
+                        if (typeof transformInProgress[name] === 'undefined') {
+                            transformInProgress[name] = false;
+                        }
+
+                        if (transformInProgress[name]) {
                             return;
                         }
-                        // Ejecuta cada transformador
-                        angular.forEach(getDataTransformer(), function(transformer, key) {
-                            // Si no hay valores a transformar no hacer nada
-                            if (transformer.values.length > 0) {
-                                // se hace copia values puede cambiar durante el proceso
-                                var values = transformer.values.concat(),
-                                    index,
-                                    query_params = {};
-                                transformer.values = [];
-                                transformInProgress = true;
 
-                                // Si hay un valor padre definido
-                                if (transformer.parentId) {
-                                    query_params['parent'] = scope.$parent.$eval(transformer.parentId);
-                                }
+                        transformer = getDataTransformer(name);
 
-                                // Se consultan en grupos si hay mas de un valor para consultar
-                                query_params['uuid'] = 'A,' + values.join(';');
+                        if (transformer.values.length > 0) {
+                            // se hace copia values puede cambiar durante el proceso
+                            var values = transformer.values.concat(),
+                                index,
+                                query_params = {};
+                            transformer.values = [];
+                            transformInProgress[name] = true;
 
-                                var result = transformer.resource.query(query_params, function() {
-                                    // Una vez obtenido el resultado el valor no es mas necesario
-                                    angular.forEach(result, function(value) {
-                                        transformer.deferred[value.id].resolve(value[transformer.showProperty]);
-                                        index = transformer.values.indexOf(value.id);
-                                        if (index !== -1) {
-                                            transformer.values.splice(index, 1);
-                                        }
-                                    });
-                                    transformInProgress = false;
-                                    // Si hay valores pendientes (agregaron asincronamente), volvemos a transformar
-                                    if (transformer.values.length > 0) {
-                                        resolveTransformedValues();
-                                    }
-                                }, function() {
-                                    transformInProgress = false;
-                                });
+                            // Si hay un valor padre definido
+                            if (transformer.parentId) {
+                                query_params['parent'] = scope.$parent.$eval(transformer.parentId);
                             }
-                        });
+
+                            // Se consultan en grupos si hay mas de un valor para consultar
+                            query_params['uuid'] = 'A,' + values.join(';');
+
+                            var result = transformer.resource.query(query_params, function() {
+                                // Una vez obtenido el resultado el valor no es mas necesario
+                                angular.forEach(result, function(value) {
+                                    transformer.deferred[value.id].resolve(value[transformer.showProperty]);
+                                    index = transformer.values.indexOf(value.id);
+                                    if (index !== -1) {
+                                        transformer.values.splice(index, 1);
+                                    }
+                                });
+                                transformInProgress[name] = false;
+                                // Si hay valores pendientes (agregaron asincronamente), volvemos a transformar
+                                if (transformer.values.length > 0) {
+                                    resolveTransformedValues(transformer.name);
+                                }
+                            }, function() {
+                                transformInProgress[name] = false;
+                            });
+                        }
                     };
 
                     // Define el manejador para el dialogo
