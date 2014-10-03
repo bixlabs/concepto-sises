@@ -14,6 +14,7 @@ namespace Concepto\Sises\ApplicationBundle\Entity;
 
 use Concepto\Sises\ApplicationBundle\Entity\Archivos\Documentable;
 use Concepto\Sises\ApplicationBundle\Entity\Financiera\Entidad as EntidadFinanciera;
+use Concepto\Sises\ApplicationBundle\Entity\Personal\AbstractPersonal;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping\Column;
 use Doctrine\ORM\Mapping\Entity;
@@ -35,26 +36,8 @@ use Symfony\Component\Validator\Constraints\NotNull;
  * @Entity()
  * @Table(name="recurso_humano")
  */
-class RecursoHumano extends Documentable implements OrmPersistible
+class RecursoHumano extends AbstractPersonal
 {
-    /**
-     * @var string
-     * @Id()
-     * @Column(name="id", length=36)
-     * @GeneratedValue(strategy="UUID")
-     * @Groups({"list", "details"})
-     */
-    protected $id;
-
-    /**
-     * @var Contrato
-     * @ManyToOne(targetEntity="Concepto\Sises\ApplicationBundle\Entity\Contrato", fetch="LAZY")
-     * @NotBlank()
-     * @JoinColumn(nullable=false)
-     * @Groups({"list"})
-     */
-    protected $contrato;
-
     /**
      * @var CargoOperativo
      * @ManyToOne(targetEntity="Concepto\Sises\ApplicationBundle\Entity\CargoOperativo")
@@ -62,34 +45,6 @@ class RecursoHumano extends Documentable implements OrmPersistible
      * @Groups({"list"})
      */
     protected $cargo;
-
-    /**
-     * @var Persona
-     * @ManyToOne(targetEntity="Concepto\Sises\ApplicationBundle\Entity\Persona")
-     * @NotNull()
-     * @Groups({"list"})
-     */
-    protected $persona;
-
-    /**
-     * @var EntidadFinanciera
-     * @ManyToOne(targetEntity="Concepto\Sises\ApplicationBundle\Entity\Financiera\Entidad")
-     * @Groups({"list"})
-     */
-    protected $entidadFinanciera;
-
-    /**
-     * @var string
-     * @Column(name="numero_cuenta", length=250, nullable=true)
-     * @Groups({"details"})
-     */
-    protected $numeroCuenta;
-
-    /**
-     * @var string
-     * @Column(name="observaciones_financieras", type="text", nullable=true)
-     */
-    protected $observacionesFinancieras;
 
     /**
      * @{inheridoc}
@@ -113,14 +68,6 @@ class RecursoHumano extends Documentable implements OrmPersistible
     protected $servicios;
 
     /**
-     * @return string
-     */
-    public function getId()
-    {
-        return $this->id;
-    }
-
-    /**
      * @return CargoOperativo
      */
     public function getCargo()
@@ -134,38 +81,6 @@ class RecursoHumano extends Documentable implements OrmPersistible
     public function setCargo($cargo)
     {
         $this->cargo = $cargo;
-    }
-
-    /**
-     * @return Persona
-     */
-    public function getPersona()
-    {
-        return $this->persona;
-    }
-
-    /**
-     * @param Persona $persona
-     */
-    public function setPersona($persona)
-    {
-        $this->persona = $persona;
-    }
-
-    /**
-     * @return EntidadFinanciera
-     */
-    public function getEntidadFinanciera()
-    {
-        return $this->entidadFinanciera;
-    }
-
-    /**
-     * @param EntidadFinanciera $entidadFinanciera
-     */
-    public function setEntidadFinanciera($entidadFinanciera)
-    {
-        $this->entidadFinanciera = $entidadFinanciera;
     }
 
     /**
@@ -184,20 +99,6 @@ class RecursoHumano extends Documentable implements OrmPersistible
 
     /**
      * @VirtualProperty()
-     * @SerializedName("persona")
-     * @Groups({"details"})
-     */
-    public function getPersonaId()
-    {
-        if ($this->persona) {
-            return $this->persona->getId();
-        }
-
-        return null;
-    }
-
-    /**
-     * @VirtualProperty()
      * @SerializedName("entidad_financiera")
      * @Groups({"details"})
      */
@@ -208,38 +109,6 @@ class RecursoHumano extends Documentable implements OrmPersistible
         }
 
         return null;
-    }
-
-    /**
-     * @return string
-     */
-    public function getNumeroCuenta()
-    {
-        return $this->numeroCuenta;
-    }
-
-    /**
-     * @param string $numeroCuenta
-     */
-    public function setNumeroCuenta($numeroCuenta)
-    {
-        $this->numeroCuenta = $numeroCuenta;
-    }
-
-    /**
-     * @return string
-     */
-    public function getObservacionesFinancieras()
-    {
-        return $this->observacionesFinancieras;
-    }
-
-    /**
-     * @param string $observacionesFinancieras
-     */
-    public function setObservacionesFinancieras($observacionesFinancieras)
-    {
-        $this->observacionesFinancieras = $observacionesFinancieras;
     }
 
     /**
@@ -277,35 +146,5 @@ class RecursoHumano extends Documentable implements OrmPersistible
             $this->servicios->removeElement($servicio);
             $servicio->setRecursoHumano(null);
         }
-    }
-
-    /**
-     * @return Contrato
-     */
-    public function getContrato()
-    {
-        return $this->contrato;
-    }
-
-    /**
-     * @param Contrato $contrato
-     */
-    public function setContrato($contrato)
-    {
-        $this->contrato = $contrato;
-    }
-
-    /**
-     * @VirtualProperty()
-     * @SerializedName("contrato")
-     * @Groups({"details"})
-     */
-    public function getContratoId()
-    {
-        if ($this->contrato) {
-            return $this->contrato->getId();
-        }
-
-        return null;
     }
 }
