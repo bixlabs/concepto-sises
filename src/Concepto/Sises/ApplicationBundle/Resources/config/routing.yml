@@ -50,3 +50,7 @@ rrhh:
     type: rest
     prefix: /api
     resource: @SisesApplicationBundle/Controller/RecursoController.php
+coordinador:
+    type: rest
+    prefix: /api
+    resource: @SisesApplicationBundle/Controller/Personal/CoordinadorController.php
