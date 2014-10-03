@@ -19,6 +19,9 @@
                     {% endverbatim %}
                 </li>
             </ul>
+            <ul class="nav navbar-nav navbar-right" data-ng-if="authState">
+                <li><a href="{{ path('web_main') }}"> <i class="glyphicon glyphicon-log-out"></i> Cerrar sesión</a></li>
+            </ul>
         </div>
     </div>
 </nav>

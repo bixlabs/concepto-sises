@@ -12,6 +12,7 @@
         'RRHH',
         'COORDINADOR',
         'DIRECTOR',
+        'PROFILE',
         'ui.router',
         'localytics.directives',
         'plupload.directive',

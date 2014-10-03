@@ -1,5 +1,6 @@
 imports:
     - { resource: config.yml }
+    - { resource: security_prod.yml }
 
 framework:
     router:
@@ -25,7 +26,7 @@ monolog:
 assetic:
     use_controller: true
 
-security:
-    access_control:
-        - { path: ^/api, roles: IS_AUTHENTICATED_ANONYMOUSLY }
-        - { path: ^/   , roles: IS_AUTHENTICATED_ANONYMOUSLY }
+#security:
+#    access_control:
+#        - { path: ^/api, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+#        - { path: ^/   , roles: IS_AUTHENTICATED_ANONYMOUSLY }
