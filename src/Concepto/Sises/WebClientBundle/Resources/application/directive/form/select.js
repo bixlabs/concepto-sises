@@ -32,7 +32,7 @@
                 }
             }
         })
-        .directive('sisesFormEmbedCollection', ['RestResources', '$rootScope', function(RR, $rootScope) {
+        .directive('sisesFormEmbedCollection', ['RestResources', '$rootScope', '$q', function(RR, $rootScope, $q) {
             return {
                 restrict: 'A',
                 require: ['^sisesForm', '?^sisesCompound'],
@@ -42,33 +42,39 @@
                 scope: {
                     elements: '=sisesFormEmbedCollection',
                     uniqueTest:  '=',
-                    buttonLabel: '@',
-                    tableHeaders: '=',
-                    tableFields: '='
+                    buttonLabel: '@'
                 },
                 link: function (scope, el, attrs, controllers) {
                     var getHandler,
-                        find;
+                        find,
+                        attrName;
 
                     G.Form.InputFormLink.call(this, scope, el, attrs, controllers);
 
                     // Encuentra y devuelve el indice del elemento en el listado
                     find = function(element) {
                         var founded = -1,
-                            test;
+                            test, combinedTest, value,
+                            i, e;
 
                         // Solo para arrays
                         if (angular.isArray(scope.elements)) {
                             // Se busca el elemento si cumple con la condicion de unico
-                            angular.forEach(scope.elements, function(value, index) {
-                                for (var i = scope.uniqueTest.length - 1; i >= 0; i--) {
+                            for (e = scope.elements.length -1; e >= 0; e--) {
+                                value = scope.elements[e];
+
+                                // Debe cumplir todos los criterios estrictamente
+                                combinedTest = true;
+                                for (i = scope.uniqueTest.length - 1; i >= 0; i--) {
                                     test = scope.uniqueTest[i];
-                                    if (element[test] === value[test]) {
-                                        founded = index;
-                                        break;
-                                    }
+                                    combinedTest = (combinedTest && (element[test] === value[test]));
                                 }
-                            });
+
+                                if (combinedTest) {
+                                    founded = e;
+                                    break;
+                                }
+                            }
                         }
 
                         return founded;
@@ -102,26 +108,97 @@
                         scope.formProperties.label = scope.buttonLabel;
                     }
 
-                    if (!scope.tableHeaders || !angular.isArray(scope.tableHeaders)) {
-                        scope.tableHeaders = [];
+                    function camelToUnder(str) {
+                        return str.replace(/\W+/g, '_').replace(/([a-z\d])([A-Z])/g, '$1_$2').toLowerCase();
                     }
 
-                    if (!scope.tableFields) {
-                        scope.tableFields = {};
-                    }
+                    // Estructura de la tabla
+                    scope.tableHeaders = [];
+                    scope.tableFields = {};
+
+                    // Transformadores de datos
+                    scope.formProperties.transformedData = {};
+
+                    var getDataTransformer = function(name) {
+                        if (name) {
+                            return scope.formProperties.transformedData[name];
+                        }
+
+                        return scope.formProperties.transformedData;
+                    };
+
+                    var setDataTransformer = function(name, value) {
+                        scope.formProperties.transformedData[name] = value;
+                    };
+
+                    // Procesa los attributos pasados a la directiva
+                    angular.forEach(attrs, function(attrValue, attrKey) {
+                        // Obtiene las columnas y valores a mostrar pasados como 'table-field-*'
+                        if (attrKey.match(/^tableField/)) {
+                            attrName = camelToUnder(attrKey.replace('tableField', ''));
+                            scope.tableHeaders.push(attrValue);
+                            scope.tableFields[attrValue] = attrName;
+                        }
+
+                        // Prepara los transformadores de datos
+                        if(attrKey.match(/^tableTransform/)) {
+                            attrName = camelToUnder(attrKey.replace('tableTransform', ''));
+                            var params = attrValue.split(',');
+
+                            setDataTransformer(attrName, {
+                                values: [],
+                                resource: RR[params[0]],
+                                showProperty: params[1],
+                                deferred: {},
+                                transformedValue: {}
+                            });
+                        }
+                    });
+
+                    // Organiza los encabezados ya que son invertidos al leerlos
+                    scope.tableHeaders.reverse();
 
                     // Devuelve el valor apropiado
                     scope.resolveValue = function(element, propertyName) {
                         var property = scope.tableFields[propertyName];
                         if (property) {
-                            if (angular.isFunction(property)) {
-                                return property.call(element[property]);
-                            } else {
-                                return element[property];
+                            var transformer = getDataTransformer(property);
+                            // Si hay un transformador devolverlo
+                            if (transformer) {
+                                var valueTotransform = element[property];
+                                if (typeof transformer.transformedValue[valueTotransform] === 'undefined') {
+                                    transformer.values.push(valueTotransform);
+                                    transformer.transformedValue[valueTotransform] = '';
+                                    transformer.deferred[valueTotransform] = $q.defer();
+                                    transformer.deferred[valueTotransform].promise.then(function(data) {
+                                        transformer.transformedValue[valueTotransform] = data;
+
+                                        // Liberamos recursos
+                                        delete transformer.deferred[valueTotransform];
+                                    });
+                                }
+
+                                return transformer.transformedValue[valueTotransform];
                             }
+
+                            return element[property];
                         } else {
                             return '';
                         }
+                    };
+
+                    // Resuelve las transformaciones de datos
+                    var resolveTransformedValues = function() {
+                        angular.forEach(getDataTransformer(), function(transformer) {
+                            if (transformer.values.length > 0) {
+                                var result = transformer.resource.query({uuid: 'A,' + transformer.values.join(';')}, function() {
+                                    angular.forEach(result, function(value) {
+                                        transformer.deferred[value.id].resolve(value[transformer.showProperty]);
+                                    });
+                                    transformer.values = [];
+                                });
+                            }
+                        });
                     };
 
                     // Define el manejador para el dialogo
@@ -129,7 +206,7 @@
                         id: scope.formProperties.id,
                         actions: {
                             ok: {
-                                label: 'Agregar',
+                                label: 'Guardar',
                                 style: 'primary'
                             },
                             cancel: {
@@ -168,17 +245,16 @@
 
                         // Guarda
                         if (finded === -1) {
-                            console.log("Guardando el elemento");
                             scope.addElement(scope.element);
                         }
                         // Actualiza
                         else {
-                            console.log("actualizando el elemento");
                             scope.elements[finded] = angular.extend({}, scope.element);
                             scope.element = {};
                         }
 
                         getHandler().hide();
+                        resolveTransformedValues();
                     };
 
                     scope.editElement = function(element) {

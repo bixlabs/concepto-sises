@@ -45,9 +45,11 @@
                 <legend>Servicios contratados</legend>
                 <div data-sises-form-embed-collection="element.servicios"
                      data-button-label="Agregar servicio"
-                     data-table-headers="['Nombres', 'Valor', 'Lugar']"
-                     data-table-fields="{'Nombres': 'nombre', 'Valor': 'valor_unitario', 'Lugar': 'lugar' }"
-                     data-unique-test="['nombre']">
+                     data-table-field-nombre="Nombre"
+                     data-table-field-lugar="Lugar"
+                     data-table-field-valor_unitario="Valor"
+                     data-table-transform-lugar="lugar,nombre_detallado"
+                     data-unique-test="['nombre', 'lugar']">
                     <div data-sises-form-input="nombre"
                          data-required="true"
                          data-label="'Nombre servicio'"></div>
