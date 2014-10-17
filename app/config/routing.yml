@@ -1,6 +1,13 @@
 fos_js_routing:
     resource: "@FOSJsRoutingBundle/Resources/config/routing/routing.xml"
 
+fos_user_security:
+    resource: "@FOSUserBundle/Resources/config/routing/security.xml"
+
+fos_user_change_password:
+    resource: "@FOSUserBundle/Resources/config/routing/change_password.xml"
+    prefix: /profile
+
 concepto_sises:
     type: rest
     resource: @SisesApplicationBundle/Resources/config/routing.yml
@@ -15,8 +22,3 @@ oneup_uploader:
     type: uploader
     options:
         expose: true
-
-login:
-    path: /login
-login_check:
-    path: /login_check
