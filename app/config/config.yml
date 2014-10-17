@@ -74,6 +74,11 @@ fos_rest:
             - { path: ^/,    priorities: [ html, js, css, scss, '*/*'], fallback_format: ~, prefer_extension: true }
     body_listener: true
 
+fos_user:
+    db_driver: orm
+    firewall_name: main
+    user_class: Concepto\Sises\ApplicationBundle\Entity\Seguridad\Usuario
+
 
 jms_di_extra:
     locations:

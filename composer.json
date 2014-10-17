@@ -25,7 +25,9 @@
         "pagerfanta/pagerfanta": "~1.0",
         "oneup/uploader-bundle": "~1.3",
         "knplabs/knp-gaufrette-bundle": "~0.1",
-        "sensio/generator-bundle": "~2.4"
+        "sensio/generator-bundle": "~2.4",
+        "friendsofsymfony/user-bundle": "~1.3",
+        "symfony/swiftmailer-bundle": "~2.3"
     },
     "scripts": {
         "post-root-package-install": [
