@@ -58,3 +58,7 @@ director:
     type: rest
     prefix: /api
     resource: @SisesApplicationBundle/Controller/Personal/DirectorController.php
+admin_entrega:
+    type: rest
+    prefix: /api
+    resource: @SisesApplicationBundle/Controller/Entrega/EntregaController.php

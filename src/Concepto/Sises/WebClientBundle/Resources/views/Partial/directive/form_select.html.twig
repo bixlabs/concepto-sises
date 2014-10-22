@@ -6,7 +6,7 @@
                 data-chosen
                 data-width="'100%'"
                 data-ng-model="form.model[property]"
-                data-ng-options="o.{{optionsKey}} as o.{{optionsLabel}} for o in options"
+                data-ng-options="o.{{optionsKey}} as o.{{optionsLabel}} for o in options_"
                 id="{{formProperties.id}}_select"></select>
         <p class="help-block"
            data-ng-repeat="error in getErrors()"

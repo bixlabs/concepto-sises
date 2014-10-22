@@ -11,11 +11,14 @@
 (function () {
     "use strict";
 
-    var InputFormDate = function(scope) {
+    var InputFormDate = function(scope, el, attrs) {
         scope.formProperties.type = "date";
 
-        scope.formProperties.openedCalendar =
-            scope.formProperties.openedCalendar || false;
+        var defaultAttribValues = {
+            'openedCalendar': false
+        };
+
+        G.Form.setDefaultAttribValues.call(this, scope, defaultAttribValues, attrs);
 
         scope.openCalendar = function($event) {
             if ($event) {
@@ -44,7 +47,7 @@
                     G.Form.InputFormLink.call(this, scope, el, attrs, controllers);
 
                     if (scope.formProperties.type === 'date') {
-                        InputFormDate.call(this, scope);
+                        InputFormDate.call(this, scope, el, attrs);
                     }
                 }
             };
@@ -83,11 +86,13 @@
                 require: ['^sisesForm', '?^sisesCompound'],
                 templateUrl: G.template('directive/form_input'),
                 scope: {
-                    property: '@sisesFormDate'
+                    property: '@sisesFormDate',
+                    minDate: '@',
+                    maxDate: '@'
                 },
                 link: function(scope, el, attrs, controllers) {
                     G.Form.InputFormLink.call(this, scope, el, attrs, controllers);
-                    InputFormDate.call(this, scope);
+                    InputFormDate.call(this, scope, el, attrs);
                 }
             };
         })

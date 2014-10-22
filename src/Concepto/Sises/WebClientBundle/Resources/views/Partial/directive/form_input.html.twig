@@ -25,6 +25,8 @@
                 <input placeholder="{{formProperties.placeholder}}"
                        data-ng-model="form.model[property]"
                        data-datepicker-popup="dd-MM-yyyy"
+                       data-min-date="form.model[minDate]"
+                       data-max-date="form.model[maxDate]"
                        data-is-open="formProperties.openedCalendar"
                        data-close-text="Cerrar"
                        class="form-control" type="text" id="{{formProperties.id}}_date"/>

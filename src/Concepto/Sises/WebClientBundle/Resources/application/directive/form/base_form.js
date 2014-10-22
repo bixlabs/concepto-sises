@@ -12,6 +12,19 @@
     "use strict";
 
     /**
+     * Define los atributos base para el elemento
+     * @param scope
+     * @param defaultAttribValues
+     */
+    function setDefaultAttribValues(scope, defaultAttribValues, attrs)
+    {
+        angular.forEach(defaultAttribValues, function(defValue, attrib) {
+            scope.formProperties[attrib] = attrs[attrib] ?
+                scope.$eval(attrs[attrib]) : defValue;
+        });
+    }
+
+    /**
      * Base para funcion 'link' de directivas, enfocado a inputs
      *
      * @param scope el contexto de Angular para la directiva actual
@@ -48,10 +61,7 @@
             'type': 'text'
         };
 
-        angular.forEach(defaultAttribValues, function(defValue, attrib) {
-            scope.formProperties[attrib] = attrs[attrib] ?
-                scope.$eval(attrs[attrib]) : defValue;
-        });
+        setDefaultAttribValues.call(this, scope, defaultAttribValues, attrs);
 
         // Getters
         scope.isRequired = function() {
@@ -88,6 +98,7 @@
     }
 
     G.Form = G.Form || {
-        InputFormLink: InputFormLink
+        InputFormLink: InputFormLink,
+        setDefaultAttribValues: setDefaultAttribValues
     };
 })();

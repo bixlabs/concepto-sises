@@ -15,7 +15,7 @@
     /**
      * directive sisesFormSelect
      */
-        .directive('sisesFormSelect', function() {
+        .directive('sisesFormSelect', ['RestResources', function(RR) {
             return {
                 restrict: 'A',
                 replace: true,
@@ -29,9 +29,14 @@
                 },
                 link: function(scope, el ,attrs, controllers) {
                     G.Form.InputFormLink.call(this, scope, el, attrs, controllers);
+                    if (angular.isString(scope.options)) {
+                        scope.options_ = RR[scope.options].query();
+                    } else {
+                        scope.options_ = scope.options;
+                    }
                 }
             }
-        })
+        }])
         .directive('sisesFormEmbedCollection', ['RestResources', '$rootScope', '$q', function(RR, $rootScope, $q) {
             return {
                 restrict: 'A',

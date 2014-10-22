@@ -13,22 +13,26 @@
 <table class="table table-hover table-condensed">
     <thead>
     <tr>
-        <th width="20%">Documento</th>
-        <th width="50%">Nombre completo</th>
+        <th width="25%">Fecha inicio</th>
+        <th width="25%">Fecha cierre</th>
+        <th width="20%">Dias de gracia</th>
+        <th>Estado</th>
         <th></th>
     </tr>
     </thead>
-    <tbody ng-if="elements.length == 0">
+    <tbody data-ng-if="elements.length == 0">
     <tr>
         <td colspan="3">
             No existen directores
         </td>
     </tr>
     </tbody>
-    <tbody ng-if="elements.length > 0">
+    <tbody data-ng-if="elements.length > 0">
     <tr data-ng-repeat="single in elements">
-        <td data-ng-bind="single.persona.documento"></td>
-        <td data-ng-bind="single.persona.nombre_completo"></td>
+        <td data-ng-bind="single.fechaInicio|date"></td>
+        <td data-ng-bind="single.fechaCierre|date"></td>
+        <td data-ng-bind="single.diasGracia"></td>
+        <td data-ng-bind="single.estado"></td>
         <td>
             {% set params = {'name':'edit', 'singular': 'Single'} %}
             {{render(controller('SisesWebClientBundle:Web:actions', params))}}

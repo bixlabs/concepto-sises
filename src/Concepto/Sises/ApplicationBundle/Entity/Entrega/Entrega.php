@@ -12,13 +12,18 @@
 namespace Concepto\Sises\ApplicationBundle\Entity\Entrega;
 
 
+use Concepto\Sises\ApplicationBundle\Entity\Contrato;
 use Doctrine\ORM\Mapping\Column;
 use Doctrine\ORM\Mapping\Entity;
 use Doctrine\ORM\Mapping\GeneratedValue;
 use Doctrine\ORM\Mapping\Id;
+use Doctrine\ORM\Mapping\JoinColumn;
+use Doctrine\ORM\Mapping\ManyToOne;
 use Doctrine\ORM\Mapping\Table;
 use JMS\Serializer\Annotation\Groups;
+use JMS\Serializer\Annotation\MaxDepth;
 use JMS\Serializer\Annotation\SerializedName;
+use JMS\Serializer\Annotation\VirtualProperty;
 use Symfony\Component\Validator\Constraints\NotBlank;
 use Symfony\Component\Validator\Constraints\NotNull;
 
@@ -65,6 +70,7 @@ class Entrega {
      * @Column(name="dias_gracia", type="integer")
      * @NotBlank()
      * @Groups({"list", "details"})
+     * @SerializedName("diasGracia")
      */
     protected $diasGracia;
 
@@ -75,6 +81,17 @@ class Entrega {
      * @Groups({"list", "details"})
      */
     protected $estado;
+
+    /**
+     * @var Contrato
+     * @ManyToOne(targetEntity="Concepto\Sises\ApplicationBundle\Entity\Contrato", fetch="LAZY", inversedBy="servicios")
+     * @NotNull()
+     * @JoinColumn(nullable=false)
+     * @Groups({"list"})
+     * @MaxDepth(depth=1)
+     */
+    protected $contrato;
+
 
     function __construct()
     {
@@ -181,5 +198,32 @@ class Entrega {
     public function getEstado()
     {
         return $this->estado;
+    }
+
+    /**
+     * @return Contrato
+     */
+    public function getContrato()
+    {
+        return $this->contrato;
+    }
+
+    /**
+     * @param Contrato $contrato
+     */
+    public function setContrato($contrato)
+    {
+        $this->contrato = $contrato;
+    }
+
+    /**
+     * @VirtualProperty()
+     * @SerializedName("contrato")
+     * @Groups({"details"})
+     * @return string
+     */
+    public function getContratoId()
+    {
+        return $this->getContrato()->getId();
     }
 }

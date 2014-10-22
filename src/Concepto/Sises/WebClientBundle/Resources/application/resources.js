@@ -30,7 +30,7 @@
                 'entidad_financiera_tipo': '/api/financiera/tipos/:id.json',
                 'coordinador':             '/api/coordinadors/:id.json',
                 'director':                '/api/directors/:id.json',
-                'admin_entrega':           '/api/'
+                'admin_entrega':           '/api/entregas/:id.json'
             };
 
             var methods = {};

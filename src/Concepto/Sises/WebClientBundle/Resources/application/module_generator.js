@@ -31,6 +31,7 @@
         scope.list = function() { scope.go('^.list'); };
 
         scope.details = function (id) {
+            console.log("Detalles", id);
             scope.go('^.update', {id: G.extractGuid(id)});
         };
 
@@ -40,10 +41,10 @@
 
         scope.save = function() {
             if (typeof scope.element !== 'undefined') {
+                var method = typeof scope.element.id === 'undefined' ? '$save' : '$update';
                 scope.canSave = false;
-                scope.element['$save'](that.saveSuccess, that.saveFail);
+                scope.element[method](that.saveSuccess, that.saveFail);
             }
-
         };
 
         that.saveSuccess = function(data, headers) {
@@ -62,7 +63,7 @@
                     break;
                 default:
                     alert("Ha ocurrido un error " + response.data.code);
-                    console.error(response.data);
+                    console.log(response.data);
                     break;
             }
             scope.canSave = true;
@@ -83,16 +84,16 @@
         if (typeof config.states === 'undefined') {
             // Estados por defecto
             config.states = [
-                {suffix: '', abstract: true, template: '<ui-view/>'},
-                {suffix: '.list', url: '/list'},
-                {suffix: '.new', url: '/new'},
-                {suffix: '.update', url: '/update'}
+                {suffix: '', abstract: true, template: '<ui-view/>', url: '/' + config.prefix},
+                {suffix: '.list', url: '/list', name: 'list'},
+                {suffix: '.new', url: '/new', name: 'new'},
+                {suffix: '.update', url: '/:id', name: 'update'}
             ];
             for (stateIdx = 0; stateIdx < config.states.length; stateIdx++) {
                 state = config.states[stateIdx];
                 // Solo estados no abstractos
                 if (typeof state.abstract === 'undefined') {
-                    state.templateUrl = G.template(config.prefix + state.url);
+                    state.templateUrl = G.template(config.prefix + '/' + state.name);
                     state.controller = name + '.' + controllerName(state.suffix);
                 }
             }
@@ -122,6 +123,14 @@
             'RestResources', '$scope',
             function (RR, scope) {
                 scope.element = new RR[config.resource]();
+                BaseController.call(this, scope);
+            }
+        ]);
+
+        module.controller(name+ '.UpdateController', [
+            'RestResources', '$scope',
+            function(RR, scope) {
+                scope.element = RR[config.resource].get({id: scope.routeParams.id});
                 BaseController.call(this, scope);
             }
         ]);
