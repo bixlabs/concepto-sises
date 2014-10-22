@@ -1,0 +1,143 @@
+/**
+ * Copyright © 2014 Julian Reyes Escrigas <julian.reyes.escrigas@gmail.com>
+ *
+ * This file is part of concepto-sises.
+ *
+ * concepto-sises
+ * can not be copied and/or distributed without the express
+ * permission of Julian Reyes Escrigas <julian.reyes.escrigas@gmail.com>
+ */
+;
+(function () {
+    "use strict";
+
+    function controllerName(prefix) {
+        var name = prefix.replace('.', '');
+        return name[0].toUpperCase() + name.substr(1) + 'Controller';
+    }
+
+    function BaseController(scope) {
+        var that = this;
+
+        // Guarda los errors de formulario
+        scope.errors = {};
+        // Define si es posible guardar
+        scope.canSave = true;
+        scope.testSave = function() {
+            return !scope.canSave;
+        };
+
+        // Funciones para cambiar de controlador
+        scope.list = function() { scope.go('^.list'); };
+
+        scope.details = function (id) {
+            scope.go('^.update', {id: G.extractGuid(id)});
+        };
+
+        scope.add = function() {
+            scope.go('^.new');
+        };
+
+        scope.save = function() {
+            if (typeof scope.element !== 'undefined') {
+                scope.canSave = false;
+                scope.element['$save'](that.saveSuccess, that.saveFail);
+            }
+
+        };
+
+        that.saveSuccess = function(data, headers) {
+            scope.canSave = true;
+            scope.details(headers('Location'))
+        };
+
+        that.setErrors = function(errors) {
+            scope.errors = errors;
+        };
+
+        that.saveFail = function(response) {
+            switch (response.data.code) {
+                case 400:
+                    that.setErrors(response.data.errors.children);
+                    break;
+                default:
+                    alert("Ha ocurrido un error " + response.data.code);
+                    console.error(response.data);
+                    break;
+            }
+            scope.canSave = true;
+        };
+    }
+
+    function BuildModule(name, config) {
+        var state, stateIdx, module;
+
+        if (typeof config.prefix === 'undefined') {
+            config.prefix = name.toLowerCase();
+        }
+
+        if (typeof config.resource === 'undefined') {
+            config.resource = config.prefix;
+        }
+
+        if (typeof config.states === 'undefined') {
+            // Estados por defecto
+            config.states = [
+                {suffix: '', abstract: true, template: '<ui-view/>'},
+                {suffix: '.list', url: '/list'},
+                {suffix: '.new', url: '/new'},
+                {suffix: '.update', url: '/update'}
+            ];
+            for (stateIdx = 0; stateIdx < config.states.length; stateIdx++) {
+                state = config.states[stateIdx];
+                // Solo estados no abstractos
+                if (typeof state.abstract === 'undefined') {
+                    state.templateUrl = G.template(config.prefix + state.url);
+                    state.controller = name + '.' + controllerName(state.suffix);
+                }
+            }
+        }
+        /**
+         * Define el modulo
+         */
+        module = angular.module(name, ['ngResource', 'ui.router'])
+            .config(['$stateProvider', function ($stateProvider) {
+                for (stateIdx = 0; stateIdx < config.states.length; stateIdx++) {
+                    state = config.states[stateIdx];
+                    $stateProvider.state(config.prefix + state.suffix, state);
+                }
+            }])
+        ;
+        /**
+         * Define el controlador de listado
+         */
+        module.controller(name + '.ListController', [
+            'RestResources', '$scope',
+            function (RR, scope) {
+                scope.elements = RR[config.resource].query();
+                BaseController.call(this, scope);
+            }
+        ]);
+        module.controller(name + '.NewController', [
+            'RestResources', '$scope',
+            function (RR, scope) {
+                scope.element = new RR[config.resource]();
+                BaseController.call(this, scope);
+            }
+        ]);
+        /**
+         * Registra en el menu principal el modulo y lo hace accesible
+         */
+        if (typeof config.register !== 'undefined' && config.register) {
+            module.run(['MenuService', function (MS) {
+                MS.register({
+                    name: name,
+                    url: config.prefix + '.list',
+                    label: config.label
+                });
+            }])
+        }
+        return module;
+    }
+    G.BuildModule = BuildModule;
+})();

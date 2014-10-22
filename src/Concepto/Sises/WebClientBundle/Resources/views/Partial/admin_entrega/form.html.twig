@@ -1,0 +1,48 @@
+<div class="row">
+    <div data-sises-form="element" data-errors="errors">
+        <div class="col-lg-6">
+            <fieldset>
+                <legend>Datos básicos</legend>
+
+                <div data-sises-form-select-crud="persona"
+                     data-label="'Persona'"
+                     data-required="true"
+                     data-show-property="nombre_completo"
+                     data-crud="persona"></div>
+            </fieldset>
+            <fieldset>
+                <legend>Datos financieros</legend>
+
+                <div data-sises-form-select-crud="entidad_financiera"
+                     data-label="'Entidad financiera'"
+                     data-show-property="nombre_detallado"
+                     data-crud="entidad_financiera"></div>
+
+                <div data-sises-form-input="numero_cuenta"
+                     data-label="'Número de cuenta'"></div>
+
+                <div data-sises-form-text-area="observaciones_financieras"
+                     data-label="'Observaciones'"></div>
+            </fieldset>
+        </div>
+
+        <div class="col-lg-6">
+            <fieldset>
+                <legend>Empresas</legend>
+                <div data-sises-form-embed-collection="element.empresas"
+                     data-button-label="Agregar empresa"
+                     data-table-field-nit="NIT"
+                     data-table-field-nombre="Nombre"
+                     data-unique-test="['nit']">
+
+                    <div data-sises-form-select-crud="id"
+                         data-label="'Empresa'"
+                         data-show-property="nombre"
+                         data-crud="empresa"></div>
+                </div>
+            </fieldset>
+            <div data-sises-widget-archivos="element.archivos"></div>
+        </div>
+    </div>
+
+</div>

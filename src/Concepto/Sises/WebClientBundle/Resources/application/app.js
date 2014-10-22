@@ -12,15 +12,12 @@
         'RRHH',
         'COORDINADOR',
         'DIRECTOR',
+        'ADMIN_ENTREGA',
         'ui.router',
         'localytics.directives',
         'plupload.directive',
         'ui.bootstrap'
     ];
-
-    if (G.json_route('') !== '') {
-        modules.push('PROFILE');
-    }
 
     angular.module(G.APP, modules)
         .config(['plUploadServiceProvider', '$provide', function (plUploadServiceProvider, $provide) {

@@ -18,13 +18,12 @@
     '@SisesWebClientBundle/Resources/bower_components/plupload-angular-directive/dist/plupload-angular-directive.js'
     '@SisesWebClientBundle/Resources/bower_components/angular-ui-bootstrap/dist/ui-bootstrap-tpls-0.11.2.js'
 
-    '@FOSJsRoutingBundle/Resources/public/js/router.js'
-
     '@SisesWebClientBundle/Resources/application/config.js'
     '@SisesWebClientBundle/Resources/application/app.js'
     '@SisesWebClientBundle/Resources/application/resources.js'
 
     '@SisesWebClientBundle/Resources/application/abstact_controller.js'
+    '@SisesWebClientBundle/Resources/application/module_generator.js'
 
     '@SisesWebClientBundle/Resources/application/directive/form/base_form.js'
     '@SisesWebClientBundle/Resources/application/directive/form/form.js'
@@ -55,13 +54,12 @@
     '@SisesWebClientBundle/Resources/application/modules/rrhh/module.js'
     '@SisesWebClientBundle/Resources/application/modules/coordinador/module.js'
     '@SisesWebClientBundle/Resources/application/modules/director/module.js'
+    '@SisesWebClientBundle/Resources/application/modules/admin_entrega/module.js'
 
     '@SisesWebClientBundle/Resources/application/modules/beneficiario_module.js'
     %}
     <script src="{{ asset_url }}"></script>
     {% endjavascripts %}
-
-    <script src="{{ path('fos_js_routing_js', {"callback": "fos.Router.setData"}) }}"></script>
 {% endblock %}
 
 {% block stylesheets %}
