@@ -29,9 +29,7 @@
 
     var extractGuid = function(string) {
         var pattern = /([\w+]{8}-[\w+]{4}-[\w+]{4}-[\w+]{4}-[\w+]{12})/,
-            matches = [];
-
-        matches = string.match(pattern);
+            matches = string.match(pattern);
 
         if (matches.length == 0) {
             throw "'" + string + "' not contains a guid";
