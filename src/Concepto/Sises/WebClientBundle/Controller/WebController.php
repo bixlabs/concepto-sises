@@ -13,9 +13,18 @@ namespace Concepto\Sises\WebClientBundle\Controller;
 
 
 use FOS\RestBundle\View\View;
+use JMS\DiExtraBundle\Annotation\LookupMethod;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
+use Symfony\Bundle\TwigBundle\Debug\TimedTwigEngine;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class WebController {
+
+    /**
+     * @LookupMethod("templating")
+     * @return TimedTwigEngine
+     */
+    public function getTemplating() {}
 
     /**
      * @Template()
@@ -29,7 +38,11 @@ class WebController {
     {
         $name = "SisesWebClientBundle:Partial:{$name}.html.twig";
 
-        return View::create()->setTemplate($name);
+        if ($this->getTemplating()->exists($name)) {
+            return View::create()->setTemplate($name);
+        }
+
+        throw new NotFoundHttpException();
     }
 
     /**
