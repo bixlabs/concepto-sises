@@ -14,6 +14,7 @@ namespace Concepto\Sises\ApplicationBundle\Entity\Archivos;
 use Concepto\Sises\ApplicationBundle\Entity\OrmPersistible;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use JMS\Serializer\Annotation\Exclude;
 
 /**
  * Class Documentable
@@ -24,6 +25,7 @@ abstract class Documentable implements OrmPersistible
 
     /**
      * @var Collection
+     * @Exclude()
      */
     protected $archivos;
 
