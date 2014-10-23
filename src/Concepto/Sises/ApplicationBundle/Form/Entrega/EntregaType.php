@@ -16,7 +16,6 @@ class EntregaType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('id')
             ->add('fechaInicio', 'date', array(
                 'input'  => 'datetime',
                 'widget' => 'single_text',

@@ -21,7 +21,6 @@ class ServicioOperativoType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('id')
             ->add('nombre')
             ->add('valorUnitario')
             ->add('recursoHumano', null, array(

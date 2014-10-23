@@ -21,7 +21,6 @@ class EntidadType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('id')
             ->add('nombre')
             ->add('tipo', null, array(
                 'property' => 'id'

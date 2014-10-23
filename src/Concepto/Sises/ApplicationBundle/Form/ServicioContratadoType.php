@@ -21,7 +21,6 @@ class ServicioContratadoType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('id')
             ->add('nombre')
             ->add('diasContratados')
             ->add('unidadesDiarias')

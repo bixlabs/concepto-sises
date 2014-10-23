@@ -22,7 +22,6 @@ class BeneficiarioType extends AbstractType {
     {
         //TODO: posible necesidad de optimizar larga coleccion
         $builder
-            ->add('id')
             ->add('persona', null, array(
                 'property' => 'id'
             ))

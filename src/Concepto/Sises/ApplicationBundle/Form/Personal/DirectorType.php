@@ -16,7 +16,6 @@ class DirectorType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('id')
             ->add('numeroCuenta')
             ->add('observacionesFinancieras')
             ->add('empresas', 'collection', array(

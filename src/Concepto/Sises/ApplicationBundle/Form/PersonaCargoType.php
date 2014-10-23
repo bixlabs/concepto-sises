@@ -29,7 +29,6 @@ class PersonaCargoType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('id')
             ->add('persona', null, array(
                 'property' => 'id'
             ))

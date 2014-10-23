@@ -16,7 +16,6 @@ class CoordinadorType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('id')
             ->add('numeroCuenta')
             ->add('observacionesFinancieras')
             ->add('contrato', null, array('property' => 'id'))

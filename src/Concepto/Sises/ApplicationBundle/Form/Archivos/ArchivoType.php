@@ -33,7 +33,6 @@ class ArchivoType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('id')
             ->add('nombre')
             ->add('file')
             ->add('documentable', null, array(

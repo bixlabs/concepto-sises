@@ -22,7 +22,6 @@ class RecursoHumanoType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('id')
             ->add('persona', null, array('property' => 'id'))
             ->add('cargo', null, array('property' => 'id'))
             ->add('entidadFinanciera', null, array('property' => 'id'))

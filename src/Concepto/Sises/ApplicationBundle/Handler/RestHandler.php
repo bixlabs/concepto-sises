@@ -82,6 +82,11 @@ abstract class RestHandler implements RestHandlerInterface {
         /** @var OrmPersistible $object */
         $object = $this->getEm()->find($this->getOrmClassString(), $id);
 
+        // fix: los objetos de angular envian el id no es necesario
+        if (isset($parameters['id'])) {
+            unset($parameters['id']);
+        }
+
         return $this->process($parameters, $object, 'PUT');
     }
 
