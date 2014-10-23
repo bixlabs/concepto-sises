@@ -26,7 +26,7 @@ use JMS\Serializer\Annotation\VirtualProperty;
  * @Entity()
  * @Table("entrega_asignacion")
  */
-class EntregaAsignacion extends Entrega
+class EntregaAsignacion extends EntregaBase
 {
     /**
      * @var CoordinadorAsignacion
@@ -36,8 +36,15 @@ class EntregaAsignacion extends Entrega
     protected $asignacion;
 
     /**
+     * @var Entrega
+     * @ManyToOne(targetEntity="Concepto\Sises\ApplicationBundle\Entity\Entrega\Entrega")
+     * @Groups({"list"})
+     */
+    protected $entrega;
+
+    /**
      * @var bool
-     * @Column(name="is_manual", type="boolean")
+     * @Column(name="is_manual", type="boolean", nullable=true)
      */
     protected $isCierreManual;
 
@@ -98,5 +105,21 @@ class EntregaAsignacion extends Entrega
     public function getIsCierreManual()
     {
         return $this->isCierreManual;
+    }
+
+    /**
+     * @return Entrega
+     */
+    public function getEntrega()
+    {
+        return $this->entrega;
+    }
+
+    /**
+     * @param Entrega $entrega
+     */
+    public function setEntrega($entrega)
+    {
+        $this->entrega = $entrega;
     }
 }
