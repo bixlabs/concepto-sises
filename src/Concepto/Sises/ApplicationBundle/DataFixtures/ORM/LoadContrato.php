@@ -46,8 +46,19 @@ class LoadContrato implements FixtureInterface, OrderedFixtureInterface {
         $contrato->setResolucion("Resolucion 00" . uniqid() . " de 2014");
         $contrato->setFechaInicio(new \DateTime());
         $contrato->setFechaCierre((new \DateTime())->add(new \DateInterval('P70D')));
-
         $contrato->setValor(1500000);
+        $manager->persist($contrato);
+
+        $contrato2 = new Contrato();
+        $contrato2->setEmpresa($empresa);
+        $contrato2->setContratante($contratante);
+        $contrato2->setNombre("Contrato de mercados de {$empresa->getNombre()}");
+        $contrato2->setDescripcion($contrato2->getNombre());
+        $contrato2->setResolucion("Resolucion 00" . uniqid() . " de 2014");
+        $contrato2->setFechaInicio(new \DateTime());
+        $contrato2->setFechaCierre((new \DateTime())->add(new \DateInterval('P70D')));
+        $contrato2->setValor(1500000);
+        $manager->persist($contrato2);
 
         $servicio = new ServicioContratado();
         $servicio->setNombre("Almuerzos");
@@ -58,7 +69,7 @@ class LoadContrato implements FixtureInterface, OrderedFixtureInterface {
 
         $contrato->addServicio($servicio);
 
-        $manager->persist($contrato);
+
 
         // Crea el coordinador
         $persona = new Persona();

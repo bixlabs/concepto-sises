@@ -35,6 +35,16 @@ class LoadEntrega implements FixtureInterface, OrderedFixtureInterface
         $entrega->setDiasGracia(5);
         $manager->persist($entrega);
 
+        $date2 = (new \DateTime())->add(new \DateInterval('P31D'));
+        $dateEnd2 = (new \DateTime())->add(new \DateInterval('P61D'));
+
+        $entrega2 = new Entrega();
+        $entrega2->setContrato($contrato);
+        $entrega2->setFechaInicio($date2);
+        $entrega2->setFechaCierre($dateEnd2);
+        $entrega2->setDiasGracia(5);
+        $manager->persist($entrega2);
+
         $manager->flush();
     }
 
