@@ -84,10 +84,12 @@
         };
 
         scope.getErrors = function() {
-            if (scope.form.errors
-                && scope.form.errors[scope.property]
-                && scope.form.errors[scope.property].errors) {
-                return scope.form.errors[scope.property].errors;
+            var children = scope.form.errors.children;
+
+            if (children
+                && children[scope.property]
+                && children[scope.property].errors) {
+                return children[scope.property].errors;
             }
 
             return [];
