@@ -32,7 +32,7 @@
 
         scope.details = function (id) {
             console.log("Detalles", id);
-            scope.go('^.update', {id: G.extractGuid(id)});
+            scope.refresh('^.update', {id: G.extractGuid(id)});
         };
 
         scope.add = function() {
@@ -59,7 +59,7 @@
         that.saveFail = function(response) {
             switch (response.data.code) {
                 case 400:
-                    that.setErrors(response.data.errors.children);
+                    that.setErrors(response.data.errors);
                     break;
                 default:
                     alert("Ha ocurrido un error " + response.data.code);
