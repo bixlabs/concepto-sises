@@ -2,6 +2,7 @@
 
 namespace Concepto\Sises\ApplicationBundle\Form\Entrega;
 
+use Concepto\Sises\ApplicationBundle\Entity\Entrega\Entrega;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
@@ -27,7 +28,9 @@ class EntregaType extends AbstractType
             ->add('diasGracia', null, array(
                 'label' => 'Dias de gracia'
             ))
-            ->add('estado')
+            ->add('estado', null, array(
+                'empty_data' => Entrega::OPEN
+            ))
             ->add('contrato', 'entity_hidden', array(
                 'class' => 'Concepto\Sises\ApplicationBundle\Entity\Contrato'
             ))
