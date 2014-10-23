@@ -19,3 +19,4 @@ parameters:
     use_assetic_controller: true
 
     sass_bin: ~
+    assetic.ruby.bin: ~
