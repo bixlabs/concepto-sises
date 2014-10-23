@@ -28,9 +28,6 @@ class EntregaType extends AbstractType
             ->add('diasGracia', null, array(
                 'label' => 'Dias de gracia'
             ))
-            ->add('estado', null, array(
-                'empty_data' => Entrega::OPEN
-            ))
             ->add('contrato', 'entity_hidden', array(
                 'class' => 'Concepto\Sises\ApplicationBundle\Entity\Contrato'
             ))

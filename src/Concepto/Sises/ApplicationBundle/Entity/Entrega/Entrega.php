@@ -13,6 +13,7 @@ namespace Concepto\Sises\ApplicationBundle\Entity\Entrega;
 
 
 use Concepto\Sises\ApplicationBundle\Entity\Contrato;
+use Concepto\Sises\ApplicationBundle\Validator\Constraints\EntregaNotOverlayDates;
 use Doctrine\ORM\Mapping\Column;
 use Doctrine\ORM\Mapping\Entity;
 use Doctrine\ORM\Mapping\GeneratedValue;
@@ -32,6 +33,7 @@ use Symfony\Component\Validator\Constraints\NotNull;
  * @package Concepto\Sises\ApplicationBundle\Entity\Entrega
  * @Entity()
  * @Table(name="entrega_entrega")
+ * @EntregaNotOverlayDates()
  */
 class Entrega {
 
@@ -77,8 +79,7 @@ class Entrega {
     /**
      * @var string
      * @Column(name="estado", length=100, nullable=false)
-     * @NotBlank()
-     * @Groups({"list", "details"})
+     * @Groups({"list"})
      */
     protected $estado;
 
