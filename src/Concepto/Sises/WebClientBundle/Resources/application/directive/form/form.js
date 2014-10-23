@@ -20,7 +20,7 @@
                 restrict: 'A',
                 transclude: true,
                 replace: true,
-                template: '<form class="form-horizontal sises-form" data-ng-transclude></form>',
+                templateUrl: G.template('directive/form'),
                 scope: {
                     model: '=sisesForm',
                     errors: '='
