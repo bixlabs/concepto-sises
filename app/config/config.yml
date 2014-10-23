@@ -31,10 +31,9 @@ assetic:
     use_controller: false
     bundles: [ SisesWebClientBundle ]
     filters:
-        scssphp:
+        scss:
+            sass: %sass_bin%
             apply_to: '\.scss$'
-            formatter: 'compressed'
-            preserve_comments: false
         cssrewrite: ~
 
 doctrine:

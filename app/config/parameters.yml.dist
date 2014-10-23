@@ -8,3 +8,4 @@ parameters:
 
     locale: en
     secret: ThisTokenIsNotSoSecretChangeIt
+    sass_bin: ~

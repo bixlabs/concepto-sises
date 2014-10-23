@@ -19,6 +19,11 @@ bower_components
 /src/Concepto/Sises/WebClientBundle/Resources/public/fonts
 /src/Concepto/Sises/WebClientBundle/Resources/public/images/chosen-sprite.png
 /src/Concepto/Sises/WebClientBundle/Resources/public/images/chosen-sprite@2x.png
+web/css
+
+# Generated assets
+/src/Concepto/Sises/WebClientBundle/Resources/**/*.css
+/src/Concepto/Sises/WebClientBundle/Resources/**/*.css.map
 
 # Uploads
 web/uploads

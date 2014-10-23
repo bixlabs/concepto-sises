@@ -13,9 +13,13 @@ namespace Concepto\Sises\WebClientBundle\Controller;
 
 
 use FOS\RestBundle\View\View;
+use JMS\DiExtraBundle\Annotation\LookupMethod;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
+use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
+use Symfony\Component\Security\Core\SecurityContext;
 
-class WebController {
+class WebController extends Controller {
 
     /**
      * @Template()
@@ -30,6 +34,38 @@ class WebController {
         $name = "SisesWebClientBundle:Partial:{$name}.html.twig";
 
         return View::create()->setTemplate($name);
+    }
+
+    public function menuAction()
+    {
+        $modules = array(
+            'ROLE_ADMIN' => array(
+                'EMPRESA',
+                'DASHBOARD',
+                'CONTRATO',
+                'BENEFICIARIO',
+                'RRHH',
+                'COORDINADOR',
+                'DIRECTOR'
+            ),
+            'ROLE_DIRECTOR' => array(
+                'DASHBOARD',
+                'CONTRATO',
+                'BENEFICIARIO',
+                'RRHH',
+                'COORDINADOR'
+            ),
+        );
+
+        $granted_modules = [];
+
+        if ($this->getSecurityContext()->isGranted('ROLE_ADMIN')) {
+            $granted_modules = $modules['ROLE_ADMIN'];
+        } else if ($this->getSecurityContext()->isGranted('ROLE_DIRECTOR')) {
+            $granted_modules = $modules['ROLE_DIRECTOR'];
+        }
+
+        return View::create($granted_modules);
     }
 
     /**
@@ -87,4 +123,11 @@ class WebController {
             'singular' => $singular
         );
     }
+
+    /**
+     * @LookupMethod("security.context")
+     * @return SecurityContext
+     */
+    public function getSecurityContext() {}
+
 }

@@ -11,3 +11,8 @@ view_partials:
         name: .+
     options:
         expose: true
+
+view_menu:
+    path: /menu
+    defaults:
+        _controller: SisesWebClientBundle:Web:menu
