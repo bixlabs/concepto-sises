@@ -53,34 +53,28 @@ class EntregaNotOverlayDatesValidator extends ConstraintValidator
      */
     public function validate($value, Constraint $constraint)
     {
-        $properties = array(
-            'inicio' => 'fechaInicio',
-            'cierre' => 'fechaCierre'
-        );
-        $accesor = PropertyAccess::createPropertyAccessor();
+        /** @var EntregaNotOverlayDates $constraint */
+        /** @var Entrega $value */
 
-        foreach ($properties as $key => $property) {
+        $qb = $this->repository->createQueryBuilder('a');
 
-            /** @var EntregaNotOverlayDates $constraint */
-            /** @var Entrega $value */
-            $qb =
-                $this->repository->createQueryBuilder('a')
-                    ->where(":{$key} BETWEEN a.fechaInicio AND a.fechaCierre")
-                    ->setParameter($key, $accesor->getValue($value, $property))
-            ;
+        $qb
+            ->andWhere('a.contrato = :contrato')
+            ->andWhere(':inico < a.fechaCierre')
+            ->andWhere(':cierre > a.fechaInicio')
+            ->setParameter('contrato', $value->getContrato())
+            ->setParameter('inico', $value->getFechaInicio())
+            ->setParameter('cierre', $value->getFechaCierre());
 
-            if ($value->getId()) {
-                $qb->andWhere('a.id != :id')
-                    ->setParameter('id', $value->getId());
-            }
+        if ($value->getId()) {
+            $qb->andWhere('a.id != :id')
+                ->setParameter('id', $value->getId());
+        }
 
-            $results = $qb->getQuery()->execute();
+        $results = $qb->getQuery()->execute();
 
-            if (count($results) > 0) {
-                $this->context->buildViolation($constraint->message)
-                    ->atPath($property)
-                    ->addViolation();
-            }
+        if (count($results) > 0) {
+            $this->context->buildViolation($constraint->message)->addViolation();
         }
     }
 }
