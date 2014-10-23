@@ -37,7 +37,7 @@ class EntityToUuid implements DataTransformerInterface
             return $value->getId();
         }
 
-        throw new TransformationFailedException("object must be provided, given " . get_class($value));
+        return null;
     }
 
     /**
