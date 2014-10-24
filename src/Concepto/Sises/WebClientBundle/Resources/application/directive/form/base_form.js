@@ -84,6 +84,10 @@
         };
 
         scope.getErrors = function() {
+            if (typeof scope.form.errors === 'undefined') {
+                return []
+            }
+
             var children = scope.form.errors.children;
 
             if (children
