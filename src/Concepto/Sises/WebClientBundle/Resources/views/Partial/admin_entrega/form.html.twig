@@ -1,5 +1,5 @@
-<div class="row">
-    <div data-sises-form="element" data-errors="errors">
+<div data-sises-form="element" data-errors="errors">
+    <div class="row">
         <div class="col-lg-6">
             <fieldset>
                 <legend>Datos de la entrega</legend>
@@ -29,17 +29,16 @@
         </div>
         <div class="col-lg-6">
             <fieldset>
-                <legend>Estado de la entrega</legend>
-                <form action="">
-                    <div class="form-group">
-                        <label class="col-sm-2 control-label">Estados</label>
-                        <div class="col-sm-10">
-                            <p class="form-control-static" data-ng-bind="element.estado"></p>
-                        </div>
-                    </div>
-                </form>
+                <legend>Cierre entrega</legend>
             </fieldset>
         </div>
     </div>
-
+    <div class="row" data-ng-if="element.id">
+        <div class="col-lg-12">
+            <fieldset>
+                <legend>Entregas asociadas</legend>
+                <div data-sises-entrega-asignada="element.id"></div>
+            </fieldset>
+        </div>
+    </div>
 </div>

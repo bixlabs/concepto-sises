@@ -23,6 +23,7 @@ use Doctrine\ORM\Mapping\ManyToOne;
 use Doctrine\ORM\Mapping\Table;
 use Doctrine\ORM\Mapping\UniqueConstraint;
 use JMS\Serializer\Annotation\Groups;
+use JMS\Serializer\Annotation\MaxDepth;
 use JMS\Serializer\Annotation\SerializedName;
 use JMS\Serializer\Annotation\VirtualProperty;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
@@ -65,6 +66,7 @@ class CoordinadorAsignacion {
      * @ManyToOne(targetEntity="Concepto\Sises\ApplicationBundle\Entity\ServicioContratado")
      * @NotNull()
      * @Groups({"list"})
+     * @MaxDepth(depth=1)
      */
     protected $servicio;
 
@@ -73,6 +75,7 @@ class CoordinadorAsignacion {
      * @ManyToOne(targetEntity="Concepto\Sises\ApplicationBundle\Entity\Personal\Coordinador", inversedBy="asignacion")
      * @NotNull()
      * @Groups({"list"})
+     * @MaxDepth(depth=2)
      */
     protected $coordinador;
 

@@ -1,0 +1,18 @@
+<table class="table table-hover table-condensed">
+    <thead>
+        <tr>
+            <th width="25%">Coordinador</th>
+            <th width="30%">Lugar entrega</th>
+            <th width="30%">Servicio</th>
+            <th>Estado</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr data-ng-repeat="e in asignaciones">
+            <td data-ng-bind="e.asignacion.coordinador.persona.nombre_completo"></td>
+            <td data-ng-bind="e.asignacion.lugar.nombre_detallado"></td>
+            <td data-ng-bind="e.asignacion.servicio.nombre_detallado"></td>
+            <td data-ng-bind="e.estado"></td>
+        </tr>
+    </tbody>
+</table>

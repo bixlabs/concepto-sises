@@ -21,6 +21,7 @@ use Doctrine\ORM\Mapping\JoinColumn;
 use Doctrine\ORM\Mapping\ManyToOne;
 use Doctrine\ORM\Mapping\OneToMany;
 use Doctrine\ORM\Mapping\Table;
+use JMS\Serializer\Annotation\Exclude;
 use JMS\Serializer\Annotation\Groups;
 use JMS\Serializer\Annotation\MaxDepth;
 use Symfony\Component\Validator\Constraints\NotBlank;
@@ -40,6 +41,7 @@ class Coordinador extends AbstractPersonal
      *  mappedBy="documentable",
      *  cascade={"persist"}
      * )
+     * @Exclude()
      */
     protected $archivos;
 

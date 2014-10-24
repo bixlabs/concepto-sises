@@ -62,3 +62,7 @@ admin_entrega:
     type: rest
     prefix: /api
     resource: @SisesApplicationBundle/Controller/Entrega/EntregaController.php
+coordinador_entrega:
+    type: rest
+    parent: admin_entrega
+    resource: @SisesApplicationBundle/Controller/Entrega/AsignacionController.php
