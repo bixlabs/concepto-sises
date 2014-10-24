@@ -70,18 +70,30 @@
         };
     }
 
+    /**
+     * Devuelve un modulo de Angular
+     *
+     * @param name
+     * @param config
+     * @returns {*}
+     * @constructor
+     */
     function BuildModule(name, config) {
-        var state, stateIdx, module;
+        var state, stateIdx, module, autoController = false;
 
+        // Define el prefijo
         if (typeof config.prefix === 'undefined') {
             config.prefix = name.toLowerCase();
         }
 
+        // Define el recurso a usar
         if (typeof config.resource === 'undefined') {
             config.resource = config.prefix;
         }
 
+        // Si los estados no son definidos
         if (typeof config.states === 'undefined') {
+            autoController = true;
             // Estados por defecto
             config.states = [
                 {suffix: '', abstract: true, template: '<ui-view/>', url: '/' + config.prefix},
@@ -98,6 +110,7 @@
                 }
             }
         }
+
         /**
          * Define el modulo
          */
@@ -109,31 +122,42 @@
                 }
             }])
         ;
-        /**
-         * Define el controlador de listado
-         */
-        module.controller(name + '.ListController', [
-            'RestResources', '$scope',
-            function (RR, scope) {
-                scope.elements = RR[config.resource].query();
-                BaseController.call(this, scope);
-            }
-        ]);
-        module.controller(name + '.NewController', [
-            'RestResources', '$scope',
-            function (RR, scope) {
-                scope.element = new RR[config.resource]();
-                BaseController.call(this, scope);
-            }
-        ]);
 
-        module.controller(name+ '.UpdateController', [
-            'RestResources', '$scope',
-            function(RR, scope) {
-                scope.element = RR[config.resource].get({id: scope.routeParams.id});
-                BaseController.call(this, scope);
-            }
-        ]);
+        // Si se definen los estados por defecto se definen los controladores
+        // por defecto
+        if (autoController) {
+            /**
+             * {name}.ListController
+             */
+            module.controller(name + '.ListController', [
+                'RestResources', '$scope',
+                function (RR, scope) {
+                    scope.elements = RR[config.resource].query();
+                    BaseController.call(this, scope);
+                }
+            ]);
+            /**
+             * {name}.NewController
+             */
+            module.controller(name + '.NewController', [
+                'RestResources', '$scope',
+                function (RR, scope) {
+                    scope.element = new RR[config.resource]();
+                    BaseController.call(this, scope);
+                }
+            ]);
+            /**
+             * {name}.UpdateController
+             */
+            module.controller(name+ '.UpdateController', [
+                'RestResources', '$scope',
+                function(RR, scope) {
+                    scope.element = RR[config.resource].get({id: scope.routeParams.id});
+                    BaseController.call(this, scope);
+                }
+            ]);
+        }
+
         /**
          * Registra en el menu principal el modulo y lo hace accesible
          */
