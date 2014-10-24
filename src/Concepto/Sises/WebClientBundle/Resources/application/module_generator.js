@@ -162,15 +162,14 @@
          * Registra en el menu principal el modulo y lo hace accesible
          */
         if (typeof config.register !== 'undefined' && config.register) {
+            var defaultState =
+                angular.isString(config.register) ? config.register : config.prefix + '.list';
             module.run(['MenuService', function (MS) {
-                MS.register({
-                    name: name,
-                    url: config.prefix + '.list',
-                    label: config.label
-                });
+                MS.register({ name: name, url: defaultState, label: config.label });
             }])
         }
         return module;
     }
     G.BuildModule = BuildModule;
+    G.Base.Controller = BaseController;
 })();
