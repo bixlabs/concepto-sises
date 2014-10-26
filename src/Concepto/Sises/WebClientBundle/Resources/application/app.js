@@ -13,6 +13,7 @@
         'COORDINADOR',
         'DIRECTOR',
         'ADMIN_ENTREGA',
+        'COORD_ENTREGA',
         'ui.router',
         'localytics.directives',
         'plupload.directive',

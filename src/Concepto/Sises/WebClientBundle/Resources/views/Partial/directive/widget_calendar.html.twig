@@ -1,0 +1,34 @@
+{% verbatim %}
+<div class="s-calendar">
+    <div class="row s-calendar-header">
+        <div class="col-lg-4">
+            <div class="btn-group">
+                <button type="button" class="btn btn-default" data-ng-click="prev()">
+                    <i class="glyphicon glyphicon-chevron-left"></i>
+                </button>
+                <button type="button" class="btn btn-default" data-ng-click="next()">
+                    <i class="glyphicon glyphicon-chevron-right"></i>
+                </button>
+            </div>
+            <button class="btn btn-default">Hoy</button>
+        </div>
+        <div class="col-lg-4">
+            <p class="title">{{ month }} {{ year }}</p>
+        </div>
+    </div>
+    <div class="s-calendar-body">
+        <div class="s-week">
+            <div data-ng-repeat="day in days"class="s-day">
+                <span class="s-day-header">{{ day }}</span>
+            </div>
+        </div>
+        <div data-ng-repeat="week in range(firstWeek, lastWeek)" class="s-week">
+            <div data-ng-repeat="(kday, day) in days" class="s-day">
+                <div data-ng-if="getCal(week, kday).currentMonth" class="s-day-cell">
+                    <span class="s-day-month">{{ getCal(week, kday).display }}</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endverbatim %}

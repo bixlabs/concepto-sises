@@ -17,6 +17,8 @@
     '@SisesWebClientBundle/Resources/bower_components/angular-chosen-localytics/chosen.js'
     '@SisesWebClientBundle/Resources/bower_components/plupload-angular-directive/dist/plupload-angular-directive.js'
     '@SisesWebClientBundle/Resources/bower_components/angular-ui-bootstrap/dist/ui-bootstrap-tpls-0.11.2.js'
+    '@SisesWebClientBundle/Resources/bower_components/moment/moment.js'
+    '@SisesWebClientBundle/Resources/bower_components/moment/locale/es.js'
 
     '@SisesWebClientBundle/Resources/application/config.js'
     '@SisesWebClientBundle/Resources/application/app.js'
@@ -35,6 +37,7 @@
     '@SisesWebClientBundle/Resources/application/directive/widget/archivos.js'
     '@SisesWebClientBundle/Resources/application/directive/widget/beneficios.js'
     '@SisesWebClientBundle/Resources/application/directive/widget/entrega-asignada.js'
+    '@SisesWebClientBundle/Resources/application/directive/widget/calendar.js'
 
     '@SisesWebClientBundle/Resources/application/directive/sises-modal.js'
     '@SisesWebClientBundle/Resources/application/directive/sises-menu.js'
@@ -56,6 +59,7 @@
     '@SisesWebClientBundle/Resources/application/modules/coordinador/module.js'
     '@SisesWebClientBundle/Resources/application/modules/director/module.js'
     '@SisesWebClientBundle/Resources/application/modules/admin_entrega/module.js'
+    '@SisesWebClientBundle/Resources/application/modules/coordinador_entrega/module.js'
 
     '@SisesWebClientBundle/Resources/application/modules/beneficiario_module.js'
     %}
@@ -65,7 +69,9 @@
 
 {% block stylesheets %}
     {% stylesheets
-    '@SisesWebClientBundle/Resources/stylesheets/styles.css'
+    '@SisesWebClientBundle/Resources/stylesheets/styles.scss'
+    '@SisesWebClientBundle/Resources/stylesheets/login.scss'
+    '@SisesWebClientBundle/Resources/stylesheets/calendar.scss'
     '@SisesWebClientBundle/Resources/bower_components/bootstrap-modal/css/bootstrap-modal.css'
     '@SisesWebClientBundle/Resources/bower_components/bootstrap-modal/css/bootstrap-modal-bs3patch.css'
     '@SisesWebClientBundle/Resources/bower_components/dropzone/downloads/css/basic.css'

@@ -28,7 +28,8 @@
     "dropzone": "~3.10.2",
     "plupload-angular-directive": "~0.1.2",
     "angular-ui-bootstrap": "~0.11.0",
-    "chosen": "https://github.com/rkmax/chosen.git#8cd9f7e683cc07e7b993e6c5cc69ede90aaa0111"
+    "chosen": "https://github.com/rkmax/chosen.git#8cd9f7e683cc07e7b993e6c5cc69ede90aaa0111",
+    "moment": "~2.8.3"
   },
   "resolutions": {
     "jquery": ">= 1.9.0",

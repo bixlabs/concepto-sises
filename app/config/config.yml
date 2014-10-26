@@ -28,13 +28,15 @@ twig:
 
 assetic:
     debug: %kernel.debug%
-    use_controller: false
+    use_controller: %use_assetic_controller%
     bundles: [ SisesWebClientBundle ]
     filters:
         scss:
             sass: %sass_bin%
             apply_to: '\.scss$'
+        autoprefixer: ~
         cssrewrite: ~
+
 
 doctrine:
     dbal:
