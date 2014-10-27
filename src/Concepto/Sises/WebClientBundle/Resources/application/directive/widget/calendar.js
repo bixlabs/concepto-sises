@@ -41,36 +41,59 @@
                     }, true);
 
                     function buildCalendar(m) {
-                        var week,
-                            day,
-                            month = m.format('M');
+                        var month = m.format('M'),
+                            week, day, dayTitle,
+                            startMonth = moment(m).startOf('month'),
+                            endMonth = moment(m).endOf('month'),
+                            looper = moment(startMonth);
 
+                        // Define el mes actual
                         scope.month = m.format('MMMM');
+                        // Define el año actual
                         scope.year = m.format('YYYY');
-                        scope.firstWeek = m.startOf('month').week();
-                        scope.lastWeek = m.endOf('month').week();
 
-                        if (scope.lastWeek < scope.firstWeek) {
-                            scope.lastWeek += m.weeksInYear();
-                        }
 
-                        for (week = scope.firstWeek; week <= scope.lastWeek; week++) {
-                            for (day = 1; day <= 7; day++) {
-                                var _m = moment(scope.year + '-W' + ("0" + week).slice(-2)).day(day);
-                                if (typeof scope.days[day] === 'undefined') {
-                                    scope.days[day] = _m.format('ddd');
-                                }
+                        scope.days = [];
+                        scope.dayTitle = [];
+                        scope.weeks = [];
+                        scope.buildCalendar = [];
 
-                                scope.buildCalendar[week + '-' + day] = {
-                                    currentMonth: _m.format('M') === month,
-                                    display: _m.format('D')
-                                };
+                        // Se asegura que se inicie siempre al principio de seman
+                        looper.startOf('week');
+
+                        // Construye calendario
+                        while (looper.isBefore(endMonth)) {
+
+                            week = looper.format('ww');
+                            day = looper.format('E');
+                            dayTitle = looper.format('dddd');
+
+                            if (scope.weeks.indexOf(week) === -1) {
+                                scope.weeks.push(week);
                             }
+
+                            if (scope.days.indexOf(day) === -1) {
+                                scope.dayTitle.push(dayTitle);
+                                scope.days.push(day);
+                            }
+
+                            scope.buildCalendar[week + '-' + day] = {
+                                currentMonth: looper.format('M') === month,
+                                display: looper.format('D')
+                            };
+
+                            looper.add(1, 'days');
                         }
                     }
 
                     scope.getCal = function getCal(week, day) {
                         return scope.buildCalendar[week + '-' + day];
+                    };
+
+                    scope.debug = function debug() {
+                        console.log("calendar", scope.buildCalendar);
+                        console.log("weeks", scope.weeks);
+                        console.log("days", scope.days);
                     };
 
                     scope.prev = function prev() {

@@ -10,7 +10,7 @@
                     <i class="glyphicon glyphicon-chevron-right"></i>
                 </button>
             </div>
-            <button class="btn btn-default">Hoy</button>
+            <button class="btn btn-default" data-ng-click="debug()">Hoy</button>
         </div>
         <div class="col-lg-4">
             <p class="title">{{ month }} {{ year }}</p>
@@ -18,14 +18,14 @@
     </div>
     <div class="s-calendar-body">
         <div class="s-week">
-            <div data-ng-repeat="day in days"class="s-day">
+            <div data-ng-repeat="day in dayTitle"class="s-day">
                 <span class="s-day-header">{{ day }}</span>
             </div>
         </div>
-        <div data-ng-repeat="week in range(firstWeek, lastWeek)" class="s-week">
-            <div data-ng-repeat="(kday, day) in days" class="s-day">
-                <div data-ng-if="getCal(week, kday).currentMonth" class="s-day-cell">
-                    <span class="s-day-month">{{ getCal(week, kday).display }}</span>
+        <div data-ng-repeat="week in weeks" class="s-week">
+            <div data-ng-repeat="day in days" class="s-day">
+                <div data-ng-if="getCal(week, day).currentMonth" class="s-day-cell">
+                    <span class="s-day-month">{{ getCal(week, day).display }}</span>
                 </div>
             </div>
         </div>
