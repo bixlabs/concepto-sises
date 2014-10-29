@@ -19,9 +19,14 @@
                 replace: true,
                 templateUrl: G.template('directive/widget_calendar'),
                 scope: {
-                    events: '=sisesCalendar'
+                    events: '=sisesCalendar',
+                    asignacion: '='
+
                 },
                 link: function(scope) {
+
+                    /** @namespace scope.asignacion.fechaInicio */
+                    /** @namespace scope.asignacion.fechaCierre */
 
                     scope.buildCalendar = {};
                     scope.days = {};
@@ -30,9 +35,8 @@
                         max: null
                     };
 
-                    scope.currentDate = moment();
-
-                    scope.$watch('currentDate', function(m) {
+                    scope.showingDate = moment();
+                    scope.$watch('showingDate', function(m) {
                         if (!moment.isMoment(m)) {
                             return;
                         }
@@ -40,7 +44,29 @@
                         buildCalendar(m);
                     }, true);
 
+                    scope.$watch('asignacion', alignDate, true);
+
+                    function alignDate() {
+                        if (scope.asignacion) {
+                            var _fechaInicio = moment(scope.asignacion.fechaInicio),
+                                _fechaCierre = moment(scope.asignacion.fechaCierre);
+                            if (scope.showingDate.isBefore(_fechaInicio)) {
+                                console.log("Aligning date", _fechaInicio.format('LLL'));
+                                scope.showingDate = _fechaInicio;
+                            } else
+                            if (scope.showingDate.isAfter(_fechaCierre)) {
+                                console.log("Aligning date", _fechaCierre.format('LLL'));
+                                scope.showingDate = _fechaCierre;
+                            }
+                        }
+                    }
+
+                    /**
+                     * Construye el calendario a mostrar
+                     * @param m
+                     */
                     function buildCalendar(m) {
+
                         var month = m.format('M'),
                             week, day, dayTitle,
                             startMonth = moment(m).startOf('month'),
@@ -63,7 +89,6 @@
 
                         // Construye calendario
                         while (looper.isBefore(endMonth)) {
-
                             week = looper.format('ww');
                             day = looper.format('E');
                             dayTitle = looper.format('dddd');
@@ -97,10 +122,12 @@
                     };
 
                     scope.prev = function prev() {
-                        scope.currentDate = scope.currentDate.subtract(1, 'month');
+                        scope.showingDate = scope.showingDate.subtract(1, 'month');
+                        alignDate();
                     };
                     scope.next = function next() {
-                        scope.currentDate = scope.currentDate.add(1, 'month');
+                        scope.showingDate = scope.showingDate.add(1, 'month');
+                        alignDate();
                     };
 
                     scope.range = function range(min, max, step) {

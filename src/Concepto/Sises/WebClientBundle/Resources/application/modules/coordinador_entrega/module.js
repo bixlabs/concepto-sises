@@ -29,9 +29,9 @@
     module.controller('CEIndex', [
         'RestResources', '$scope',
         function(RR, scope) {
-            //scope.asignaciones = RR.asignaciones.query();
-            scope.asignaciones = [];
-            scope.asignacion = {};
+            scope.seleccion = {
+                asignacion: null
+            };
         }
     ]);
 
