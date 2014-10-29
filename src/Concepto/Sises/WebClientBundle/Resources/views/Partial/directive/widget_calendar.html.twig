@@ -1,5 +1,8 @@
 {% verbatim %}
 <div class="s-calendar">
+    <div class="s-calendar-shadow" data-ng-if="!asignacion">
+        <span>Por favor seleccione una asignacion</span>
+    </div>
     <div class="row s-calendar-header">
         <div class="col-lg-4">
             <div class="btn-group">
@@ -10,7 +13,6 @@
                     <i class="glyphicon glyphicon-chevron-right"></i>
                 </button>
             </div>
-            <button class="btn btn-default" data-ng-click="debug()">Hoy</button>
         </div>
         <div class="col-lg-4">
             <p class="title">{{ month }} {{ year }}</p>
@@ -24,8 +26,12 @@
         </div>
         <div data-ng-repeat="week in weeks" class="s-week">
             <div data-ng-repeat="day in days" class="s-day">
-                <div data-ng-if="getCal(week, day).currentMonth" class="s-day-cell">
-                    <span class="s-day-month">{{ getCal(week, day).display }}</span>
+                <div data-ng-if="getCal(week, day).currentMonth"
+                     class="s-day-cell"
+                     data-ng-class="{'in-range': getCal(week, day).inRange}">
+                    <span class="s-day-month">
+                        {{ getCal(week, day).display }}
+                    </span>
                 </div>
             </div>
         </div>

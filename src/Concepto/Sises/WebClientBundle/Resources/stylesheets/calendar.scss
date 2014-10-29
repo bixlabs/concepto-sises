@@ -2,10 +2,28 @@ $calendar-border-color: #ccc;
 $calendar-bg-color: #fff;
 $calendar-hover-color: #e7e7e7;
 $calendar-font-size: 14px;
+$calendar-enable-color: rgb(66, 139, 202);
 $day-cell-height: $calendar-font-size * 4;
 $day-header-height: $calendar-font-size * 1.8;
 
 .s-calendar {
+
+  .s-calendar-shadow {
+    position: absolute;
+    width: 95%;
+    height: 100%;
+    background: transparentize(darken($calendar-border-color, 0.2), 0.3);
+    z-index: 1;
+
+    vertical-align: middle;
+    text-align: center;
+    span {
+      display: inline-block;
+      margin-top: 30%;
+      color: white;
+      font-size: $calendar-font-size * 2.2;
+    }
+  }
 
   .s-calendar-header {
     margin-bottom: 10px;
@@ -44,13 +62,17 @@ $day-header-height: $calendar-font-size * 1.8;
         height: $day-cell-height;
         color: lighten(invert($calendar-bg-color), 30%);
 
-        &:hover {
-          background: $calendar-hover-color;
-          cursor: pointer;
+        &.in-range {
+          background: transparentize($calendar-enable-color, 0.8);
+          &:hover {
+            background: transparentize($calendar-enable-color, 0.6);
+            cursor: pointer;
+          }
         }
 
         .s-day-month {
           display: block;
+          line-height: $day-cell-height;
         }
       }
 

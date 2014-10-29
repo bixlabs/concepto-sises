@@ -35,7 +35,7 @@
                         max: null
                     };
 
-                    scope.showingDate = moment();
+                    scope.showingDate = moment().startOf('day');
                     scope.$watch('showingDate', function(m) {
                         if (!moment.isMoment(m)) {
                             return;
@@ -44,18 +44,19 @@
                         buildCalendar(m);
                     }, true);
 
-                    scope.$watch('asignacion', alignDate, true);
+                    scope.$watch('asignacion', function() {
+                        if (scope.asignacion) {
+                            scope.showingDate = moment(scope.asignacion.fechaInicio).startOf('day');
+                        }
+                    }, true);
 
                     function alignDate() {
                         if (scope.asignacion) {
-                            var _fechaInicio = moment(scope.asignacion.fechaInicio),
-                                _fechaCierre = moment(scope.asignacion.fechaCierre);
+                            var _fechaInicio = moment(scope.asignacion.fechaInicio).startOf('day'),
+                                _fechaCierre = moment(scope.asignacion.fechaCierre).endOf('day');
                             if (scope.showingDate.isBefore(_fechaInicio)) {
-                                console.log("Aligning date", _fechaInicio.format('LLL'));
                                 scope.showingDate = _fechaInicio;
-                            } else
-                            if (scope.showingDate.isAfter(_fechaCierre)) {
-                                console.log("Aligning date", _fechaCierre.format('LLL'));
+                            } else if (scope.showingDate.isAfter(_fechaCierre)) {
                                 scope.showingDate = _fechaCierre;
                             }
                         }
@@ -71,21 +72,29 @@
                             week, day, dayTitle,
                             startMonth = moment(m).startOf('month'),
                             endMonth = moment(m).endOf('month'),
-                            looper = moment(startMonth);
+                            looper = moment(startMonth),
+                            range = null;
 
                         // Define el mes actual
                         scope.month = m.format('MMMM');
                         // Define el año actual
                         scope.year = m.format('YYYY');
 
+                        if (scope.asignacion) {
+                            range = moment.range(
+                                moment(scope.asignacion.fechaInicio).startOf('day').toDate(),
+                                moment(scope.asignacion.fechaCierre).endOf('day').toDate()
+                            );
+                        }
 
                         scope.days = [];
                         scope.dayTitle = [];
                         scope.weeks = [];
                         scope.buildCalendar = [];
 
-                        // Se asegura que se inicie siempre al principio de seman
+                        // Se asegura que se inicie siempre al principio de semana y al principio del dia
                         looper.startOf('week');
+                        looper.startOf('day');
 
                         // Construye calendario
                         while (looper.isBefore(endMonth)) {
@@ -104,6 +113,7 @@
 
                             scope.buildCalendar[week + '-' + day] = {
                                 currentMonth: looper.format('M') === month,
+                                inRange: range !== null ? range.contains(looper.toDate()): false,
                                 display: looper.format('D')
                             };
 
@@ -115,18 +125,12 @@
                         return scope.buildCalendar[week + '-' + day];
                     };
 
-                    scope.debug = function debug() {
-                        console.log("calendar", scope.buildCalendar);
-                        console.log("weeks", scope.weeks);
-                        console.log("days", scope.days);
-                    };
-
                     scope.prev = function prev() {
-                        scope.showingDate = scope.showingDate.subtract(1, 'month');
+                        scope.showingDate.subtract(1, 'month');
                         alignDate();
                     };
                     scope.next = function next() {
-                        scope.showingDate = scope.showingDate.add(1, 'month');
+                        scope.showingDate.add(1, 'month');
                         alignDate();
                     };
 
