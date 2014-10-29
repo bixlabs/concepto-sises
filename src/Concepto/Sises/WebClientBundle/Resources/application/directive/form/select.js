@@ -28,7 +28,13 @@
                     optionsLabel: '@'
                 },
                 link: function(scope, el ,attrs, controllers) {
+
+                    scope.optionsString =
+                        (!scope.optionsKey ? 'o.' : 'o.' + scope.optionsKey + ' as o.')
+                        + scope.optionsLabel + ' for o in options_';
+
                     G.Form.InputFormLink.call(this, scope, el, attrs, controllers);
+
                     if (angular.isString(scope.options)) {
                         scope.options_ = RR[scope.options].query();
                     } else {
