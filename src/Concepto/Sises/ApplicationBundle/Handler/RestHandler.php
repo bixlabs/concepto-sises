@@ -77,15 +77,26 @@ abstract class RestHandler implements RestHandlerInterface {
         return $this->process($parameters, $object, 'POST');
     }
 
+    private function cleanIds(&$parameters)
+    {
+        if (is_array($parameters)) {
+            if (isset($parameters['id'])) {
+                unset($parameters['id']);
+            }
+
+            foreach ($parameters as $key => $parameter) {
+                $this->cleanIds($parameters[$key]);
+            }
+        }
+    }
+
     public function put($id, $parameters)
     {
         /** @var OrmPersistible $object */
         $object = $this->getEm()->find($this->getOrmClassString(), $id);
 
         // fix: los objetos de angular envian el id no es necesario
-        if (isset($parameters['id'])) {
-            unset($parameters['id']);
-        }
+        $this->cleanIds($parameters);
 
         return $this->process($parameters, $object, 'PUT');
     }
