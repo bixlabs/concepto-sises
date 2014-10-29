@@ -12,7 +12,7 @@
 namespace Concepto\Sises\ApplicationBundle\Handler\Entrega;
 
 
-use Concepto\Sises\ApplicationBundle\Handler\SubRestHandler;
+use Concepto\Sises\ApplicationBundle\Handler\RestHandler;
 use JMS\DiExtraBundle\Annotation\Service;
 
 
@@ -21,7 +21,7 @@ use JMS\DiExtraBundle\Annotation\Service;
  * @package Concepto\Sises\ApplicationBundle\Handler\Entrega
  * @Service(id="concepto_sises_entrega_asignacion.handler", parent="conceptos_sises_abstract_rest.handler")
  */
-class EntregaAsignacionRestHandler extends SubRestHandler
+class EntregaAsignacionRestHandler extends RestHandler
 {
 
     protected function getTypeClassString()
@@ -32,10 +32,5 @@ class EntregaAsignacionRestHandler extends SubRestHandler
     protected function getOrmClassString()
     {
         return 'Concepto\Sises\ApplicationBundle\Entity\Entrega\EntregaAsignacion';
-    }
-
-    function getParentOrmClassString()
-    {
-        return 'Concepto\Sises\ApplicationBundle\Entity\Entrega\Entrega';
     }
 }

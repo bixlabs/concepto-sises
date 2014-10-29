@@ -12,11 +12,11 @@
 namespace Concepto\Sises\ApplicationBundle\Controller\Entrega;
 
 
-use Concepto\Sises\ApplicationBundle\Controller\SubRestController;
+use Concepto\Sises\ApplicationBundle\Controller\RestController;
 use Concepto\Sises\ApplicationBundle\Handler\RestHandlerInterface;
 use JMS\DiExtraBundle\Annotation\LookupMethod;
 
-class AsignacionController extends SubRestController
+class AsignacionController extends RestController
 {
     /**
      * @return RestHandlerInterface
