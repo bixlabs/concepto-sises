@@ -64,6 +64,17 @@ class EntregaAsignacion extends EntregaBase
     }
 
     /**
+     * @VirtualProperty()
+     * @SerializedName("nombre_detallado")
+     * @Groups({"list"})
+     */
+    public function getNombreDetallado()
+    {
+        $asignacion = $this->getAsignacion();
+        return "{$asignacion->getServicio()->getNombre()} - {$asignacion->getLugar()->getNombreDetallado()}";
+    }
+
+    /**
      * Set asignacion
      *
      * @param CoordinadorAsignacion $asignacion

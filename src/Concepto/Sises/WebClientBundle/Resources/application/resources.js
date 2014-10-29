@@ -31,7 +31,7 @@
                 'coordinador':             '/api/coordinadors/:id.json',
                 'director':                '/api/directors/:id.json',
                 'admin_entrega':           '/api/entregas/:id.json',
-                'coordinador_entrega':     '/api/entregas/:parent/asignacions/:id.json'
+                'coordinador_entrega':     '/api/asignacions/:id.json'
             };
 
             var methods = {};
