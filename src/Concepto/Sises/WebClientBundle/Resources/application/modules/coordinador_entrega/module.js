@@ -30,7 +30,8 @@
         'RestResources', '$scope',
         function(RR, scope) {
             scope.seleccion = {
-                asignacion: null
+                asignacion: null,
+                now: null
             };
         }
     ]);

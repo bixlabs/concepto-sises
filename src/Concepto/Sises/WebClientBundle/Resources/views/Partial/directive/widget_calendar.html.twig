@@ -27,8 +27,8 @@
         <div data-ng-repeat="week in weeks" class="s-week">
             <div data-ng-repeat="day in days" class="s-day">
                 <div data-ng-if="getCal(week, day).currentMonth"
-                     class="s-day-cell"
-                     data-ng-class="{'in-range': getCal(week, day).inRange}">
+                     class="s-day-cell {{ getClass(getCal(week, day)) }}"
+                     data-ng-click="setCurDate(getCal(week, day))">
                     <span class="s-day-month">
                         {{ getCal(week, day).display }}
                     </span>

@@ -70,6 +70,10 @@ $day-header-height: $calendar-font-size * 1.8;
           }
         }
 
+        &.active-date {
+          background: transparentize($calendar-enable-color, 0.3);
+        }
+
         .s-day-month {
           display: block;
           line-height: $day-cell-height;
