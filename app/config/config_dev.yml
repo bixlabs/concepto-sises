@@ -34,3 +34,12 @@ assetic:
 
 #swiftmailer:
 #    delivery_address: me@example.com
+bazinga_faker:
+    orm: doctrine
+    entities:
+      Concepto\Sises\ApplicationBundle\Entity\Persona:
+        number: 100
+        custom_formatters:
+          nombre: { method: firstName }
+          apellidos: { method: lastName }
+          documento: { method: numerify, parameters: [ '###########' ] }
