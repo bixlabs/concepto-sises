@@ -158,8 +158,6 @@
                             classes += ' active-date';
                         }
 
-                        console.log(m, classes);
-
                         return classes;
                     };
 
