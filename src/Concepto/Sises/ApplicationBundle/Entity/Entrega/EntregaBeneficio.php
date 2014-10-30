@@ -19,6 +19,7 @@ use Doctrine\ORM\Mapping\GeneratedValue;
 use Doctrine\ORM\Mapping\Id;
 use Doctrine\ORM\Mapping\ManyToOne;
 use Doctrine\ORM\Mapping\Table;
+use JMS\Serializer\Annotation\Exclude;
 use JMS\Serializer\Annotation\Groups;
 use JMS\Serializer\Annotation\SerializedName;
 use JMS\Serializer\Annotation\VirtualProperty;
@@ -27,7 +28,7 @@ use Symfony\Component\Validator\Constraints\NotNull;
 /**
  * Class EntregaBeneficio
  * @package Concepto\Sises\ApplicationBundle\Entity\Entrega
- * @Entity()
+ * @Entity(repositoryClass="Concepto\Sises\ApplicationBundle\Entity\Entrega\EntregaBeneficioRepository")
  * @Table(name="entrega_beneficio")
  */
 class EntregaBeneficio
@@ -44,14 +45,14 @@ class EntregaBeneficio
     /**
      * @var Beneficio
      * @ManyToOne(targetEntity="Concepto\Sises\ApplicationBundle\Entity\Beneficio")
-     * @Groups({"list"})
+     * @Exclude()
      */
     protected $beneficio;
 
     /**
      * @var EntregaAsignacion
      * @ManyToOne(targetEntity="Concepto\Sises\ApplicationBundle\Entity\Entrega\EntregaAsignacion")
-     * @Groups({"list"})
+     * @Exclude()
      */
     protected $entrega;
 

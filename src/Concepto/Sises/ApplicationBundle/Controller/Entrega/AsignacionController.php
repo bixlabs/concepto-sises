@@ -15,6 +15,7 @@ namespace Concepto\Sises\ApplicationBundle\Controller\Entrega;
 use Concepto\Sises\ApplicationBundle\Controller\RestController;
 use Concepto\Sises\ApplicationBundle\Handler\RestHandlerInterface;
 use JMS\DiExtraBundle\Annotation\LookupMethod;
+use Symfony\Component\HttpFoundation\Request;
 
 class AsignacionController extends RestController
 {
@@ -23,4 +24,10 @@ class AsignacionController extends RestController
      * @LookupMethod("concepto_sises_entrega_asignacion.handler")
      */
     public function getHandler() {}
+
+    public function postEntregaAction(Request $request)
+    {
+        $parameters = $request->request->all();
+        return $this->getHandler()->getOrCreateEntregaBeneficio($parameters);
+    }
 }
