@@ -33,6 +33,7 @@
 
                     /** @namespace scope.asignacion.fechaInicio */
                     /** @namespace scope.asignacion.fechaCierre */
+                    /** @namespace scope.asignacion.realizadas */
 
                     scope.buildCalendar = {};
                     scope.dates = {
@@ -77,6 +78,26 @@
                                 scope.showingDate = _fechaCierre;
                             }
                         }
+                    }
+
+                    function hasEntregas(m) {
+                        var i, entrega;
+
+                        /** @namespace entrega.fechaEntrega */
+
+                        if (!scope.asignacion || scope.asignacion.realizadas.length === 0) {
+                            return false;
+                        }
+
+                        for (i = 0; i < scope.asignacion.realizadas.length; i++) {
+                            entrega = scope.asignacion.realizadas[i];
+
+                            if (moment(entrega.fechaEntrega).isSame(m)) {
+                                return true;
+                            }
+                        }
+
+                        return false;
                     }
 
                     /**
@@ -125,6 +146,7 @@
                                 currentMonth: looper.format('M') === month,
                                 inRange: range !== null ? range.contains(looper.toDate()): false,
                                 date: moment(looper),
+                                realized: hasEntregas(looper),
                                 display: looper.format('D')
                             };
 
@@ -156,6 +178,10 @@
 
                         if (scope._selectedDate && m.date.isSame(scope._selectedDate)) {
                             classes += ' active-date';
+                        }
+
+                        if (m.realized) {
+                            classes += ' has-realized';
                         }
 
                         return classes;

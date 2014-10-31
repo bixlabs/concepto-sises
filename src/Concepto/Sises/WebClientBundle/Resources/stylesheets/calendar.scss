@@ -3,6 +3,7 @@ $calendar-bg-color: #fff;
 $calendar-hover-color: #e7e7e7;
 $calendar-font-size: 14px;
 $calendar-enable-color: rgb(66, 139, 202);
+$calendar-realized-color: #4cae4c;
 $day-cell-height: $calendar-font-size * 4;
 $day-header-height: $calendar-font-size * 1.8;
 
@@ -63,15 +64,26 @@ $day-header-height: $calendar-font-size * 1.8;
         color: lighten(invert($calendar-bg-color), 30%);
 
         &.in-range {
-          background: transparentize($calendar-enable-color, 0.8);
+          background: transparentize($calendar-enable-color, 0.6);
           &:hover {
-            background: transparentize($calendar-enable-color, 0.6);
+            background: transparentize($calendar-enable-color, 0.8);
             cursor: pointer;
+          }
+
+          &.active-date {
+            background: transparentize($calendar-enable-color, 0.3);
           }
         }
 
-        &.active-date {
-          background: transparentize($calendar-enable-color, 0.3);
+        &.has-realized {
+          background: transparentize($calendar-realized-color, 0.6);
+          &:hover {
+            background: transparentize($calendar-realized-color, 0.8);
+          }
+
+          &.active-date {
+            background: transparentize($calendar-realized-color, 0.3);
+          }
         }
 
         .s-day-month {
