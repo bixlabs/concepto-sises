@@ -34,6 +34,9 @@ class EntregaBeneficioRepository extends EntityRepository
                 'fecha' => $query->getFecha(),
             ))
 
+            ->addOrderBy('p.apellidos')
+            ->addOrderBy('p.nombre')
+
             ->getQuery()->execute();
     }
 } 
