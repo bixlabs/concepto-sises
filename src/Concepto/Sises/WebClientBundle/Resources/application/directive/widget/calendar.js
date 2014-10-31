@@ -56,10 +56,10 @@
 
                     scope.$watch('asignacion', function() {
                         if (scope.asignacion) {
-                            scope.showingDate = moment(scope.asignacion.fechaInicio).startOf('day');
+                            scope.showingDate = moment(scope.asignacion.entrega.fechaInicio).startOf('day');
                             range = moment.range(
-                                moment(scope.asignacion.fechaInicio).startOf('day').toDate(),
-                                moment(scope.asignacion.fechaCierre).endOf('day').toDate()
+                                moment(scope.asignacion.entrega.fechaInicio).startOf('day').toDate(),
+                                moment(scope.asignacion.entrega.fechaCierre).endOf('day').toDate()
                             );
                         }
                     }, true);
@@ -69,8 +69,8 @@
                      */
                     function alignDate() {
                         if (scope.asignacion) {
-                            var _fechaInicio = moment(scope.asignacion.fechaInicio).startOf('day'),
-                                _fechaCierre = moment(scope.asignacion.fechaCierre).endOf('day');
+                            var _fechaInicio = moment(scope.asignacion.entrega.fechaInicio).startOf('day'),
+                                _fechaCierre = moment(scope.asignacion.entrega.fechaCierre).endOf('day');
                             if (scope.showingDate.isBefore(_fechaInicio)) {
                                 scope.showingDate = _fechaInicio;
                             } else if (scope.showingDate.isAfter(_fechaCierre)) {
