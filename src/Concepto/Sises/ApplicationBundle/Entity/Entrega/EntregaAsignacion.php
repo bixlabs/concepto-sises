@@ -18,8 +18,8 @@ use Doctrine\ORM\Mapping\GeneratedValue;
 use Doctrine\ORM\Mapping\Id;
 use Doctrine\ORM\Mapping\ManyToOne;
 use Doctrine\ORM\Mapping\Table;
-use JMS\Serializer\Annotation\Exclude;
 use JMS\Serializer\Annotation\Groups;
+use JMS\Serializer\Annotation\MaxDepth;
 use JMS\Serializer\Annotation\SerializedName;
 use JMS\Serializer\Annotation\VirtualProperty;
 
@@ -51,7 +51,7 @@ class EntregaAsignacion
      * @var Entrega
      * @ManyToOne(targetEntity="Concepto\Sises\ApplicationBundle\Entity\Entrega\Entrega")
      * @Groups({"list"})
-     * @Exclude()
+     * @MaxDepth(depth=1)
      */
     protected $entrega;
 
