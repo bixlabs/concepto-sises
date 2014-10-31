@@ -80,6 +80,13 @@
                         }
                     }
 
+                    /**
+                     * Determina si el moment indicado esta presente en la lista de entregas
+                     * realizadas
+                     *
+                     * @param m
+                     * @returns {boolean}
+                     */
                     function hasEntregas(m) {
                         var i, entrega;
 
