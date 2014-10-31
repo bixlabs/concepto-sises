@@ -12,14 +12,18 @@
 namespace Concepto\Sises\ApplicationBundle\Handler\Entrega;
 
 
+use Concepto\Sises\ApplicationBundle\Entity\Beneficio;
 use Concepto\Sises\ApplicationBundle\Entity\Entrega\EntregaAsignacion;
 use Concepto\Sises\ApplicationBundle\Entity\Entrega\EntregaBeneficio;
+use Concepto\Sises\ApplicationBundle\Entity\Entrega\EntregaBeneficioDetalle;
 use Concepto\Sises\ApplicationBundle\Handler\RestHandler;
 use Concepto\Sises\ApplicationBundle\Model\EntregaBeneficioQuery;
 use Concepto\Sises\ApplicationBundle\Model\Form\EntregaBeneficioQueryType;
+use Concepto\Sises\ApplicationBundle\Serializer\Exclusion\ListExclusionStrategy;
 use FOS\RestBundle\Util\Codes;
 use FOS\RestBundle\View\View;
 use JMS\DiExtraBundle\Annotation\Service;
+use JMS\Serializer\SerializationContext;
 
 
 /**
@@ -44,30 +48,51 @@ class EntregaAsignacionRestHandler extends RestHandler
         $entregas = $repositoryEntrega->fechaEntrega($query);
         $code = Codes::HTTP_OK;
 
+        // Si no hay entregas no existe la EntregaBeneficio para el dia
         if (count($entregas) == 0) {
             $code = Codes::HTTP_CREATED;
+
             /** @var EntregaAsignacion $entregaAsignacion */
             $entregaAsignacion = $this->get($query->getId());
+
+            $entregaBeneficio = new EntregaBeneficio();
+            $entregaBeneficio->setEntrega($entregaAsignacion);
+            $entregaBeneficio->setServicio($entregaAsignacion->getAsignacion()->getServicio());
+            $entregaBeneficio->setFechaEntrega($query->getFecha());
+
             $asignacion = $entregaAsignacion->getAsignacion();
             $beneficios = $this->getEm()
                 ->getRepository('SisesApplicationBundle:Beneficio')
                 ->findAll(array('servicio' => $asignacion->getServicioId(), 'lugar' => $asignacion->getLugarId()));
 
+            /** @var Beneficio $beneficio */
             foreach($beneficios as $beneficio) {
-                $entrega = new EntregaBeneficio();
-                $entrega->setBeneficio($beneficio);
-                $entrega->setEntrega($entregaAsignacion);
-                $entrega->setFechaEntrega($query->getFecha());
-                $entrega->setIsEntregado(false);
+                $entrega = new EntregaBeneficioDetalle();
+                $entrega->setEntregaBeneficio($entregaBeneficio);
+                $entrega->setBeneficiario($beneficio->getBeneficiario());
+                $entrega->setEstado(false);
                 $this->getEm()->persist($entrega);
             }
+
+            $this->getEm()->persist($entregaBeneficio);
 
             $this->getEm()->flush();
 
             $entregas = $repositoryEntrega->fechaEntrega($query);
         }
 
-        return View::create($entregas, $code);
+        $view = View::create($entregas, $code);
+        $context = SerializationContext::create();
+        $context->enableMaxDepthChecks();
+
+        $classes = array('Concepto\Sises\ApplicationBundle\Entity\Beneficiario' => array('beneficios'));
+        //$classes = array();
+
+        $context->addExclusionStrategy(new ListExclusionStrategy($classes));
+
+        $view->setSerializationContext($context);
+
+        return $view;
     }
 
     protected function getTypeClassString()

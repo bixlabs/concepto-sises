@@ -19,26 +19,21 @@ class EntregaBeneficioRepository extends EntityRepository
 {
     public function fechaEntrega(EntregaBeneficioQuery $query)
     {
-        return $this->createQueryBuilder('a')
-            ->andWhere('a.fechaEntrega = :fecha')
-            ->andWhere('a.entrega = :entrega')
+        return $this->getEntityManager()
+            ->getRepository('SisesApplicationBundle:Entrega\EntregaBeneficioDetalle')
+            ->createQueryBuilder('detalle')
+
+            ->leftJoin('detalle.beneficiario', 'b')
+            ->leftJoin('b.persona', 'p')
+
+            ->leftJoin('detalle.entregaBeneficio', 'eb')
+            ->andWhere('eb.entrega = :entrega')
+            ->andWhere('eb.fechaEntrega = :fecha')
             ->setParameters(array(
+                'entrega' => $query->getId(),
                 'fecha' => $query->getFecha(),
-                'entrega' => $query->getId()
             ))
-            // Evita las subconsultas por cada EntregaBeneficio
-            ->leftJoin('a.beneficio', 'b')
-            ->leftJoin('b.beneficiario', 'bb')
-            ->leftJoin('bb.persona', 'p')
 
-            ->leftJoin('b.servicio', 's')
-
-            ->leftJoin('b.lugar', 'l')
-            ->leftJoin('l.ubicacion', 'u')
-            ->leftJoin('u.municipio', 'm')
-            ->leftJoin('m.departamento', 'd')
-
-            ->getQuery()->execute()
-        ;
+            ->getQuery()->execute();
     }
 } 
