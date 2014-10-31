@@ -14,11 +14,12 @@ namespace Concepto\Sises\ApplicationBundle\Entity\Entrega;
 use Concepto\Sises\ApplicationBundle\Entity\CoordinadorAsignacion;
 use Doctrine\ORM\Mapping\Column;
 use Doctrine\ORM\Mapping\Entity;
+use Doctrine\ORM\Mapping\GeneratedValue;
+use Doctrine\ORM\Mapping\Id;
 use Doctrine\ORM\Mapping\ManyToOne;
 use Doctrine\ORM\Mapping\Table;
 use JMS\Serializer\Annotation\Exclude;
 use JMS\Serializer\Annotation\Groups;
-use JMS\Serializer\Annotation\MaxDepth;
 use JMS\Serializer\Annotation\SerializedName;
 use JMS\Serializer\Annotation\VirtualProperty;
 
@@ -28,8 +29,17 @@ use JMS\Serializer\Annotation\VirtualProperty;
  * @Entity()
  * @Table("entrega_asignacion")
  */
-class EntregaAsignacion extends EntregaBase
+class EntregaAsignacion
 {
+    /**
+     * @var string
+     * @Id()
+     * @GeneratedValue(strategy="UUID")
+     * @Column(name="id", length=36)
+     * @Groups({"list", "details"})
+     */
+    protected $id;
+
     /**
      * @var CoordinadorAsignacion
      * @ManyToOne(targetEntity="Concepto\Sises\ApplicationBundle\Entity\CoordinadorAsignacion")
@@ -97,12 +107,13 @@ class EntregaAsignacion extends EntregaBase
     {
         return $this->asignacion;
     }
+
     /**
      * Set isCierreManual
      *
      * @param boolean $isCierreManual
      *
-*@return EntregaAsignacion
+     * @return EntregaAsignacion
      */
     public function setIsCierreManual($isCierreManual)
     {
@@ -119,6 +130,14 @@ class EntregaAsignacion extends EntregaBase
     public function getIsCierreManual()
     {
         return $this->isCierreManual;
+    }
+
+    /**
+     * @return string
+     */
+    public function getId()
+    {
+        return $this->id;
     }
 
     /**

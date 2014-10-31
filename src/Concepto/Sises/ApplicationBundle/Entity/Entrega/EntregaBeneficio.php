@@ -12,7 +12,7 @@
 namespace Concepto\Sises\ApplicationBundle\Entity\Entrega;
 
 
-use Concepto\Sises\ApplicationBundle\Entity\Beneficio;
+use Concepto\Sises\ApplicationBundle\Entity\ServicioContratado;
 use Doctrine\ORM\Mapping\Column;
 use Doctrine\ORM\Mapping\Entity;
 use Doctrine\ORM\Mapping\GeneratedValue;
@@ -43,18 +43,18 @@ class EntregaBeneficio
     protected $id;
 
     /**
-     * @var Beneficio
-     * @ManyToOne(targetEntity="Concepto\Sises\ApplicationBundle\Entity\Beneficio")
-     * @Exclude()
-     */
-    protected $beneficio;
-
-    /**
      * @var EntregaAsignacion
      * @ManyToOne(targetEntity="Concepto\Sises\ApplicationBundle\Entity\Entrega\EntregaAsignacion")
      * @Exclude()
      */
     protected $entrega;
+
+    /**
+     * @var ServicioContratado
+     * @ManyToOne(targetEntity="Concepto\Sises\ApplicationBundle\Entity\ServicioContratado")
+     * @Exclude()
+     */
+    protected $servicio;
 
     /**
      * @var \DateTime
@@ -66,18 +66,6 @@ class EntregaBeneficio
     protected $fechaEntrega;
 
     /**
-     * @var bool
-     * @Column(name="is_entregado", type="boolean")
-     * @Groups({"details", "list"})
-     */
-    protected $isEntregado;
-
-    function __construct()
-    {
-        $this->isEntregado = false;
-    }
-
-    /**
      * @VirtualProperty()
      * @SerializedName("entrega")
      * @Groups({"details"})
@@ -87,18 +75,6 @@ class EntregaBeneficio
     public function getEntregaId()
     {
         return $this->getEntrega()->getId();
-    }
-
-    /**
-     * @VirtualProperty()
-     * @SerializedName("beneficio")
-     * @Groups({"details"})
-     *
-     * @return string
-     */
-    public function getBeneficioId()
-    {
-        return $this->getBeneficio()->getId();
     }
 
     /**
@@ -136,53 +112,6 @@ class EntregaBeneficio
     }
 
     /**
-     * Set isEntregado
-     *
-     * @param boolean $isEntregado
-     * @return EntregaBeneficio
-     */
-    public function setIsEntregado($isEntregado)
-    {
-        $this->isEntregado = $isEntregado;
-
-        return $this;
-    }
-
-    /**
-     * Get isEntregado
-     *
-     * @return boolean
-     */
-    public function getIsEntregado()
-    {
-        return $this->isEntregado;
-    }
-
-    /**
-     * Set beneficio
-     *
-     * @param Beneficio $beneficio
-     *
-     * @return EntregaBeneficio
-     */
-    public function setBeneficio(Beneficio $beneficio = null)
-    {
-        $this->beneficio = $beneficio;
-
-        return $this;
-    }
-
-    /**
-     * Get beneficio
-     *
-     * @return Beneficio
-     */
-    public function getBeneficio()
-    {
-        return $this->beneficio;
-    }
-
-    /**
      * Set entrega
      *
      * @param EntregaAsignacion $entrega
@@ -204,5 +133,31 @@ class EntregaBeneficio
     public function getEntrega()
     {
         return $this->entrega;
+    }
+
+    /**
+     * @return ServicioContratado
+     */
+    public function getServicio()
+    {
+        return $this->servicio;
+    }
+
+    /**
+     * @param ServicioContratado $servicio
+     */
+    public function setServicio($servicio)
+    {
+        $this->servicio = $servicio;
+    }
+
+    /**
+     * @return string
+     * @VirtualProperty()
+     * @SerializedName("servicio")
+     */
+    public function getServicioId()
+    {
+        return $this->getServicio()->getId();
     }
 }

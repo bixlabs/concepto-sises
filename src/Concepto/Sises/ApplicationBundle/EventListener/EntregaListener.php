@@ -61,9 +61,6 @@ class EntregaListener
                 $eAsignacion = new EntregaAsignacion();
                 $eAsignacion->setEntrega($entity);
                 $eAsignacion->setAsignacion($asignacion);
-                $eAsignacion->setFechaInicio($entity->getFechaInicio());
-                $eAsignacion->setFechaCierre($entity->getFechaCierre());
-                $eAsignacion->setDiasGracia($entity->getDiasGracia());
                 $em->persist($eAsignacion);
             }
         }
