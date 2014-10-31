@@ -24,8 +24,9 @@ class LoadEntrega implements FixtureInterface, OrderedFixtureInterface
      */
     function load(ObjectManager $manager)
     {
-        $date = new \DateTime();
-        $dateEnd = (new \DateTime())->add(new \DateInterval('P30D'));
+        $startDate = '2014-04-10';
+        $date = new \DateTime($startDate);
+        $dateEnd = (new \DateTime($startDate))->add(new \DateInterval('P30D'));
 
         $contrato = $manager->getRepository('SisesApplicationBundle:Contrato')->findOneBy(array());
         $entrega = new Entrega();
@@ -35,8 +36,8 @@ class LoadEntrega implements FixtureInterface, OrderedFixtureInterface
         $entrega->setDiasGracia(5);
         $manager->persist($entrega);
 
-        $date2 = (new \DateTime())->add(new \DateInterval('P31D'));
-        $dateEnd2 = (new \DateTime())->add(new \DateInterval('P61D'));
+        $date2 = (new \DateTime($startDate))->add(new \DateInterval('P31D'));
+        $dateEnd2 = (new \DateTime($startDate))->add(new \DateInterval('P61D'));
 
         $entrega2 = new Entrega();
         $entrega2->setContrato($contrato);
