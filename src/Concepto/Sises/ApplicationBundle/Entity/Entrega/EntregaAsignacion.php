@@ -12,11 +12,14 @@
 namespace Concepto\Sises\ApplicationBundle\Entity\Entrega;
 
 use Concepto\Sises\ApplicationBundle\Entity\CoordinadorAsignacion;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping\Column;
 use Doctrine\ORM\Mapping\Entity;
 use Doctrine\ORM\Mapping\GeneratedValue;
 use Doctrine\ORM\Mapping\Id;
 use Doctrine\ORM\Mapping\ManyToOne;
+use Doctrine\ORM\Mapping\OneToMany;
 use Doctrine\ORM\Mapping\Table;
 use JMS\Serializer\Annotation\Groups;
 use JMS\Serializer\Annotation\MaxDepth;
@@ -56,10 +59,21 @@ class EntregaAsignacion
     protected $entrega;
 
     /**
+     * @var Collection
+     * @OneToMany(targetEntity="Concepto\Sises\ApplicationBundle\Entity\Entrega\EntregaBeneficio", mappedBy="entrega")
+     */
+    protected $realizadas;
+
+    /**
      * @var bool
      * @Column(name="is_manual", type="boolean", nullable=true)
      */
     protected $isCierreManual;
+
+    function __construct()
+    {
+        $this->realizadas = new ArrayCollection();
+    }
 
     /**
      * @VirtualProperty()
@@ -154,5 +168,21 @@ class EntregaAsignacion
     public function setEntrega($entrega)
     {
         $this->entrega = $entrega;
+    }
+
+    /**
+     * @return Collection
+     */
+    public function getRealizadas()
+    {
+        return $this->realizadas;
+    }
+
+    /**
+     * @param Collection $realizadas
+     */
+    public function setRealizadas($realizadas)
+    {
+        $this->realizadas = $realizadas;
     }
 }

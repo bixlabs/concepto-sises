@@ -44,7 +44,7 @@ class EntregaBeneficio
 
     /**
      * @var EntregaAsignacion
-     * @ManyToOne(targetEntity="Concepto\Sises\ApplicationBundle\Entity\Entrega\EntregaAsignacion")
+     * @ManyToOne(targetEntity="Concepto\Sises\ApplicationBundle\Entity\Entrega\EntregaAsignacion", inversedBy="realizadas")
      * @Exclude()
      */
     protected $entrega;
