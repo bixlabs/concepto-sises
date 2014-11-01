@@ -13,7 +13,7 @@
 
     angular.module(G.APP)
 
-        .directive('sisesCalendar', function() {
+        .directive('sisesCalendar', ['$rootScope', function($r) {
             return {
                 restrict: 'A',
                 replace: true,
@@ -22,7 +22,6 @@
                     events: '=sisesCalendar',
                     asignacion: '=',
                     selectedDate: '='
-
                 },
                 link: function(scope) {
 
@@ -50,12 +49,9 @@
                         buildCalendar(m);
                     }, true);
 
+                    scope.$watch('asignacion', updateRange, true);
 
-                    scope.$watch('_selectedDate', function(val) {
-                        scope.selectedDate = val ? val.toDate() : null;
-                    }, true);
-
-                    scope.$watch('asignacion', function() {
+                    function updateRange() {
                         if (scope.asignacion) {
                             scope.showingDate = moment(scope.asignacion.entrega.fechaInicio).startOf('day');
                             range = moment.range(
@@ -63,7 +59,7 @@
                                 moment(scope.asignacion.entrega.fechaCierre).endOf('day').toDate()
                             );
                         }
-                    }, true);
+                    }
 
                     /**
                      * Se asegura que el calendario muestre solo fechas dentro de la asignación
@@ -128,7 +124,6 @@
                         scope.dayTitle = [];
                         scope.weeks = [];
                         scope.buildCalendar = [];
-                        scope._selectedDate = null;
 
                         // Se asegura que se inicie siempre al principio de semana y al principio del dia
                         looper.startOf('week');
@@ -167,7 +162,8 @@
                      */
                     scope.setCurDate = function setCurDate(m) {
                         if (m.inRange) {
-                            scope._selectedDate = m.date;
+                            scope._selectedDate = m;
+                            scope.selectedDate = m.date.format('YYYY-MM-DDTHH:mm:ssZZ');
                         }
                     };
 
@@ -241,6 +237,6 @@
                     }
                 }
             }
-        })
+        }])
     ;
 })();
