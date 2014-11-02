@@ -21,6 +21,8 @@ use Doctrine\ORM\Mapping\Id;
 use Doctrine\ORM\Mapping\ManyToOne;
 use Doctrine\ORM\Mapping\OneToMany;
 use Doctrine\ORM\Mapping\Table;
+use JMS\Serializer\Annotation\Exclude;
+use JMS\Serializer\Annotation\ExclusionPolicy;
 use JMS\Serializer\Annotation\Groups;
 use JMS\Serializer\Annotation\MaxDepth;
 use JMS\Serializer\Annotation\SerializedName;
@@ -46,14 +48,13 @@ class EntregaAsignacion
     /**
      * @var CoordinadorAsignacion
      * @ManyToOne(targetEntity="Concepto\Sises\ApplicationBundle\Entity\CoordinadorAsignacion")
-     * @Groups({"list"})
      */
     protected $asignacion;
 
     /**
      * @var Entrega
      * @ManyToOne(targetEntity="Concepto\Sises\ApplicationBundle\Entity\Entrega\Entrega")
-     * @Groups({"list"})
+     * @Groups({"details"})
      * @MaxDepth(depth=1)
      */
     protected $entrega;
@@ -61,6 +62,7 @@ class EntregaAsignacion
     /**
      * @var Collection
      * @OneToMany(targetEntity="Concepto\Sises\ApplicationBundle\Entity\Entrega\EntregaBeneficio", mappedBy="entrega")
+     * @Groups({"details"})
      */
     protected $realizadas;
 
@@ -79,12 +81,16 @@ class EntregaAsignacion
      * @VirtualProperty()
      * @SerializedName("asignacion")
      * @Groups({"details"})
-     *
-     * @return string
      */
-    public function getAsignacionId()
+    public function getAsignacionDetalles()
     {
-        return $this->getAsignacion()->getId();
+        $asignacion = $this->getAsignacion();
+
+        return array(
+            'id' => $asignacion->getId(),
+            'lugar' => $asignacion->getLugar()->getNombreDetallado(),
+            'servicio' => $asignacion->getServicio()->getNombre()
+        );
     }
 
     /**

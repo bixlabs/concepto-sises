@@ -52,7 +52,7 @@
                     scope.$watch('asignacion', updateRange, true);
 
                     function updateRange() {
-                        if (scope.asignacion) {
+                        if (scope.asignacion && scope.asignacion.entrega) {
                             scope.showingDate = moment(scope.asignacion.entrega.fechaInicio).startOf('day');
                             range = moment.range(
                                 moment(scope.asignacion.entrega.fechaInicio).startOf('day').toDate(),

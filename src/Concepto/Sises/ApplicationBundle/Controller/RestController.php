@@ -87,6 +87,10 @@ abstract class RestController implements ClassResourceInterface
                 'X-Per-Page' => $pager->getMaxPerPage()
             )
         );
+        $context = SerializationContext::create();
+        $context->enableMaxDepthChecks();
+        $context->setGroups(array('list'));
+        $view->setSerializationContext($context);
 
         return $view;
     }
