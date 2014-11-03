@@ -19,7 +19,10 @@ use Doctrine\ORM\Mapping\GeneratedValue;
 use Doctrine\ORM\Mapping\Id;
 use Doctrine\ORM\Mapping\ManyToOne;
 use Doctrine\ORM\Mapping\Table;
+use JMS\Serializer\Annotation\Exclude;
 use JMS\Serializer\Annotation\Groups;
+use JMS\Serializer\Annotation\SerializedName;
+use JMS\Serializer\Annotation\VirtualProperty;
 
 /**
  * Class EntregaBeneficioDetalle
@@ -41,12 +44,14 @@ class EntregaBeneficioDetalle {
     /**
      * @var EntregaBeneficio
      * @ManyToOne(targetEntity="Concepto\Sises\ApplicationBundle\Entity\Entrega\EntregaBeneficio")
+     * @Exclude()
      */
     protected $entregaBeneficio;
 
     /**
      * @var Beneficiario
      * @ManyToOne(targetEntity="Concepto\Sises\ApplicationBundle\Entity\Beneficiario")
+     * @Exclude()
      */
     protected $beneficiario;
 
@@ -62,6 +67,20 @@ class EntregaBeneficioDetalle {
     public function getId()
     {
         return $this->id;
+    }
+
+    /**
+     * @VirtualProperty()
+     * @SerializedName("beneficiario")
+     * @return array
+     */
+    public function getNombreDetallado()
+    {
+        $b = $this->getBeneficiario()->getPersona();
+        return array(
+            'documento' => $b->getDocumento(),
+            'nombre' => $b->getNombreCompleto(),
+        );
     }
 
     /**
