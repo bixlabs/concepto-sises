@@ -53,6 +53,20 @@
             };
         })
     /**
+     * directive siesFormStatic
+     */
+        .directive('sisesFormStatic', function() {
+            return {
+                restrict: 'A',
+                replace: true,
+                scope: {
+                    property: '=sisesFormStatic',
+                    label: '='
+                },
+                templateUrl: G.template('directive/form_static')
+            }
+        })
+    /**
      * directive sisesFormEmail
      */
         .directive('sisesFormEmail', function() {
