@@ -81,3 +81,14 @@ fieldset {
 body {
   background: $page-color;
 }
+
+.listado-paginacion {
+  text-align: center;
+  margin: auto;
+}
+
+.listado-table {
+  tbody tr td {
+    height: inherit;
+  }
+}
