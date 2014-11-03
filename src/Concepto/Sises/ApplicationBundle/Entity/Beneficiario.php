@@ -21,6 +21,7 @@ use Doctrine\ORM\Mapping\Id;
 use Doctrine\ORM\Mapping\ManyToOne;
 use Doctrine\ORM\Mapping\OneToMany;
 use Doctrine\ORM\Mapping\Table;
+use JMS\Serializer\Annotation\Exclude;
 use JMS\Serializer\Annotation\ExclusionPolicy;
 use JMS\Serializer\Annotation\Groups;
 use JMS\Serializer\Annotation\MaxDepth;
@@ -71,6 +72,7 @@ class Beneficiario extends Documentable implements OrmPersistible {
      *  mappedBy="documentable",
      *  cascade={"persist"}
      * )
+     * @Exclude()
      */
     protected $archivos;
 
