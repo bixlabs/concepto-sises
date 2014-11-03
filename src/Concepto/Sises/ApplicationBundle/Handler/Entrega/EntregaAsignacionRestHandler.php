@@ -24,6 +24,7 @@ use FOS\RestBundle\Util\Codes;
 use FOS\RestBundle\View\View;
 use JMS\DiExtraBundle\Annotation\Service;
 use JMS\Serializer\SerializationContext;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 
 /**
@@ -54,6 +55,10 @@ class EntregaAsignacionRestHandler extends RestHandler
 
             /** @var EntregaAsignacion $entregaAsignacion */
             $entregaAsignacion = $this->get($query->getId());
+
+            if (!$entregaAsignacion) {
+                throw new NotFoundHttpException("No existe la asignacion {$query->getId()}");
+            }
 
             $entregaBeneficio = new EntregaBeneficio();
             $entregaBeneficio->setEntrega($entregaAsignacion);
