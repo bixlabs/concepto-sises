@@ -76,6 +76,20 @@
                     scope.listado.length > 0 ? scope.listado.slice(offset, end): [];
             };
 
+            scope.guardarEntrega = function guardarEntrega() {
+
+                var entregas = [];
+                angular.forEach(scope.entregas, function(entrega) {
+                    entregas.push(entrega);
+                });
+
+                $http.post(G.route('post_asignacion_realiza'), {
+                    entregas: entregas
+                }).success(function(data) {
+                    console.log(data);
+                });
+            };
+
             // Actualiza el listado al seleccionar fecha
             scope.$watch('seleccion.now', function(now) {
                 if (now) {
@@ -85,6 +99,16 @@
                         fecha: moment(now).format('YYYY-MM-DDTHH:mm:ssZZ')
                     }).success(function(data) {
                         scope.seleccion.asignacion = RR.coordinador_entrega.get({'id': id});
+                        scope.entregas = {};
+
+                        angular.forEach(data, function(item) {
+                            /** @namespace item.estado */
+                            /** @namespace item.id */
+                            scope.entregas[item.id] = {
+                                id: item.id,
+                                estado: item.estado
+                            };
+                        });
                         scope.listado = data;
                     });
                 }

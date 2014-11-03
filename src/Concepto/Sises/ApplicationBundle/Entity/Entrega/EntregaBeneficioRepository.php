@@ -14,9 +14,38 @@ namespace Concepto\Sises\ApplicationBundle\Entity\Entrega;
 
 use Concepto\Sises\ApplicationBundle\Entity\EntityRepository;
 use Concepto\Sises\ApplicationBundle\Model\EntregaBeneficioQuery;
+use Concepto\Sises\ApplicationBundle\Model\EntregaRealizada;
 
 class EntregaBeneficioRepository extends EntityRepository
 {
+    public function realizarEntrega(EntregaRealizada $realizada)
+    {
+        $ids = array();
+
+        foreach($realizada->getEntregas() as $e) {
+            $ids[$e->getId()] = $e->isEstado();
+        }
+
+        $em = $this->getEntityManager();
+
+        $qb = $em->getRepository('SisesApplicationBundle:Entrega\EntregaBeneficioDetalle')
+            ->createQueryBuilder('d');
+
+        $entregas = $qb
+            ->where($qb->expr()->in('d.id', array_keys($ids)))
+            ->getQuery()->execute();
+
+        foreach($entregas as $entrega) {
+            if (isset($ids[$entrega->getId()])) {
+                $entrega->setEstado($ids[$entrega->getId()]);
+                $em->persist($entrega);
+            }
+        }
+        $em->flush();
+
+        return $entregas;
+    }
+
     public function fechaEntrega(EntregaBeneficioQuery $query)
     {
         return $this->getEntityManager()

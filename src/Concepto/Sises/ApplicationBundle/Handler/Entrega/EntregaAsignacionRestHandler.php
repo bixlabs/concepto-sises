@@ -18,7 +18,9 @@ use Concepto\Sises\ApplicationBundle\Entity\Entrega\EntregaBeneficio;
 use Concepto\Sises\ApplicationBundle\Entity\Entrega\EntregaBeneficioDetalle;
 use Concepto\Sises\ApplicationBundle\Handler\RestHandler;
 use Concepto\Sises\ApplicationBundle\Model\EntregaBeneficioQuery;
+use Concepto\Sises\ApplicationBundle\Model\EntregaRealizada;
 use Concepto\Sises\ApplicationBundle\Model\Form\EntregaBeneficioQueryType;
+use Concepto\Sises\ApplicationBundle\Model\Form\EntregaRealizadaType;
 use Concepto\Sises\ApplicationBundle\Serializer\Exclusion\ListExclusionStrategy;
 use FOS\RestBundle\Util\Codes;
 use FOS\RestBundle\View\View;
@@ -98,6 +100,23 @@ class EntregaAsignacionRestHandler extends RestHandler
         $view->setSerializationContext($context);
 
         return $view;
+    }
+
+    public function realizaEntrega($parameters)
+    {
+        $realizada = new EntregaRealizada();
+        $form = $this->getFormfactory()->create(new EntregaRealizadaType(), $realizada);
+        $form->submit($parameters);
+
+        if ($form->isValid()) {
+            $this->getEm()
+                ->getRepository('SisesApplicationBundle:Entrega\EntregaBeneficio')
+                ->realizarEntrega($realizada);
+
+            return View::create()->setStatusCode(Codes::HTTP_NO_CONTENT);
+        }
+
+        return View::create($form)->setStatusCode(Codes::HTTP_BAD_REQUEST);
     }
 
     protected function getTypeClassString()

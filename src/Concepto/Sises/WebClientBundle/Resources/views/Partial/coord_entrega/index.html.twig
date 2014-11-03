@@ -2,6 +2,15 @@
     <div class="col-lg-7">
         <h2>Entregas</h2>
     </div>
+    <div class="col-lg-5">
+        <div class="actions pull-right" data-ng-if="listado.length > 0">
+            <button class="btn btn-primary" data-ng-click="guardarEntrega()">
+                <i class="glyphicon glyphicon-floppy-save"></i>
+                Guardar entrega
+            </button>
+
+        </div>
+    </div>
 </div>
 <div class="row">
     <div class="col-lg-6">
@@ -52,7 +61,11 @@
                     <td data-ng-bind="getNumber($index)"></td>
                     <td data-ng-bind="item.beneficiario.documento"></td>
                     <td data-ng-bind="item.beneficiario.nombre"></td>
-                    <td></td>
+                    <td>
+                        <label>
+                            <input type="checkbox" data-ng-model="entregas[item.id].estado" />
+                        </label>
+                    </td>
                 </tr>
                 </tbody>
             </table>

@@ -130,4 +130,12 @@ class EntregaBeneficioDetalle {
     {
         $this->estado = $estado;
     }
+
+    /**
+     * @param string $id
+     */
+    public function setId($id)
+    {
+        $this->id = $id;
+    }
 } 
