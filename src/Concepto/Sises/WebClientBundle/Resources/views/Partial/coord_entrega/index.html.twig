@@ -4,7 +4,7 @@
     </div>
     <div class="col-lg-5">
         <div class="actions pull-right" data-ng-if="listado.length > 0">
-            <button class="btn btn-primary" data-ng-click="guardarEntrega()">
+            <button class="btn btn-primary" data-ng-click="guardarEntrega()" data-ng-disabled="puedeGuardar()">
                 <i class="glyphicon glyphicon-floppy-save"></i>
                 Guardar entrega
             </button>
@@ -13,7 +13,7 @@
     </div>
 </div>
 <div class="row">
-    <div class="col-lg-6">
+    <div class="col-lg-5">
         <fieldset>
             <legend>Asignación</legend>
             <div data-sises-form="seleccion">
@@ -23,6 +23,13 @@
                      data-options-key="id"
                      data-options-label="nombre_detallado"
                      data-required="true"></div>
+
+                <div data-sises-form-static="fecha.inicio"
+                     data-ng-if="seleccion.asignacion"
+                     data-label="'Fecha inicio'"></div>
+                <div data-sises-form-static="fecha.cierre"
+                     data-ng-if="seleccion.asignacion"
+                     data-label="'Fecha Cierre'"></div>
             </div>
         </fieldset>
 
@@ -30,9 +37,10 @@
              data-asignacion="seleccion.asignacion"
              data-selected-date="seleccion.now"></div>
     </div>
-    <div class="col-lg-6" data-ng-if="listado.length > 0">
+    <div class="col-lg-7" data-ng-if="listado.length > 0">
         <fieldset>
             <legend>Listado</legend>
+            <p>Fecha: <strong data-ng-bind="getCurNow()"></strong></p>
             <div class="listado-paginacion">
                 <div data-pagination
                      class="pagination-sm"
@@ -53,11 +61,16 @@
                     <th width="10%">N°.</th>
                     <th width="25%">Documento</th>
                     <th>Nombre</th>
-                    <th width="12%">Entrega</th>
+                    <th width="15%">
+                        <label title="Marcar todos">
+                            <input type="checkbox" data-ng-model="fecha.all" />
+                            Todos?
+                        </label>
+                    </th>
                 </tr>
                 </thead>
                 <tbody>
-                <tr data-ng-repeat="item in pagination.items">
+                <tr data-ng-repeat="item in getItems()">
                     <td data-ng-bind="getNumber($index)"></td>
                     <td data-ng-bind="item.beneficiario.documento"></td>
                     <td data-ng-bind="item.beneficiario.nombre"></td>
@@ -69,6 +82,19 @@
                 </tr>
                 </tbody>
             </table>
+            <div class="listado-paginacion">
+                <div data-pagination
+                     class="pagination-sm"
+                     data-total-items="pagination.total"
+                     data-items-per-page="pagination.max"
+                     data-ng-model="pagination.page"
+                     data-ng-change="updatePagination()"
+                     data-boundary-links="true"
+                     data-previous-text="&lsaquo;"
+                     data-next-text="&rsaquo;"
+                     data-first-text="&laquo;"
+                     data-last-text="&raquo;"></div>
+            </div>
         </fieldset>
     </div>
 </div>

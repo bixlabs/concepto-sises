@@ -29,9 +29,18 @@
     module.controller('CEIndex', [
         'RestResources', '$scope', '$http',
         function(RR, scope, $http) {
+
+            var guardar = true;
+
             scope.seleccion = {
                 asignacion: null,
                 now: null
+            };
+
+            scope.fecha = {
+                inicio: null,
+                cierre: null,
+                all: false
             };
 
             scope.pagination = {
@@ -54,15 +63,26 @@
             // Carga la asignacion
             scope.$watch('seleccion.asignacion_id', function cargaAsignacion(id) {
                 if (id) {
-                    scope.seleccion.asignacion = RR.coordinador_entrega.get({'id': id});
+                    scope.seleccion.asignacion = RR.coordinador_entrega.get({'id': id}, function() {
+                        var e = scope.seleccion.asignacion.entrega;
+                        scope.fecha = {
+                            cierre: moment(e.fechaInicio).startOf('day').format('LLL'),
+                            inicio: moment(e.fechaCierre).endOf('day').format('LLL'),
+                            all: false
+                        };
+                    });
                     scope.listado = [];
                 }
             });
 
-            scope.$watch('listado', function(items) {
+            scope.$watch('listado', function() {
                 scope.pagination.page = 1;
                 scope.updatePagination();
             });
+
+            scope.getItems = function getItems() {
+                return scope.pagination.items;
+            };
 
             scope.updatePagination = function updatePagination() {
                 var p = scope.pagination,
@@ -76,8 +96,15 @@
                     scope.listado.length > 0 ? scope.listado.slice(offset, end): [];
             };
 
-            scope.guardarEntrega = function guardarEntrega() {
+            scope.puedeGuardar = function puedeGuardar() {
+                return !guardar;
+            };
 
+            /**
+             * Envia los datos de la entrega al servidor
+             */
+            scope.guardarEntrega = function guardarEntrega() {
+                guardar = false;
                 var entregas = [];
                 angular.forEach(scope.entregas, function(entrega) {
                     entregas.push(entrega);
@@ -85,21 +112,38 @@
 
                 $http.post(G.route('post_asignacion_realiza'), {
                     entregas: entregas
-                }).success(function(data) {
-                    console.log(data);
+                }).success(function() {
+                    guardar = true;
+                }).error(function() {
+                    guardar = true;
                 });
             };
+
+            scope.getCurNow = function() {
+                if (scope._now) {
+                    return scope._now.format('LLL');
+                }
+            };
+
+            scope.$watch('fecha.all', function() {
+                angular.forEach(scope.getItems(), function(item) {
+                    scope.entregas[item.id].estado = scope.fecha.all;
+                });
+            });
 
             // Actualiza el listado al seleccionar fecha
             scope.$watch('seleccion.now', function(now) {
                 if (now) {
+                    scope._now = moment(now);
                     var id = scope.seleccion.asignacion.id;
                     $http.post(G.route('post_asignacion_entrega'), {
                         id: id,
-                        fecha: moment(now).format('YYYY-MM-DDTHH:mm:ssZZ')
+                        fecha: scope._now.format('YYYY-MM-DDTHH:mm:ssZZ')
                     }).success(function(data) {
                         scope.seleccion.asignacion = RR.coordinador_entrega.get({'id': id});
                         scope.entregas = {};
+
+                        var all = true;
 
                         angular.forEach(data, function(item) {
                             /** @namespace item.estado */
@@ -108,8 +152,12 @@
                                 id: item.id,
                                 estado: item.estado
                             };
+
+                            all = all && item.estado;
                         });
+
                         scope.listado = data;
+                        scope.fecha.all = all;
                     });
                 }
             });
