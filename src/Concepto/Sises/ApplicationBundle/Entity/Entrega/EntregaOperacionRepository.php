@@ -20,13 +20,20 @@ class EntregaOperacionRepository extends EntityRepository
      * @param Entrega $entrega
      * @return mixed Devuelve las EntregaOperacion en el rango de fechas de la Entrega
      */
-    public function getByEntrega(Entrega $entrega)
+    public function getByEntrega(Entrega $entrega, $servicio = null)
     {
-        return $this->createQueryBuilder('eo')
+        $qb = $this->createQueryBuilder('eo')
             ->andWhere('eo.fechaEntrega >= :fechaInicio')
             ->andWhere('eo.fechaEntrega <= :fechaCierre')
             ->setParameter('fechaInicio', $entrega->getFechaInicio())
-            ->setParameter('fechaCierre', $entrega->getFechaCierre())
+            ->setParameter('fechaCierre', $entrega->getFechaCierre());
+
+        if ($servicio) {
+            $qb->andWhere('eo.servicio = :servicio')
+                ->setParameter('servicio', $servicio);
+        }
+
+        $qb
             ->getQuery()->execute()
         ;
     }
