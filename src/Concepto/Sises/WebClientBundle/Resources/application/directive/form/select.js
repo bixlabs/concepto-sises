@@ -139,7 +139,14 @@
                     };
 
                     var setDataTransformer = function(name, value) {
-                        scope.formProperties.transformedData[name] = value;
+                        if (scope.formProperties.transformedData[name]) {
+                            scope.formProperties.transformedData[name] = angular.extend(
+                                scope.formProperties.transformedData[name],
+                                value
+                            );
+                        } else {
+                            scope.formProperties.transformedData[name] = value;
+                        }
                     };
 
                     // Procesa los attributos pasados a la directiva
@@ -156,6 +163,8 @@
                             attrName = camelToUnder(attrKey.replace('tableTransform', ''));
                             var params = attrValue.split(',');
 
+                            console.log("Setting transformer", attrName);
+
                             setDataTransformer(attrName, {
                                 name: attrName,
                                 values: [],
@@ -166,17 +175,12 @@
                             });
                         }
 
-                        // TODO: las dependencias de los tranformadores deben ir primero
                         // Prepara los transformadores dependientes
                         if (attrKey.match(/^transformParent/)) {
                             attrName = camelToUnder(attrKey.replace('transformParent', ''));
-
-                            try {
-                                var transformer = getDataTransformer(attrName);
-                                transformer.parentId = attrValue;
-                            } catch (err) {
-                                console.error("El transformer", attrName, "no esta definido");
-                            }
+                            setDataTransformer(attrName, {
+                                parentId: attrValue
+                            });
                         }
                     });
 
