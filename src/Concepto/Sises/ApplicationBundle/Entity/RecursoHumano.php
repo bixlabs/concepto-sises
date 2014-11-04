@@ -15,6 +15,7 @@ namespace Concepto\Sises\ApplicationBundle\Entity;
 use Concepto\Sises\ApplicationBundle\Entity\Archivos\Documentable;
 use Concepto\Sises\ApplicationBundle\Entity\Financiera\Entidad as EntidadFinanciera;
 use Concepto\Sises\ApplicationBundle\Entity\Personal\AbstractPersonal;
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping\Column;
 use Doctrine\ORM\Mapping\Entity;
@@ -75,6 +76,12 @@ class RecursoHumano extends AbstractPersonal
      * @Groups({"details"})
      */
     protected $servicios;
+
+    function __construct()
+    {
+        $this->servicios = new ArrayCollection();
+    }
+
 
     /**
      * @return CargoOperativo
