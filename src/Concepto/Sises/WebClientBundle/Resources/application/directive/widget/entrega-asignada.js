@@ -13,8 +13,8 @@
 
     angular.module(G.APP)
         .directive('sisesEntregaAsignada', [
-            'RestResources',
-            function(RR) {
+            'RestResources', '$http',
+            function(RR, $http) {
                 return {
                     restrict: 'A',
                     replace: true,
@@ -23,8 +23,10 @@
                         entrega: '=sisesEntregaAsignada'
                     },
                     link: function(scope) {
-                        scope.asignaciones = RR.coordinador_entrega.query({
-                            parent: scope.entrega
+                        $http.get(G.route('get_asignacion_detalles', {
+                            id: scope.entrega
+                        })).success(function(data) {
+                            scope.asignaciones = data;
                         });
                     }
                 };

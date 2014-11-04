@@ -37,4 +37,9 @@ class AsignacionController extends RestController
         $parameters = $request->request->all();
         return $this->getHandler()->realizaEntrega($parameters);
     }
+
+    public function getDetallesAction($id)
+    {
+        return $this->getHandler()->getDetalles($id);
+    }
 }

@@ -119,6 +119,24 @@ class EntregaAsignacionRestHandler extends RestHandler
         return View::create($form)->setStatusCode(Codes::HTTP_BAD_REQUEST);
     }
 
+    public function getDetalles($id)
+    {
+        /** @var EntregaBeneficio $entrega */
+        $result = $this->getEm()
+            ->getRepository('SisesApplicationBundle:Entrega\EntregaAsignacion')
+            ->findBy(array('entrega' => $id));
+
+        $fields = array(
+            'Concepto\Sises\ApplicationBundle\Entity\Entrega\EntregaAsignacion' => array('realizadas')
+        );
+
+        $context = SerializationContext::create();
+        $context->enableMaxDepthChecks();
+        $context->addExclusionStrategy(new ListExclusionStrategy($fields));
+
+        return View::create($result)->setSerializationContext($context);
+    }
+
     protected function getTypeClassString()
     {
         return '';
