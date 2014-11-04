@@ -43,6 +43,10 @@
                         scope.detalles = [];
                     };
 
+                    scope.puedeCierre = function puedeCierre() {
+                        return !(scope.element.estado && scope.element.estado === 'pendiente');
+                    };
+
                     scope.okCierre = function okCierre() {
                         var servicios = [];
 
