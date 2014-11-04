@@ -31,7 +31,6 @@
         scope.list = function() { scope.go('^.list'); };
 
         scope.details = function (id) {
-            console.log("Detalles", id);
             scope.refresh('^.update', {id: G.extractGuid(id)});
         };
 
@@ -91,6 +90,11 @@
             config.resource = config.prefix;
         }
 
+        // Controladores pordefecto
+        if (typeof config.controllers === 'undefined') {
+            config.controllers = {};
+        }
+
         // Si los estados no son definidos
         if (typeof config.states === 'undefined') {
             autoController = true;
@@ -126,36 +130,81 @@
         // Si se definen los estados por defecto se definen los controladores
         // por defecto
         if (autoController) {
+
+            var defaultsDeps = ['RestResources', '$scope'],
+                listCtrl = {},
+                newCtrl = {},
+                editCtrl = {};
+
+            if (config.controllers.list) {
+                listCtrl = config.controllers.list;
+                listCtrl.deps = listCtrl.deps ? defaultsDeps.concat(listCtrl.deps) : defaultsDeps;
+            } else {
+                listCtrl = { func: function(RR, scope) {}, deps: defaultsDeps};
+            }
+
+            if (config.controllers.edit) {
+                editCtrl = config.controllers.edit;
+                editCtrl.deps = editCtrl.deps ? defaultsDeps.concat(editCtrl.deps) : defaultsDeps;
+            } else {
+                editCtrl = { func: function(RR, scope) {}, deps: defaultsDeps};
+            }
+
+            if (config.controllers.new) {
+                newCtrl = config.controllers.new;
+                newCtrl.deps = newCtrl.deps ? defaultsDeps.concat(newCtrl.deps) : defaultsDeps;
+            } else {
+                newCtrl = { func: function(RR, scope) {}, deps: defaultsDeps};
+            }
+
             /**
              * {name}.ListController
              */
-            module.controller(name + '.ListController', [
-                'RestResources', '$scope',
-                function (RR, scope) {
+            module.controller(name + '.ListController', listCtrl.deps.slice().concat([
+                function () {
+                    var scopeIdx = listCtrl.deps.indexOf('$scope'),
+                        rrIdx = listCtrl.deps.indexOf('RestResources'),
+                        RR = arguments[rrIdx],
+                        scope = arguments[scopeIdx];
+
                     scope.elements = RR[config.resource].query();
                     BaseController.call(this, scope);
+                    listCtrl.func.apply(this, arguments);
                 }
-            ]);
+            ]));
+
             /**
              * {name}.NewController
              */
-            module.controller(name + '.NewController', [
-                'RestResources', '$scope',
-                function (RR, scope) {
+            module.controller(name + '.NewController', newCtrl.deps.slice().concat([
+                function () {
+                    var scopeIdx = newCtrl.deps.indexOf('$scope'),
+                        rrIdx = newCtrl.deps.indexOf('RestResources'),
+                        RR = arguments[rrIdx],
+                        scope = arguments[scopeIdx];
+
                     scope.element = new RR[config.resource]();
                     BaseController.call(this, scope);
+                    newCtrl.func.apply(this, arguments);
                 }
-            ]);
+            ]));
+
             /**
              * {name}.UpdateController
              */
-            module.controller(name+ '.UpdateController', [
-                'RestResources', '$scope',
-                function(RR, scope) {
+            module.controller(name+ '.UpdateController', editCtrl.deps.slice().concat([
+                function() {
+
+                    var scopeIdx = editCtrl.deps.indexOf('$scope'),
+                        rrIdx = editCtrl.deps.indexOf('RestResources'),
+                        RR = arguments[rrIdx],
+                        scope = arguments[scopeIdx];
+
                     scope.element = RR[config.resource].get({id: scope.routeParams.id});
                     BaseController.call(this, scope);
+                    editCtrl.func.apply(this, arguments);
                 }
-            ]);
+            ]));
         }
 
         /**
