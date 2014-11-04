@@ -17,6 +17,7 @@ use Doctrine\ORM\Mapping\GeneratedValue;
 use Doctrine\ORM\Mapping\Id;
 use Doctrine\ORM\Mapping\ManyToOne;
 use Doctrine\ORM\Mapping\Table;
+use JMS\Serializer\Annotation\Groups;
 
 /**
  * Class Municipio
@@ -30,6 +31,7 @@ class Municipio {
      * @Id()
      * @GeneratedValue(strategy="UUID")
      * @Column(name="id", length=36)
+     * @Groups("list")
      */
     protected $id;
 
@@ -42,6 +44,7 @@ class Municipio {
     /**
      * @var string
      * @Column(name="nombre", length=255, nullable=false)
+     * @Groups({"list"})
      */
     protected $nombre;
 
