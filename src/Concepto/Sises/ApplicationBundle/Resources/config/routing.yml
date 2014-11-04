@@ -66,3 +66,7 @@ coordinador_entrega:
     type: rest
     prefix: /api
     resource: @SisesApplicationBundle/Controller/Entrega/AsignacionController.php
+entrega_operacion:
+    type: rest
+    prefix: /api
+    resource: @SisesApplicationBundle/Controller/Entrega/OperacionController.php
