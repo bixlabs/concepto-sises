@@ -73,9 +73,7 @@
                             id: scope.element.id,
                             servicios: servicios
                         }).success(function() {
-                            console.log("OK");
-                        }).error(function() {
-                            console.log("ERROR");
+                            scope.details(scope.element.id);
                         })
                     };
                 }
