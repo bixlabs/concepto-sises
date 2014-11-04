@@ -68,13 +68,15 @@ class EntregaAsignacion
 
     /**
      * @var bool
-     * @Column(name="is_manual", type="boolean", nullable=true)
+     * @Column(name="is_manual", type="boolean", nullable=false)
+     * @Groups({"list", "details"})
      */
     protected $isCierreManual;
 
     function __construct()
     {
         $this->realizadas = new ArrayCollection();
+        $this->isCierreManual = false;
     }
 
     /**
