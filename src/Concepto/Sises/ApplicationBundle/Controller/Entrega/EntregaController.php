@@ -27,4 +27,8 @@ class EntregaController extends RestController
     {
         return $this->getHandler()->getCalcular($id);
     }
+    public function getCalcularDetalleAction($id)
+    {
+        return $this->getHandler()->getCalcularDetalle($id);
+    }
 }

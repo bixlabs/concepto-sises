@@ -28,7 +28,16 @@ class EntregaRestHandler extends RestHandler
             ->getRepository('SisesApplicationBundle:Entrega\EntregaBeneficioDetalle')
             ->calcular($id);
 
-        return View::create($results);
+        return View::create(array('results' => $results));
+    }
+
+    public function getCalcularDetalle($id)
+    {
+        $results = $this->getEm()
+            ->getRepository('SisesApplicationBundle:Entrega\EntregaBeneficioDetalle')
+            ->calcularDetalle($id);
+
+        return View::create(array('results' => $results));
     }
 
     protected function getTypeClassString()
