@@ -18,11 +18,20 @@
         label: 'Entregas',
         controllers: {
             edit: {
-                func: function(RR, scope) {
+                deps: ['$http'],
+                func: function(RR, scope, $http) {
                     scope.detalles = [];
+                    scope.detalles_cierre = {};
                     scope.calcular = function calcular() {
                         RR.admin_entrega_calcular.get({id: scope.element.id}, function(data) {
                             scope.detalles = data.results;
+                            scope.detalles_cierre = {};
+                            angular.forEach(data.results, function(item) {
+                                scope.detalles_cierre[item.id] = {
+                                    id: item.id,
+                                    cantidad: item.total
+                                };
+                            });
                         });
                     };
 
@@ -32,7 +41,24 @@
 
                     scope.cancelarCierre = function cancelarCierre() {
                         scope.detalles = [];
-                    }
+                    };
+
+                    scope.okCierre = function okCierre() {
+                        var servicios = [];
+
+                        angular.forEach(scope.detalles_cierre, function(servicio) {
+                            servicios.push(servicio);
+                        });
+
+                        $http.put(G.route('put_entrega_cierre'), {
+                            id: scope.element.id,
+                            servicios: servicios
+                        }).success(function() {
+                            console.log("OK");
+                        }).error(function() {
+                            console.log("ERROR");
+                        })
+                    };
                 }
             }
         }

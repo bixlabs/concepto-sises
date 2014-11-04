@@ -79,7 +79,7 @@ class Entrega
     /**
      * @var string
      * @Column(name="estado", length=100, nullable=false)
-     * @Groups({"list"})
+     * @Groups({"list", "details"})
      */
     protected $estado;
 

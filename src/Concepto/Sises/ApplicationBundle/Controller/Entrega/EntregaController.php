@@ -11,8 +11,8 @@ namespace Concepto\Sises\ApplicationBundle\Controller\Entrega;
 
 use Concepto\Sises\ApplicationBundle\Controller\RestController;
 use Concepto\Sises\ApplicationBundle\Handler\Entrega\EntregaRestHandler;
-use Concepto\Sises\ApplicationBundle\Handler\RestHandlerInterface;
 use JMS\DiExtraBundle\Annotation\LookupMethod;
+use Symfony\Component\HttpFoundation\Request;
 
 class EntregaController extends RestController
 {
@@ -27,8 +27,14 @@ class EntregaController extends RestController
     {
         return $this->getHandler()->getCalcular($id);
     }
+
     public function getCalcularDetalleAction($id)
     {
         return $this->getHandler()->getCalcularDetalle($id);
+    }
+
+    public function putCierreAction(Request $request)
+    {
+        return $this->getHandler()->realizarCierre($request->request->all());
     }
 }

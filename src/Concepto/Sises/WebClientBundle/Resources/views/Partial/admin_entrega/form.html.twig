@@ -25,6 +25,8 @@
                      data-label="'Dias de gracia'"
                      data-required="true">
                 </div>
+                <div data-sises-form-static="element.estado"
+                        data-label="'Estado'"></div>
             </fieldset>
         </div>
         <div class="col-lg-7">
@@ -54,7 +56,7 @@
                         <td data-ng-bind="detalle.nombre"></td>
                         <td data-ng-bind="detalle.total"></td>
                         <td>
-                            <input type="text"/>
+                            <input type="text" data-ng-model="detalles_cierre[detalle.id].cantidad"/>
                         </td>
                     </tr>
                 </tbody>
