@@ -39,7 +39,7 @@
     </div>
 </div>
 
-<div class="row" data-ng-if="hasCierre()">
+<div class="row" data-ng-if="detalles.length > 0">
     <div class="col-lg-7 col-lg-offset-5">
         <fieldset>
             <legend>Detalle cierre</legend>
@@ -47,7 +47,7 @@
                 <thead>
                     <tr>
                         <th>Servicio</th>
-                        <th>Entregado</th>
+                        <th>Entregado (coordinadores)</th>
                         <th>Entregado (en cierre)</th>
                     </tr>
                 </thead>
@@ -56,7 +56,11 @@
                         <td data-ng-bind="detalle.nombre"></td>
                         <td data-ng-bind="detalle.total"></td>
                         <td>
-                            <input type="text" data-ng-model="detalles_cierre[detalle.id].cantidad"/>
+                            <span data-ng-if="!estaPendiente()"
+                                  data-ng-bind="detalle.cantidad"></span>
+                            <input type="text"
+                                   data-ng-if="estaPendiente()"
+                                   data-ng-model="detalles_cierre[detalle.id].cantidad"/>
                         </td>
                     </tr>
                 </tbody>

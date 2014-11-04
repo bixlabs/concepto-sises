@@ -37,4 +37,9 @@ class EntregaController extends RestController
     {
         return $this->getHandler()->realizarCierre($request->request->all());
     }
+
+    public function getDetallesAction($id)
+    {
+        return $this->getHandler()->getDetalles($id);
+    }
 }

@@ -36,16 +36,26 @@
                     };
 
                     scope.hasCierre = function hasCierre() {
-                        return scope.detalles.length > 0;
+                        return scope.detalles.length > 0 && scope.element.estado === 'pendiente';
                     };
 
                     scope.cancelarCierre = function cancelarCierre() {
                         scope.detalles = [];
                     };
 
-                    scope.puedeCierre = function puedeCierre() {
-                        return !(scope.element.estado && scope.element.estado === 'pendiente');
+                    scope.estaPendiente = function estaPendiente() {
+                        return (scope.element.estado && scope.element.estado === 'pendiente');
                     };
+
+                    scope.$watch('element.estado', function(val) {
+                        if (val && val === 'finalizada') {
+                            $http.get(G.route('get_entrega_detalles', {
+                                id: scope.element.id
+                            })).success(function(data) {
+                                scope.detalles = data;
+                            });
+                        }
+                    });
 
                     scope.okCierre = function okCierre() {
                         var servicios = [];

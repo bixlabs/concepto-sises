@@ -14,12 +14,15 @@ namespace Concepto\Sises\ApplicationBundle\Entity\Entrega;
 
 use Concepto\Sises\ApplicationBundle\Entity\Contrato;
 use Concepto\Sises\ApplicationBundle\Validator\Constraints\EntregaNotOverlayDates;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping\Column;
 use Doctrine\ORM\Mapping\Entity;
 use Doctrine\ORM\Mapping\GeneratedValue;
 use Doctrine\ORM\Mapping\Id;
 use Doctrine\ORM\Mapping\JoinColumn;
 use Doctrine\ORM\Mapping\ManyToOne;
+use Doctrine\ORM\Mapping\OneToMany;
 use Doctrine\ORM\Mapping\Table;
 use JMS\Serializer\Annotation\Groups;
 use JMS\Serializer\Annotation\MaxDepth;
@@ -53,7 +56,7 @@ class Entrega
      * @var \DateTime
      * @Column(name="fecha_inicio", type="datetime")
      * @NotNull()
-     * @Groups({"details"})
+     * @Groups({"list", "details"})
      * @SerializedName("fechaInicio")
      */
     protected $fechaInicio;
@@ -62,7 +65,7 @@ class Entrega
      * @var \DateTime
      * @Column(name="fecha_cierre", type="datetime")
      * @NotNull()
-     * @Groups({"details"})
+     * @Groups({"list", "details"})
      * @SerializedName("fechaCierre")
      */
     protected $fechaCierre;
@@ -93,9 +96,16 @@ class Entrega
      */
     protected $contrato;
 
+    /**
+     * @var Collection
+     * @OneToMany(targetEntity="Concepto\Sises\ApplicationBundle\Entity\Entrega\EntregaDetalle", mappedBy="entrega")
+     */
+    protected $detalles;
+
     function __construct()
     {
         $this->estado = self::OPEN;
+        $this->detalles = new ArrayCollection();
     }
 
 
@@ -226,5 +236,21 @@ class Entrega
     public function getContratoId()
     {
         return $this->getContrato()->getId();
+    }
+
+    /**
+     * @return Collection
+     */
+    public function getDetalles()
+    {
+        return $this->detalles;
+    }
+
+    /**
+     * @param Collection $detalles
+     */
+    public function setDetalles($detalles)
+    {
+        $this->detalles = $detalles;
     }
 }

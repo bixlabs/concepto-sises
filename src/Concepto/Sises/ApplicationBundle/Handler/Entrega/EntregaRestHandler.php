@@ -87,6 +87,18 @@ class EntregaRestHandler extends RestHandler
         return View::create($form)->setStatusCode(Codes::HTTP_BAD_REQUEST);
     }
 
+    public function getDetalles($id)
+    {
+        /** @var Entrega $entrega */
+        $entrega = $this->get($id);
+
+        if (!$entrega) {
+            throw new NotFoundHttpException("La entrega {$id} no existe");
+        }
+
+        return View::create($entrega->getDetalles());
+    }
+
     protected function getTypeClassString()
     {
         return 'Concepto\Sises\ApplicationBundle\Form\Entrega\EntregaType';

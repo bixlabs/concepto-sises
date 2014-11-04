@@ -13,6 +13,10 @@ namespace Concepto\Sises\ApplicationBundle\Entity\Entrega;
 
 use Concepto\Sises\ApplicationBundle\Entity\ServicioContratado;
 use Doctrine\ORM\Mapping as ORM;
+use JMS\Serializer\Annotation\Exclude;
+use JMS\Serializer\Annotation\MaxDepth;
+use JMS\Serializer\Annotation\SerializedName;
+use JMS\Serializer\Annotation\VirtualProperty;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
@@ -33,8 +37,9 @@ class EntregaDetalle
 
     /**
      * @var Entrega
-     * @ORM\ManyToOne(targetEntity="Concepto\Sises\ApplicationBundle\Entity\Entrega\Entrega")
+     * @ORM\ManyToOne(targetEntity="Concepto\Sises\ApplicationBundle\Entity\Entrega\Entrega", inversedBy="detalles")
      * @Assert\NotNull()
+     * @Exclude()
      */
     protected $entrega;
 
@@ -42,6 +47,8 @@ class EntregaDetalle
      * @var ServicioContratado
      * @ORM\ManyToOne(targetEntity="Concepto\Sises\ApplicationBundle\Entity\ServicioContratado")
      * @Assert\NotNull()
+     * @MaxDepth(depth=1)
+     * @Exclude()
      */
     protected $servicio;
 
@@ -105,5 +112,15 @@ class EntregaDetalle
     public function setServicio($servicio)
     {
         $this->servicio = $servicio;
+    }
+
+    /**
+     * @return string
+     * @VirtualProperty()
+     * @SerializedName("nombre")
+     */
+    public function getServicioNombre()
+    {
+        return $this->getServicio()->getNombre();
     }
 } 
