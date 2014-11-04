@@ -36,6 +36,11 @@
                     };
 
                     scope.hasCierre = function hasCierre() {
+
+                        if (!scope.detalles) {
+                            return false;
+                        }
+
                         return scope.detalles.length > 0 && scope.element.estado === 'pendiente';
                     };
 

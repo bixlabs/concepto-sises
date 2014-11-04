@@ -18,8 +18,31 @@ class EntregaBeneficioDetalleRepository extends EntityRepository
 {
     public function calcular($entregaId, $estado = true)
     {
-        return $this->baseCalcular($entregaId, $estado)
-            ->getQuery()->execute();
+        $completeResults = $this
+            ->getEntityManager()->getRepository('SisesApplicationBundle:Entrega\EntregaAsignacion')
+            ->createQueryBuilder('ea')
+            ->select('s.id','s.nombre', '0 as total')
+            ->leftJoin('ea.entrega', 'e')
+            ->leftJoin('ea.asignacion', 'a')
+            ->leftJoin('a.servicio', 's')
+            ->andWhere('e = :id')
+            ->setParameters(array(
+                'id' => $entregaId
+            ))->getQuery()->execute();
+
+        $completeIndexed = array();
+
+        foreach ($completeResults as $completeResult) {
+            $completeIndexed[$completeResult['id']] = $completeResult;
+        }
+
+        $results = $this->baseCalcular($entregaId, $estado)->getQuery()->execute();
+
+        foreach ($results as $result) {
+            $completeIndexed[$result['id']] = $result;
+        }
+
+        return array_values($completeIndexed);
     }
 
     public function calcularDetalle($entregaId, $estado = true)
