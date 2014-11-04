@@ -9,7 +9,9 @@
 namespace Concepto\Sises\ApplicationBundle\Handler\Entrega;
 
 
+use Concepto\Sises\ApplicationBundle\Entity\Entrega\Entrega;
 use Concepto\Sises\ApplicationBundle\Handler\RestHandler;
+use FOS\RestBundle\View\View;
 use JMS\DiExtraBundle\Annotation\Service;
 
 /**
@@ -19,6 +21,15 @@ use JMS\DiExtraBundle\Annotation\Service;
  */
 class EntregaRestHandler extends RestHandler
 {
+
+    public function getCalcular($id)
+    {
+        $results = $this->getEm()
+            ->getRepository('SisesApplicationBundle:Entrega\EntregaBeneficioDetalle')
+            ->calcular($id);
+
+        return View::create($results);
+    }
 
     protected function getTypeClassString()
     {
