@@ -100,6 +100,16 @@
                 return !guardar;
             };
 
+            scope.getEstado = function getEstado() {
+
+                if (scope.seleccion && scope.seleccion.asignacion) {
+                    /** @namespace scope.seleccion.asignacion.is_cierre_manual */
+                    return scope.seleccion.asignacion.is_cierre_manual ? "Cerrada" : "Pendiente";
+                }
+
+                return '';
+            };
+
             /**
              * Envia los datos de la entrega al servidor
              */
