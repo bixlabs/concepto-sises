@@ -14,6 +14,7 @@
         'DIRECTOR',
         'ADMIN_ENTREGA',
         'COORD_ENTREGA',
+        'LIQUIDACION',
         'ui.router',
         'localytics.directives',
         'plupload.directive',
