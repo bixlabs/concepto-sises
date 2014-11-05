@@ -57,6 +57,7 @@
                     } else {
                         scope.calendar.showingDate = m;
                     }
+                    scope.buildCalendar();
                 },
                 next: function _nextMonth() {
                     var m = moment(scope.calendar.showingDate).add(1, 'month');
@@ -65,6 +66,7 @@
                     } else {
                         scope.calendar.showingDate = m;
                     }
+                    scope.buildCalendar();
                 }
             };
 
@@ -123,6 +125,12 @@
                 });
             };
 
+            scope.hideDate = function hideDate() {
+                $form.fadeOut(function hideDate_fadeOut() {
+                    scope.seleccion.curDate = null;
+                });
+            };
+
             /**
              * Muestra la fecha para el formulario
              * @returns {*}
@@ -147,7 +155,13 @@
                     return;
                 }
 
-                scope.seleccion.curDate = angular.extend({}, scope.getCal(week, day));
+                var data = scope.getStore(week, day);
+
+
+                scope.seleccion.curDate = angular.extend(
+                    data ? {cantidad: data.cantidad}: {},
+                    scope.getCal(week, day)
+                );
 
                 // Calcula la esquina sup/izq de la fecha
                 var top = $event.target.offsetTop + $event.target.offsetParent.offsetTop,
