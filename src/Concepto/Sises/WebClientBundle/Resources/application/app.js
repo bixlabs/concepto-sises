@@ -57,4 +57,12 @@
             $r.modal = mS;
         }])
     ;
+
+    var setContent = function setContent() {
+        $('.main-app').css('padding-top', $('.navbar').height())
+    };
+
+    // Se asegura que el contenido siempre sea visible
+    $(window).resize(setContent);
+    setContent();
 })();
