@@ -67,7 +67,7 @@ class ServicioOperativo {
      * @var double
      * @Column(name="valor_unitario", type="decimal", precision=64, scale=2)
      * @NotBlank()
-     * @Groups({"list", "details"})
+     * @Groups({"details"})
      */
     protected $valorUnitario;
 
@@ -77,7 +77,7 @@ class ServicioOperativo {
      * @NotNull()
      * @JoinColumn(nullable=false)
      * @Groups({"list"})
-     * @MaxDepth(depth=1)
+     * @MaxDepth(depth=2)
      */
     protected $recursoHumano;
 

@@ -70,3 +70,7 @@ entrega_operacion:
     type: rest
     prefix: /api
     resource: @SisesApplicationBundle/Controller/Entrega/OperacionController.php
+servicio_operativo:
+    type: rest
+    prefix: /api/operativo
+    resource: @SisesApplicationBundle/Controller/Personal/ServicioController.php
