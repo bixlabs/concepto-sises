@@ -21,8 +21,7 @@ use Doctrine\ORM\Mapping\Id;
 use Doctrine\ORM\Mapping\ManyToOne;
 use Doctrine\ORM\Mapping\OneToMany;
 use Doctrine\ORM\Mapping\Table;
-use JMS\Serializer\Annotation\Exclude;
-use JMS\Serializer\Annotation\ExclusionPolicy;
+use IntlDateFormatter;
 use JMS\Serializer\Annotation\Groups;
 use JMS\Serializer\Annotation\MaxDepth;
 use JMS\Serializer\Annotation\SerializedName;
@@ -103,7 +102,14 @@ class EntregaAsignacion
     public function getNombreDetallado()
     {
         $asignacion = $this->getAsignacion();
-        return "{$asignacion->getServicio()->getNombre()} - {$asignacion->getLugar()->getNombreDetallado()}";
+        $entrega = $this->getEntrega();
+
+        $formatter = new IntlDateFormatter('es_CO', IntlDateFormatter::SHORT, IntlDateFormatter::SHORT);
+        $formatter->setPattern('dd MMM Y');
+
+        $fecha = "{$formatter->format($entrega->getFechaInicio())} - {$formatter->format($entrega->getFechaCierre())}";
+
+        return "{$asignacion->getServicio()->getNombre()} - {$asignacion->getLugar()->getNombreDetallado()}, {$fecha}";
     }
 
     /**
