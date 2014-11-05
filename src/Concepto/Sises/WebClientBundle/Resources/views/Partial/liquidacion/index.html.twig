@@ -1,6 +1,6 @@
 <div class="row">
     <div class="col-lg-7">
-        <h2>Liquidación de horas y servicios contratados</h2>
+        <h2>Liquidación de horas y servicios</h2>
     </div>
     <div class="col-lg-5">
         <div class="actions pull-right">
@@ -22,10 +22,9 @@
                      data-options-key="id"
                      data-options-label="nombre_detallado"></div>
 
-                <div data-sises-form-select="entrega_id"
+                <div data-sises-form-select="entrega"
                      data-label="'Entrega'"
                      data-options="'admin_entrega'"
-                     data-options-key="id"
                      data-options-label="nombre_detallado"></div>
                 <div class="row">
                     <div class="col-lg-8 col-lg-offset-4">
@@ -37,5 +36,61 @@
 
             </div>
         </fieldset>
+    </div>
+    <div class="col-lg-7">
+        <fieldset>
+            <legend data-ng-bind="seleccion.servicio.nombre_detallado"></legend>
+            <div class="s-calendar">
+                <div class="row s-calendar-header">
+                    <div class="col-lg-4">
+                        <div class="btn-group">
+                            <button type="button" class="btn btn-default" data-ng-click="calendar.prev()">
+                                <i class="glyphicon glyphicon-chevron-left"></i>
+                            </button>
+                            <button type="button" class="btn btn-default" data-ng-click="calendar.next()">
+                                <i class="glyphicon glyphicon-chevron-right"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="col-lg-4">
+                        <p class="title" data-ng-bind="calendar.month + ' ' + calendar.year"></p>
+                    </div>
+                </div>
+                <div class="s-calendar-body">
+                    <div class="s-week">
+                        <div data-ng-repeat="day in calendar.dayTitle" class="s-day">
+                            <span class="s-day-header" data-ng-bind="day"></span>
+                        </div>
+                    </div>
+                    <div data-ng-repeat="week in calendar.weeks" class="s-week">
+                        <div data-ng-repeat="day in calendar.days" class="s-day">
+                            <div data-ng-if="getCal(week, day).currentMonth"
+                                 data-ng-click="openDate(week, day, $event)"
+                                 class="s-day-cell has-form">
+                                {# Muestra el dia #}
+                                <span class="s-day-month"
+                                      data-ng-bind="getCal(week, day).display"></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </fieldset>
+    </div>
+
+    {# Muestra el formulario del dia #}
+    <div class="form-single">
+        <div class="form-group">
+            <label for="cantidad_" data-ng-bind="showCurDate()"></label>
+            <div class="input-group">
+                <input type="text"
+                       class="form-control" id="cantidad_">
+            <span class="input-group-btn">
+                <button class="btn btn-primary" type="button" data-ng-click="saveDate()">
+                    <i class="glyphicon glyphicon-save"></i>
+                </button>
+            </span>
+            </div>
+        </div>
     </div>
 </div>

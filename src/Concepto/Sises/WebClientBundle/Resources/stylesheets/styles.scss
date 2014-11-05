@@ -92,3 +92,13 @@ body {
     height: inherit;
   }
 }
+
+.form-single {
+  width: 20%;
+  border-radius: 5px;
+  background: white;
+  padding: 10px;
+  border: 1px solid #ccc;
+  display: none;
+  position: absolute;
+}
