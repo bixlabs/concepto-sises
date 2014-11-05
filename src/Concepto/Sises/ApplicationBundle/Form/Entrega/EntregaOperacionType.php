@@ -15,6 +15,7 @@ class EntregaOperacionType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
+            ->add('id')
             ->add('cantidad')
             ->add('fechaEntrega', 'date', array(
                 'input'  => 'datetime',

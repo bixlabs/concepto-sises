@@ -16,6 +16,7 @@ use Concepto\Sises\ApplicationBundle\Entity\ServicioOperativo;
 use Doctrine\ORM\Mapping as  ORM;
 use JMS\Serializer\Annotation\Groups;
 use JMS\Serializer\Annotation\SerializedName;
+use JMS\Serializer\Annotation\VirtualProperty;
 use Symfony\Component\Validator\Constraints as Assert;
 
 
@@ -46,6 +47,7 @@ class EntregaOperacion {
     /**
      * @var int
      * @ORM\Column(type="integer", nullable=false)
+     * @Groups({"details", "list"})
      */
     protected $cantidad = 0;
 
@@ -64,6 +66,17 @@ class EntregaOperacion {
     public function getServicio()
     {
         return $this->servicio;
+    }
+
+    /**
+     * @return string
+     * @VirtualProperty()
+     * @SerializedName("servicio")
+     * @Groups({"list"})
+     */
+    public function getServicioId()
+    {
+        return $this->getServicio()->getId();
     }
 
     /**
@@ -112,5 +125,13 @@ class EntregaOperacion {
     public function setFechaEntrega($fechaEntrega)
     {
         $this->fechaEntrega = $fechaEntrega;
+    }
+
+    /**
+     * @param string $id
+     */
+    public function setId($id)
+    {
+        $this->id = $id;
     }
 } 

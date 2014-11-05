@@ -30,8 +30,11 @@
         function(RR, scope, $http) {
             var $form = $('.form-single');
 
+            scope.servicios = RR.serv_operativo.query();
+
             // Otros campos
             scope.seleccion = {
+                servicio: null,
                 servicio_id: null,
                 entrega: null,
                 curDate: null,
@@ -113,12 +116,23 @@
             scope.saveDate = function saveDate() {
                 $form.fadeOut(function saveData_fadeOut() {
                     scope.$apply(function saveData_apply() {
-                        var storeId = scope.seleccion.curDate.date.format('ww-E');
-                        scope.seleccion.servicios[storeId] = {
-                            servicio: scope.seleccion.servicio_id,
-                            cantidad: scope.seleccion.curDate.cantidad,
-                            fechaEntrega: scope.seleccion.curDate.date.format('YYYY-MM-DDTHH:mm:ssZZ')
-                        };
+                        var storeId = scope.seleccion.curDate.date.format('ww-E'),
+                            store = scope.seleccion.servicios[storeId];
+
+                        if (store) {
+                            scope.seleccion.servicios[storeId] = {
+                                id: store.id,
+                                servicio: scope.seleccion.servicio_id,
+                                cantidad: scope.seleccion.curDate.cantidad,
+                                fechaEntrega: scope.seleccion.curDate.date.format('YYYY-MM-DDTHH:mm:ssZZ')
+                            };
+                        } else {
+                            scope.seleccion.servicios[storeId] = {
+                                servicio: scope.seleccion.servicio_id,
+                                cantidad: scope.seleccion.curDate.cantidad,
+                                fechaEntrega: scope.seleccion.curDate.date.format('YYYY-MM-DDTHH:mm:ssZZ')
+                            };
+                        }
 
                         scope.seleccion.curDate = null;
                     });
@@ -137,6 +151,8 @@
                     id: scope.seleccion.servicio_id
                 }), {
                     liquidaciones: servicios
+                }).success(function() {
+                    scope.servicios = RR.serv_operativo.query();
                 });
             };
 
@@ -173,8 +189,12 @@
                     return;
                 }
 
-                var data = scope.getStore(week, day);
+                var data = scope.getStore(week, day),
+                    info = scope.getCal(week, day);
 
+                if (!info.inRange) {
+                    return;
+                }
 
                 scope.seleccion.curDate = angular.extend(
                     data ? {cantidad: data.cantidad}: {},
@@ -196,6 +216,20 @@
                     left: left + w - f_w});
                 $form.fadeIn();
             };
+
+            scope.$watch('seleccion.servicio', function(s) {
+                if (s) {
+                    scope.seleccion.servicio_id = s.id;
+
+                    scope.seleccion.servicios = {};
+
+                    angular.forEach(s.liquidaciones, function(l) {
+                        var m = moment(l.fechaEntrega);
+                        scope.seleccion.servicios[m.format('ww-E')] = l;
+                    })
+
+                }
+            });
 
             // Actualiza los datos necesario para construir el calendario
             scope.$watch('seleccion.entrega', function(entrega) {
@@ -278,7 +312,7 @@
 
                     scope.calendar.dates[week + '-' + day] = {
                         currentMonth: looper.format('M') === month,
-                        //inRange: range !== null ? range.contains(looper.toDate()): false,
+                        inRange: scope.calendar.range !== null ? scope.calendar.range.contains(looper.toDate()): false,
                         date: moment(looper),
                         display: looper.format('D')
                     };

@@ -93,6 +93,8 @@ body {
   }
 }
 
+$calendar-enable-color: rgb(66, 139, 202);
+
 .form-single {
   width: 20%;
   border-radius: 5px;
@@ -101,9 +103,13 @@ body {
   border: 1px solid #ccc;
   display: none;
   position: absolute;
+
+  .in-range {
+    background: transparentize($calendar-enable-color, 0.6);
+  }
 }
 
-$calendar-enable-color: rgb(66, 139, 202);
+
 
 .has-form {
   cursor: pointer;

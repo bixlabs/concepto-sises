@@ -12,6 +12,8 @@
 namespace Concepto\Sises\ApplicationBundle\Handler\Personal;
 
 
+use Concepto\Sises\ApplicationBundle\Entity\Entrega\EntregaOperacion;
+use Concepto\Sises\ApplicationBundle\Entity\ServicioOperativo;
 use Concepto\Sises\ApplicationBundle\Handler\RestHandler;
 use Concepto\Sises\ApplicationBundle\Model\Form\LiquidacionType;
 use Concepto\Sises\ApplicationBundle\Model\Liquidacion;
@@ -28,22 +30,43 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
  */
 class ServicioRestHandler extends RestHandler
 {
+    /**
+     * @param Request $request
+     * @param $id
+     * @return View
+     */
     public function liquidacion(Request $request, $id)
     {
+        /** @var ServicioOperativo $servicio */
         $servicio = $this->get($id);
-
 
         if (!$servicio) {
             throw new NotFoundHttpException("No existe el servicio '{$id}'");
         }
 
         $liquidacion = new Liquidacion();
+        $olds = array();
+
+        if ($servicio) {
+            foreach($servicio->getLiquidaciones() as $l) {
+                $olds[$l->getId()] = $l;
+            }
+        }
+
         $form = $this->getFormfactory()->create(new LiquidacionType(), $liquidacion);
         $form->submit($request->request->all());
 
         if ($form->isValid()) {
+            /** @var EntregaOperacion $entregaOperativo */
+            /** @var EntregaOperacion $l */
             foreach($liquidacion->getLiquidaciones() as $entregaOperativo) {
-                $this->getEm()->persist($entregaOperativo);
+                if (isset($olds[$entregaOperativo->getId()])) {
+                    $l = $olds[$entregaOperativo->getId()];
+                    $l->setCantidad($entregaOperativo->getCantidad());
+                    $this->getEm()->persist($l);
+                } else {
+                    $this->getEm()->persist($entregaOperativo);
+                }
             }
 
             $this->getEm()->flush();

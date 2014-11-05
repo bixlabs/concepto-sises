@@ -86,7 +86,7 @@ class ServicioOperativo {
     /**
      * @var Collection
      * @OneToMany(targetEntity="Concepto\Sises\ApplicationBundle\Entity\Entrega\EntregaOperacion", mappedBy="servicio")
-     * @Groups({"details"})
+     * @Groups({"details", "list"})
      */
     protected $liquidaciones;
 

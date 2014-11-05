@@ -16,10 +16,9 @@
         <fieldset>
             <legend>Recurso humano</legend>
             <div data-sises-form="seleccion">
-                <div data-sises-form-select="servicio_id"
+                <div data-sises-form-select="servicio"
                      data-label="'Servicios'"
-                     data-options="'serv_operativo'"
-                     data-options-key="id"
+                     data-options="servicios"
                      data-options-label="nombre_detallado"></div>
 
                 <div data-sises-form-select="entrega"
@@ -68,7 +67,7 @@
                         <div data-ng-repeat="day in calendar.days" class="s-day">
                             <div data-ng-if="getCal(week, day).currentMonth"
                                  data-ng-click="openDate(week, day, $event)"
-                                 class="s-day-cell has-form">
+                                 class="s-day-cell has-form" data-ng-class="{'in-range': getCal(week, day).inRange}">
                                 {# Muestra el dia #}
                                 <span class="s-day-month"
                                       data-ng-bind="getCal(week, day).display + displayStore(week, day)"></span>
