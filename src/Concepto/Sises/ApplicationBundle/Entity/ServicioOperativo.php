@@ -59,7 +59,6 @@ class ServicioOperativo {
      * @var LugarEntrega
      * @ManyToOne(targetEntity="Concepto\Sises\ApplicationBundle\Entity\LugarEntrega")
      * @NotNull()
-     * @Groups({"list"})
      */
     protected $lugar;
 
@@ -76,7 +75,7 @@ class ServicioOperativo {
      * @ManyToOne(targetEntity="Concepto\Sises\ApplicationBundle\Entity\RecursoHumano", fetch="LAZY", inversedBy="servicios")
      * @NotNull()
      * @JoinColumn(nullable=false)
-     * @Groups({"list"})
+     * @Groups({"details"})
      * @MaxDepth(depth=2)
      */
     protected $recursoHumano;
@@ -180,5 +179,30 @@ class ServicioOperativo {
         }
 
         return null;
+    }
+
+    /**
+     * @return string
+     * @VirtualProperty()
+     * @SerializedName("nombre_detallado")
+     * @Groups({"list"})
+     */
+    public function getNombreDetallado()
+    {
+        return "{$this->getNombre()} - {$this->getRecursoHumano()->getPersona()->getNombreCompleto()}, {$this->getLugar()->getNombreDetallado()}";
+    }
+
+    /**
+     * @return array
+     * @VirtualProperty()
+     * @SerializedName("rh")
+     * @Groups({"list"})
+     */
+    public function getRH()
+    {
+        return array(
+            'nombre' => $this->getRecursoHumano()->getPersona()->getNombreCompleto(),
+            'documento' => $this->getRecursoHumano()->getPersona()->getDocumento()
+        );
     }
 }
