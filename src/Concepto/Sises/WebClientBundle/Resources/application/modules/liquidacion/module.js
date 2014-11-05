@@ -125,6 +125,9 @@
                 });
             };
 
+            /**
+             * Oculta el formulario sin modificar
+             */
             scope.hideDate = function hideDate() {
                 $form.fadeOut(function hideDate_fadeOut() {
                     scope.seleccion.curDate = null;

@@ -102,3 +102,12 @@ body {
   display: none;
   position: absolute;
 }
+
+$calendar-enable-color: rgb(66, 139, 202);
+
+.has-form {
+  cursor: pointer;
+  &:hover {
+    background: transparentize($calendar-enable-color, 0.8);
+  }
+}
