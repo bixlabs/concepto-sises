@@ -30,17 +30,17 @@
         function(RR, scope) {
             var $form = $('.form-single');
 
-            scope.servicios = RR.serv_operativo.query();
-
+            // Otros campos
             scope.seleccion = {
                 servicio_id: null,
-                entrega_id: null,
                 entrega: null,
-                curDate: null
+                curDate: null,
+                servicios: []
             };
 
+            // Estructura del calendario
             scope.calendar = {
-                showingDate: moment(),
+                showingDate: null,
                 dates: {},
                 range: null,
                 month: null,
@@ -68,17 +68,65 @@
                 }
             };
 
+            /**
+             * Devuelve los datos de la fecha
+             * @param week
+             * @param day
+             * @returns {*}
+             */
             scope.getCal = function getCal(week, day) {
                 var m = scope.calendar.dates[week + '-' + day];
                 return m ? m : null;
             };
 
+            /**
+             * Devuelve el almacen para la fecha
+             * @param week
+             * @param day
+             * @returns {*}
+             */
+            scope.getStore = function getStore(week, day) {
+                return scope.seleccion.servicios[week + '-' + day];
+            };
+
+            /**
+             * Muestra la cantidad en el almacen
+             * @param week
+             * @param day
+             * @returns {string}
+             */
+            scope.displayStore = function displayStore(week, day) {
+                var store = scope.getStore(week, day);
+
+                if (store) {
+                    return " (" + store.cantidad + ")";
+                }
+
+                return '';
+            };
+
+            /**
+             * Almacena la informacion del formulario
+             */
             scope.saveDate = function saveDate() {
-                $form.fadeOut(function() {
-                    scope.seleccion.curDate = null;
+                $form.fadeOut(function saveData_fadeOut() {
+                    scope.$apply(function saveData_apply() {
+                        var storeId = scope.seleccion.curDate.date.format('ww-E');
+                        scope.seleccion.servicios[storeId] = {
+                            servicio: scope.seleccion.servicio_id,
+                            cantidad: scope.seleccion.curDate.cantidad,
+                            fechaEntrega: scope.seleccion.curDate.date.format('YYYY-MM-DDTHH:mm:ssZZ')
+                        };
+
+                        scope.seleccion.curDate = null;
+                    });
                 });
             };
 
+            /**
+             * Muestra la fecha para el formulario
+             * @returns {*}
+             */
             scope.showCurDate = function showCurDate() {
                 if (null !== scope.seleccion.curDate) {
                     return scope.seleccion.curDate.date.format('ll');
@@ -87,11 +135,12 @@
                 return null;
             };
 
-            scope.$watch('seleccion.curDate', function(val) {
-                console.log(val);
-            });
-
-
+            /**
+             * Muestra el formulario para la fecha espeficiada
+             * @param week
+             * @param day
+             * @param $event
+             */
             scope.openDate = function openDate(week, day, $event) {
 
                 if (scope.seleccion.curDate !== null) {
@@ -108,8 +157,6 @@
                     f_w = $form.width() / 2,
                     f_h = $form.height() / 2;
 
-                console.log($event);
-
                 // Mueve el formulario a la posicion de la fecha
                 $form.css({
                     position: 'absolute',
@@ -118,6 +165,7 @@
                 $form.fadeIn();
             };
 
+            // Actualiza los datos necesario para construir el calendario
             scope.$watch('seleccion.entrega', function(entrega) {
                 if (!entrega) {
                     return;
@@ -136,16 +184,35 @@
                 scope.calendar.end = endDate;
             });
 
-            scope.$watch('calendar.showingDate', buildCalendar);
+            scope.showCalendar = function _showCalendar() {
+                return scope.calendar.weeks.length > 0;
+            };
 
-            function buildCalendar(current) {
-                if (!current) {
+            scope.disableRefresh = function  disableRefresh() {
+                return !(scope.seleccion.servicio_id && scope.seleccion.entrega);
+            };
+
+            /**
+             * Inicializa el calendario
+             * @private
+             */
+            function _resetCalendar() {
+                scope.calendar.days = [];
+                scope.calendar.dayTitle = [];
+                scope.calendar.weeks = [];
+                scope.calendar.dates = [];
+            }
+
+            /**
+             * Construye el calendario
+             */
+            scope.buildCalendar = function _buildCalendar() {
+                if (!scope.calendar.showingDate) {
                     return; // No contruir ante null
                 }
 
-                var m = moment(current),
+                var m = moment(scope.calendar.showingDate),
                     month = m.format('M'),
-                    week, day, dayTitle,
                     startMonth = moment(m).startOf('month'),
                     endMonth = moment(m).endOf('month'),
                     looper = moment(startMonth);
@@ -155,10 +222,8 @@
                 // Define el año actual
                 scope.calendar.year = m.format('YYYY');
 
-                scope.calendar.days = [];
-                scope.calendar.dayTitle = [];
-                scope.calendar.weeks = [];
-                scope.calendar.dates = [];
+                // Inicializa los datos del calendario
+                _resetCalendar();
 
                 // Se asegura que se inicie siempre al principio de semana y al principio del dia
                 looper.startOf('week');
@@ -166,9 +231,9 @@
 
                 // Construye calendario
                 while (looper.isBefore(endMonth)) {
-                    week = looper.format('ww');
-                    day = looper.format('E');
-                    dayTitle = looper.format('dddd');
+                    var week = looper.format('ww');
+                    var day = looper.format('E');
+                    var dayTitle = looper.format('dddd');
 
                     if (scope.calendar.weeks.indexOf(week) === -1) {
                         scope.calendar.weeks.push(week);
@@ -188,7 +253,9 @@
 
                     looper.add(1, 'days');
                 }
-            }
+            };
+
+            _resetCalendar();
         }
     ]);
 })();

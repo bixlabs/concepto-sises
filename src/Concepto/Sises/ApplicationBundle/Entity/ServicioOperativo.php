@@ -12,12 +12,15 @@
 namespace Concepto\Sises\ApplicationBundle\Entity;
 
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping\Column;
 use Doctrine\ORM\Mapping\Entity;
 use Doctrine\ORM\Mapping\GeneratedValue;
 use Doctrine\ORM\Mapping\Id;
 use Doctrine\ORM\Mapping\JoinColumn;
 use Doctrine\ORM\Mapping\ManyToOne;
+use Doctrine\ORM\Mapping\OneToMany;
 use Doctrine\ORM\Mapping\Table;
 use Doctrine\ORM\Mapping\UniqueConstraint;
 use JMS\Serializer\Annotation\Groups;
@@ -79,6 +82,19 @@ class ServicioOperativo {
      * @MaxDepth(depth=2)
      */
     protected $recursoHumano;
+
+    /**
+     * @var Collection
+     * @OneToMany(targetEntity="Concepto\Sises\ApplicationBundle\Entity\Entrega\EntregaOperacion", mappedBy="servicio")
+     * @Groups({"details"})
+     */
+    protected $liquidaciones;
+
+    function __construct()
+    {
+        $this->liquidaciones = new ArrayCollection();
+    }
+
 
     /**
      * @return string
@@ -204,5 +220,21 @@ class ServicioOperativo {
             'nombre' => $this->getRecursoHumano()->getPersona()->getNombreCompleto(),
             'documento' => $this->getRecursoHumano()->getPersona()->getDocumento()
         );
+    }
+
+    /**
+     * @return Collection
+     */
+    public function getLiquidaciones()
+    {
+        return $this->liquidaciones;
+    }
+
+    /**
+     * @param Collection $liquidaciones
+     */
+    public function setLiquidaciones($liquidaciones)
+    {
+        $this->liquidaciones = $liquidaciones;
     }
 }

@@ -13,15 +13,21 @@ namespace Concepto\Sises\ApplicationBundle\Controller\Personal;
 
 
 use Concepto\Sises\ApplicationBundle\Controller\RestController;
-use Concepto\Sises\ApplicationBundle\Handler\RestHandlerInterface;
+use Concepto\Sises\ApplicationBundle\Handler\Personal\ServicioRestHandler;
 use JMS\DiExtraBundle\Annotation\LookupMethod;
+use Symfony\Component\HttpFoundation\Request;
 
 class ServicioController extends RestController
 {
 
     /**
-     * @return RestHandlerInterface
+     * @return ServicioRestHandler
      * @LookupMethod("concepto_sises_serv_operativo.handler")
      */
     public function getHandler() { }
+
+    public function postLiquidacionAction(Request $request, $id)
+    {
+        return $this->getHandler()->liquidacion($request, $id);
+    }
 }

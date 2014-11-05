@@ -3,7 +3,7 @@
         <h2>Liquidación de horas y servicios</h2>
     </div>
     <div class="col-lg-5">
-        <div class="actions pull-right">
+        <div class="actions pull-right" data-ng-if="showCalendar()">
             <button class="btn btn-primary" data-ng-click="guardar()" data-ng-disabled="puedeGuardar()">
                 <i class="glyphicon glyphicon-floppy-save"></i>
                 Guardar cambios
@@ -18,7 +18,7 @@
             <div data-sises-form="seleccion">
                 <div data-sises-form-select="servicio_id"
                      data-label="'Servicios'"
-                     data-options="servicios"
+                     data-options="'serv_operativo'"
                      data-options-key="id"
                      data-options-label="nombre_detallado"></div>
 
@@ -28,7 +28,9 @@
                      data-options-label="nombre_detallado"></div>
                 <div class="row">
                     <div class="col-lg-8 col-lg-offset-4">
-                        <button class="btn btn-default">
+                        <button class="btn btn-default"
+                                data-ng-click="buildCalendar()"
+                                data-ng-disabled="disableRefresh()">
                             <i class="glyphicon glyphicon-refresh"></i> Cargar
                         </button>
                     </div>
@@ -38,7 +40,7 @@
         </fieldset>
     </div>
     <div class="col-lg-7">
-        <fieldset>
+        <fieldset data-ng-if="showCalendar()">
             <legend data-ng-bind="seleccion.servicio.nombre_detallado"></legend>
             <div class="s-calendar">
                 <div class="row s-calendar-header">
@@ -69,7 +71,7 @@
                                  class="s-day-cell has-form">
                                 {# Muestra el dia #}
                                 <span class="s-day-month"
-                                      data-ng-bind="getCal(week, day).display"></span>
+                                      data-ng-bind="getCal(week, day).display + displayStore(week, day)"></span>
                             </div>
                         </div>
                     </div>
@@ -84,6 +86,7 @@
             <label for="cantidad_" data-ng-bind="showCurDate()"></label>
             <div class="input-group">
                 <input type="text"
+                       data-ng-model="seleccion.curDate.cantidad"
                        class="form-control" id="cantidad_">
             <span class="input-group-btn">
                 <button class="btn btn-primary" type="button" data-ng-click="saveDate()">

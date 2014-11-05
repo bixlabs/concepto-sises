@@ -38,7 +38,7 @@ class EntregaOperacion {
 
     /**
      * @var ServicioOperativo
-     * @ORM\ManyToOne(targetEntity="Concepto\Sises\ApplicationBundle\Entity\ServicioOperativo")
+     * @ORM\ManyToOne(targetEntity="Concepto\Sises\ApplicationBundle\Entity\ServicioOperativo", inversedBy="liquidaciones")
      * @Assert\NotNull()
      */
     protected $servicio;
