@@ -12,12 +12,13 @@
 namespace Concepto\Sises\ApplicationBundle\Handler\Personal;
 
 
-use Concepto\Sises\ApplicationBundle\Form\Entrega\EntregaOperacionType;
-use Concepto\Sises\ApplicationBundle\Form\ServicioOperativoType;
 use Concepto\Sises\ApplicationBundle\Handler\RestHandler;
+use Concepto\Sises\ApplicationBundle\Model\Form\LiquidacionType;
+use Concepto\Sises\ApplicationBundle\Model\Liquidacion;
 use FOS\RestBundle\Util\Codes;
 use FOS\RestBundle\View\View;
 use JMS\DiExtraBundle\Annotation\Service;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 /**
@@ -27,34 +28,30 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
  */
 class ServicioRestHandler extends RestHandler
 {
-    public function liquidacion($request, $id)
+    public function liquidacion(Request $request, $id)
     {
         $servicio = $this->get($id);
+
 
         if (!$servicio) {
             throw new NotFoundHttpException("No existe el servicio '{$id}'");
         }
 
-        $form = $this->getLiquidacionForm();
-        $form->submit($request);
+        $liquidacion = new Liquidacion();
+        $form = $this->getFormfactory()->create(new LiquidacionType(), $liquidacion);
+        $form->submit($request->request->all());
 
         if ($form->isValid()) {
-            $data = $form->getData();
+            foreach($liquidacion->getLiquidaciones() as $entregaOperativo) {
+                $this->getEm()->persist($entregaOperativo);
+            }
+
+            $this->getEm()->flush();
+
+            return View::create()->setStatusCode(Codes::HTTP_NO_CONTENT);
         }
 
         return View::create($form)->setStatusCode(Codes::HTTP_BAD_REQUEST);
-    }
-
-    /**
-     * @return \Symfony\Component\Form\Form
-     */
-    private function getLiquidacionForm()
-    {
-        return $this->getFormfactory()
-            ->createNamedBuilder('liquidacion', 'form', null)
-            ->add('liquidaciones', 'collection', array(
-                'type' => new EntregaOperacionType()
-            ))->getForm();
     }
 
     protected function getTypeClassString()

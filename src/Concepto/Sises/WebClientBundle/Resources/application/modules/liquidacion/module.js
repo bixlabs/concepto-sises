@@ -26,8 +26,8 @@
     });
 
     module.controller('LIIndex', [
-        'RestResources', '$scope',
-        function(RR, scope) {
+        'RestResources', '$scope', '$http',
+        function(RR, scope, $http) {
             var $form = $('.form-single');
 
             // Otros campos
@@ -35,7 +35,7 @@
                 servicio_id: null,
                 entrega: null,
                 curDate: null,
-                servicios: []
+                servicios: {}
             };
 
             // Estructura del calendario
@@ -122,6 +122,21 @@
 
                         scope.seleccion.curDate = null;
                     });
+                });
+            };
+
+            scope.guardar = function guardar() {
+                var servicios = [];
+
+                angular.forEach(scope.seleccion.servicios, function(s) {
+                    servicios.push(s);
+                });
+
+                window.SS = scope.seleccion;
+                $http.post(G.route('post_servicio_liquidacion', {
+                    id: scope.seleccion.servicio_id
+                }), {
+                    liquidaciones: servicios
                 });
             };
 

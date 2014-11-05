@@ -16,8 +16,13 @@ class EntregaOperacionType extends AbstractType
     {
         $builder
             ->add('cantidad')
-            ->add('fechaEntrega')
-            ->add('servicio')
+            ->add('fechaEntrega', 'date', array(
+                'input'  => 'datetime',
+                'widget' => 'single_text',
+            ))
+            ->add('servicio', 'entity_hidden', array(
+                'class' => 'Concepto\Sises\ApplicationBundle\Entity\ServicioOperativo'
+            ))
         ;
     }
     
