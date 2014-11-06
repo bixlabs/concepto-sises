@@ -237,6 +237,7 @@
                         if (transformer.values.length > 0) {
                             // se hace copia values puede cambiar durante el proceso
                             var values = transformer.values.concat(),
+                                clean_values = [],
                                 index,
                                 query_params = {};
                             transformer.values = [];
@@ -247,8 +248,29 @@
                                 query_params['parent'] = scope.$parent.$eval(transformer.parentId);
                             }
 
+                            // Valida que los valores sean uuid's
+                            angular.forEach(values, function(_val) {
+                                try {
+                                    G.extractGuid(_val);
+                                    clean_values.push(val);
+                                } catch (err) {
+                                    var _index = transformer.values.indexOf(_val);
+                                    if (_index !== -1) {
+                                        transformer.values.splice(_index, 1);
+                                    }
+                                    // Se resuelve el valor dejando el mismo
+                                    transformer.deferred[_val].resolve(_val);
+                                    console.log(transformer);
+                                }
+                            });
+
+                            // Si no hay valores validos no se continua
+                            if (clean_values.length === 0) {
+                                return;
+                            }
+
                             // Se consultan en grupos si hay mas de un valor para consultar
-                            query_params['uuid'] = 'A,' + values.join(';');
+                            query_params['uuid'] = 'A,' + clean_values.join(';');
 
                             var result = transformer.resource.query(query_params, function() {
                                 // Una vez obtenido el resultado el valor no es mas necesario
