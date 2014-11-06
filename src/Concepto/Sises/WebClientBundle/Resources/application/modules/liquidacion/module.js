@@ -115,6 +115,11 @@
              */
             scope.saveDate = function saveDate() {
                 $form.fadeOut(function saveData_fadeOut() {
+                    if (!scope.seleccion.curDate.cantidad || isNaN(scope.seleccion.curDate.cantidad)) {
+                        scope.seleccion.curDate = null;
+                        return;
+                    }
+
                     scope.$apply(function saveData_apply() {
                         var storeId = scope.seleccion.curDate.date.format('ww-E'),
                             store = scope.seleccion.servicios[storeId];
