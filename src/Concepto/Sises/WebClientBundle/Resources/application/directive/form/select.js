@@ -163,8 +163,6 @@
                             attrName = camelToUnder(attrKey.replace('tableTransform', ''));
                             var params = attrValue.split(',');
 
-                            console.log("Setting transformer", attrName);
-
                             setDataTransformer(attrName, {
                                 name: attrName,
                                 values: [],
@@ -195,6 +193,19 @@
                             // Si hay un transformador devolverlo
                             if (transformer) {
                                 var valueTotransform = element[property];
+                                // Validamos que sea un valor transformable (uuid)
+                                // Si no se prueba con el id del objeto
+                                // en el ultimo caso omitimos el transformador para este valor
+                                try {
+                                    G.extractGuid(valueTotransform);
+                                } catch (err) {
+                                    if (element.id) {
+                                        valueTotransform = element.id;
+                                    } else {
+                                        return valueTotransform;
+                                    }
+                                }
+
                                 if (typeof transformer.transformedValue[valueTotransform] === 'undefined') {
                                     transformer.values.push(valueTotransform);
                                     transformer.transformedValue[valueTotransform] = '';
@@ -248,29 +259,8 @@
                                 query_params['parent'] = scope.$parent.$eval(transformer.parentId);
                             }
 
-                            // Valida que los valores sean uuid's
-                            angular.forEach(values, function(_val) {
-                                try {
-                                    G.extractGuid(_val);
-                                    clean_values.push(val);
-                                } catch (err) {
-                                    var _index = transformer.values.indexOf(_val);
-                                    if (_index !== -1) {
-                                        transformer.values.splice(_index, 1);
-                                    }
-                                    // Se resuelve el valor dejando el mismo
-                                    transformer.deferred[_val].resolve(_val);
-                                    console.log(transformer);
-                                }
-                            });
-
-                            // Si no hay valores validos no se continua
-                            if (clean_values.length === 0) {
-                                return;
-                            }
-
                             // Se consultan en grupos si hay mas de un valor para consultar
-                            query_params['uuid'] = 'A,' + clean_values.join(';');
+                            query_params['uuid'] = 'A,' + values.join(';');
 
                             var result = transformer.resource.query(query_params, function() {
                                 // Una vez obtenido el resultado el valor no es mas necesario
