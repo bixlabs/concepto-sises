@@ -15,13 +15,13 @@ use Concepto\Sises\ApplicationBundle\Entity\EntityRepository;
 use Concepto\Sises\ApplicationBundle\Entity\OrmPersistible;
 use Doctrine\Common\Inflector\Inflector;
 use Doctrine\DBAL\DBALException;
-use Doctrine\Instantiator\Instantiator;
 use Doctrine\ORM\EntityManager;
 use FOS\RestBundle\Util\Codes;
 use FOS\RestBundle\View\View;
 use JMS\DiExtraBundle\Annotation\Inject;
 use JMS\DiExtraBundle\Annotation\InjectParams;
 use JMS\DiExtraBundle\Annotation\Service;
+use Monolog\Logger;
 use Pagerfanta\Adapter\ArrayAdapter;
 use Pagerfanta\Pagerfanta;
 use Symfony\Component\Form\FormFactory;
@@ -51,18 +51,24 @@ abstract class RestHandler implements RestHandlerInterface {
     private $formfactory;
 
     /**
-     *
+     * @var Logger
+     */
+    private $logger;
+
+    /**
      * @InjectParams({
      *   "em" = @Inject("doctrine.orm.default_entity_manager"),
      *   "formfactory" = @Inject("form.factory"),
-     *   "router" = @Inject("router")
+     *   "router" = @Inject("router"),
+     *   "logger" = @Inject("logger")
      * })
      */
-    function __construct($em, $formfactory, $router)
+    function __construct($em, $formfactory, $router, $logger)
     {
         $this->em = $em;
         $this->formfactory = $formfactory;
         $this->router = $router;
+        $this->logger = $logger;
     }
 
     abstract protected function getTypeClassString();
@@ -162,10 +168,10 @@ abstract class RestHandler implements RestHandlerInterface {
      */
     protected function process(array $parameters, $object, $method = 'PUT')
     {
-        $instantiator = new Instantiator();
+        $class = $this->getTypeClassString();
 
         $type = class_exists($this->getTypeClassString()) ?
-            $instantiator->instantiate($this->getTypeClassString()): $this->getTypeClassString();
+            new $class(): $this->getTypeClassString();
 
         $bag = array();
 
@@ -189,6 +195,8 @@ abstract class RestHandler implements RestHandlerInterface {
 
             return $view;
         }
+
+        $this->logger->error((string)$form->getErrors(false, true) . " PARAMETERS: " . json_encode($parameters));
 
         return View::create($form, Codes::HTTP_BAD_REQUEST);
     }
