@@ -24,7 +24,6 @@ use Doctrine\ORM\Mapping\JoinColumn;
 use Doctrine\ORM\Mapping\ManyToOne;
 use Doctrine\ORM\Mapping\OneToMany;
 use Doctrine\ORM\Mapping\Table;
-use IntlDateFormatter;
 use JMS\Serializer\Annotation\Groups;
 use JMS\Serializer\Annotation\MaxDepth;
 use JMS\Serializer\Annotation\SerializedName;
@@ -262,9 +261,7 @@ class Entrega
      */
     public function getNombreDetallado()
     {
-        $formatter = new IntlDateFormatter('es_CO', IntlDateFormatter::SHORT, IntlDateFormatter::SHORT);
-        $formatter->setPattern('dd MMM Y');
 
-        return "{$formatter->format($this->getFechaInicio())} - {$formatter->format($this->getFechaCierre())}";
+        return "{$this->getFechaInicio()->format('d M Y')} - {$this->getFechaCierre()->format('d M Y')}";
     }
 }
