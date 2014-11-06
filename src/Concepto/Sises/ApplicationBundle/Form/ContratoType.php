@@ -26,11 +26,11 @@ class ContratoType extends AbstractType
             ->add('descripcion')
             ->add('resolucion')
             ->add('valor')
-            ->add('fechaInicio', 'date', array(
+            ->add('fechaInicio', 'datetime', array(
                 'input'  => 'datetime',
                 'widget' => 'single_text',
             ))
-            ->add('fechaCierre', 'date', array(
+            ->add('fechaCierre', 'datetime', array(
                 'input'  => 'datetime',
                 'widget' => 'single_text',
             ))

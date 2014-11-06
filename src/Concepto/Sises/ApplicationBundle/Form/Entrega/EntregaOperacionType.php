@@ -17,7 +17,7 @@ class EntregaOperacionType extends AbstractType
         $builder
             ->add('id')
             ->add('cantidad')
-            ->add('fechaEntrega', 'date', array(
+            ->add('fechaEntrega', 'datetime', array(
                 'input'  => 'datetime',
                 'widget' => 'single_text',
             ))
