@@ -94,6 +94,8 @@
                 end = Math.min(scope.pagination.total, offset + p.max);
                 scope.pagination.items =
                     scope.listado.length > 0 ? scope.listado.slice(offset, end): [];
+
+                scope.fecha.all = false;
             };
 
             scope.puedeGuardar = function puedeGuardar() {
@@ -135,11 +137,12 @@
                 }
             };
 
-            scope.$watch('fecha.all', function() {
+            scope.checkAll = function checkAll() {
+                scope.fecha.all = !scope.fecha.all;
                 angular.forEach(scope.getItems(), function(item) {
                     scope.entregas[item.id].estado = scope.fecha.all;
                 });
-            });
+            };
 
             // Actualiza el listado al seleccionar fecha
             scope.$watch('seleccion.now', function(now) {
