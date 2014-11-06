@@ -45,6 +45,10 @@
         route: route,
         modules: {},
         guid: guid,
+        DEBUG: (json_route('') !== ""),
+        debug: function() {
+            this.DEBUG && console.log.apply(console, arguments);
+        },
         extractGuid: extractGuid,
         views: {
             LIST: 'list',
