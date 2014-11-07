@@ -22,7 +22,7 @@ class EntregaBeneficioQueryType extends AbstractType
     {
         $builder
             ->add('id', 'text', array('required' => true,))
-            ->add('fecha', 'date', array(
+            ->add('fecha', 'datetime', array(
                 'input'  => 'datetime',
                 'widget' => 'single_text',
                 'required' => true,
