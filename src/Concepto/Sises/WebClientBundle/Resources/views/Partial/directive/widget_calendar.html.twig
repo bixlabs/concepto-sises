@@ -1,8 +1,13 @@
 {% verbatim %}
-<div class="s-calendar">
-    <div class="s-calendar-shadow" data-ng-if="!asignacion">
-        <span>Por favor seleccione una asignacion</span>
-    </div>
+<div class="s-calendar" data-ng-if="asignacion">
+    <ul class="list-unstyled">
+        <li>
+            <i class="legend-enabled"></i> Fechas en las cuales puede realizar entregas
+        </li>
+        <li>
+            <i class="legend-realized"></i> Fechas que contiene entregas (marcadas y no marcadas)
+        </li>
+    </ul>
     <div class="row s-calendar-header">
         <div class="col-lg-4">
             <div class="btn-group">
@@ -20,7 +25,7 @@
     </div>
     <div class="s-calendar-body">
         <div class="s-week">
-            <div data-ng-repeat="day in dayTitle"class="s-day">
+            <div data-ng-repeat="day in dayTitle" class="s-day">
                 <span class="s-day-header">{{ day }}</span>
             </div>
         </div>
