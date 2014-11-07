@@ -133,7 +133,7 @@
                         while (looper.isBefore(endMonth)) {
                             week = looper.format('ww');
                             day = looper.format('E');
-                            dayTitle = looper.format('dddd');
+                            dayTitle = looper.format('ddd');
 
                             if (scope.weeks.indexOf(week) === -1) {
                                 scope.weeks.push(week);

@@ -4,7 +4,7 @@ $calendar-hover-color: #e7e7e7;
 $calendar-font-size: 14px;
 $calendar-enable-color: rgb(66, 139, 202);
 $calendar-realized-color: #4cae4c;
-$day-cell-height: $calendar-font-size * 4;
+$day-cell-height: $calendar-font-size * 3.25;
 $day-header-height: $calendar-font-size * 1.8;
 
 .s-calendar {
@@ -59,15 +59,21 @@ $day-header-height: $calendar-font-size * 1.8;
       text-align: center;
       border-top: 1px solid $calendar-border-color;
       border-left: 1px solid $calendar-border-color;
+      height: $day-cell-height;
+      padding: 5px;
 
       .s-day-cell {
-        height: $day-cell-height;
+        width: 100%;
+        height: 100%;
+        margin: 0;
+        border-radius: 10px;
         color: lighten(invert($calendar-bg-color), 30%);
 
         &.in-range {
-          background: transparentize($calendar-enable-color, 0.6);
+          background: $calendar-enable-color;
+          color: white;
           &:hover {
-            background: transparentize($calendar-enable-color, 0.8);
+            background: transparentize($calendar-enable-color, 0.2);
             cursor: pointer;
           }
 
@@ -77,9 +83,9 @@ $day-header-height: $calendar-font-size * 1.8;
         }
 
         &.has-realized {
-          background: transparentize($calendar-realized-color, 0.6);
+          background: $calendar-realized-color;
           &:hover {
-            background: transparentize($calendar-realized-color, 0.8);
+            background: transparentize($calendar-realized-color, 0.2);
           }
 
           &.active-date {
@@ -102,4 +108,17 @@ $day-header-height: $calendar-font-size * 1.8;
       }
     }
   }
+}
+
+.legend-realized {
+  border-radius: 5px;
+  background: $calendar-realized-color;
+  display: inline-block;
+  height: 20px;
+  width: 20px;
+}
+
+.legend-enabled {
+  @extend .legend-realized;
+  background: $calendar-enable-color;
 }
