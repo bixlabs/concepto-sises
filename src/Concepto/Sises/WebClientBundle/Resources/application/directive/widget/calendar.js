@@ -40,38 +40,30 @@
                         max: null
                     };
 
-                    scope.showingDate = moment().startOf('day');
-                    scope.$watch('showingDate', function(m) {
-                        if (!moment.isMoment(m)) {
-                            return;
+                    scope.showingDate = null;
+                    scope.$watch('showingDate', function watch_showingDate(m, oldM) {
+                        if (moment.isMoment(m) && !m.isSame(oldM)) {
+                            _buildCalendar(m);
                         }
-
-                        buildCalendar(m);
                     }, true);
 
-                    scope.$watch('asignacion', updateRange, true);
+                    scope.$watch('asignacion', _updateRange, true);
 
-                    function updateRange() {
+                    /**
+                     * Actualiza el rango del calendario
+                     * @private
+                     */
+                    function _updateRange() {
                         if (scope.asignacion && scope.asignacion.entrega) {
-                            scope.showingDate = moment(scope.asignacion.entrega.fechaInicio).startOf('day');
                             range = moment.range(
                                 moment(scope.asignacion.entrega.fechaInicio).startOf('day').toDate(),
                                 moment(scope.asignacion.entrega.fechaCierre).endOf('day').toDate()
                             );
-                        }
-                    }
 
-                    /**
-                     * Se asegura que el calendario muestre solo fechas dentro de la asignación
-                     */
-                    function alignDate() {
-                        if (scope.asignacion) {
-                            var _fechaInicio = moment(scope.asignacion.entrega.fechaInicio).startOf('day'),
-                                _fechaCierre = moment(scope.asignacion.entrega.fechaCierre).endOf('day');
-                            if (scope.showingDate.isBefore(_fechaInicio)) {
-                                scope.showingDate = _fechaInicio;
-                            } else if (scope.showingDate.isAfter(_fechaCierre)) {
-                                scope.showingDate = _fechaCierre;
+                            if (!moment.isMoment(scope.showingDate) || !range.contains(scope.showingDate)) {
+                                scope.showingDate = moment(scope.asignacion.entrega.fechaInicio).startOf('day');
+                            } else {
+                                _buildCalendar(scope.showingDate);
                             }
                         }
                     }
@@ -79,16 +71,17 @@
                     /**
                      * Determina si el moment indicado esta presente en la lista de entregas
                      * realizadas
+                     * @private
                      *
                      * @param m
                      * @returns {boolean}
                      */
-                    function hasEntregas(m) {
+                    function _hasEntregas(m) {
                         var i, entrega;
 
                         /** @namespace entrega.fechaEntrega */
 
-                        if (!scope.asignacion || scope.asignacion.realizadas.length === 0) {
+                        if (!scope.asignacion || !scope.asignacion.realizadas || scope.asignacion.realizadas.length === 0) {
                             return false;
                         }
 
@@ -106,8 +99,9 @@
                     /**
                      * Construye el calendario a mostrar
                      * @param m
+                     * @private
                      */
-                    function buildCalendar(m) {
+                    function _buildCalendar(m) {
 
                         var month = m.format('M'),
                             week, day, dayTitle,
@@ -144,11 +138,11 @@
                                 scope.days.push(day);
                             }
 
-                            scope.buildCalendar[week + '-' + day] = {
+                            scope.buildCalendar['_day' + week + '-' + day] = {
                                 currentMonth: looper.format('M') === month,
                                 inRange: range !== null ? range.contains(looper.toDate()): false,
                                 date: moment(looper),
-                                realized: hasEntregas(looper),
+                                realized: _hasEntregas(looper),
                                 display: looper.format('D')
                             };
 
@@ -162,8 +156,7 @@
                      */
                     scope.setCurDate = function setCurDate(m) {
                         if (m.inRange) {
-                            scope._selectedDate = m;
-                            scope.selectedDate = m.date.format('YYYY-MM-DDTHH:mm:ssZZ');
+                            scope.selectedDate = moment(m.date).format('YYYY-MM-DDTHH:mm:ssZZ');
                         }
                     };
 
@@ -177,10 +170,6 @@
 
                         if (m.inRange) {
                             classes = 'in-range';
-                        }
-
-                        if (scope._selectedDate && m.date.isSame(scope._selectedDate)) {
-                            classes += ' active-date';
                         }
 
                         if (m.realized) {
@@ -197,23 +186,31 @@
                      * @returns {*}
                      */
                     scope.getCal = function getCal(week, day) {
-                        return scope.buildCalendar[week + '-' + day];
+                        return scope.buildCalendar['_day' + week + '-' + day];
                     };
 
                     /**
                      * Mueve el calendario un mes hacia atras
                      */
                     scope.prev = function prev() {
-                        scope.showingDate.subtract(1, 'month');
-                        alignDate();
+                        var m = moment(scope.showingDate).subtract(1, 'month');
+                        if (range && range.start && m.isBefore(range.start)) {
+                            scope.showingDate = moment(range.start);
+                        } else {
+                            scope.showingDate = m;
+                        }
                     };
 
                     /**
                      * Mueve el calendario un mes hacia delante
                      */
                     scope.next = function next() {
-                        scope.showingDate.add(1, 'month');
-                        alignDate();
+                        var m = moment(scope.showingDate).add(1, 'month');
+                        if (range && range.end && m.isAfter(range.end)) {
+                            scope.showingDate = moment(range.end);
+                        } else {
+                            scope.showingDate = m;
+                        }
                     };
 
                     /**
