@@ -41,6 +41,7 @@ $day-header-height: $calendar-font-size * 1.8;
 
   .s-calendar-body {
     display: table;
+    table-layout: fixed;
     width: 100%;
     font-size: $calendar-font-size;
     background: $calendar-bg-color;
