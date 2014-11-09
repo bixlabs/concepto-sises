@@ -22,6 +22,7 @@ use JMS\DiExtraBundle\Annotation\Tag;
 use Symfony\Component\PropertyAccess\PropertyAccess;
 use Symfony\Component\Validator\Constraint;
 use Symfony\Component\Validator\ConstraintValidator;
+use Symfony\Component\Validator\Context\ExecutionContextInterface;
 
 /**
  * Class EntregaNotOverlayDatesValidator
@@ -31,6 +32,10 @@ use Symfony\Component\Validator\ConstraintValidator;
  */
 class EntregaNotOverlayDatesValidator extends ConstraintValidator
 {
+    /**
+     * @var ExecutionContextInterface
+     */
+    protected $context;
 
     /**
      * @var EntityRepository
