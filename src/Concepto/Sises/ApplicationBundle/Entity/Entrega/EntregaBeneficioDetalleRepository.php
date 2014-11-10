@@ -13,23 +13,25 @@ namespace Concepto\Sises\ApplicationBundle\Entity\Entrega;
 
 
 use Concepto\Sises\ApplicationBundle\Entity\EntityRepository;
+use Doctrine\ORM\Query;
+use Doctrine\ORM\Query\Expr\Join;
 
 class EntregaBeneficioDetalleRepository extends EntityRepository
 {
-    public function calcularv2($entregaId)
+    public function calcularv2($entregaId, $estado = true)
     {
-        return $this
-            ->createQueryBuilder('d')
-            ->select('s.id','s.nombre', 'COUNT(s) as total')
-            ->leftJoin('d.entregaBeneficio', 'eb')
-            ->leftJoin('eb.servicio', 's')
-            ->leftJoin('eb.entrega', 'ea')
-            ->leftJoin('ea.entrega', 'e')
-            ->andWhere('e = :id')
-            ->groupBy('s.id')
+        $qb = $this->getEntityManager()
+            ->getRepository('SisesApplicationBundle:ServicioContratado')
+            ->createQueryBuilder('s')
+            ->select('s.id', 's.nombre')
+            ->addSelect("($this->countEntregas) as total")
             ->setParameters(array(
-                'id' => $entregaId
-            ))->getQuery()->execute();
+                'entrega_id' => $entregaId,
+                'estado' => $estado
+            ))
+            ->leftJoin('SisesApplicationBundle:Entrega\EntregaBeneficio', 'eb', Join::WITH, 'eb.servicio = s.id');
+
+        return $qb->getQuery()->getResult(Query::HYDRATE_ARRAY);
     }
 
     public function calcular($entregaId, $estado = true)
@@ -44,7 +46,7 @@ class EntregaBeneficioDetalleRepository extends EntityRepository
             ->andWhere('e = :id')
             ->setParameters(array(
                 'id' => $entregaId
-            ))->getQuery()->execute();
+            ))->getQuery()->getResult(Query::HYDRATE_ARRAY);
 
         $completeIndexed = array();
 
@@ -52,7 +54,8 @@ class EntregaBeneficioDetalleRepository extends EntityRepository
             $completeIndexed[$completeResult['id']] = $completeResult;
         }
 
-        $results = $this->baseCalcular($entregaId, $estado)->getQuery()->execute();
+        $results = $this->baseCalcular($entregaId, $estado)
+            ->getQuery()->getResult(Query::HYDRATE_ARRAY);
 
         foreach ($results as $result) {
             $completeIndexed[$result['id']] = $result;
@@ -93,5 +96,19 @@ class EntregaBeneficioDetalleRepository extends EntityRepository
                 'estado' => $estado
             ));
     }
+
+    private $countEntregas = <<<DQL
+SELECT
+    COUNT(_s)
+FROM
+    SisesApplicationBundle:Entrega\EntregaBeneficioDetalle _d
+        LEFT JOIN _d.entregaBeneficio _eb
+        LEFT JOIN _eb.servicio _s
+        LEFT JOIN _eb.entrega _ea
+        LEFT JOIN _ea.entrega _e
+WHERE _e = :entrega_id
+    AND _d.estado = :estado
+    AND _s = s
+DQL;
 
 } 

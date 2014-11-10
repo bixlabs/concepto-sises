@@ -32,7 +32,7 @@ class EntregaRestHandler extends RestHandler
     {
         $results = $this->getEm()
             ->getRepository('SisesApplicationBundle:Entrega\EntregaBeneficioDetalle')
-            ->calcular($id);
+            ->calcularv2($id);
 
         return View::create(array('results' => $results));
     }
