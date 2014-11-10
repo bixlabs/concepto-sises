@@ -31,13 +31,11 @@ class EntregaBeneficioDetalleRepositoryTest extends KernelTestCase
     public function testCalcular()
     {
         $entrega = $this->em->getRepository('SisesApplicationBundle:Entrega\Entrega')->findOneBy(array());
-        $results = $this->repository->calcularv2($entrega->getId());
-        $results2 = $this->repository->calcular($entrega->getId());
+        $result = $this->repository->calcular($entrega->getId());
 
-        $this->assertEquals($results, $results2);
-
-        var_dump($results, $results2);
+        var_dump($result);
     }
+
 
     protected function setUp()
     {

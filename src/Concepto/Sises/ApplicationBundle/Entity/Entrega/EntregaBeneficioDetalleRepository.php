@@ -18,7 +18,7 @@ use Doctrine\ORM\Query\Expr\Join;
 
 class EntregaBeneficioDetalleRepository extends EntityRepository
 {
-    public function calcularv2($entregaId, $estado = true)
+    public function calcular($entregaId, $estado = true)
     {
         $qb = $this->getEntityManager()
             ->getRepository('SisesApplicationBundle:ServicioContratado')
@@ -32,36 +32,6 @@ class EntregaBeneficioDetalleRepository extends EntityRepository
             ->leftJoin('SisesApplicationBundle:Entrega\EntregaBeneficio', 'eb', Join::WITH, 'eb.servicio = s.id');
 
         return $qb->getQuery()->getResult(Query::HYDRATE_ARRAY);
-    }
-
-    public function calcular($entregaId, $estado = true)
-    {
-        $completeResults = $this
-            ->getEntityManager()->getRepository('SisesApplicationBundle:Entrega\EntregaAsignacion')
-            ->createQueryBuilder('ea')
-            ->select('s.id','s.nombre', '0 as total')
-            ->leftJoin('ea.entrega', 'e')
-            ->leftJoin('ea.asignacion', 'a')
-            ->leftJoin('a.servicio', 's')
-            ->andWhere('e = :id')
-            ->setParameters(array(
-                'id' => $entregaId
-            ))->getQuery()->getResult(Query::HYDRATE_ARRAY);
-
-        $completeIndexed = array();
-
-        foreach ($completeResults as $completeResult) {
-            $completeIndexed[$completeResult['id']] = $completeResult;
-        }
-
-        $results = $this->baseCalcular($entregaId, $estado)
-            ->getQuery()->getResult(Query::HYDRATE_ARRAY);
-
-        foreach ($results as $result) {
-            $completeIndexed[$result['id']] = $result;
-        }
-
-        return array_values($completeIndexed);
     }
 
     public function calcularDetalle($entregaId, $estado = true)

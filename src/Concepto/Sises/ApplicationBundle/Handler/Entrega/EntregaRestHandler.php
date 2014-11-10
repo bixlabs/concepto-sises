@@ -30,9 +30,15 @@ class EntregaRestHandler extends RestHandler
 
     public function getCalcular($id)
     {
+        $entrega = $this->get($id);
+
+        if (!$entrega) {
+            throw new NotFoundHttpException("Entrega no existe");
+        }
+
         $results = $this->getEm()
             ->getRepository('SisesApplicationBundle:Entrega\EntregaBeneficioDetalle')
-            ->calcularv2($id);
+            ->calcular($id);
 
         return View::create(array('results' => $results));
     }
