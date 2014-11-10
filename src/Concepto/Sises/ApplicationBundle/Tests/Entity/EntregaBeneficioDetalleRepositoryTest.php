@@ -14,9 +14,7 @@ namespace Concepto\Sises\ApplicationBundle\Tests\Entity;
 
 use Concepto\Sises\ApplicationBundle\Entity\Entrega\EntregaBeneficioDetalleRepository;
 use Doctrine\ORM\EntityManager;
-use Symfony\Bundle\FrameworkBundle\Console\Application;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
-use Symfony\Component\Console\Input\ArrayInput;
 
 class EntregaBeneficioDetalleRepositoryTest extends KernelTestCase
 {
@@ -30,25 +28,22 @@ class EntregaBeneficioDetalleRepositoryTest extends KernelTestCase
      */
     private $em;
 
-    /**
-     * @var string
-     */
-    private $entrega = "ad8d9dd9-65a5-11e4-bff3-1867b083cd22";
-
     public function testCalcular()
     {
-        $servicios = $this->em->getRepository('SisesApplicationBundle:ServicioContratado')->findAll();
+        $entrega = $this->em->getRepository('SisesApplicationBundle:Entrega\Entrega')->findOneBy(array());
+        $results = $this->repository->calcularv2($entrega->getId());
+        $results2 = $this->repository->calcular($entrega->getId());
 
-        $results = $this->repository->calcularv2($this->entrega);
+        $this->assertEquals($results, $results2);
 
-        $this->equalTo(count($servicios), count($results));
+        var_dump($results, $results2);
     }
 
     protected function setUp()
     {
-        self::bootKernel();
+        self::bootKernel(array('environment' => 'dev'));
 
-        shell_exec(__DIR__ . '/../../Resources/test/reload_database.sh');
+        //shell_exec(__DIR__ . '/../../Resources/test/reload_database.sh');
 
         $this->em = static::$kernel->getContainer()->get('doctrine')->getManager();
         $this->repository = $this->em->getRepository('SisesApplicationBundle:Entrega\EntregaBeneficioDetalle');
