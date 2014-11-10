@@ -27,3 +27,6 @@ web/css
 
 # Uploads
 web/uploads
+
+# SQL Dumps
+*/**/*.sql

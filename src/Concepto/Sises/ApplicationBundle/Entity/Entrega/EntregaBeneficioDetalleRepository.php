@@ -16,6 +16,22 @@ use Concepto\Sises\ApplicationBundle\Entity\EntityRepository;
 
 class EntregaBeneficioDetalleRepository extends EntityRepository
 {
+    public function calcularv2($entregaId)
+    {
+        return $this
+            ->createQueryBuilder('d')
+            ->select('s.id','s.nombre', 'COUNT(s) as total')
+            ->leftJoin('d.entregaBeneficio', 'eb')
+            ->leftJoin('eb.servicio', 's')
+            ->leftJoin('eb.entrega', 'ea')
+            ->leftJoin('ea.entrega', 'e')
+            ->andWhere('e = :id')
+            ->groupBy('s.id')
+            ->setParameters(array(
+                'id' => $entregaId
+            ))->getQuery()->execute();
+    }
+
     public function calcular($entregaId, $estado = true)
     {
         $completeResults = $this
