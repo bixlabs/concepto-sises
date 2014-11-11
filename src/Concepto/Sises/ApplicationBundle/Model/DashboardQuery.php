@@ -39,6 +39,17 @@ class DashboardQuery {
      */
     protected $estado = true;
 
+    function __construct()
+    {
+        $end = new \DateTime();
+        $start = clone $end;
+        $start->sub(new \DateInterval('P1M'));
+
+        $this->end = $end;
+        $this->start = $start;
+    }
+
+
     /**
      * @return string
      */

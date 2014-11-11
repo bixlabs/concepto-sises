@@ -41,21 +41,24 @@
                 return $delegate;
             });
         }])
-        .run(['$rootScope', '$state', '$stateParams', 'modalService', function ($r, $state, $sP, mS) {
-            $r.authState = false;
-            $r.go = $state.go;
-            G.stateGo = $state.go;
-            $r.refresh = function(state, params) {
-                $state.go(state, params, {
-                    reload: true,
-                    inherit: false,
-                    notify: true
-                })
-            };
-            $r.template = G.template;
-            $r.routeParams = $sP;
-            $r.modal = mS;
-        }])
+        .run([
+            '$rootScope', '$state', '$stateParams', 'modalService',
+            function ($r, $state, $sP, mS) {
+                $r.authState = false;
+                $r.go = $state.go;
+                G.stateGo = $state.go;
+                $r.refresh = function(state, params) {
+                    $state.go(state, params, {
+                        reload: true,
+                        inherit: false,
+                        notify: true
+                    })
+                };
+                $r.template = G.template;
+                $r.routeParams = $sP;
+                $r.modal = mS;
+            }
+        ])
     ;
 
     var setContent = function setContent() {

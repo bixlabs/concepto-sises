@@ -45,6 +45,11 @@ class DashboardRestHandler {
     private $serializer;
 
     /**
+     * @var DashboardQuery
+     */
+    private $query;
+
+    /**
      * @param $em
      * @param $formfactory
      * @param $serializer
@@ -67,15 +72,38 @@ class DashboardRestHandler {
      */
     public function calcule($parameters)
     {
-        $query = new DashboardQuery();
-        $form = $this->formfactory->create(new DashboardQueryType(), $query);
+        $this->query = new DashboardQuery();
+        $form = $this->formfactory->create(new DashboardQueryType(), $this->query);
         $form->submit($parameters);
 
         if (!$form->isValid()) {
             throw new BadRequestHttpException();
         }
 
-        list($dql, $params) = $this->getDQL($query);
+        $now = new \DateTime();
+        $start = $this->query->getStart();
+        $end = $this->query->getEnd();
+
+        if (!$end && !$start) {
+            $end = $now;
+            $start = clone $end;
+            $start->sub(new \DateInterval('P1M'));
+        } else if ($end && !$start) {
+            $start = clone $end;
+            $start->sub(new \DateInterval('P1M'));
+        } else if ($start && !$end) {
+            $end = clone $start;
+            $end->add(new \DateInterval('P1M'));
+            if ($end > $now) {
+                $end = $now;
+            }
+        }
+
+        $this->query->setStart($start);
+        $this->query->setEnd($end);
+
+
+        list($dql, $params) = $this->getDQL();
 
         return $this->em->createQuery($dql)
             ->execute($params, Query::HYDRATE_ARRAY);
@@ -91,9 +119,11 @@ class DashboardRestHandler {
         );
 
         $names = array();
-        $end = clone end($results)['fecha'];
-        $start = clone reset($results)['fecha'];
 
+        $now = new \DateTime();
+
+        $start = $this->query->getStart();
+        $end = $this->query->getEnd();
 
         while ($start <= $end) {
             $columns['fecha'][] = clone $start;
@@ -138,7 +168,7 @@ class DashboardRestHandler {
         );
     }
 
-    private function getDQL($object)
+    private function getDQL()
     {
         $maindql = <<<DQL
 SELECT
@@ -169,8 +199,8 @@ DQL;
         $queryWhere = array();
 
         foreach ($properties as $property => $dql) {
-            if ($accessor->getValue($object, $property)) {
-                $params[$property] = $accessor->getValue($object, $property);
+            if ($accessor->getValue($this->query, $property)) {
+                $params[$property] = $accessor->getValue($this->query, $property);
                 $queryWhere[] = $dql;
             }
         }

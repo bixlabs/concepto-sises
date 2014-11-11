@@ -16,6 +16,7 @@ use Concepto\Sises\ApplicationBundle\Handler\DashboardRestHandler;
 use FOS\RestBundle\Routing\ClassResourceInterface;
 use FOS\RestBundle\View\View;
 use JMS\DiExtraBundle\Annotation\LookupMethod;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Symfony\Component\HttpFoundation\Request;
 
 /**
@@ -29,9 +30,23 @@ class DashboardController implements ClassResourceInterface {
      */
     public function getHandler() {}
 
+    public function getInfoRawAction(Request $request)
+    {
+        $results = $this->getHandler()->calcule($request->query->all());
+
+        return View::create($results);
+    }
+
     public function getInfoAction(Request $request) {
 
         $results = $this->getHandler()->calculec3($request->query->all());
+
+        return View::create($results);
+    }
+
+    public function postInfoAction(Request $request)
+    {
+        $results = $this->getHandler()->calculec3($request->request->all());
 
         return View::create($results);
     }
