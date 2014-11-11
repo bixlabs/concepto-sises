@@ -74,3 +74,7 @@ servicio_operativo:
     type: rest
     prefix: /api/operativo
     resource: @SisesApplicationBundle/Controller/Personal/ServicioController.php
+dashboard:
+    type: rest
+    prefix: /api/dashboard
+    resource: @SisesApplicationBundle/Controller/DashboardController.php
