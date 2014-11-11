@@ -18,6 +18,7 @@ use Doctrine\ORM\Query;
 use JMS\DiExtraBundle\Annotation\Inject;
 use JMS\DiExtraBundle\Annotation\InjectParams;
 use JMS\DiExtraBundle\Annotation\Service;
+use JMS\Serializer\Serializer;
 use Symfony\Component\Form\FormFactory;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Symfony\Component\PropertyAccess\PropertyAccess;
@@ -37,6 +38,11 @@ class DashboardRestHandler {
      * @var FormFactory
      */
     private $formfactory;
+
+    /**
+     * @var Serializer
+     */
+    private $serializer;
 
     /**
      * @param $em
@@ -75,11 +81,68 @@ class DashboardRestHandler {
             ->execute($params, Query::HYDRATE_ARRAY);
     }
 
+    public function calculec3($parameters)
+    {
+        $results = $this->calcule($parameters);
+
+        $columns = array(
+            // El primer valor siempre es la fecha
+            'fecha' => array('fecha')
+        );
+
+        $names = array();
+        $end = clone end($results)['fecha'];
+        $start = clone reset($results)['fecha'];
+
+
+        while ($start <= $end) {
+            $columns['fecha'][] = clone $start;
+            $start->add(new \DateInterval('P1D'));
+        }
+
+        foreach ($results as $result) {
+            // Buscamos el indice de la fecha
+            $dateIdx = array_search($result['fecha'], $columns['fecha']);
+
+            if (!isset($columns[$result['id']])) {
+                // El primer valor del array es el id
+                $columns[$result['id']] = array($result['id']);
+                // Nombre para la traduccion
+                $names[$result['id']] = $result['nombre'];
+            }
+
+            // El valor debe ir en el mismo lugar que la fecha a la que pertenece
+            $columns[$result['id']][$dateIdx] = (int)$result['total'];
+        }
+
+        // Se asegura de colocar zero donde sea necesario
+        foreach (array_keys($columns) as $id) {
+            // se ignora las fechas
+            if ($id === 'fecha') {
+                continue;
+            }
+
+            foreach (array_keys($columns['fecha']) as $index) {
+                if (!isset($columns[$id][$index])) {
+                    $columns[$id][$index] = 0;
+                }
+            }
+
+            // Las llaves fueron agregadas en desorden, se organizan
+            ksort($columns[$id]);
+        }
+
+        return array(
+            'columns' => array_values($columns),
+            'names' => $names
+        );
+    }
+
     private function getDQL($object)
     {
         $maindql = <<<DQL
 SELECT
-    _s.id, _s.nombre as name, _eb.fechaEntrega as fecha, _d.estado, COUNT(_d) as total
+    _s.id, _s.nombre, _eb.fechaEntrega as fecha, COUNT(_d) as total
 FROM
     SisesApplicationBundle:Entrega\EntregaBeneficioDetalle _d
         LEFT JOIN _d.entregaBeneficio _eb
@@ -89,7 +152,8 @@ FROM
         LEFT JOIN _e.contrato _c
         LEFT JOIN _c.empresa  _ce
 :WHERE:
-GROUP BY _s.id, _eb.fechaEntrega, _d.estado
+GROUP BY _s.id, _eb.fechaEntrega
+ORDER BY _eb.fechaEntrega ASC
 DQL;
         $accessor = PropertyAccess::createPropertyAccessor();
 

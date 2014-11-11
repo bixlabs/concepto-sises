@@ -32,8 +32,6 @@ class EntregaBeneficioDetalleRepositoryTest extends KernelTestCase
     {
         $entrega = $this->em->getRepository('SisesApplicationBundle:Entrega\Entrega')->findOneBy(array());
         $result = $this->repository->calcular($entrega->getId());
-
-        var_dump($result);
     }
 
 
