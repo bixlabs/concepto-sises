@@ -20,6 +20,14 @@
 
         G.Form.setDefaultAttribValues.call(this, scope, defaultAttribValues, attrs);
 
+        scope.clearValue = function date_clear($event) {
+            if ($event) {
+                $event.preventDefault();
+                $event.stopPropagation();
+            }
+            scope.form.model[scope.property] = null;
+        };
+
         scope.openCalendar = function($event) {
             if ($event) {
                 $event.preventDefault();

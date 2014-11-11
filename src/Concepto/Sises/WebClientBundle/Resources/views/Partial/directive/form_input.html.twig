@@ -31,10 +31,20 @@
                        data-close-text="Cerrar"
                        class="form-control" type="text" id="{{formProperties.id}}_date"/>
                 <span class="input-group-btn">
-                    <button type="button" class="btn btn-default" data-ng-click="openCalendar($event)">
+                    <button type="button"
+                            class="btn btn-default"
+                            title="Limpiar el valor"
+                            data-ng-click="clearValue($event)">
+                        <i class="glyphicon glyphicon-remove"></i>
+                    </button>
+
+                    <button type="button"
+                            class="btn btn-default"
+                            title="Muestra el calendario para elegir"
+                            data-ng-click="openCalendar($event)">
                         <i class="glyphicon glyphicon-calendar"></i>
                     </button>
-              </span>
+                </span>
             </div>
             <p class="help-block"
                data-ng-repeat="error in getErrors()"

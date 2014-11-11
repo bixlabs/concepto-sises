@@ -26,16 +26,15 @@
                     label: { text: "No hay datos para mostrar en las fechas seleccionadas" }
                 },
                 x: 'fecha',
-                xFormat: '%Y-%m-%dT%I:%M:%S-0500',
+                xFormat: '%Y-%m-%dT%H:%M:%S%Z',
                 type: 'bar',
                 labels: true
             };
 
-            scope.element = {};
-            scope.chart = null;
-            scope.load = function load() {
+            function _load() {
                 $http.post(G.route('post_dashboard_info'), scope.element)
-                    .success(function load_succes(data) {
+                    .success(function load_succes(response) {
+                        var data = response.data;
 
                         if (scope.chart === null) {
                             scope.chart = c3.generate({
@@ -66,9 +65,19 @@
                             scope.chart.data.names(data.names);
                         }
                     });
+            }
+
+            scope.element = {
+                start: moment('2014-04-01').toDate(),
+                end: moment('2014-05-12').toDate()
+            };
+            scope.chart = null;
+            scope.load = function scope_load() {
+                _load();
+
             };
 
-            scope.load();
+            _load();
         }])
     ;
 })();

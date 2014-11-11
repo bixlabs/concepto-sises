@@ -109,7 +109,7 @@ class DashboardRestHandler {
             ->execute($params, Query::HYDRATE_ARRAY);
     }
 
-    public function calculec3($parameters)
+    public function calculec3($parameters, $fillDates = true)
     {
         $results = $this->calcule($parameters);
 
@@ -120,19 +120,24 @@ class DashboardRestHandler {
 
         $names = array();
 
-        $now = new \DateTime();
+        if ($fillDates) {
+            $start = $this->query->getStart();
+            $end = $this->query->getEnd();
 
-        $start = $this->query->getStart();
-        $end = $this->query->getEnd();
-
-        while ($start <= $end) {
-            $columns['fecha'][] = clone $start;
-            $start->add(new \DateInterval('P1D'));
+            while ($start <= $end) {
+                $columns['fecha'][] = clone $start;
+                $start->add(new \DateInterval('P3D'));
+            }
         }
 
         foreach ($results as $result) {
             // Buscamos el indice de la fecha
             $dateIdx = array_search($result['fecha'], $columns['fecha']);
+
+            if (!$dateIdx) {
+                $columns['fecha'][] = $result['fecha'];
+                $dateIdx = count($columns['fecha']) -1;
+            }
 
             if (!isset($columns[$result['id']])) {
                 // El primer valor del array es el id
@@ -154,7 +159,7 @@ class DashboardRestHandler {
 
             foreach (array_keys($columns['fecha']) as $index) {
                 if (!isset($columns[$id][$index])) {
-                    $columns[$id][$index] = 0;
+                    $columns[$id][$index] = 'null';
                 }
             }
 
@@ -163,8 +168,10 @@ class DashboardRestHandler {
         }
 
         return array(
-            'columns' => array_values($columns),
-            'names' => $names
+            'data' => array(
+                'columns' => array_values($columns),
+                'names' => $names
+            )
         );
     }
 

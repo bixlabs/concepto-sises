@@ -16,6 +16,7 @@ use Concepto\Sises\ApplicationBundle\Handler\DashboardRestHandler;
 use FOS\RestBundle\Routing\ClassResourceInterface;
 use FOS\RestBundle\View\View;
 use JMS\DiExtraBundle\Annotation\LookupMethod;
+use JMS\Serializer\SerializationContext;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Symfony\Component\HttpFoundation\Request;
 
