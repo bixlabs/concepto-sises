@@ -6,8 +6,10 @@ security:
             cost: 7
 
     role_hierarchy:
-        ROLE_API: ROLE_USER
         ROLE_ADMIN: ROLE_USER
+        ROLE_COORD: ROLE_USER
+        ROLE_DIREC: ROLE_USER
+
         ROLE_SUPER_ADMIN:
             - ROLE_USER
             - ROLE_ADMIN

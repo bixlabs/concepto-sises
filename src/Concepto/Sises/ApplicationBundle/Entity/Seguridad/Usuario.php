@@ -26,10 +26,65 @@ use FOS\UserBundle\Entity\User;
  */
 class Usuario extends User
 {
+    const ADMIN = 'administrador';
+    const COORDINADOR = 'coordinador';
+    const DIRECTOR = 'director';
+
     /**
      * @Id
      * @Column(name="id", length=36)
      * @GeneratedValue(strategy="UUID")
      */
     protected $id;
+
+    /**
+     * @var string
+     * @Column(name="tipo", length=100)
+     */
+    protected $tipo;
+
+    /**
+     * @var string
+     * @Column(name="related", length=36)
+     */
+    protected $related;
+
+    public function __construct()
+    {
+        parent::__construct();
+
+        $this->tipo = self::COORDINADOR;
+    }
+
+    /**
+     * @return string
+     */
+    public function getTipo()
+    {
+        return $this->tipo;
+    }
+
+    /**
+     * @param string $tipo
+     */
+    public function setTipo($tipo)
+    {
+        $this->tipo = $tipo;
+    }
+
+    /**
+     * @return string
+     */
+    public function getRelated()
+    {
+        return $this->related;
+    }
+
+    /**
+     * @param string $related
+     */
+    public function setRelated($related)
+    {
+        $this->related = $related;
+    }
 }

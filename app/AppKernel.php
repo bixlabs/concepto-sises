@@ -23,6 +23,7 @@ class AppKernel extends Kernel
             new JMS\AopBundle\JMSAopBundle(),
             new Concepto\Sises\ApplicationBundle\SisesApplicationBundle(),
             new Concepto\Sises\WebClientBundle\SisesWebClientBundle(),
+            new Concepto\Sises\SecurityBundle\SisesSecurityBundle(),
             new Doctrine\Bundle\FixturesBundle\DoctrineFixturesBundle(),
             new Oneup\UploaderBundle\OneupUploaderBundle(),
             new FOS\UserBundle\FOSUserBundle(),
