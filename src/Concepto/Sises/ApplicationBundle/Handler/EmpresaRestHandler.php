@@ -29,7 +29,17 @@ class EmpresaRestHandler extends RestHandler
             $extraParams['encargado'] = $director->getId();
         }
 
+        // las empresas siempre son privadas
+        $extraParams['privada'] = true;
+
         return parent::cget($pagerParams, $extraParams);
+    }
+
+    protected function process(array $parameters, $object, $method = 'PUT')
+    {
+        $parameters['privada'] = true;
+
+        return parent::process($parameters, $object, $method);
     }
 
     /**

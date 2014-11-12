@@ -16,6 +16,7 @@
 
             var factories = {
                 'empresa':                 '/api/empresas/:id.json',
+                'empresa_publica':         '/api/empresas/publicas/:id.json',
                 'contrato':                '/api/contratos/:id.json',
                 'beneficiario':            '/api/beneficiarios/:id.json',
                 'encargado':               '/api/encargados/:id.json',

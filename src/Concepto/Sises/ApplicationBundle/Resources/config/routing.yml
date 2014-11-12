@@ -1,3 +1,7 @@
+empresa_publica:
+    type: rest
+    prefix: /api/empresas
+    resource: @SisesApplicationBundle/Controller/Empresa/PublicaController.php
 empresa:
     type: rest
     prefix: /api
