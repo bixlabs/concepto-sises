@@ -12,15 +12,10 @@
 namespace Concepto\Sises\ApplicationBundle\Entity;
 
 
-use Concepto\Sises\ApplicationBundle\Entity\Archivos\Documentable;
-use Concepto\Sises\ApplicationBundle\Entity\Financiera\Entidad as EntidadFinanciera;
 use Concepto\Sises\ApplicationBundle\Entity\Personal\AbstractPersonal;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
-use Doctrine\ORM\Mapping\Column;
 use Doctrine\ORM\Mapping\Entity;
-use Doctrine\ORM\Mapping\GeneratedValue;
-use Doctrine\ORM\Mapping\Id;
 use Doctrine\ORM\Mapping\JoinColumn;
 use Doctrine\ORM\Mapping\ManyToOne;
 use Doctrine\ORM\Mapping\OneToMany;
