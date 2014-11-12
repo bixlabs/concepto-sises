@@ -17,8 +17,7 @@
         'BENEFICIARIO',
         'RRHH',
         'COORDINADOR',
-        'ADMIN_ENTREGA',
-        'EMPRESA'
+        'ADMIN_ENTREGA'
     ];
 
 })();

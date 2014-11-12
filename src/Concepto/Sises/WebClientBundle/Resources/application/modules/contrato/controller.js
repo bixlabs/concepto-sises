@@ -10,12 +10,10 @@
      *
      * @param scope
      * @param ContratoFactory
-     * @param EmpresaFactory
      * @constructor
      */
-    function ContratoNuevoController(scope, ContratoFactory, EmpresaFactory) {
+    function ContratoNuevoController(scope, ContratoFactory) {
         G.Base.NewController.call(this, scope, ContratoFactory);
-        scope.empresas = EmpresaFactory.query();
 
         scope.list = function() {
             scope.go('contratos.listado');
@@ -53,9 +51,8 @@
      * @param EmpresaFactory
      * @constructor
      */
-    function ContratoDetallesController(scope, ContratoFactory, EmpresaFactory) {
+    function ContratoDetallesController(scope, ContratoFactory) {
         G.Base.UpdateController.call(this, scope, ContratoFactory);
-        scope.empresas = EmpresaFactory.query();
 
         scope.list = function() {
             scope.go('contratos.listado');
@@ -73,8 +70,8 @@
         .controller('ContratoListadoController', ['$scope', 'Contrato', ContratoListadoController]);
 
     angular.module(G.modules.CONTRATO)
-        .controller('ContratoNuevoController', ['$scope', 'Contrato', 'Empresa', ContratoNuevoController]);
+        .controller('ContratoNuevoController', ['$scope', 'Contrato', ContratoNuevoController]);
 
     angular.module(G.modules.CONTRATO)
-        .controller('ContratoDetallesController', ['$scope', 'Contrato', 'Empresa', ContratoDetallesController]);
+        .controller('ContratoDetallesController', ['$scope', 'Contrato', ContratoDetallesController]);
 })();
