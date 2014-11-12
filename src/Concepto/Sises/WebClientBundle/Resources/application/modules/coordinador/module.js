@@ -39,7 +39,12 @@
         }])
 
         .run(['MenuService', function(MS) {
-            MS.register({ name: G.modules.COORDINADOR, url: 'coordinador.listado', label: 'Coordinadores'});
+            MS.register({
+                name: G.modules.COORDINADOR,
+                url: 'coordinador.listado',
+                label: 'Coordinadores',
+                category: 'empresas'
+            });
         }])
 
         .controller('CoordinadorListController', ['RestResources', '$scope', function(RR, scope) {

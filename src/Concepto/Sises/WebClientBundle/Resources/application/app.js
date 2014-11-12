@@ -33,8 +33,8 @@
             });
         }])
         .run([
-            '$rootScope', '$state', '$stateParams', 'modalService',
-            function ($r, $state, $sP, mS) {
+            '$rootScope', '$state', '$stateParams', 'modalService', 'MenuService',
+            function ($r, $state, $sP, mS, MS) {
                 $r.authState = false;
                 $r.go = $state.go;
                 $r.moment = moment;
@@ -49,6 +49,12 @@
                 $r.template = G.template;
                 $r.routeParams = $sP;
                 $r.modal = mS;
+
+                MS.register({
+                    name: 'empresas',
+                    label: 'Empresa',
+                    is_category: true
+                });
             }
         ])
     ;

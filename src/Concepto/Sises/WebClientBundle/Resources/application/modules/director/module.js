@@ -39,7 +39,12 @@
         }])
 
         .run(['MenuService', function(MS) {
-            MS.register({ name: G.modules.DIRECTOR, url: 'director.listado', label: 'Directores'});
+            MS.register({
+                name: G.modules.DIRECTOR,
+                url: 'director.listado',
+                label: 'Directores',
+                category: 'empresas'
+            });
         }])
 
         .controller('DirectorListController', ['RestResources', '$scope', function(RR, scope) {

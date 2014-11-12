@@ -39,7 +39,12 @@
         }])
 
         .run(['MenuService', function(MS) {
-            MS.register({ name: G.modules.RRHH, url: 'rrhh.listado', label: 'RRHH'});
+            MS.register({
+                name: G.modules.RRHH,
+                url: 'rrhh.listado',
+                label: 'RRHH',
+                category: 'empresas'
+            });
         }])
 
         .controller('RRHHListController', ['RestResources', '$scope', function(RR, scope) {

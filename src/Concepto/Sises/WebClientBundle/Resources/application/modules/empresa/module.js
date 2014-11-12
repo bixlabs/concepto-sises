@@ -42,7 +42,12 @@
         }])
 
         .run(['MenuService', function(MS) {
-            MS.register({ name: G.modules.EMPRESA, url: 'empresas.listado', label: 'Empresas'});
+            MS.register({
+                name: G.modules.EMPRESA,
+                url: 'empresas.listado',
+                label: 'Empresas',
+                category: 'empresas'
+            });
         }])
     ;
 })();
