@@ -109,7 +109,7 @@ class DashboardRestHandler {
             ->execute($params, Query::HYDRATE_ARRAY);
     }
 
-    public function calculec3($parameters, $fillDates = true)
+    public function calculec3($parameters, $fillDates = false)
     {
         $results = $this->calcule($parameters);
 
@@ -126,7 +126,7 @@ class DashboardRestHandler {
 
             while ($start <= $end) {
                 $columns['fecha'][] = clone $start;
-                $start->add(new \DateInterval('P3D'));
+                $start->add(new \DateInterval('P1D'));
             }
         }
 
@@ -171,7 +171,8 @@ class DashboardRestHandler {
             'data' => array(
                 'columns' => array_values($columns),
                 'names' => $names
-            )
+            ),
+            'query' => $this->query
         );
     }
 
@@ -179,7 +180,7 @@ class DashboardRestHandler {
     {
         $maindql = <<<DQL
 SELECT
-    _s.id, _s.nombre, _eb.fechaEntrega as fecha, COUNT(_d) as total
+    _s.id, _s.nombre, DATE(_eb.fechaEntrega) as fecha, COUNT(_d) as total
 FROM
     SisesApplicationBundle:Entrega\EntregaBeneficioDetalle _d
         LEFT JOIN _d.entregaBeneficio _eb

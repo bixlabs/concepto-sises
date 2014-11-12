@@ -1,4 +1,4 @@
-<div class="row">
+<div class="row no-print">
     <div class="col-lg-7">
         <h2>Tablero de mando</h2>
     </div>
@@ -34,6 +34,12 @@
                 </div>
             </div>
             <div class="col-lg-8">
+                <div data-ng-if="query">
+                    <p>
+                        Resultados:
+                        <span data-ng-bind="moment(query.start).format('LL')"></span>
+                        - <span data-ng-bind="moment(query.end).format('LL')"></span></p>
+                </div>
                 <div id="chart"></div>
             </div>
         </div>

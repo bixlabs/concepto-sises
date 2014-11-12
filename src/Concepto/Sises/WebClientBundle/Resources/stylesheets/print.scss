@@ -6,3 +6,8 @@
     margin-right: 30px;
   }
 }
+@media print {
+  .no-print {
+    display: none;
+  }
+}

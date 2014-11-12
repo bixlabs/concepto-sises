@@ -28,7 +28,8 @@
                 x: 'fecha',
                 xFormat: '%Y-%m-%dT%H:%M:%S%Z',
                 type: 'bar',
-                labels: true
+                labels: true,
+                onclick: function (d) { console.log("onclick", d); },
             };
 
             function _load() {
@@ -36,12 +37,16 @@
                     .success(function load_succes(response) {
                         var data = response.data;
 
+                        if (response.query) {
+                            scope.query = response.query;
+                        }
+
                         if (scope.chart === null) {
                             scope.chart = c3.generate({
                                 data: angular.extend(base_data, data),
                                 axis: {
                                     x: {
-                                        type: 'timeseries', //category timeseries
+                                        type: 'category', //category timeseries
                                         tick: {
                                             format: '%d/%m/%Y'
                                         }
@@ -71,6 +76,7 @@
                 start: moment('2014-04-01').toDate(),
                 end: moment('2014-05-12').toDate()
             };
+            scope.query = null;
             scope.chart = null;
             scope.load = function scope_load() {
                 _load();

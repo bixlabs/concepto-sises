@@ -46,6 +46,7 @@
             function ($r, $state, $sP, mS) {
                 $r.authState = false;
                 $r.go = $state.go;
+                $r.moment = moment;
                 G.stateGo = $state.go;
                 $r.refresh = function(state, params) {
                     $state.go(state, params, {
