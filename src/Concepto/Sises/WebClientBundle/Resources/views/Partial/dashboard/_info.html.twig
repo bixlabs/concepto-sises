@@ -1,0 +1,41 @@
+<div class="panel panel-default">
+    <div class="panel-heading">Entregas realizadas</div>
+    <div class="panel-body">
+        <div class="row">
+            <div class="col-lg-4">
+                <div data-sises-form="element">
+                    <div data-sises-form-select="empresa"
+                         data-options="'empresa'"
+                         data-options-label="nombre"
+                         data-options-key="id"
+                         data-label="'Empresa'"></div>
+
+                    <div data-sises-form-input="start"
+                         data-type="'date'"
+                         data-label="'Inicio'"></div>
+
+                    <div data-sises-form-input="end"
+                         data-type="'date'"
+                         data-label="'Final'"></div>
+
+                    <div class="row">
+                        <div class="col-lg-8 col-lg-offset-4">
+                            <button class="btn btn-default" data-ng-click="load()">
+                                <i class="glyphicon glyphicon-refresh"></i> Obtener datos
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-8">
+                <div data-ng-if="query">
+                    <p>
+                        Resultados:
+                        <span data-ng-bind="moment(query.start).format('LL')"></span>
+                        - <span data-ng-bind="moment(query.end).format('LL')"></span></p>
+                </div>
+                <div id="chart"></div>
+            </div>
+        </div>
+    </div>
+</div>
