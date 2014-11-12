@@ -159,11 +159,15 @@ abstract class RestHandler implements RestHandlerInterface {
         return $this->getEm()->find($this->getOrmClassString(), $id);
     }
 
-    public function cget($pagerParams, $extraParams = array())
+    public function cget($pagerParams = array(), $extraParams = array())
     {
         /** @var EntityRepository $repository */
         $repository = $this->getEm()->getRepository($this->getOrmClassString());
         $results = $repository->findAll($extraParams);
+
+        if (count($pagerParams) === 0) {
+            return $results;
+        }
 
         $pager = new Pagerfanta(new ArrayAdapter($results));
 
