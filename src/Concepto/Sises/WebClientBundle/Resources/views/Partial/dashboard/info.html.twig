@@ -1,4 +1,5 @@
 {% if is_granted('ROLE_DIRECTOR') or is_granted('ROLE_ADMIN') %}
+    <h2>Cuadro de mando</h2>
     {% include '@SisesWebClient/Partial/dashboard/_info.html.twig' %}
 {% endif %}
 

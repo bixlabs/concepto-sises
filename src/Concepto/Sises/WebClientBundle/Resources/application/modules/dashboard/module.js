@@ -73,8 +73,8 @@
             }
 
             scope.element = {
-                start: moment('2014-04-01').toDate(),
-                end: moment('2014-05-12').toDate()
+                start: null,
+                end: null
             };
             scope.query = null;
             scope.chart = null;
