@@ -21,6 +21,30 @@ use JMS\DiExtraBundle\Annotation\Service;
  */
 class ContratoRestHandler extends RestHandler
 {
+    public function cget($pagerParams, $extraParams = array())
+    {
+        if ($this->isDirector()) {
+            $director = $this->getRelatedUser();
+            $empresas = $this->getEm()->getRepository('SisesApplicationBundle:Empresa')->findBy(array(
+                'encargado' => $director
+            ));
+
+            $_e = array();
+
+            foreach ($empresas as $empresa) {
+                $_e[] = $empresa->getId();
+            }
+
+            if (count($_e) > 0) {
+                $extraParams['empresa'] = 'A,' . implode(';', $_e);
+            } else {
+                $extraParams['empresa'] = '-1';
+            }
+        }
+
+        return parent::cget($pagerParams, $extraParams);
+    }
+
     /**
      * @return string
      */
