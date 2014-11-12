@@ -13,7 +13,11 @@ namespace Concepto\Sises\ApplicationBundle\Handler\Personal;
 
 
 use Concepto\Sises\ApplicationBundle\Entity\OrmPersistible;
+use Concepto\Sises\ApplicationBundle\Handler\ContratoRestHandler;
 use Concepto\Sises\ApplicationBundle\Handler\RestHandler;
+use Concepto\Sises\ApplicationBundle\Utils;
+use JMS\DiExtraBundle\Annotation\Inject;
+use JMS\DiExtraBundle\Annotation\InjectParams;
 use JMS\DiExtraBundle\Annotation\Service;
 
 /**
@@ -23,6 +27,31 @@ use JMS\DiExtraBundle\Annotation\Service;
  */
 class CoordinadorRestHandler extends RestHandler
 {
+    /**
+     * @var ContratoRestHandler
+     */
+    private $contrato;
+
+    /**
+     * @param ContratoRestHandler $contrato
+     *
+     * @InjectParams({"contrato" = @Inject("concepto_sises_contrato.handler")})
+     * @return ContratoRestHandler
+     */
+    public function setContrato($contrato)
+    {
+        $this->contrato = $contrato;
+    }
+
+    public function cget($pagerParams, $extraParams = array())
+    {
+        if ($this->isDirector()) {
+            $contratos = $this->contrato->cget(array());
+            $extraParams['contrato'] = Utils\Collection::buildQuery($contratos);
+        }
+
+        return parent::cget($pagerParams, $extraParams);
+    }
 
     protected function getTypeClassString()
     {
