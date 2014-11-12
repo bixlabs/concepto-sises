@@ -8,6 +8,12 @@ fos_user_change_password:
     resource: "@FOSUserBundle/Resources/config/routing/change_password.xml"
     prefix: /profile
 
+concepto_pdf:
+    path: /pdf/planilla/{id}.{_format}
+    defaults:  { _controller: SisesApplicationBundle:PDF\PDF:planilla, _format: pdf }
+    requirements:
+        _format: pdf
+
 concepto_sises:
     type: rest
     resource: @SisesApplicationBundle/Resources/config/routing.yml

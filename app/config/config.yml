@@ -84,7 +84,7 @@ fos_rest:
     format_listener:
         rules:
             - { path: ^/api, priorities: [ json, xml, html ], fallback_format: ~, prefer_extension: true }
-            - { path: ^/,    priorities: [ html, js, css, scss, '*/*'], fallback_format: ~, prefer_extension: true }
+            - { path: ^/,    priorities: [ html, pdf, js, css, scss, '*/*'], fallback_format: ~, prefer_extension: true }
     body_listener: true
 
 fos_user:

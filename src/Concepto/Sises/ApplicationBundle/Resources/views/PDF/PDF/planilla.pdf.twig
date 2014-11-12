@@ -1,0 +1,49 @@
+<!DOCTYPE pdf SYSTEM "%resources%/dtd/doctype.dtd">
+{# plantilla para generar el PDF #}
+<pdf Author="Food Tool" Title="Planilla beneficiarios">
+    <dynamic-page page-size="842:612" >
+        <placeholders>
+            <header>
+                <div height="30px" font-size="16px">
+                    REGISTRO DE CONTROL DE ASISTENCIA AL PROGRAMA <strong>NOMBRE LARGO CONTRATO</strong>
+                </div>
+            </header>
+            <footer>
+                <div height="20px">
+                    <table class="no-border">
+                        <tr>
+                            <td><page-info offset="0" format="Pagina %s de %s"/></td>
+                            <td>{# Generado el: {{now|date("m/d/Y H:m:i")}} por {{app.user.name}} #}</td>
+                        </tr>
+                    </table>
+                </div>
+            </footer>
+        </placeholders>
+
+        <!-- Table header -->
+        {% include '@SisesApplication/PDF/PDF/planilla_header.pdf.twig' %}
+        {% for beneficio in beneficios %}
+            <tr text-align="center" style="line-heigth: 20px">
+                <td>
+                    <div height="20px">{{loop.index}}</div>
+                </td>
+                <td>{{beneficio.beneficiario.persona.documento}}</td>
+                <td>{{ beneficio.beneficiario.persona.nombre|upper }}</td>
+                <td>{{ beneficio.beneficiario.persona.apellidos|upper }}</td>
+                <td>{#Fecha de nacimiento#}</td>
+                <td>{#Edad#}</td>
+                <td>{#Genero#}</td>
+                {% for day in days %}
+                    <td></td>
+                {% endfor %}
+            </tr>
+            {% if loop.index % per_page == 0 %}
+                </table>
+                <page-break/>
+                {% include '@SisesApplication/PDF/PDF/planilla_header.pdf.twig' %}
+            {% endif %}
+        {% endfor %}
+        </table>
+
+    </dynamic-page>
+</pdf>

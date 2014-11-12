@@ -28,7 +28,8 @@
         "pagerfanta/pagerfanta": "~1.0",
         "oneup/uploader-bundle": "~1.3",
         "knplabs/knp-gaufrette-bundle": "~0.1",
-        "willdurand/faker-bundle": "@stable"
+        "willdurand/faker-bundle": "@stable",
+        "psliwa/pdf-bundle": "~1.0"
     },
     "require-dev": {
         "sensio/generator-bundle": "~2.3",
