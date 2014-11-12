@@ -12,6 +12,7 @@
 namespace Concepto\Sises\ApplicationBundle\Handler;
 
 use Concepto\Sises\ApplicationBundle\Entity\OrmPersistible;
+use Concepto\Sises\ApplicationBundle\Utils;
 use JMS\DiExtraBundle\Annotation\Service;
 
 /**
@@ -21,6 +22,16 @@ use JMS\DiExtraBundle\Annotation\Service;
  */
 class EmpresaRestHandler extends RestHandler
 {
+    public function cget($pagerParams, $extraParams = array())
+    {
+        if ($this->isDirector()) {
+            $director = $this->getRelatedUser();
+            $extraParams['encargado'] = $director->getId();
+        }
+
+        return parent::cget($pagerParams, $extraParams);
+    }
+
     /**
      * @return string
      */
