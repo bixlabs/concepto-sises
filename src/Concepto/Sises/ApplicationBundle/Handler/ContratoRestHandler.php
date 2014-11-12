@@ -13,6 +13,7 @@ namespace Concepto\Sises\ApplicationBundle\Handler;
 
 use Concepto\Sises\ApplicationBundle\Entity\OrmPersistible;
 use JMS\DiExtraBundle\Annotation\Service;
+use Concepto\Sises\ApplicationBundle\Utils;
 
 /**
  * Class ContratoRestHandler
@@ -29,17 +30,7 @@ class ContratoRestHandler extends RestHandler
                 'encargado' => $director
             ));
 
-            $_e = array();
-
-            foreach ($empresas as $empresa) {
-                $_e[] = $empresa->getId();
-            }
-
-            if (count($_e) > 0) {
-                $extraParams['empresa'] = 'A,' . implode(';', $_e);
-            } else {
-                $extraParams['empresa'] = '-1';
-            }
+            $extraParams['empresa'] = Utils\Collection::buildQuery($empresas);
         }
 
         return parent::cget($pagerParams, $extraParams);

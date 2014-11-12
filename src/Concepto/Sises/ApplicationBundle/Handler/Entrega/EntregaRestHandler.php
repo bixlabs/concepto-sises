@@ -11,12 +11,16 @@ namespace Concepto\Sises\ApplicationBundle\Handler\Entrega;
 
 use Concepto\Sises\ApplicationBundle\Entity\Entrega\Entrega;
 use Concepto\Sises\ApplicationBundle\Entity\Entrega\EntregaDetalle;
+use Concepto\Sises\ApplicationBundle\Handler\ContratoRestHandler;
 use Concepto\Sises\ApplicationBundle\Handler\RestHandler;
 use Concepto\Sises\ApplicationBundle\Model\EntregaCierre;
 use Concepto\Sises\ApplicationBundle\Model\EntregaCierreServicio;
 use Concepto\Sises\ApplicationBundle\Model\Form\EntregaCierreType;
+use Concepto\Sises\ApplicationBundle\Utils;
 use FOS\RestBundle\Util\Codes;
 use FOS\RestBundle\View\View;
+use JMS\DiExtraBundle\Annotation\Inject;
+use JMS\DiExtraBundle\Annotation\InjectParams;
 use JMS\DiExtraBundle\Annotation\Service;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
@@ -27,6 +31,33 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
  */
 class EntregaRestHandler extends RestHandler
 {
+
+    /**
+     * @var ContratoRestHandler
+     */
+    private $contrato;
+
+    /**
+     * @param ContratoRestHandler $contrato
+     *
+     * @InjectParams({"contrato" = @Inject("concepto_sises_contrato.handler")})
+     * @return ContratoRestHandler
+     */
+    public function setContrato($contrato)
+    {
+        $this->contrato = $contrato;
+    }
+
+
+    public function cget($pagerParams, $extraParams = array())
+    {
+        if ($this->isDirector()) {
+            $contratos = $this->contrato->cget(array());
+            $extraParams['contrato'] = Utils\Collection::buildQuery($contratos);
+        }
+
+        return parent::cget($pagerParams, $extraParams);
+    }
 
     public function getCalcular($id)
     {
