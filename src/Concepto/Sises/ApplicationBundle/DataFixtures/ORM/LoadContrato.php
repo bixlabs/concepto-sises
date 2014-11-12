@@ -70,7 +70,7 @@ class LoadContrato implements FixtureInterface, OrderedFixtureInterface {
         $contrato->addServicio($servicio);
 
         $servicio2 = new ServicioContratado();
-        $servicio2->setNombre("Dsayunos");
+        $servicio2->setNombre("Desayunos");
         $servicio2->setDiasContratados(100);
         $servicio2->setUnidadesDiarias(1500);
         $servicio2->setValorUnitario(2560);
