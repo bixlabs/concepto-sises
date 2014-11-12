@@ -12,8 +12,6 @@
         'ui.bootstrap'
     ];
 
-    console.log(M, modules);
-
     angular.module(G.APP, M.concat(modules))
         .config(['plUploadServiceProvider', '$provide', function (plUploadServiceProvider, $provide) {
             //plUploadServiceProvider.setConfig('flashPath', 'bower_components/plupload-angular-directive/plupload.flash.swf');
