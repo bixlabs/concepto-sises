@@ -14,7 +14,7 @@
     //G.Base.Controller
     var module = G.BuildModule('LIQUIDACION', {
         register: 'liquidacion',
-        label: 'Liquidaciones',
+        label: 'Realizar Liquidaciones',
         states: [
             {
                 suffix: '',

@@ -7,7 +7,7 @@
 
     G.modules.DASHBOARD = 'DASHBOARD';
 
-    angular.module(G.modules.DASHBOARD, ['ngRoute' ,'ngResource'])
+    angular.module(G.modules.DASHBOARD, ['ngRoute' ,'ngResource', 'ui.router'])
         .config(['$stateProvider', '$urlRouterProvider', function ($stateProvider, $urlRouterProvider) {
             $stateProvider
                 .state('dashboard', {

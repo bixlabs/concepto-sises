@@ -5,23 +5,16 @@
     "use strict";
 
     var modules = [
-        'EMPRESA',
-        'DASHBOARD',
-        'CONTRATO',
-        'BENEFICIARIO',
-        'RRHH',
-        'COORDINADOR',
-        'DIRECTOR',
-        'ADMIN_ENTREGA',
-        'COORD_ENTREGA',
-        'LIQUIDACION',
+        'RESOURCE',
         'ui.router',
         'localytics.directives',
         'plupload.directive',
         'ui.bootstrap'
     ];
 
-    angular.module(G.APP, modules)
+    console.log(M, modules);
+
+    angular.module(G.APP, M.concat(modules))
         .config(['plUploadServiceProvider', '$provide', function (plUploadServiceProvider, $provide) {
             //plUploadServiceProvider.setConfig('flashPath', 'bower_components/plupload-angular-directive/plupload.flash.swf');
             //plUploadServiceProvider.setConfig('silverLightPath', 'bower_components/plupload-angular-directive/plupload.silverlight.xap');
