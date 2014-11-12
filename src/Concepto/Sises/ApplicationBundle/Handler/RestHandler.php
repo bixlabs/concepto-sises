@@ -13,6 +13,9 @@ namespace Concepto\Sises\ApplicationBundle\Handler;
 
 use Concepto\Sises\ApplicationBundle\Entity\EntityRepository;
 use Concepto\Sises\ApplicationBundle\Entity\OrmPersistible;
+use Concepto\Sises\ApplicationBundle\Entity\PersonaCargo;
+use Concepto\Sises\ApplicationBundle\Entity\Personal\Coordinador;
+use Concepto\Sises\ApplicationBundle\Entity\Seguridad\Usuario;
 use Doctrine\Common\Inflector\Inflector;
 use Doctrine\DBAL\DBALException;
 use Doctrine\ORM\EntityManager;
@@ -27,6 +30,7 @@ use Pagerfanta\Pagerfanta;
 use Symfony\Component\Form\FormFactory;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Routing\Router;
+use Symfony\Component\Security\Core\SecurityContext;
 
 /**
  * Class RestHandler
@@ -56,19 +60,37 @@ abstract class RestHandler implements RestHandlerInterface {
     private $logger;
 
     /**
+     * @var SecurityContext
+     */
+    private $security;
+
+    /**
+     * @var PersonaCargo
+     */
+    private $director;
+
+    /**
+     * @var Coordinador
+     */
+    private $coordinador;
+
+
+    /**
      * @InjectParams({
      *   "em" = @Inject("doctrine.orm.default_entity_manager"),
      *   "formfactory" = @Inject("form.factory"),
      *   "router" = @Inject("router"),
-     *   "logger" = @Inject("logger")
+     *   "logger" = @Inject("logger"),
+     *   "security" = @Inject("security.context")
      * })
      */
-    function __construct($em, $formfactory, $router, $logger)
+    function __construct($em, $formfactory, $router, $logger, $security)
     {
         $this->em = $em;
         $this->formfactory = $formfactory;
         $this->router = $router;
         $this->logger = $logger;
+        $this->security = $security;
     }
 
     abstract protected function getTypeClassString();
@@ -247,5 +269,64 @@ abstract class RestHandler implements RestHandlerInterface {
     protected  function preFlush($object, $bag = array())
     {
         return array($object, $bag);
+    }
+
+    /**
+     * @return SecurityContext
+     */
+    public function getSecurity()
+    {
+        return $this->security;
+    }
+
+    /**
+     * @return Usuario
+     */
+    public function getUser()
+    {
+        return $this->getSecurity()->getToken()->getUser();
+    }
+
+    public function isDirector()
+    {
+        $user = $this->getUser();
+
+        return $user->getTipo() === Usuario::DIRECTOR;
+    }
+
+    /**
+     * @return PersonaCargo|Coordinador
+     */
+    public function getRelatedUser()
+    {
+        $user = $this->getUser();
+        switch ($user->getTipo()) {
+            case Usuario::DIRECTOR:
+                $this->director = $this->getEm()
+                    ->getRepository('SisesApplicationBundle:PersonaCargo')
+                    ->find($user->getRelated());
+                return $this->director;
+            case Usuario::COORDINADOR:
+                $this->coordinador = $this->getEm()
+                    ->getRepository('SisesApplicationBundle:Personal\Coordinador')
+                    ->find($user->getRelated());
+                return $this->coordinador;
+        }
+    }
+
+    /**
+     * @return PersonaCargo
+     */
+    public function getDirector()
+    {
+        return $this->director;
+    }
+
+    /**
+     * @return Coordinador
+     */
+    public function getCoordinador()
+    {
+        return $this->coordinador;
     }
 }
