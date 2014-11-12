@@ -13,20 +13,22 @@
 <table class="table table-hover table-condensed">
     <thead>
     <tr>
+        <th width="25%">Contrato</th>
         <th width="20%">Documento</th>
         <th width="50%">Nombre completo</th>
         <th></th>
     </tr>
     </thead>
-    <tbody ng-if="elements.length == 0">
+    <tbody data-ng-if="elements.length == 0">
     <tr>
         <td colspan="3">
             No existen coordinadores
         </td>
     </tr>
     </tbody>
-    <tbody ng-if="elements.length > 0">
+    <tbody data-ng-if="elements.length > 0">
     <tr data-ng-repeat="single in elements">
+        <td data-ng-bind="single.contrato.nombre"></td>
         <td data-ng-bind="single.persona.documento"></td>
         <td data-ng-bind="single.persona.nombre_completo"></td>
         <td>
