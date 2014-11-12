@@ -7,7 +7,7 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="" data-ui-sref="dashboard">SISES</a>
+            <a class="navbar-brand" href="">SISES</a>
         </div>
         <div class="collapse navbar-collapse">
             <ul class="nav navbar-nav">
@@ -30,7 +30,7 @@
                     </ul>
                 </li>
 
-                <li data-ng-repeat="entry in entries"
+                <li data-ng-repeat="entry in entries | orderBy:menu_ordered:menu_reversed"
                     data-ng-if="authState"
                     data-ng-class="{ active: isActive(entry.url)}">
                     {% verbatim %}

@@ -19,6 +19,15 @@
                 .otherwise('/dashboard');
         }])
 
+        .run(['MenuService', function(MS) {
+            MS.register({
+                name: G.modules.DASHBOARD,
+                url: 'dashboard',
+                label: 'Cuadro de mando',
+                priority: 0
+            });
+        }])
+
         .controller('DashboardController', ['$http', '$scope', function($http, scope) {
 
             var base_data = {
