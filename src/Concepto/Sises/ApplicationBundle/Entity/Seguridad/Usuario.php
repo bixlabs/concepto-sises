@@ -45,7 +45,7 @@ class Usuario extends User
 
     /**
      * @var string
-     * @Column(name="related", length=36)
+     * @Column(name="related", length=36, nullable=true)
      */
     protected $related;
 
