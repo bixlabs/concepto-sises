@@ -54,6 +54,9 @@ doctrine:
             default:
                 default_repository_class: Concepto\Sises\ApplicationBundle\Entity\EntityRepository
                 auto_mapping: true
+                dql:
+                    datetime_functions:
+                        date: Concepto\Sises\ApplicationBundle\Query\Functions\DateFunction
 
 # Swiftmailer Configuration
 swiftmailer:
