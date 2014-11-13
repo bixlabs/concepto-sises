@@ -61,6 +61,12 @@ class EntregaOperacion {
     protected $fechaEntrega;
 
     /**
+     * @var EntregaLiquidacion
+     * @ORM\ManyToOne(targetEntity="Concepto\Sises\ApplicationBundle\Entity\Entrega\EntregaLiquidacion", inversedBy="detalles")
+     */
+    protected $liquidacion;
+
+    /**
      * @return ServicioOperativo
      */
     public function getServicio()
@@ -133,5 +139,21 @@ class EntregaOperacion {
     public function setId($id)
     {
         $this->id = $id;
+    }
+
+    /**
+     * @return EntregaLiquidacion
+     */
+    public function getLiquidacion()
+    {
+        return $this->liquidacion;
+    }
+
+    /**
+     * @param EntregaLiquidacion $liquidacion
+     */
+    public function setLiquidacion($liquidacion)
+    {
+        $this->liquidacion = $liquidacion;
     }
 } 

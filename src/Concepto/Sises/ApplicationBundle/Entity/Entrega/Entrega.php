@@ -108,7 +108,6 @@ class Entrega
         $this->detalles = new ArrayCollection();
     }
 
-
     /**
      * Get id
      *
