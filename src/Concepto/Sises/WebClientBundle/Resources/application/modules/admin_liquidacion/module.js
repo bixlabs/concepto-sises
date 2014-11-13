@@ -19,8 +19,8 @@
         category: 'liquidacion_category',
         controllers: {
             edit: {
-                deps: ['$http'],
-                func: function(RR, scope, $http) {
+                deps: ['$http', 'ngToast'],
+                func: function(RR, scope, $http, ngToast) {
                     scope.detalles = [];
                     scope.detalles_cierre = {};
                     scope.collapse_in = null;
@@ -28,6 +28,15 @@
                         $http.get(G.route('get_liquidacion_detalles', {id: scope.element.id}))
                             .success(function calcular_success(data) {
                                 scope.detalles = data;
+
+                                if (data.length === 0) {
+                                    ngToast.create({
+                                        'content': '<i class="glyphicon glyphicon-exclamation-sign"></i> No hay datos para realizar cierre',
+                                        'class': 'info',
+                                        'verticalPosition': 'top',
+                                        'horizontalPosition': 'center'
+                                    });
+                                }
                             });
                     };
 
