@@ -14,6 +14,7 @@
     window.M = [
         'DASHBOARD',
         'COORD_ENTREGA',
-        'LIQUIDACION'
+        'LIQUIDACION',
+        'PLANILLAS'
     ];
 })();

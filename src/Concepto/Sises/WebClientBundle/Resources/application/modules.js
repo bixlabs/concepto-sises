@@ -21,7 +21,8 @@
         'DIRECTOR',
         'ADMIN_ENTREGA',
         'COORD_ENTREGA',
-        'LIQUIDACION'
+        'LIQUIDACION',
+        'PLANILLAS'
     ];
 
 })();

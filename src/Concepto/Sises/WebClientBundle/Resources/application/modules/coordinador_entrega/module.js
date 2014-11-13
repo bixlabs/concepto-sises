@@ -15,6 +15,7 @@
     var module = G.BuildModule('COORD_ENTREGA', {
         register: 'coord_entrega',
         label: 'Realizar entrega',
+        category: 'entrega_category',
         states: [
             {
                 suffix: '',

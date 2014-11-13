@@ -55,6 +55,11 @@
                     label: 'Empresa',
                     is_category: true
                 });
+                MS.register({
+                    name: 'entrega_category',
+                    label: 'Entregas',
+                    is_category: true
+                });
             }
         ])
     ;
