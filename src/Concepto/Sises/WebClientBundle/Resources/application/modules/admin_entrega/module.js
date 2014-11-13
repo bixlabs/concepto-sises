@@ -15,7 +15,8 @@
 
     G.BuildModule(G.modules.ADMIN_ENTREGA, {
         register: true,
-        label: 'Entregas',
+        label: 'Gestión de entregas',
+        category: 'entrega_category',
         controllers: {
             edit: {
                 deps: ['$http'],
