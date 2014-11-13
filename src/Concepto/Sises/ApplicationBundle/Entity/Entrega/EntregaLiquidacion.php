@@ -26,6 +26,7 @@ use Doctrine\ORM\Mapping\Table;
 use JMS\Serializer\Annotation\Groups;
 use JMS\Serializer\Annotation\MaxDepth;
 use JMS\Serializer\Annotation\SerializedName;
+use JMS\Serializer\Annotation\VirtualProperty;
 use Symfony\Component\Validator\Constraints\NotBlank;
 use Symfony\Component\Validator\Constraints\NotNull;
 
@@ -207,5 +208,15 @@ class EntregaLiquidacion
     public function setDetalles($detalles)
     {
         $this->detalles = $detalles;
+    }
+
+    /**
+     * @SerializedName("nombre_detallado")
+     * @VirtualProperty()
+     * @Groups({"list"})
+     */
+    public function getNombreDetallado()
+    {
+        return "{$this->getFechaInicio()->format('d M Y')} - {$this->getFechaCierre()->format('d M Y')}";
     }
 } 
