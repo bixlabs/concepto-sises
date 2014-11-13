@@ -108,6 +108,17 @@ class EntregaLiquidacion
 
     /**
      * @return string
+     * @VirtualProperty()
+     * @SerializedName("contrato")
+     * @Groups({"details"})
+     */
+    public function getContratoId()
+    {
+        return $this->contrato->getId();
+    }
+
+    /**
+     * @return string
      */
     public function getId()
     {

@@ -29,6 +29,7 @@ class EntregaLiquidacionType extends AbstractType
             ->add('contrato', 'entity_hidden', array(
                 'class' => 'Concepto\Sises\ApplicationBundle\Entity\Contrato'
             ))
+            ->add('estado', null, array('required' => false))
         ;
     }
     

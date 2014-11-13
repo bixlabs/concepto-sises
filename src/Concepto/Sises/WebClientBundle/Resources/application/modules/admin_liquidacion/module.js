@@ -24,7 +24,9 @@
                     scope.detalles = [];
                     scope.detalles_cierre = {};
                     scope.collapse_in = null;
-                    scope.calcular = function calcular() {
+                    scope.calcular = _getDetalles;
+
+                    function _getDetalles() {
                         $http.get(G.route('get_liquidacion_detalles', {id: scope.element.id}))
                             .success(function calcular_success(data) {
                                 scope.detalles = data;
@@ -38,7 +40,7 @@
                                     });
                                 }
                             });
-                    };
+                    }
 
                     scope.showCollapse = function showCollase(index) {
                         if (index === scope.collapse_in) {
@@ -67,27 +69,13 @@
 
                     scope.$watch('element.estado', function(val) {
                         if (val && val === 'finalizada') {
-                            $http.get(G.route('get_entrega_detalles', {
-                                id: scope.element.id
-                            })).success(function(data) {
-                                scope.detalles = data;
-                            });
+                            _getDetalles();
                         }
                     });
 
                     scope.okCierre = function okCierre() {
-                        var servicios = [];
-
-                        angular.forEach(scope.detalles_cierre, function(servicio) {
-                            servicios.push(servicio);
-                        });
-
-                        $http.put(G.route('put_entrega_cierre'), {
-                            id: scope.element.id,
-                            servicios: servicios
-                        }).success(function() {
-                            scope.details(scope.element.id);
-                        })
+                        scope.element.estado = 'finalizada';
+                        scope.element.$update();
                     };
                 }
             }
