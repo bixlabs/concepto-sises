@@ -27,8 +27,8 @@
     });
 
     module.controller('LIIndex', [
-        'RestResources', '$scope', '$http',
-        function(RR, scope, $http) {
+        'RestResources', '$scope', '$http', 'ngToast',
+        function(RR, scope, $http, ngToast) {
             var $form = $('.form-single');
 
             scope.servicios = RR.serv_operativo.query();
@@ -148,13 +148,30 @@
                     servicios.push(s);
                 });
 
+                if (servicios.length === 0) {
+                    ngToast.create({
+                        'content': '<i class="glyphicon glyphicon-exclamation-sign"></i> No hay datos que guardar',
+                        'class': 'info',
+                        'verticalPosition': 'top',
+                        'horizontalPosition': 'center'
+                    });
+                }
+
                 window.SS = scope.seleccion;
                 $http.post(G.route('post_servicio_liquidacion', {
                     id: scope.seleccion.servicio_id
                 }), {
                     liquidaciones: servicios
                 }).success(function() {
-                    scope.servicios = RR.serv_operativo.query();
+                    scope.servicios = RR.serv_operativo.query(function() {
+                        angular.forEach(scope.servicios, function(servicio) {
+                            if (servicio.id === scope.seleccion.servicio_id) {
+                                scope.seleccion.servicio = servicio;
+                            }
+                        });
+                    });
+
+
                 });
             };
 
