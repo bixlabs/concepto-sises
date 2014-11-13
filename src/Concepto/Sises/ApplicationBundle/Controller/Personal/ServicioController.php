@@ -14,6 +14,7 @@ namespace Concepto\Sises\ApplicationBundle\Controller\Personal;
 
 use Concepto\Sises\ApplicationBundle\Controller\RestController;
 use Concepto\Sises\ApplicationBundle\Handler\Personal\ServicioRestHandler;
+use FOS\RestBundle\Request\ParamFetcher;
 use JMS\DiExtraBundle\Annotation\LookupMethod;
 use Symfony\Component\HttpFoundation\Request;
 

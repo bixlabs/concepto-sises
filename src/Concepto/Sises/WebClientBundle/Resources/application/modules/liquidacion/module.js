@@ -125,19 +125,15 @@
                         var storeId = scope.seleccion.curDate.date.format('ww-E'),
                             store = scope.seleccion.servicios[storeId];
 
+                        scope.seleccion.servicios[storeId] = {
+                            liquidacion: scope.seleccion.entrega.id,
+                            servicio: scope.seleccion.servicio_id,
+                            cantidad: scope.seleccion.curDate.cantidad,
+                            fechaEntrega: scope.seleccion.curDate.date.format('YYYY-MM-DDTHH:mm:ssZZ')
+                        };
+
                         if (store) {
-                            scope.seleccion.servicios[storeId] = {
-                                id: store.id,
-                                servicio: scope.seleccion.servicio_id,
-                                cantidad: scope.seleccion.curDate.cantidad,
-                                fechaEntrega: scope.seleccion.curDate.date.format('YYYY-MM-DDTHH:mm:ssZZ')
-                            };
-                        } else {
-                            scope.seleccion.servicios[storeId] = {
-                                servicio: scope.seleccion.servicio_id,
-                                cantidad: scope.seleccion.curDate.cantidad,
-                                fechaEntrega: scope.seleccion.curDate.date.format('YYYY-MM-DDTHH:mm:ssZZ')
-                            };
+                            scope.seleccion.servicios[storeId].id = store.id;
                         }
 
                         scope.seleccion.curDate = null;

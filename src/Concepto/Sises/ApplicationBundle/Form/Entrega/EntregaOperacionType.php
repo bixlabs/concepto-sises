@@ -24,6 +24,9 @@ class EntregaOperacionType extends AbstractType
             ->add('servicio', 'entity_hidden', array(
                 'class' => 'Concepto\Sises\ApplicationBundle\Entity\ServicioOperativo'
             ))
+            ->add('liquidacion', 'entity_hidden', array(
+                'class' => 'Concepto\Sises\ApplicationBundle\Entity\Entrega\EntregaLiquidacion'
+            ))
         ;
     }
     

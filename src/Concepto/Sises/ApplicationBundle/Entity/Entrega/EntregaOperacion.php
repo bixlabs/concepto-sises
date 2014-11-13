@@ -54,7 +54,7 @@ class EntregaOperacion {
     /**
      * @var int
      * @ORM\Column(type="integer", nullable=false)
-     * @Groups({"details", "list"})
+     * @Groups({"details"})
      */
     protected $cantidadCierre = 0;
 
@@ -70,6 +70,8 @@ class EntregaOperacion {
     /**
      * @var EntregaLiquidacion
      * @ORM\ManyToOne(targetEntity="Concepto\Sises\ApplicationBundle\Entity\Entrega\EntregaLiquidacion", inversedBy="detalles")
+     * @ORM\JoinColumn(nullable=false)
+     * @Assert\NotNull()
      */
     protected $liquidacion;
 
