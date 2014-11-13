@@ -25,7 +25,37 @@
         ]
     });
 
-    module.controller('PlanillasIndex', function planillasIndex() {
+    module.controller('PlanillasIndex', ['$scope', function _planillasIndex(scope) {
+        scope.seleccion = {
+            asignacion: null
+        };
 
-    });
+        scope.fechas = [];
+
+        scope.getLink = function getLink(item) {
+            return G.route('concepto_pdf', {
+                id: scope.seleccion.asignacion.id,
+                date: item.date
+            });
+        };
+
+        scope.$watch('seleccion.asignacion', function (val) {
+            if (!val) {
+                return;
+            }
+
+            scope.fechas = [];
+            var start = moment(val.fechas.inicio).startOf('month'),
+                end = moment(val.fechas.cierre).endOf('month');
+
+            while (start.isBefore(end)) {
+
+                scope.fechas.push({
+                    date: start.format('YYYY-MM'),
+                    display: start.format('MMMM [de] YYYY')
+                });
+                start.add(1, 'month');
+            }
+        });
+    }]);
 })();

@@ -8,13 +8,19 @@
         <fieldset>
             <legend>Asignación</legend>
             <div data-sises-form="seleccion">
-                <div data-sises-form-select="asignacion_id"
+                <div data-sises-form-select="asignacion"
                      data-label="'Asignación'"
                      data-options="'coordinador_entrega'"
-                     data-options-key="id"
                      data-options-label="nombre_detallado"
                      data-required="true"></div>
             </div>
+            <ul>
+                <li data-ng-repeat="fecha in fechas">
+                    {% verbatim %}
+                    <a href="{{ getLink(fecha) }}" data-ng-bind="fecha.display"></a>
+                    {% endverbatim %}
+                </li>
+            </ul>
         </fieldset>
     </div>
 </div>

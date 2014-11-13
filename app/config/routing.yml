@@ -13,6 +13,8 @@ concepto_pdf:
     defaults:  { _controller: SisesApplicationBundle:PDF\PDF:planilla, _format: pdf }
     requirements:
         _format: pdf
+    options:
+        expose: true
 
 concepto_sises:
     type: rest

@@ -109,6 +109,22 @@ class EntregaAsignacion
     }
 
     /**
+     * @return array
+     * @SerializedName("fechas")
+     * @VirtualProperty()
+     * @Groups({"list"})
+     */
+    public function getFechas()
+    {
+        $entrega = $this->getEntrega();
+
+        return array(
+            'inicio' => $entrega->getFechaInicio(),
+            'cierre' => $entrega->getFechaCierre(),
+        );
+    }
+
+    /**
      * Set asignacion
      *
      * @param CoordinadorAsignacion $asignacion
