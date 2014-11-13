@@ -48,7 +48,11 @@ class PDFController
                 ->getPersonasDeAsignacion($asignacion);
 
             if ($date) {
-                $date = new \DateTime($date . '-1');
+                try {
+                    $date = new \DateTime($date . '-1');
+                } catch (\Exception $e) {
+                    throw new NotFoundHttpException("Fecha no disponible");
+                }
             } else {
                 $date = new \DateTime();
             }
@@ -68,7 +72,7 @@ class PDFController
                 'lugar' => $asignacion->getLugar()->getNombre(),
                 'ubicacion' => $asignacion->getLugar()->getUbicacion()->getNombreDetallado(),
                 'servicio' => $asignacion->getServicio()->getNombre(),
-                'per_page' => 20,
+                'per_page' => 25,
                 'date' => $date,
                 'days' => $days,
                 'personas' => $personas
