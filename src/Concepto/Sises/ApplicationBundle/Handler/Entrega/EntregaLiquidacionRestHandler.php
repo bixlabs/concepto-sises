@@ -12,13 +12,12 @@
 namespace Concepto\Sises\ApplicationBundle\Handler\Entrega;
 
 
+use Concepto\Sises\ApplicationBundle\Entity\Entrega\Entrega;
 use Concepto\Sises\ApplicationBundle\Entity\Entrega\EntregaLiquidacion;
 use Concepto\Sises\ApplicationBundle\Entity\Entrega\EntregaOperacion;
 use Concepto\Sises\ApplicationBundle\Handler\RestHandler;
-use Concepto\Sises\ApplicationBundle\Serializer\Exclusion\ListExclusionStrategy;
 use FOS\RestBundle\View\View;
 use JMS\DiExtraBundle\Annotation\Service;
-use JMS\Serializer\SerializationContext;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 /**
@@ -28,6 +27,15 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
  */
 class EntregaLiquidacionRestHandler extends RestHandler
 {
+    protected function process(array $parameters, $object, $method = 'PUT')
+    {
+        if (!isset($parameters['estado'])) {
+            $parameters['estado'] = Entrega::OPEN;
+        }
+
+        return parent::process($parameters, $object, $method);
+    }
+
 
     public function calcularLiquidacion($id)
     {
