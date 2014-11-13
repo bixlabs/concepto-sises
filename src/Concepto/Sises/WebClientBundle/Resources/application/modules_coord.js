@@ -12,7 +12,6 @@
     "use strict";
 
     window.M = [
-        'DASHBOARD',
         'COORD_ENTREGA',
         'LIQUIDACION',
         'PLANILLAS'
