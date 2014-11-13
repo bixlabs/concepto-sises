@@ -52,6 +52,13 @@ class EntregaOperacion {
     protected $cantidad = 0;
 
     /**
+     * @var int
+     * @ORM\Column(type="integer", nullable=false)
+     * @Groups({"details", "list"})
+     */
+    protected $cantidadCierre = 0;
+
+    /**
      * @var \DateTime
      * @ORM\Column(name="fecha_entrega", type="datetime")
      * @Assert\NotNull()
@@ -155,5 +162,21 @@ class EntregaOperacion {
     public function setLiquidacion($liquidacion)
     {
         $this->liquidacion = $liquidacion;
+    }
+
+    /**
+     * @return int
+     */
+    public function getCantidadCierre()
+    {
+        return $this->cantidadCierre;
+    }
+
+    /**
+     * @param int $cantidadCierre
+     */
+    public function setCantidadCierre($cantidadCierre)
+    {
+        $this->cantidadCierre = $cantidadCierre;
     }
 } 
