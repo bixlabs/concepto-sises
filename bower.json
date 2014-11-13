@@ -31,7 +31,8 @@
     "chosen": "https://github.com/rkmax/chosen.git#8cd9f7e683cc07e7b993e6c5cc69ede90aaa0111",
     "moment": "~2.8.3",
     "moment-range": "~1.0.5",
-    "c3": "~0.3.0"
+    "c3": "~0.3.0",
+    "ngtoast": "~1.2.0"
   },
   "resolutions": {
     "jquery": ">= 1.9.0",
