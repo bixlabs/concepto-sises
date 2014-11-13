@@ -13,15 +13,20 @@ namespace Concepto\Sises\ApplicationBundle\Controller\Entrega;
 
 
 use Concepto\Sises\ApplicationBundle\Controller\RestController;
-use Concepto\Sises\ApplicationBundle\Handler\RestHandlerInterface;
+use Concepto\Sises\ApplicationBundle\Handler\Entrega\EntregaLiquidacionRestHandler;
 use JMS\DiExtraBundle\Annotation\LookupMethod;
 
 class LiquidacionController extends RestController
 {
 
     /**
-     * @return RestHandlerInterface
+     * @return EntregaLiquidacionRestHandler
      * @LookupMethod("concepto_sises_entrega_liquidacion.handler")
      */
     public function getHandler() { }
+
+    public function getDetallesAction($id)
+    {
+        return $this->getHandler()->calcularLiquidacion($id);
+    }
 }

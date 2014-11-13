@@ -12,8 +12,14 @@
 namespace Concepto\Sises\ApplicationBundle\Handler\Entrega;
 
 
+use Concepto\Sises\ApplicationBundle\Entity\Entrega\EntregaLiquidacion;
+use Concepto\Sises\ApplicationBundle\Entity\Entrega\EntregaOperacion;
 use Concepto\Sises\ApplicationBundle\Handler\RestHandler;
+use Concepto\Sises\ApplicationBundle\Serializer\Exclusion\ListExclusionStrategy;
+use FOS\RestBundle\View\View;
 use JMS\DiExtraBundle\Annotation\Service;
+use JMS\Serializer\SerializationContext;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 /**
  * Class EntregaLiquidacionRestHandler
@@ -22,6 +28,53 @@ use JMS\DiExtraBundle\Annotation\Service;
  */
 class EntregaLiquidacionRestHandler extends RestHandler
 {
+
+    public function calcularLiquidacion($id)
+    {
+        /** @var EntregaLiquidacion $liquidacion */
+        $liquidacion = $this->get($id);
+
+        if (!$liquidacion) {
+            throw new NotFoundHttpException("No existe la liquidacion");
+        }
+
+        $result = array();
+
+        /** @var EntregaOperacion $d */
+        foreach($liquidacion->getDetalles() as $d) {
+            $recurso = $d->getServicio()->getRecursoHumano();
+            if (!isset($result[$recurso->getId()])) {
+                $result[$recurso->getId()] = array(
+                    'nombre' => $recurso->getPersona()->getNombreCompleto(),
+                    'documento' => $recurso->getPersona()->getDocumento(),
+                    'servicios' => array(),
+                    'total' => array(),
+                );
+            }
+
+            if (!isset($result[$recurso->getId()]['total'][$d->getServicioId()])) {
+                $result[$recurso->getId()]['total'][$d->getServicioId()] = array(
+                    'servicio' => $d->getServicioId(),
+                    'cant_cierre' => 0,
+                    'cant' => 0
+                );
+            }
+
+            $result[$recurso->getId()]['total'][$d->getServicioId()]['cant'] += (int)$d->getCantidad();
+            $result[$recurso->getId()]['total'][$d->getServicioId()]['cant_cierre'] += (int)$d->getCantidadCierre();
+
+            $result[$recurso->getId()]['servicios'][] = array(
+                'id' => $d->getServicioId(),
+                'fecha' => $d->getFechaEntrega(),
+                'nombre' => $d->getServicio()->getNombre(),
+                'lugar' => $d->getServicio()->getLugar()->getNombreDetallado(),
+                'cant' => $d->getCantidad(),
+                'cant_cierre' => $d->getCantidadCierre()
+            );
+        }
+
+        return View::create(array_values($result));
+    }
 
     protected function getTypeClassString()
     {
