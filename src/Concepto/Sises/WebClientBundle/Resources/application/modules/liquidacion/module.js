@@ -15,6 +15,7 @@
     var module = G.BuildModule('LIQUIDACION', {
         register: 'liquidacion',
         label: 'Realizar Liquidaciones',
+        category: 'liquidacion_category',
         states: [
             {
                 suffix: '',

@@ -35,8 +35,8 @@
                 'admin_entrega_calcular':  '/api/entregas/:id/calcular.json',
                 'admin_entrega_calcular_more':  '/api/entregas/:id/calcular/detalle.json',
                 'coordinador_entrega':     '/api/asignacions/:id.json',
-                'serv_operativo':          '/api/operativo/servicios/:id.json'
-
+                'serv_operativo':          '/api/operativo/servicios/:id.json',
+                'admin_liquidacion':     '/api/entrega/liquidacions/:id.json'
             };
 
             var methods = {};

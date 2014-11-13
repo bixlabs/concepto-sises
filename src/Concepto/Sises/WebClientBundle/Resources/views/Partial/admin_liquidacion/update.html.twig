@@ -1,0 +1,33 @@
+<div class="row">
+    <div class="col-lg-7">
+        <h2>Actualizar entrega</h2>
+    </div>
+    <div class="col-lg-5">
+        <div class="actions pull-right" data-ng-if="hasCierre()">
+            <button class="btn btn-default" data-ng-click="cancelarCierre()">
+                <i class="glyphicon glyphicon-remove"></i>
+                Cancelar cierre
+            </button>
+            <button class="btn btn-primary" data-ng-click="okCierre()">
+                <i class="glyphicon glyphicon-ok"></i>
+                Realizar cierre
+            </button>
+        </div>
+        <div class="actions pull-right" data-ng-if="!hasCierre()">
+            <button class="btn btn-default" data-ng-click="list()">
+                <i class="glyphicon glyphicon-list"></i>
+                Volver al listado
+            </button>
+            <button class="btn btn-warning" data-ng-click="calcular()" data-ng-if="estaPendiente()">
+                <i class="glyphicon glyphicon-ok"></i>
+                Realizar cierre
+            </button>
+            <button class="btn btn-danger" data-ng-disabled="testRemove()" data-ng-click="remove()">
+                <i class="glyphicon glyphicon-remove-sign"></i>
+                Eliminar
+            </button>
+        </div>
+    </div>
+</div>
+{% include '@SisesWebClient/Partial/admin_liquidacion/form.html.twig' %}
+

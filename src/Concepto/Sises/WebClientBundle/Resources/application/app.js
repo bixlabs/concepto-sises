@@ -60,6 +60,11 @@
                     label: 'Entregas',
                     is_category: true
                 });
+                MS.register({
+                    name: 'liquidacion_category',
+                    label: 'Liquidaciones',
+                    is_category: true
+                });
             }
         ])
     ;

@@ -82,3 +82,7 @@ dashboard:
     type: rest
     prefix: /api
     resource: @SisesApplicationBundle/Controller/DashboardController.php
+liquidacion:
+    type: rest
+    prefix: /api/entrega
+    resource: @SisesApplicationBundle/Controller/Entrega/LiquidacionController.php

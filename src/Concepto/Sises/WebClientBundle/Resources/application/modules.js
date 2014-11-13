@@ -22,6 +22,7 @@
         'ADMIN_ENTREGA',
         'COORD_ENTREGA',
         'LIQUIDACION',
+        'ADMIN_LIQUIDACION',
         'PLANILLAS'
     ];
 

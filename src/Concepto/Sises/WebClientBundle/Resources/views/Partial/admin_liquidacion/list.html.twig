@@ -1,0 +1,45 @@
+<div class="row">
+    <div class="col-lg-7">
+        <h2>Gestión de liquidaciónes</h2>
+    </div>
+    <div class="col-lg-5">
+        <div class="actions pull-right">
+            {% set params = {'name':'list', 'singular': 'Entrega'} %}
+            {{render(controller('SisesWebClientBundle:Web:actions', params))}}
+        </div>
+    </div>
+</div>
+
+<table class="table table-hover table-condensed">
+    <thead>
+    <tr>
+        <th width="30%">Contrato</th>
+        <th width="15%">Fecha inicio</th>
+        <th width="15%">Fecha cierre</th>
+        <th width="15%">Dias de gracia</th>
+        <th>Estado</th>
+        <th></th>
+    </tr>
+    </thead>
+    <tbody data-ng-if="elements.length == 0">
+    <tr>
+        <td colspan="3">
+            No existen directores
+        </td>
+    </tr>
+    </tbody>
+    <tbody data-ng-if="elements.length > 0">
+    <tr data-ng-repeat="single in elements">
+        <td data-ng-bind="single.contrato.nombre"></td>
+        <td data-ng-bind="single.fechaInicio|date"></td>
+        <td data-ng-bind="single.fechaCierre|date"></td>
+        <td data-ng-bind="single.diasGracia"></td>
+        <td data-ng-bind="single.estado"></td>
+        <td>
+            {% set params = {'name':'edit', 'singular': 'Single'} %}
+            {{render(controller('SisesWebClientBundle:Web:actions', params))}}
+        </td>
+    </tr>
+    </tbody>
+</table>
+

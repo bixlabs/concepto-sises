@@ -18,7 +18,8 @@
         'RRHH',
         'COORDINADOR',
         'ADMIN_ENTREGA',
-        'PLANILLAS'
+        'PLANILLAS',
+        'ADMIN_LIQUIDACION',
     ];
 
 })();

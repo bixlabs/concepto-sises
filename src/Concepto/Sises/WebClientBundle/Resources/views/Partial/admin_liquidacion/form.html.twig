@@ -1,0 +1,70 @@
+<div data-sises-form="element" data-errors="errors">
+    <div class="row">
+        <div class="col-lg-5">
+            <fieldset>
+                <legend>Datos de la entrega</legend>
+
+                <div data-sises-form-select="contrato"
+                     data-label="'Contrato'"
+                     data-options="'contrato'"
+                     data-options-key="id"
+                     data-options-label="nombre"
+                     data-required="true"></div>
+
+                <div data-sises-form-date="fechaInicio"
+                     data-required="true"
+                     data-max-date="fechaCierre"
+                     data-label="'Fecha inicio'"></div>
+
+                <div data-sises-form-date="fechaCierre"
+                     data-min-date="fechaInicio"
+                     data-required="true"
+                     data-label="'Fecha Cierre'"></div>
+
+                <div data-sises-form-input="diasGracia"
+                     data-label="'Dias de gracia'"
+                     data-required="true">
+                </div>
+                <div data-sises-form-static="element.estado"
+                        data-label="'Estado'"></div>
+            </fieldset>
+        </div>
+        <div class="col-lg-7">
+            <fieldset>
+                <legend>Entregas asociadas</legend>
+                <div data-ng-if="element.id"
+                     data-sises-entrega-asignada="element.id"></div>
+            </fieldset>
+        </div>
+    </div>
+</div>
+
+<div class="row" data-ng-if="detalles.length > 0">
+    <div class="col-lg-7 col-lg-offset-5">
+        <fieldset>
+            <legend>Detalle cierre</legend>
+            <table class="table table-condensed">
+                <thead>
+                    <tr>
+                        <th>Servicio</th>
+                        <th>Entregado (coordinadores)</th>
+                        <th>Entregado (en cierre)</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr data-ng-repeat="detalle in detalles">
+                        <td data-ng-bind="detalle.nombre"></td>
+                        <td data-ng-bind="detalle.total"></td>
+                        <td>
+                            <span data-ng-if="!estaPendiente()"
+                                  data-ng-bind="detalle.cantidad"></span>
+                            <input type="text"
+                                   data-ng-if="estaPendiente()"
+                                   data-ng-model="detalles_cierre[detalle.id].cantidad"/>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </fieldset>
+    </div>
+</div>
