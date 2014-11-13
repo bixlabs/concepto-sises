@@ -1,11 +1,29 @@
 <!DOCTYPE pdf SYSTEM "%resources%/dtd/doctype.dtd">
 {# plantilla para generar el PDF #}
-<pdf Author="Food Tool" Title="Planilla beneficiarios">
+<pdf Author="SISES" Title="Planilla beneficiarios">
     <dynamic-page page-size="842:612" >
         <placeholders>
             <header>
-                <div height="30px" font-size="16px">
-                    REGISTRO DE CONTROL DE ASISTENCIA AL PROGRAMA <strong>NOMBRE LARGO CONTRATO</strong>
+                <div class="header">
+                    <table class="no-border">
+                        <tr>
+                            <td width="10%">
+                                {% if contrato.empresa.logo %}
+                                    <img src="{{ web_uploads }}/{{ contrato.empresa.logo }}" class="logo-header" />
+                                {% endif %}
+                            </td>
+                            <td>
+                                <strong font-size="18px">{{ contrato.descripcion }}</strong> <br/>
+                                {{ contrato.empresa.nombre }} - {{ contrato.contratante.nombre }} <br/>
+                                {{ contrato.resolucion }}
+                            </td>
+                            <td width="10%">
+                                {% if contrato.contratante.logo %}
+                                    <img src="{{ web_uploads }}/{{ contrato.contratante.logo }}" class="logo-header" />
+                                {% endif %}
+                            </td>
+                        </tr>
+                    </table>
                 </div>
             </header>
             <footer>
@@ -22,14 +40,13 @@
 
         <!-- Table header -->
         {% include '@SisesApplication/PDF/PDF/planilla_header.pdf.twig' %}
-        {% for beneficio in beneficios %}
+        {% for persona in personas %}
             <tr text-align="center" style="line-heigth: 20px">
                 <td>
                     <div height="20px">{{loop.index}}</div>
                 </td>
-                <td>{{beneficio.beneficiario.persona.documento}}</td>
-                <td>{{ beneficio.beneficiario.persona.nombre|upper }}</td>
-                <td>{{ beneficio.beneficiario.persona.apellidos|upper }}</td>
+                <td>{{persona.documento}}</td>
+                <td text-align="left" padding-left="5px">{{persona.nombre|upper }} {{persona.apellidos|upper }}</td>
                 <td>{#Fecha de nacimiento#}</td>
                 <td>{#Edad#}</td>
                 <td>{#Genero#}</td>

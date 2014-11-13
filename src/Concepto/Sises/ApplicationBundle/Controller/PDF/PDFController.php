@@ -13,34 +13,46 @@ namespace Concepto\Sises\ApplicationBundle\Controller\PDF;
 
 
 use Doctrine\ORM\EntityManager;
+use FOS\RestBundle\View\View;
 use JMS\DiExtraBundle\Annotation\LookupMethod;
 use Ps\PdfBundle\Annotation\Pdf;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 /**
  * Class PDFController
  * @package Concepto\Sises\ApplicationBundle\Controller\PDF
  */
-class PDFController extends Controller
+class PDFController
 {
 
     /**
-     * @Pdf(stylesheet="SisesApplicationBundle:PDF\PDF:planilla_style.pdf.twig")
+     * @Pdf(
+     *    stylesheet="SisesApplicationBundle:PDF\PDF:planilla_style.pdf.twig",
+     *    enableCache=true,
+     *    headers={"Content-Type":"application/pdf"}
+     * )
+     *
+     * @param $id
+     * @param $date
+     *
      * @return array
      */
-    public function planillaAction($id)
+    public function planillaAction($id, $date = null)
     {
         $ea = $this->getEm()->getRepository('SisesApplicationBundle:Entrega\EntregaAsignacion')->find($id);
 
         if ($ea) {
             $asignacion = $ea->getAsignacion();
-            $beneficios = $this->getEm()
+            $personas = $this->getEm()
                 ->getRepository('SisesApplicationBundle:Beneficio')
-                ->findAll(array('servicio' => $asignacion->getServicioId(), 'lugar' => $asignacion->getLugarId()));
+                ->getPersonasDeAsignacion($asignacion);
 
-            $date = new \DateTime();
+            if ($date) {
+                $date = new \DateTime($date . '-1');
+            } else {
+                $date = new \DateTime();
+            }
+
             $start = new \DateTime($date->format('1-m-Y'));
             $end = new \DateTime($date->format('t-m-Y'));
 
@@ -51,18 +63,19 @@ class PDFController extends Controller
                 $start->add(new \DateInterval('P1D'));
             }
 
-            $response = new Response();
-            $response->headers->set('Content-Type', 'application/pdf');
-
-            return $this->render(sprintf('SisesApplicationBundle:PDF\PDF:planilla.pdf.twig'), [
+            return View::create(array(
+                'contrato' => $asignacion->getServicio()->getContrato(),
+                'lugar' => $asignacion->getLugar()->getNombre(),
+                'ubicacion' => $asignacion->getLugar()->getUbicacion()->getNombreDetallado(),
+                'servicio' => $asignacion->getServicio()->getNombre(),
                 'per_page' => 20,
                 'date' => $date,
                 'days' => $days,
-                'beneficios' => $beneficios
-            ], $response);
+                'personas' => $personas
+            ))->setTemplate('SisesApplicationBundle:PDF\PDF:planilla.pdf.twig');
         }
 
-        throw new NotFoundHttpException("Entrega asignacion no encuentrada");
+        throw new NotFoundHttpException("Entrega asignacion no encontrada");
     }
 
     /**

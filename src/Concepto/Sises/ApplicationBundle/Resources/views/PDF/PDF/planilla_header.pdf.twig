@@ -1,40 +1,39 @@
 <table font-size="12px" class="no-border">
     <tr>
-        <td width="10%">Municipio:</td>
-        <td>NOMBRE UBICACIÓN</td>
+        <td width="10%">Ubicación:</td>
+        <td><strong>{{ ubicacion }}</strong></td>
         <td width="10%">Lugar entrega: </td>
-        <td>NOMBRE LUGAR ENTREGA</td>
+        <td><strong>{{ lugar }}</strong></td>
     </tr>
     <tr>
         <td>Total de cupos</td>
-        <td>NUM</td>
+        <td><strong>{{ personas|length }}</strong></td>
         <td>Mes de reporte:</td>
-        <td>MES / AÑO</td>
-    </tr>
-    <tr>
-        <td></td>
-        <td></td>
-        <td>Codigo DANE:</td>
-        <td>CODIGO UNICO LUGAR ENTREGA</td>
+        <td><strong>{{ date|date('m/Y') }}</strong></td>
     </tr>
     <tr>
         <td></td>
         <td></td>
         <td>Beneficio:</td>
-        <td>SERVICIO</td>
+        <td><strong>{{ servicio }}</strong></td>
+    </tr>
+    <tr>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
     </tr>
 </table>
 <p></p>
 <table font-size="10px">
     <tr text-align="center">
         <td width="25px">N°</td>
-        <td>Documento</td>
-        <td>Nombre</td>
-        <td>Apellidos</td>
-        <td>Fecha nacimiento (dd/mm/aaaa)</td>
-        <td width="25px">Edad</td>
-        <td width="25px">Sexo (F/M)</td>
+        <td width="10%">Documento</td>
+        <td width="20%">Nombre completo</td>
+        <td width="10%">Fecha nacimiento</td>
+        <td width="27px">Edad</td>
+        <td width="27px">Sexo</td>
         {% for day in days %}
-            <td width="15px" text-align="center">{{day}}</td>
+            <td text-align="center">{{day}}</td>
         {% endfor %}
     </tr>{# Tabla no cerrada intencionalmente #}

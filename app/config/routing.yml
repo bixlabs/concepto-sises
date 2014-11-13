@@ -9,7 +9,7 @@ fos_user_change_password:
     prefix: /profile
 
 concepto_pdf:
-    path: /pdf/planilla/{id}.{_format}
+    path: /pdf/planilla/{id}/{date}.{_format}
     defaults:  { _controller: SisesApplicationBundle:PDF\PDF:planilla, _format: pdf }
     requirements:
         _format: pdf

@@ -26,7 +26,7 @@ use Symfony\Component\Validator\Constraints\NotNull;
 /**
  * Class Beneficiario
  * @package Concepto\Sises\ApplicationBundle\Entity
- * @Entity()
+ * @Entity(repositoryClass="Concepto\Sises\ApplicationBundle\Entity\BeneficioRepository")
  * @Table(
  *      name="beneficio_beneficiario",
  *      uniqueConstraints={
