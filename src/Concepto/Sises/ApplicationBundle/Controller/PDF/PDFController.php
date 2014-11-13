@@ -29,7 +29,7 @@ class PDFController
      * @Pdf(
      *    stylesheet="SisesApplicationBundle:PDF\PDF:planilla_style.pdf.twig",
      *    enableCache=true,
-     *    headers={"Content-Type":"application/pdf"}
+     *    headers={"Content-Type":"application/pdf", "Content-Disposition"="attachment"}
      * )
      *
      * @param $id
