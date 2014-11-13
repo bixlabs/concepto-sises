@@ -23,17 +23,20 @@
                 func: function(RR, scope, $http) {
                     scope.detalles = [];
                     scope.detalles_cierre = {};
+                    scope.collapse_in = null;
                     scope.calcular = function calcular() {
-                        RR.admin_entrega_calcular.get({id: scope.element.id}, function(data) {
-                            scope.detalles = data.results;
-                            scope.detalles_cierre = {};
-                            angular.forEach(data.results, function(item) {
-                                scope.detalles_cierre[item.id] = {
-                                    id: item.id,
-                                    cantidad: item.total
-                                };
+                        $http.get(G.route('get_liquidacion_detalles', {id: scope.element.id}))
+                            .success(function calcular_success(data) {
+                                scope.detalles = data;
                             });
-                        });
+                    };
+
+                    scope.showCollapse = function showCollase(index) {
+                        if (index === scope.collapse_in) {
+                            return false;
+                        }
+
+                        return true;
                     };
 
                     scope.hasCierre = function hasCierre() {

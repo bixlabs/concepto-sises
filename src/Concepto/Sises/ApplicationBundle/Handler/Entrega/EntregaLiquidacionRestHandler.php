@@ -49,6 +49,7 @@ class EntregaLiquidacionRestHandler extends RestHandler
                     'documento' => $recurso->getPersona()->getDocumento(),
                     'servicios' => array(),
                     'total' => array(),
+                    'gran_total' => 0,
                 );
             }
 
@@ -62,6 +63,7 @@ class EntregaLiquidacionRestHandler extends RestHandler
 
             $result[$recurso->getId()]['total'][$d->getServicioId()]['cant'] += (int)$d->getCantidad();
             $result[$recurso->getId()]['total'][$d->getServicioId()]['cant_cierre'] += (int)$d->getCantidadCierre();
+            $result[$recurso->getId()]['gran_total'] += (int)$d->getCantidad() * (float)$d->getServicio()->getValorUnitario();
 
             $result[$recurso->getId()]['servicios'][] = array(
                 'id' => $d->getServicioId(),
@@ -69,7 +71,8 @@ class EntregaLiquidacionRestHandler extends RestHandler
                 'nombre' => $d->getServicio()->getNombre(),
                 'lugar' => $d->getServicio()->getLugar()->getNombreDetallado(),
                 'cant' => $d->getCantidad(),
-                'cant_cierre' => $d->getCantidadCierre()
+                'cant_cierre' => $d->getCantidadCierre(),
+                'valor' => $d->getServicio()->getValorUnitario()
             );
         }
 

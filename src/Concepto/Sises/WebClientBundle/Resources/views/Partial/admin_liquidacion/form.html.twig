@@ -29,6 +29,57 @@
                         data-label="'Estado'"></div>
             </fieldset>
         </div>
-        <div class="col-lg-7"></div>
+        <div class="col-lg-7">
+            <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+                {% verbatim %}
+                <div class="panel panel-default" data-ng-repeat="detalle in detalles">
+                    <div class="panel-heading" role="tab" id="heading{{ $index }}">
+                        <h4 class="panel-title">
+                            <a data-toggle="collapse"
+                               data-parent="#accordion"
+                               data-ng-click="collapse_in = $index"
+                               aria-controls="collapse{{ $index }}">
+                                {{ detalle.nombre }} ({{ detalle.documento }})
+                            </a>
+                        </h4>
+                    </div>
+                    <div
+                         class="panel-collapse"
+                         role="tabpanel"
+                         aria-labelledby="heading{{ $index }}">
+                        <div class="panel-body">
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th>Fecha</th>
+                                        <th>Servicio</th>
+                                        <th>Cant.</th>
+                                        <th>$ Unidad</th>
+                                        <th>Total</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr data-ng-repeat="servicio in detalle.servicios">
+                                        <td>{{ moment(servicio.fecha).format('MMM DD YYYY') }}</td>
+                                        <td>
+                                            {{ servicio.nombre }}<br/>
+                                            <small>{{ servicio.lugar }}</small>
+                                        </td>
+                                        <td>{{ servicio.cant }}</td>
+                                        <td style="text-align: right">{{ servicio.valor|currency: '$' : 0 }}</td>
+                                        <td style="text-align: right">{{ (servicio.cant * servicio.valor)|currency: '$' : 0 }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="4"><strong style="text-align: right">Total</strong></td>
+                                        <td>{{ detalle.gran_total|currency: '$' : 0 }}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                {% endverbatim %}
+            </div>
+        </div>
     </div>
 </div>
