@@ -24,8 +24,12 @@ class DirectorType extends AbstractType
                 'allow_delete' => true,
                 'by_reference' => false
             ))
-            ->add('persona', null, array('property' => 'id'))
-            ->add('entidadFinanciera', null, array('property' => 'id'))
+            ->add('persona', 'entity_hidden', array(
+                'class' => 'Concepto\Sises\ApplicationBundle\Entity\Persona'
+            ))
+            ->add('entidadFinanciera', 'entity_hidden', array(
+                'class' => 'Concepto\Sises\ApplicationBundle\Entity\Financiera\Entidad'
+            ))
         ;
     }
 

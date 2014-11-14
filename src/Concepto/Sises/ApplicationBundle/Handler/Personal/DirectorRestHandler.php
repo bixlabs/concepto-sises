@@ -46,7 +46,6 @@ class DirectorRestHandler extends RestHandler
     {
         $servicios = array();
 
-        // Servicios antes de bind
         foreach ($object->getEmpresas() as $s) {
             $servicios[] = $s;
         }

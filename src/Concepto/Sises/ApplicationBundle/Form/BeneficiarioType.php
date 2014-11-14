@@ -37,6 +37,9 @@ class BeneficiarioType extends AbstractType {
                 'allow_delete' => true,
                 'by_reference' => false,
             ))
+            ->add('contrato', 'entity_hidden', array(
+                'class' => 'Concepto\Sises\ApplicationBundle\Entity\Contrato'
+            ))
             ;
     }
 

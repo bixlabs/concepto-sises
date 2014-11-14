@@ -22,8 +22,8 @@ class LoadBeneficiarios extends ContainerAwareFixture implements OrderedFixtureI
 {
     public function load(ObjectManager $manager)
     {
-        $this->container->get('faker.populator')->execute();
-        $this->createBeneficiio($manager);
+        //$this->container->get('faker.populator')->execute();
+        //$this->createBeneficiio($manager);
 
         $manager->flush();
     }

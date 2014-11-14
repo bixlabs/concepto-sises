@@ -30,8 +30,12 @@ class EmpresaType extends AbstractType
             ->add('email')
             ->add('logo')
             ->add('privada')
-            ->add('encargado',  null, array('property' => 'id'))
-            ->add('director',  null, array('property' => 'id'))
+            ->add('encargado', 'entity_hidden', array(
+                'class' => 'Concepto\Sises\ApplicationBundle\Entity\PersonaCargo'
+            ))
+            ->add('director',  'entity_hidden', array(
+                'class' => 'Concepto\Sises\ApplicationBundle\Entity\Personal\Director'
+            ))
             ->add('archivos', 'collection', array(
                 'type' => new ArchivoEmpresaType(),
                 'allow_add' => true,

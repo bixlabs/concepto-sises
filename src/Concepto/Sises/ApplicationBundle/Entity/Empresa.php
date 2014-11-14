@@ -23,6 +23,7 @@ use Doctrine\ORM\Mapping\ManyToMany;
 use Doctrine\ORM\Mapping\ManyToOne;
 use Doctrine\ORM\Mapping\OneToMany;
 use Doctrine\ORM\Mapping\Table;
+use JMS\Serializer\Annotation\Exclude;
 use JMS\Serializer\Annotation\Groups;
 use JMS\Serializer\Annotation\SerializedName;
 use JMS\Serializer\Annotation\VirtualProperty;
@@ -108,6 +109,7 @@ class Empresa extends Documentable implements OrmPersistible {
      *  cascade={"persist"}
      * )
      * @Groups({"details"})
+     * @Exclude()
      */
     protected $archivos;
 
