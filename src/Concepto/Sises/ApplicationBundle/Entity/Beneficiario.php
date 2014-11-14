@@ -18,11 +18,11 @@ use Doctrine\ORM\Mapping\Column;
 use Doctrine\ORM\Mapping\Entity;
 use Doctrine\ORM\Mapping\GeneratedValue;
 use Doctrine\ORM\Mapping\Id;
+use Doctrine\ORM\Mapping\JoinColumn;
 use Doctrine\ORM\Mapping\ManyToOne;
 use Doctrine\ORM\Mapping\OneToMany;
 use Doctrine\ORM\Mapping\Table;
 use JMS\Serializer\Annotation\Exclude;
-use JMS\Serializer\Annotation\ExclusionPolicy;
 use JMS\Serializer\Annotation\Groups;
 use JMS\Serializer\Annotation\MaxDepth;
 use JMS\Serializer\Annotation\SerializedName;
@@ -52,6 +52,15 @@ class Beneficiario extends Documentable implements OrmPersistible {
      * @Groups({"list"})
      */
     protected $persona;
+
+    /**
+     * @var Contrato
+     * @ManyToOne(targetEntity="Concepto\Sises\ApplicationBundle\Entity\Contrato", fetch="LAZY")
+     * @NotNull()
+     * @JoinColumn(nullable=false)
+     * @Groups({"list"})
+     */
+    protected $contrato;
 
     /**
      * @var Collection
@@ -152,5 +161,32 @@ class Beneficiario extends Documentable implements OrmPersistible {
             $beneficio->setBeneficiario(null);
             $this->beneficios->removeElement($beneficio);
         }
+    }
+
+    /**
+     * @return Contrato
+     */
+    public function getContrato()
+    {
+        return $this->contrato;
+    }
+
+    /**
+     * @param Contrato $contrato
+     */
+    public function setContrato($contrato)
+    {
+        $this->contrato = $contrato;
+    }
+
+    /**
+     * @return string
+     * @VirtualProperty()
+     * @SerializedName("contrato")
+     * @Groups({"details"})
+     */
+    public function getContratoId()
+    {
+        return $this->contrato->getId();
     }
 }

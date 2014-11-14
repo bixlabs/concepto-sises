@@ -34,11 +34,13 @@ class LoadBeneficiarios extends ContainerAwareFixture implements OrderedFixtureI
      */
     function createBeneficiarios($manager)
     {
+        $contrato = $manager->getRepository('SisesApplicationBundle:Contrato')->findOneBy(array());
         $personas = $manager->getRepository('SisesApplicationBundle:Persona')->findAll();
         $beneficiarios = array();
 
         foreach ($personas as $persona) {
             $beneficiario = new Beneficiario();
+            $beneficiario->setContrato($contrato);
             $beneficiario->setPersona($persona);
             $manager->persist($beneficiario);
             $beneficiarios[] = $beneficiario;

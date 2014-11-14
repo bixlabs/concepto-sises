@@ -7,6 +7,13 @@
                      data-label="'Beneficiario'"
                      data-show-property="nombre_completo"
                      data-crud="persona"></div>
+
+                <div data-sises-form-select="contrato"
+                     data-label="'Seleccione contrato'"
+                     data-options="'contrato'"
+                     data-options-key="id"
+                     data-options-label="nombre"
+                     data-required="true"></div>
             </fieldset>
         </div>
         <div class="col-lg-6">
@@ -17,22 +24,13 @@
                      data-button-label="Agregar beneficio"
                      data-table-field-lugar="Lugar"
                      data-table-field-servicio="Servicio"
-                     data-transform-parent-servicio="contrato.elegido"
+                     data-transform-parent-servicio="element.contrato"
                      data-table-transform-servicio="servicio,nombre_detallado"
                      data-table-transform-lugar="lugar,nombre_detallado"
                      data-unique-test="['lugar', 'servicio']">
 
-                    <div data-sises-compound="contrato">
-                        <div data-sises-form-select="elegido"
-                             data-label="'Seleccione contrato'"
-                             data-options="contratos"
-                             data-options-key="id"
-                             data-options-label="nombre"
-                             data-required="true"></div>
-                    </div>
-
                     <div data-sises-form-select-crud="servicio"
-                         data-parent-id="contrato.elegido"
+                         data-parent-id="element.contrato"
                          data-label="'Servicio'"
                          data-show-property="nombre"
                          data-crud="servicio"></div>
