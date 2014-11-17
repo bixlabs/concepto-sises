@@ -21,10 +21,28 @@
 
         // Guarda los errors de formulario
         scope.errors = {};
-        // Define si es posible guardar
         scope.canSave = true;
+        scope.canRemove = true;
+
         scope.testSave = function() {
             return !scope.canSave;
+        };
+
+        scope.testRemove = function() {
+            return !scope.canRemove;
+        };
+
+        scope.remove = function() {
+            scope.canRemove = false;
+            scope.modal.alert('Esta seguro de eliminar estos datos?', function() {
+                scope.element.$delete(function() {
+                    scope.list();
+                }, function () {
+                    scope.canRemove = true;
+                });
+            }, function() {
+                scope.canRemove = true;
+            })
         };
 
         // Funciones para cambiar de controlador

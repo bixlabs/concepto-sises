@@ -7,7 +7,7 @@
     angular.module(G.APP)
         .service('modalService', ['$rootScope', '$q', function($r, $q) {
 
-            var open_modal = function(text, callback) {
+            var open_modal = function(text, callback, fail_callback) {
                 var deferred = $q.defer();
 
                 $r.$on('modal.close.ok', function() {
@@ -20,12 +20,12 @@
 
                 $r.$emit('modal.open.recive', {text: text, title: 'Alerta'});
 
-                deferred.promise.then(callback);
+                deferred.promise.then(callback, fail_callback);
             };
 
             return {
-                alert: function(text, callback) {
-                    return open_modal(text, callback);
+                alert: function(text, callback, fail_callback) {
+                    return open_modal(text, callback, fail_callback);
                 }
             }
         }])
