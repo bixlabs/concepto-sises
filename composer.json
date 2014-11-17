@@ -29,7 +29,8 @@
         "oneup/uploader-bundle": "~1.3",
         "knplabs/knp-gaufrette-bundle": "~0.1",
         "willdurand/faker-bundle": "@stable",
-        "psliwa/pdf-bundle": "~1.0"
+        "psliwa/pdf-bundle": "~1.0",
+        "goodby/csv": "~1.1"
     },
     "require-dev": {
         "sensio/generator-bundle": "~2.3",
