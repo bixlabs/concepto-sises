@@ -423,9 +423,9 @@
                     // Agrega los filtros como parametros
                     buildFilterParams = function(query_params) {
                         if (!angular.equals({}, getFilter().current)
-                            && !angular.empty(getFilter().value)) {
-                            query_params[getFilter.current.value] =
-                                getFilter.current.comp + ', ' + getFilter.value;
+                            && getFilter().value) {
+                            query_params[getFilter().current.value] =
+                                getFilter().current.comp + ', ' + getFilter().value;
                         }
 
                         if (scope.parentId) {
