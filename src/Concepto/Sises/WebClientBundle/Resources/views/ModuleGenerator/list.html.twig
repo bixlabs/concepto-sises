@@ -1,0 +1,85 @@
+{# Encabezado #}
+<div class="row">
+    <div class="col-lg-7">
+        <h2>{% block title %}List{% endblock %}</h2>
+    </div>
+    <div class="col-lg-5">
+        <div class="actions pull-right">
+            {% block actions %}{% endblock %}
+        </div>
+    </div>
+</div>
+
+{# Filtros #}
+<div class="row">
+    <div class="col-lg-6">
+        <form class="inline-form" action="">
+            <div class="input-group">
+                <div class="input-group-btn">
+                    <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+                        <span data-ng-bind="filter.current.label"></span>
+                        <span class="caret"></span></button>
+                    <ul class="dropdown-menu" role="menu">
+                        <li data-ng-repeat="filter in filter.filters">
+                            <a href data-ng-bind="filter.label" data-ng-click="setFilter(filter)"></a>
+                        </li>
+                    </ul>
+                </div>
+
+                <label {% verbatim%}for="filter_{{id}}"{%endverbatim%} class="sr-only">Filtro</label>
+                <input data-ng-model="filter.value"
+                       class="form-control" type="text" {% verbatim%}id="filter_{{id}}"{%endverbatim%}/>
+                <div class="input-group-btn">
+                    <button type="button" class="btn btn-primary btn-icon"
+                            tabindex="-1"
+                            data-ng-click="queryList()">
+                        <i class="glyphicon glyphicon-search"></i>
+                    </button>
+                </div>
+            </div>
+        </form>
+    </div>
+    <div class="col-lg-2">
+        <button type="button" class="btn btn-default"
+                tabindex="-1"
+                data-ng-click="clearFilter()">
+            <i class="glyphicon glyphicon-refresh"></i> Limpiar
+        </button>
+    </div>
+</div>
+
+{# Listado #}
+<div class="row">
+    <div class="col-lg-12 table-wrapper">
+        <table class="table table-hover table-condensed">
+            <thead>
+                {% block list_header %}{% endblock %}
+            </thead>
+            <tbody data-ng-if="elements.length == 0">
+                <tr>
+                    <td colspan="2">
+                        {% block no_element %}No existen elementos{% endblock %}
+                    </td>
+                </tr>
+            </tbody>
+            <tbody data-ng-if="elements.length > 0">
+                <tr data-ng-repeat="single in elements">
+                    {% block list_content %}{% endblock %}
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+{# Paginador #}
+<div class="row" data-ng-if="pager.last > 1">
+    <div class="col-lg-12">
+        <ul class="pager">
+            <li><a href data-ng-click="pager.previousPage()">Anterior</a></li>
+            <li></li>
+            <li data-ng-bind="pager.showingMessage()"></li>
+            <li></li>
+            <li><a href data-ng-click="pager.nextPage()">Siguiente</a></li>
+        </ul>
+    </div>
+</div>

@@ -1,0 +1,27 @@
+{% extends 'SisesWebClientBundle:ModuleGenerator:list.html.twig' %}
+
+{% block title %}Beneficiarios{% endblock %}
+{% block actions %}
+    {% set params = {'name':'list', 'singular': 'Beneficiario'} %}
+    {{render(controller('SisesWebClientBundle:Web:actions', params))}}
+{% endblock %}
+
+{% block list_header %}
+    <th width="20%">Documento</th>
+    <th>Nombre beneficiario</th>
+    <th width="20%"></th>
+{% endblock %}
+
+{% block no_element %}
+    No existen beneficiarios
+{% endblock %}
+
+{% block list_content %}
+    <td data-ng-bind="single.persona.documento"></td>
+    <td data-ng-bind="single.persona.nombre_completo"></td>
+    <td>
+        {% set params = {'name':'edit', 'singular': 'single'} %}
+        {{render(controller('SisesWebClientBundle:Web:actions', params))}}
+    </td>
+{% endblock %}
+

@@ -150,15 +150,19 @@
         if (autoController) {
 
             var defaultsDeps = ['RestResources', '$scope'],
+                listDefaultDeps = ['FilterResources'],
                 listCtrl = {},
                 newCtrl = {},
                 editCtrl = {};
 
             if (config.controllers.list) {
                 listCtrl = config.controllers.list;
-                listCtrl.deps = listCtrl.deps ? defaultsDeps.concat(listCtrl.deps) : defaultsDeps;
+                listCtrl.deps =
+                    listCtrl.deps
+                        ? defaultsDeps.concat(listDefaultDeps).concat(listCtrl.deps)
+                        : defaultsDeps.concat(listDefaultDeps);
             } else {
-                listCtrl = { func: function(RR, scope) {}, deps: defaultsDeps};
+                listCtrl = { func: function(RR, scope, FR) {}, deps: defaultsDeps.concat(listDefaultDeps)};
             }
 
             if (config.controllers.edit) {
@@ -182,12 +186,96 @@
                 function () {
                     var scopeIdx = listCtrl.deps.indexOf('$scope'),
                         rrIdx = listCtrl.deps.indexOf('RestResources'),
+                        frIdx = listCtrl.deps.indexOf('FilterResources'),
                         RR = arguments[rrIdx],
-                        scope = arguments[scopeIdx];
+                        scope = arguments[scopeIdx],
+                        FR = arguments[frIdx],
+                        getFilter = function() {
+                            return scope.filter;
+                        },
+                        queryList = function(page) {
+                            var query_params = page ? {page: page} : {};
 
-                    scope.elements = RR[config.resource].query();
+                            buildFilterParams(query_params);
+
+                            scope.elements = RR[config.resource].query(query_params, extractPager);
+
+                        },
+                        buildFilterParams = function(query_params) {
+                            if (!angular.equals({}, getFilter().current)
+                                && getFilter().value) {
+                                query_params[getFilter().current.value] =
+                                    getFilter().current.comp + ',' + getFilter().value;
+                            }
+
+                            return query_params;
+                        },
+                        extractPager = function(data, headers) {
+                        var pager = {
+                            current: parseInt(headers('X-Current-Page')),
+                            last: parseInt(headers('X-Total-Pages')),
+                            count: parseInt(headers('X-Total-Count')),
+                            limit: parseInt(headers('X-Per-Page'))
+                        };
+
+                        angular.forEach(pager, function(value, index){
+                            scope.pager[index] = value;
+                        });
+
+                    };
+
+                    scope.setFilter = function(filter) {
+                        getFilter().current = filter;
+                    };
+
+                    scope.clearFilter = function() {
+                        getFilter().filter = {};
+                        getFilter().value = '';
+
+                        queryList();
+                    };
+
+                    scope.queryList = queryList;
+
+                    // Configuracion inicial del paginador
+                    scope.pager = {
+                        current: 1,
+                        last: 1,
+                        count: 0,
+                        limit: 10,
+                        nextPage: function() {
+                            if (this.current < this.last) {
+                                queryList(++this.current);
+                            }
+                        },
+                        previousPage: function() {
+                            if (this.current && this.current > 1) {
+                                queryList(--this.current);
+                            }
+                        },
+                        showingMessage: function() {
+                            var length,
+                                offset = ((this.current - 1) * this.limit);
+
+                            length =
+                                this.current === this.last ? this.count : offset + this.limit;
+
+                            return (1 + offset) + " - " + length + ' de ' + this.count;
+                        }
+                    };
+
+                    // Filtro por defecto
+                    scope.filter = {
+                        value: '',
+                        current: {},
+                        filters: FR[config.resource]
+                    };
+
+                    G.debug("Filters", scope.filter, FR);
+
                     BaseController.call(this, scope);
                     listCtrl.func.apply(this, arguments);
+                    queryList();
                 }
             ]));
 
