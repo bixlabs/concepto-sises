@@ -20,9 +20,13 @@ class EntityRepository extends \Doctrine\ORM\EntityRepository
             return parent::findAll();
         }
 
-        $qb = $this->createQueryBuilder('t');
+        $mainAlias = 't';
+        $alias = 't';
+
+        $qb = $this->createQueryBuilder($mainAlias);
 
         foreach($parameters as $key => $parameter) {
+            $alias = $mainAlias;
             $comp = $this->extractComparator($parameter);
 
             // Only for non-boolean values
@@ -36,10 +40,17 @@ class EntityRepository extends \Doctrine\ORM\EntityRepository
             // Case especial uuid
             $key = $key == 'uuid' ? 'id': $key;
 
+            if (preg_match('/__/', $key)) {
+                $joinInfo = explode('__', $key);
+                $key = $joinInfo[1];
+                $alias = uniqid('alias');
+                $qb->leftJoin("{$mainAlias}.{$joinInfo[0]}", $alias);
+            }
+
             if (is_array($comp[1])) {
-                $qb->andWhere($qb->expr()->in("t.{$key}", ":{$key}"));
+                $qb->andWhere($qb->expr()->in("{$alias}.{$key}", ":{$key}"));
             } else {
-                $qb->andWhere("t.{$key} {$comp[0]} :{$key}");
+                $qb->andWhere("{$alias}.{$key} {$comp[0]} :{$key}");
             }
 
             $qb->setParameter($key, $comp[1]);
