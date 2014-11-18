@@ -106,7 +106,7 @@ class Coordinador extends AbstractPersonal
     {
         if ($this->asignacion->contains($asignacion)) {
             $asignacion->setCoordinador(null);
-            $this->asignacion->remove($asignacion);
+            $this->asignacion->removeElement($asignacion);
         }
     }
 }
