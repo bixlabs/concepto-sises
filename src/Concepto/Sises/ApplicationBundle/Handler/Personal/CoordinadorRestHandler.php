@@ -107,7 +107,6 @@ class CoordinadorRestHandler extends RestHandler
         }
 
         foreach ($servicios as $toDel) {
-            $object->removeAsignacion($toDel);
             $this->getEm()->remove($toDel);
         }
 
