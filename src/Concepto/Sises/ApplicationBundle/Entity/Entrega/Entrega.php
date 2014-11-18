@@ -24,6 +24,7 @@ use Doctrine\ORM\Mapping\JoinColumn;
 use Doctrine\ORM\Mapping\ManyToOne;
 use Doctrine\ORM\Mapping\OneToMany;
 use Doctrine\ORM\Mapping\Table;
+use JMS\Serializer\Annotation\Exclude;
 use JMS\Serializer\Annotation\Groups;
 use JMS\Serializer\Annotation\MaxDepth;
 use JMS\Serializer\Annotation\SerializedName;
@@ -102,10 +103,23 @@ class Entrega
      */
     protected $detalles;
 
+    /**
+     * @var Collection
+     * @OneToMany(
+     *      targetEntity="Concepto\Sises\ApplicationBundle\Entity\Entrega\EntregaAsignacion",
+     *      mappedBy="entrega",
+     *      cascade={"remove"},
+     *      orphanRemoval=true
+     * )
+     * @Exclude()
+     */
+    protected $asignaciones;
+
     function __construct()
     {
         $this->estado = self::OPEN;
         $this->detalles = new ArrayCollection();
+        $this->asignaciones = new ArrayCollection();
     }
 
     /**
@@ -262,5 +276,21 @@ class Entrega
     {
 
         return "{$this->getFechaInicio()->format('d M Y')} - {$this->getFechaCierre()->format('d M Y')}";
+    }
+
+    /**
+     * @return Collection
+     */
+    public function getAsignaciones()
+    {
+        return $this->asignaciones;
+    }
+
+    /**
+     * @param Collection $asignaciones
+     */
+    public function setAsignaciones($asignaciones)
+    {
+        $this->asignaciones = $asignaciones;
     }
 }
