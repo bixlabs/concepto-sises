@@ -28,6 +28,7 @@ use Monolog\Logger;
 use Pagerfanta\Adapter\ArrayAdapter;
 use Pagerfanta\Pagerfanta;
 use Symfony\Component\Form\FormFactory;
+use Symfony\Component\HttpKernel\Exception\ConflictHttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Routing\Router;
 use Symfony\Component\Security\Core\SecurityContext;
@@ -83,6 +84,12 @@ abstract class RestHandler implements RestHandlerInterface {
      *   "logger" = @Inject("logger"),
      *   "security" = @Inject("security.context")
      * })
+     *
+     * @param $em
+     * @param $formfactory
+     * @param $router
+     * @param $logger
+     * @param $security
      */
     function __construct($em, $formfactory, $router, $logger, $security)
     {
@@ -148,7 +155,7 @@ abstract class RestHandler implements RestHandlerInterface {
                 return View::create(null, Codes::HTTP_NO_CONTENT);
             }
         } catch (DBALException $e) {
-            return View::create(null, Codes::HTTP_CONFLICT);
+            throw new ConflictHttpException(null, $e);
         }
 
         throw new NotFoundHttpException("Object {$id} not found");
@@ -208,6 +215,7 @@ abstract class RestHandler implements RestHandlerInterface {
 
         $url = $this->getRouteName();
 
+        /** @var OrmPersistible $object */
         if ($form->isValid()) {
             $code = $object->getId() ? Codes::HTTP_NO_CONTENT : Codes::HTTP_CREATED;
             list($object, ) = $this->preFlush($object, $bag);
@@ -315,6 +323,8 @@ abstract class RestHandler implements RestHandlerInterface {
                     ->getRepository('SisesApplicationBundle:Personal\Coordinador')
                     ->find($user->getRelated());
                 return $this->coordinador;
+            default:
+                return null;
         }
     }
 
