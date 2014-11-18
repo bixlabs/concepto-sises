@@ -15,9 +15,15 @@ class CoordinadorAsignacionType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('lugar', null, array('property' => 'id'))
-            ->add('servicio', null, array('property' => 'id'))
-            ->add('coordinador', null, array('property' => 'id'))
+            ->add('lugar', 'entity_hidden', array(
+                'class' => 'Concepto\Sises\ApplicationBundle\Entity\LugarEntrega'
+            ))
+            ->add('servicio', 'entity_hidden', array(
+                'class' => 'Concepto\Sises\ApplicationBundle\Entity\ServicioContratado'
+            ))
+            ->add('coordinador', 'entity_hidden', array(
+                'class' => 'Concepto\Sises\ApplicationBundle\Entity\Personal\Coordinador'
+            ))
         ;
     }
 

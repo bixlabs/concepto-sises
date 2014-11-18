@@ -18,9 +18,15 @@ class CoordinadorType extends AbstractType
         $builder
             ->add('numeroCuenta')
             ->add('observacionesFinancieras')
-            ->add('contrato', null, array('property' => 'id'))
-            ->add('persona', null, array('property' => 'id'))
-            ->add('entidadFinanciera', null, array('property' => 'id'))
+            ->add('contrato', 'entity_hidden', array(
+                'class' => 'Concepto\Sises\ApplicationBundle\Entity\Contrato'
+            ))
+            ->add('persona', 'entity_hidden', array(
+                'class' => 'Concepto\Sises\ApplicationBundle\Entity\Persona'
+            ))
+            ->add('entidadFinanciera', 'entity_hidden', array(
+                'class' => 'Concepto\Sises\ApplicationBundle\Entity\Financiera\Entidad'
+            ))
             ->add('asignacion', 'collection', array(
                 'type' => new CoordinadorAsignacionType(),
                 'allow_add' => true,
