@@ -1,0 +1,19 @@
+<fieldset>
+    <legend>Usuario</legend>
+    <div data-ng-if="!element.id">
+        <p>Debe primero guardar para asignar el usuario</p>
+    </div>
+    <div data-sises-form="usuario" data-autocomplete="off">
+        <div data-sises-form-input="name"
+             data-required="true"
+             data-disable-autofill="true"
+             data-placeholder="'Nombre de usuario'"
+             data-autocomplete="'off'"
+             data-label="'Nombre'"></div>
+        <div data-sises-form-input="password"
+             data-type="'password'"
+             data-disable-autofill="true"
+             data-autocomplete="'off'"
+             data-label="'Contraseña'"></div>
+    </div>
+</fieldset>
