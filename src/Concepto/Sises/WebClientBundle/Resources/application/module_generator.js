@@ -271,8 +271,6 @@
                         filters: FR[config.resource]
                     };
 
-                    G.debug("Filters", scope.filter, FR);
-
                     BaseController.call(this, scope);
                     listCtrl.func.apply(this, arguments);
                     queryList();
