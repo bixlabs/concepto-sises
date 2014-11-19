@@ -2,7 +2,7 @@ parameters:
     database_driver: pdo_mysql
     database_host: 127.0.0.1
     database_port: ~
-    database_name: symfony
+    database_name: concepto_sises
     database_user: root
     database_password: ~
 
@@ -11,12 +11,12 @@ parameters:
     mailer_user:       ~
     mailer_password:   ~
 
-    locale:            en
-    secret:            ThisTokenIsNotSoSecretChangeIt
+    locale:            es
+    secret:            5c5acd96-1cbc-4c7a-a752-d40c563ad3a9
 
     debug_toolbar:          true
     debug_redirects:        false
     use_assetic_controller: true
 
-    sass_bin: ~
-    assetic.ruby.bin: ~
+    sass_bin: /home/julian/.gem/ruby/2.1.0/bin/sass
+    assetic.ruby.bin: /home/julian/Development/dotfiles/ruby
