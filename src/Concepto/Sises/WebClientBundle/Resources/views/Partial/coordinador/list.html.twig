@@ -1,41 +1,29 @@
-<div class="row">
-    <div class="col-lg-7">
-        <h2>Coordinadores</h2>
-    </div>
-    <div class="col-lg-5">
-        <div class="actions pull-right">
-            {% set params = {'name':'list', 'singular': 'Coordinador'} %}
-            {{render(controller('SisesWebClientBundle:Web:actions', params))}}
-        </div>
-    </div>
-</div>
+{% extends 'SisesWebClientBundle:ModuleGenerator:list.html.twig' %}
 
-<table class="table table-hover table-condensed">
-    <thead>
-    <tr>
-        <th width="25%">Contrato</th>
-        <th width="20%">Documento</th>
-        <th width="50%">Nombre completo</th>
-        <th></th>
-    </tr>
-    </thead>
-    <tbody data-ng-if="elements.length == 0">
-    <tr>
-        <td colspan="3">
-            No existen coordinadores
-        </td>
-    </tr>
-    </tbody>
-    <tbody data-ng-if="elements.length > 0">
-    <tr data-ng-repeat="single in elements">
-        <td data-ng-bind="single.contrato.nombre"></td>
-        <td data-ng-bind="single.persona.documento"></td>
-        <td data-ng-bind="single.persona.nombre_completo"></td>
-        <td>
-            {% set params = {'name':'edit', 'singular': 'Single'} %}
-            {{render(controller('SisesWebClientBundle:Web:actions', params))}}
-        </td>
-    </tr>
-    </tbody>
-</table>
+{% block title %}Coordinadores{% endblock %}
+{% block actions %}
+    {% set params = {'name':'list', 'singular': 'Coordinador'} %}
+    {{render(controller('SisesWebClientBundle:Web:actions', params))}}
+{% endblock %}
+
+{% block list_header %}
+    <th width="25%">Contrato</th>
+    <th width="20%">Documento</th>
+    <th width="50%">Nombre completo</th>
+    <th></th>
+{% endblock %}
+
+{% block no_element %}
+    No existen coordinadores
+{% endblock %}
+
+{% block list_content %}
+    <td data-ng-bind="single.contrato.nombre"></td>
+    <td data-ng-bind="single.persona.documento"></td>
+    <td data-ng-bind="single.persona.nombre_completo"></td>
+    <td>
+        {% set params = {'name':'edit', 'singular': 'Single'} %}
+        {{render(controller('SisesWebClientBundle:Web:actions', params))}}
+    </td>
+{% endblock %}
 
