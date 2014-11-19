@@ -12,6 +12,7 @@
 namespace Concepto\Sises\ApplicationBundle\Handler\Seguridad;
 
 use Concepto\Sises\ApplicationBundle\Entity\Seguridad\Usuario;
+use Concepto\Sises\ApplicationBundle\Model\Seguridad\Coordinador;
 use FOS\UserBundle\Model\UserManagerInterface;
 use JMS\DiExtraBundle\Annotation\Inject;
 use JMS\DiExtraBundle\Annotation\InjectParams;
@@ -38,6 +39,17 @@ class UserManipulator
         $this->userManager = $userManager;
     }
 
+    /**
+     * @param Usuario $user
+     *
+     * @return Usuario
+     */
+    public function update(Usuario $user)
+    {
+        $this->userManager->updateUser($user);
+
+        return $user;
+    }
 
     public function create($username, $password, $email, $active, $superadmin, $related, $tipo)
     {
@@ -53,6 +65,42 @@ class UserManipulator
         $this->userManager->updateUser($user);
 
         return $user;
+    }
+
+    public function findUserByUsername($username)
+    {
+        return $this->userManager->findUserByUsername($username);
+    }
+
+    public function findOrCreate($username, $object)
+    {
+        $user = $this->findUserByUsername($username);
+
+        if (!$user) {
+            /** @var Usuario $user */
+            $user = $this->userManager->createUser();
+            $user->setUsername($username);
+
+            if ($object instanceof Coordinador) {
+                $user->setTipo(Usuario::COORDINADOR);
+                $user->addRole('ROLE_COORDINADOR');
+                $user->setPlainPassword($object->getPassword());
+            }
+
+            $user->setEmail($object->getEmail());
+            $user->setRelated($object->getRelated());
+        }
+
+        $this->userManager->updateUser($user);
+
+        return $user;
+    }
+
+    public function delete($username)
+    {
+        $user = $this->findUserByUsername($username);
+
+        $this->userManager->deleteUser($user);
     }
 
     public function deteleAll()

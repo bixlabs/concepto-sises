@@ -13,8 +13,8 @@
 
     angular.module(G.APP)
         .directive('sisesUsuario', [
-            'RestResources',
-            function sisesUsuario_directive(RR) {
+            '$http',
+            function sisesUsuario_directive($http) {
                 return {
                     restrict: 'AEC',
                     replace: true,
@@ -23,7 +23,22 @@
                         element: '=sisesUsuario'
                     },
                     link: function sisesUsuario_link(scope) {
+                        scope.usuario = {
+                            password: {}
+                        };
+                        scope.$watch('element', function(element) {
+                            if (element && element.id) {
+                                scope.usuario.related = element.id;
+                            }
+                        }, true);
 
+                        scope.save = function _sisesUsuario_save() {
+                            $http
+                                .post(G.route('post_usuario_coordinador'), scope.usuario)
+                                .success(function _sisesUsuario_save_success() {
+
+                                });
+                        };
                     }
                 };
             }

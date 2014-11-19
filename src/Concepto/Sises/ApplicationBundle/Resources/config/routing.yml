@@ -86,3 +86,11 @@ liquidacion:
     type: rest
     prefix: /api/entrega
     resource: @SisesApplicationBundle/Controller/Entrega/LiquidacionController.php
+usuarios:
+    type: rest
+    prefix: /api
+    resource: @SisesApplicationBundle/Controller/Seguridad/UsuarioController.php
+usuario_coordinador:
+    type: rest
+    parent: usuarios
+    resource: @SisesApplicationBundle/Controller/Seguridad/CoordinadorController.php

@@ -4,16 +4,36 @@
         <p>Debe primero guardar para asignar el usuario</p>
     </div>
     <div data-sises-form="usuario" data-autocomplete="off">
-        <div data-sises-form-input="name"
+        <div data-sises-form-input="username"
              data-required="true"
              data-disable-autofill="true"
              data-placeholder="'Nombre de usuario'"
              data-autocomplete="'off'"
              data-label="'Nombre'"></div>
-        <div data-sises-form-input="password"
-             data-type="'password'"
-             data-disable-autofill="true"
-             data-autocomplete="'off'"
-             data-label="'Contraseña'"></div>
+        <div data-sises-form-input="email"
+             data-required="true"
+             data-type="email"
+             data-placeholder="'usuario@ejemplo.com'"
+             data-label="'Correo (email)'"></div>
+        <div data-sises-compound="usuario.password">
+            <div data-sises-form-input="first"
+                 data-type="'password'"
+                 data-disable-autofill="true"
+                 data-autocomplete="'off'"
+                 data-label="'Contraseña'"></div>
+            <div data-sises-form-input="second"
+                 data-type="'password'"
+                 data-disable-autofill="true"
+                 data-autocomplete="'off'"
+                 data-label="'Repetir contraseña'"></div>
+        </div>
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-4">
+                <button class="btn btn-default"
+                        data-ng-click="save()">
+                    <i class="glyphicon glyphicon-save"></i> Guardar usuario
+                </button>
+            </div>
+        </div>
     </div>
 </fieldset>
