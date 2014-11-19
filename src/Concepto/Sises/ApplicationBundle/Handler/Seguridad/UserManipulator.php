@@ -84,12 +84,13 @@ class UserManipulator
             if ($object instanceof Coordinador) {
                 $user->setTipo(Usuario::COORDINADOR);
                 $user->addRole('ROLE_COORDINADOR');
-                $user->setPlainPassword($object->getPassword());
             }
 
             $user->setEmail($object->getEmail());
             $user->setRelated($object->getRelated());
         }
+
+        $user->setPlainPassword($object->getPassword());
 
         $this->userManager->updateUser($user);
 

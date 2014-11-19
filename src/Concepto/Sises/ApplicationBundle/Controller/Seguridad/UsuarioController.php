@@ -12,10 +12,24 @@
 namespace Concepto\Sises\ApplicationBundle\Controller\Seguridad;
 
 
+use Concepto\Sises\ApplicationBundle\Handler\Seguridad\UsuarioRestHandler;
 use FOS\RestBundle\Routing\ClassResourceInterface;
+use JMS\DiExtraBundle\Annotation\LookupMethod;
 
 class UsuarioController implements ClassResourceInterface {
+
+    /**
+     * @return UsuarioRestHandler
+     * @LookupMethod("concepto.sises.user.handler")
+     */
+    public function getHandler() {}
+
     public function getAction($id)
+    {
+        return $this->getHandler()->getByRelated($id);
+    }
+
+    public function checkUserName($username)
     {
 
     }

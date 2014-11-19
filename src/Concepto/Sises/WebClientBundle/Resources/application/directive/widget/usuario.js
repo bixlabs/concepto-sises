@@ -26,9 +26,19 @@
                         scope.usuario = {
                             password: {}
                         };
+
+                        scope.loaded = false;
                         scope.$watch('element', function(element) {
                             if (element && element.id) {
                                 scope.usuario.related = element.id;
+                                $http
+                                    .get(G.route('get_usuario', {id: element.id}))
+                                    .success(function(data) {
+                                        if (typeof data.username !== 'undefined') {
+                                            scope.usuario = angular.extend(scope.usuario, data);
+                                            scope.loaded = true;
+                                        }
+                                    });
                             }
                         }, true);
 

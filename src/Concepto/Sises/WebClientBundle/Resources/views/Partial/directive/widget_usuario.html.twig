@@ -4,8 +4,13 @@
         <p>Debe primero guardar para asignar el usuario</p>
     </div>
     <div data-sises-form="usuario" data-autocomplete="off">
+        <div data-sises-form-static="usuario.username"
+             data-ng-if="loaded"
+             data-label="'Nombre de usuario'"></div>
+
         <div data-sises-form-input="username"
              data-required="true"
+             data-ng-if="!loaded"
              data-disable-autofill="true"
              data-placeholder="'Nombre de usuario'"
              data-autocomplete="'off'"
@@ -30,6 +35,12 @@
         <div class="row">
             <div class="col-lg-8 col-lg-offset-4">
                 <button class="btn btn-default"
+                        data-ng-if="loaded"
+                        data-ng-click="save()">
+                    <i class="glyphicon glyphicon-save"></i> Actualizar usuario
+                </button>
+                <button class="btn btn-default"
+                        data-ng-if="!loaded"
                         data-ng-click="save()">
                     <i class="glyphicon glyphicon-save"></i> Guardar usuario
                 </button>
