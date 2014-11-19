@@ -477,7 +477,7 @@
                         getFilter().current = filter;
                     };
 
-                    scope.clearFllter = function() {
+                    scope.clearFilter = function() {
                         getFilter().filter = {};
                         getFilter().value = '';
 
