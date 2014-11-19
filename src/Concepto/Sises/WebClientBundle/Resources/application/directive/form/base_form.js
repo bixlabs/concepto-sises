@@ -58,7 +58,8 @@
             'placeholder': '',
             'label': '',
             'required': false,
-            'type': 'text'
+            'type': 'text',
+            'disableAutofill': false
         };
 
         setDefaultAttribValues.call(this, scope, defaultAttribValues, attrs);

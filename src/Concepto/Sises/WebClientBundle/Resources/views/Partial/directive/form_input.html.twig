@@ -59,6 +59,7 @@
             {{formProperties.label}}
         </label>
         <div class="col-lg-8">
+            <input data-ng-if="formProperties.disableAutofill" type="{{formProperties.type}}" style="display: none"/>
             <input placeholder="{{formProperties.placeholder}}"
                    data-ng-model="form.model[property]"
                    class="form-control" type="{{formProperties.type}}" id="{{formProperties.id}}_input"/>
