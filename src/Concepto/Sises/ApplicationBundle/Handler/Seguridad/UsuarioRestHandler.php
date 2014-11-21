@@ -71,11 +71,19 @@ class UsuarioRestHandler {
         return View::create($data)->setStatusCode($code);
     }
 
-    public function check($username)
+    public function check($username = null, $email = null)
     {
-        $user  = $this->userManager->findUserByUsername($username);
         $view = View::create()->setStatusCode(Codes::HTTP_NO_CONTENT);
-        $view->setHeader('X-Can-Use', $user ? 'no' : 'yes');
+
+        if ($username) {
+            $usernameCheck  = $this->userManager->findUserByUsername($username);
+            $view->setHeader('X-Can-Use-Username', $usernameCheck ? 'no' : 'yes');
+        }
+
+        if ($email) {
+            $emailCheck = $this->userManager->findUserByEmail($email);
+            $view->setHeader('X-Can-Use-Email', $emailCheck ? 'no' : 'yes');
+        }
 
         return $view;
     }

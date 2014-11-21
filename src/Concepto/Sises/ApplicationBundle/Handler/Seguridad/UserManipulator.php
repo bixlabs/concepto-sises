@@ -73,6 +73,11 @@ class UserManipulator
         return $this->userManager->findUserByUsername($username);
     }
 
+    public function findUserByEmail($mail)
+    {
+        return $this->userManager->findUserByEmail($mail);
+    }
+
     public function findOrCreate($username, $object)
     {
         $user = $this->findUserByUsername($username);

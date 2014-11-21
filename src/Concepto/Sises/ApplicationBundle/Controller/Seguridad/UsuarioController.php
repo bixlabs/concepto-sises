@@ -13,6 +13,8 @@ namespace Concepto\Sises\ApplicationBundle\Controller\Seguridad;
 
 
 use Concepto\Sises\ApplicationBundle\Handler\Seguridad\UsuarioRestHandler;
+use FOS\RestBundle\Controller\Annotations\QueryParam;
+use FOS\RestBundle\Request\ParamFetcher;
 use FOS\RestBundle\Routing\ClassResourceInterface;
 use JMS\DiExtraBundle\Annotation\LookupMethod;
 
@@ -29,8 +31,13 @@ class UsuarioController implements ClassResourceInterface {
         return $this->getHandler()->getByRelated($id);
     }
 
-    public function getCheckAction($username)
+    /**
+     * @return \FOS\RestBundle\View\View
+     * @QueryParam(name="email")
+     * @QueryParam(name="username")
+     */
+    public function getCheckAction(ParamFetcher $paramFetcher)
     {
-        return $this->getHandler()->check($username);
+        return $this->getHandler()->check($paramFetcher->get('username'), $paramFetcher->get('email'));
     }
 } 
