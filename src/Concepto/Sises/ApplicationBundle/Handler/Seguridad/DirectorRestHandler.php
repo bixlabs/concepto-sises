@@ -11,22 +11,23 @@
 
 namespace Concepto\Sises\ApplicationBundle\Handler\Seguridad;
 
-use Concepto\Sises\ApplicationBundle\Model\Seguridad\Coordinador;
+
+use Concepto\Sises\ApplicationBundle\Model\Seguridad\Director;
 use FOS\RestBundle\Util\Codes;
 use FOS\RestBundle\View\View;
 use JMS\DiExtraBundle\Annotation\Service;
 
 /**
- * Class CoordinadorRestHandler
+ * Class DirectorRestHandler
  * @package Concepto\Sises\ApplicationBundle\Handler\Seguridad
- * @Service(id="concepto.sises.user_coordinador.handler", parent="concepto.sises.seguridad.handler")
+ * @Service(id="concepto.sises.user_director.handler", parent="concepto.sises.seguridad.handler")
  */
-class CoordinadorRestHandler extends SeguridadRestHandler
+class DirectorRestHandler extends SeguridadRestHandler
 {
     protected function process($parameters, $method = 'POST')
     {
-        $object = new Coordinador();
-        $form = $this->formFactory->create('usuario_coordinador', $object);
+        $object = new Director();
+        $form = $this->formFactory->create('usuario_director', $object);
 
         $form->submit($parameters, $method != 'PATCH');
 

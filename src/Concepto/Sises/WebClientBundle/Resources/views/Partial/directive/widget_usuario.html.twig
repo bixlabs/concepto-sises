@@ -3,7 +3,7 @@
     <div data-ng-if="!element.id">
         <p>Debe primero guardar para asignar el usuario</p>
     </div>
-    <div data-sises-form="usuario" data-autocomplete="off">
+    <div data-sises-form="usuario" data-autocomplete="off" data-ng-if="element.id">
         <div data-sises-form-static="usuario.username"
              data-ng-if="loaded"
              data-label="'Nombre de usuario'"></div>
@@ -15,6 +15,9 @@
              data-placeholder="'Nombre de usuario'"
              data-autocomplete="'off'"
              data-label="'Nombre'"></div>
+        <div class="col-lg-8 col-lg-offset-4" data-ng-if="!canSave">
+            <p class="text-danger">Nombre de usuario en uso</p>
+        </div>
         <div data-sises-form-input="email"
              data-required="true"
              data-type="email"
@@ -32,15 +35,20 @@
                  data-autocomplete="'off'"
                  data-label="'Repetir contraseña'"></div>
         </div>
+        <div data-sises-form-input="activo"
+             data-type="'checkbox'"
+             data-label="'Activo?'"></div>
         <div class="row">
             <div class="col-lg-8 col-lg-offset-4">
                 <button class="btn btn-default"
                         data-ng-if="loaded"
+                        data-ng-disabled="!canSave"
                         data-ng-click="save()">
                     <i class="glyphicon glyphicon-save"></i> Actualizar usuario
                 </button>
                 <button class="btn btn-default"
                         data-ng-if="!loaded"
+                        data-ng-disabled="!canSave"
                         data-ng-click="save()">
                     <i class="glyphicon glyphicon-save"></i> Guardar usuario
                 </button>

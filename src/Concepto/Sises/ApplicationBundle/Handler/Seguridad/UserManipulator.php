@@ -13,6 +13,7 @@ namespace Concepto\Sises\ApplicationBundle\Handler\Seguridad;
 
 use Concepto\Sises\ApplicationBundle\Entity\Seguridad\Usuario;
 use Concepto\Sises\ApplicationBundle\Model\Seguridad\Coordinador;
+use Concepto\Sises\ApplicationBundle\Model\Seguridad\Director;
 use FOS\UserBundle\Model\UserManagerInterface;
 use JMS\DiExtraBundle\Annotation\Inject;
 use JMS\DiExtraBundle\Annotation\InjectParams;
@@ -86,11 +87,17 @@ class UserManipulator
                 $user->addRole('ROLE_COORDINADOR');
             }
 
+            if ($object instanceof Director) {
+                $user->setTipo(Usuario::DIRECTOR);
+                $user->addRole('ROLE_DIRECTOR');
+            }
+
             $user->setEmail($object->getEmail());
             $user->setRelated($object->getRelated());
         }
 
         $user->setPlainPassword($object->getPassword());
+        $user->setEnabled($object->getActivo());
 
         $this->userManager->updateUser($user);
 

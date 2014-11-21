@@ -32,12 +32,21 @@ class UsuarioRestHandler {
     private $manager;
 
     /**
-     * @param $manager
-     * @InjectParams({"manager" = @Inject("doctrine.orm.entity_manager")})
+     * @var UserManipulator
      */
-    function __construct($manager)
+    private $userManager;
+
+    /**
+     * @param $manager
+     * @InjectParams({
+     *  "manager" = @Inject("doctrine.orm.entity_manager"),
+     *  "userManager" = @Inject("concepto.sises.user_manipulator")
+     * })
+     */
+    function __construct($manager, $userManager)
     {
         $this->manager = $manager;
+        $this->userManager = $userManager;
     }
 
     public function getByRelated($id)
@@ -53,11 +62,21 @@ class UsuarioRestHandler {
         if ($usuario) {
             $data = array(
                 'username' => $usuario->getUsername(),
-                'email' => $usuario->getEmail()
+                'email' => $usuario->getEmail(),
+                'activo' => $usuario->isEnabled()
             );
             $code = COdes::HTTP_OK;
         }
 
         return View::create($data)->setStatusCode($code);
+    }
+
+    public function check($username)
+    {
+        $user  = $this->userManager->findUserByUsername($username);
+        $view = View::create()->setStatusCode(Codes::HTTP_NO_CONTENT);
+        $view->setHeader('X-Can-Use', $user ? 'no' : 'yes');
+
+        return $view;
     }
 }

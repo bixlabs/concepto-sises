@@ -12,6 +12,7 @@
 namespace Concepto\Sises\ApplicationBundle\Model\Seguridad;
 
 
-class Coordinador extends AbstractUsuario {
+class Director extends AbstractUsuario
+{
 
 } 

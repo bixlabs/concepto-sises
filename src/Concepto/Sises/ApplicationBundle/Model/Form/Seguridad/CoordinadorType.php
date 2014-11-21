@@ -41,6 +41,7 @@ class CoordinadorType extends AbstractType
             ->add('related')
             ->add('email')
             ->add('username')
+            ->add('activo', 'checkbox')
         ;
     }
 

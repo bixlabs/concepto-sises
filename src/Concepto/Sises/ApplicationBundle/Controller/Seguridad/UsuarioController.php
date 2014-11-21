@@ -29,8 +29,8 @@ class UsuarioController implements ClassResourceInterface {
         return $this->getHandler()->getByRelated($id);
     }
 
-    public function checkUserName($username)
+    public function getCheckAction($username)
     {
-
+        return $this->getHandler()->check($username);
     }
 } 

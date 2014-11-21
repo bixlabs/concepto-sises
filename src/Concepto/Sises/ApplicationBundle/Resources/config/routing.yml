@@ -94,3 +94,7 @@ usuario_coordinador:
     type: rest
     parent: usuarios
     resource: @SisesApplicationBundle/Controller/Seguridad/CoordinadorController.php
+usuario_director:
+    type: rest
+    parent: usuarios
+    resource: @SisesApplicationBundle/Controller/Seguridad/DirectorController.php
