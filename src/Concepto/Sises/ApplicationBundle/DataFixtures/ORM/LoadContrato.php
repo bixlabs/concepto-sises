@@ -17,6 +17,7 @@ use Concepto\Sises\ApplicationBundle\Entity\CoordinadorAsignacion;
 use Concepto\Sises\ApplicationBundle\Entity\LugarEntrega;
 use Concepto\Sises\ApplicationBundle\Entity\Persona;
 use Concepto\Sises\ApplicationBundle\Entity\Personal\Coordinador;
+use Concepto\Sises\ApplicationBundle\Entity\Personal\Director;
 use Concepto\Sises\ApplicationBundle\Entity\ServicioContratado;
 use Doctrine\Common\DataFixtures\FixtureInterface;
 use Doctrine\Common\DataFixtures\OrderedFixtureInterface;
@@ -109,6 +110,12 @@ class LoadContrato implements FixtureInterface, OrderedFixtureInterface {
         $asignacion2->setLugar($lugar);
         $asignacion2->setServicio($servicio2);
         $manager->persist($asignacion2);
+
+        // Crea el director
+        $director = new Director();
+        $director->setPersona($persona);
+        $director->addEmpresa($contrato->getEmpresa());
+        $manager->persist($director);
 
         $manager->flush();
     }

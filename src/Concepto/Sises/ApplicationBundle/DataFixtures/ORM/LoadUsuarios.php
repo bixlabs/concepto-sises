@@ -26,7 +26,7 @@ class LoadUsuarios extends ContainerAwareFixture implements OrderedFixtureInterf
             $manager->getRepository('SisesApplicationBundle:Personal\Coordinador')->findOneBy(array());
 
         $director =
-            $manager->getRepository('SisesApplicationBundle:PersonaCargo')->findOneBy(array());
+            $manager->getRepository('SisesApplicationBundle:Personal\Director')->findOneBy(array());
 
         /** @var UserManipulator $manipulator */
         $manipulator = $this->container->get('concepto.sises.user_manipulator');
