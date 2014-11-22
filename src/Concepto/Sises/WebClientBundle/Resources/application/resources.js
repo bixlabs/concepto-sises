@@ -70,6 +70,11 @@
                     documento: {label: 'Documento', value: 'persona..documento', comp: 'L'},
                     nombre: {label: 'Nombre', value: 'persona..nombre', comp: 'L'},
                     apellidos: {label: 'Apellidos', value: 'persona..apellidos', comp: 'L'}
+                },
+                director: {
+                    documento: {label: 'Documento', value: 'persona..documento', comp: 'L'},
+                    nombre: {label: 'Nombre', value: 'persona..nombre', comp: 'L'},
+                    apellidos: {label: 'Apellidos', value: 'persona..apellidos', comp: 'L'}
                 }
             };
         })

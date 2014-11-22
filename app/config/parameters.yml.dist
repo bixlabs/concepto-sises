@@ -20,4 +20,4 @@ parameters:
 
     sass_bin: /home/julian/.gem/ruby/2.1.0/bin/sass
     assetic.ruby.bin: /home/julian/Development/dotfiles/ruby
-    version: 0.4.0
+    version: 0.5.0
