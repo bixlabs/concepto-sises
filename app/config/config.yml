@@ -28,6 +28,7 @@ twig:
     strict_variables: %kernel.debug%
     globals:
         web_uploads: %kernel.root_dir%/../web/uploads/documentable
+        version: %version%
 
 assetic:
     debug: %kernel.debug%
