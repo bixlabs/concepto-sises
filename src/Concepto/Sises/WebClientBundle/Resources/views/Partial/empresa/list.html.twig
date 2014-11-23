@@ -1,0 +1,27 @@
+{% extends 'SisesWebClientBundle:ModuleGenerator:list.html.twig' %}
+
+{% block title %}Empresas{% endblock %}
+{% block actions %}
+    {% set params = {'name':'list', 'singular': 'Empresa'} %}
+    {{render(controller('SisesWebClientBundle:Web:actions', params))}}
+{% endblock %}
+
+{% block list_header %}
+    <th width="20%">NIT</th>
+    <th width="50%">Nombre empresa</th>
+    <th></th>
+{% endblock %}
+
+{% block no_element %}
+    No existen empresas
+{% endblock %}
+
+{% block list_content %}
+    <td data-ng-bind="single.nit"></td>
+    <td data-ng-bind="single.nombre"></td>
+    <td>
+        {% set params = {'name':'edit', 'singular': 'Single'} %}
+        {{render(controller('SisesWebClientBundle:Web:actions', params))}}
+    </td>
+{% endblock %}
+
