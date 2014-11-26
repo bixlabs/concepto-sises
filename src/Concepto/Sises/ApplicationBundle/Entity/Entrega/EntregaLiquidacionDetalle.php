@@ -13,20 +13,20 @@ namespace Concepto\Sises\ApplicationBundle\Entity\Entrega;
 
 
 use Concepto\Sises\ApplicationBundle\Entity\ServicioOperativo;
-use Doctrine\ORM\Mapping as  ORM;
+use Doctrine\ORM\Mapping as ORM;
 use JMS\Serializer\Annotation\Groups;
 use JMS\Serializer\Annotation\SerializedName;
 use JMS\Serializer\Annotation\VirtualProperty;
 use Symfony\Component\Validator\Constraints as Assert;
 
-
 /**
- * Class EntregaOperacion
+ * Class EntregaLiquidacionDetalle
  * @package Concepto\Sises\ApplicationBundle\Entity\Entrega
- * @ORM\Entity(repositoryClass="Concepto\Sises\ApplicationBundle\Entity\Entrega\EntregaOperacionRepository")
- * @ORM\Table(name="entrega_operacion")
+ * @ORM\Entity()
+ * @ORM\Table(name="entrega_liquidacion_detalle")
  */
-class EntregaOperacion {
+class EntregaLiquidacionDetalle
+{
 
     /**
      * @var string
@@ -45,28 +45,19 @@ class EntregaOperacion {
     protected $servicio;
 
     /**
-     * @var int
-     * @ORM\Column(type="integer", nullable=false)
-     * @Groups({"details", "list"})
-     */
-    protected $cantidad = 0;
-
-    /**
-     * @var \DateTime
-     * @ORM\Column(name="fecha_entrega", type="datetime")
-     * @Assert\NotNull()
-     * @Groups({"details", "list"})
-     * @SerializedName("fechaEntrega")
-     */
-    protected $fechaEntrega;
-
-    /**
      * @var EntregaLiquidacion
      * @ORM\ManyToOne(targetEntity="Concepto\Sises\ApplicationBundle\Entity\Entrega\EntregaLiquidacion", inversedBy="detalles")
      * @ORM\JoinColumn(nullable=false)
      * @Assert\NotNull()
      */
     protected $liquidacion;
+
+    /**
+     * @var int
+     * @ORM\Column(type="integer", nullable=false)
+     * @Groups({"details", "list"})
+     */
+    protected $cantidad = 0;
 
     /**
      * @return ServicioOperativo
@@ -117,30 +108,6 @@ class EntregaOperacion {
     public function setCantidad($cantidad)
     {
         $this->cantidad = $cantidad;
-    }
-
-    /**
-     * @return \DateTime
-     */
-    public function getFechaEntrega()
-    {
-        return $this->fechaEntrega;
-    }
-
-    /**
-     * @param \DateTime $fechaEntrega
-     */
-    public function setFechaEntrega($fechaEntrega)
-    {
-        $this->fechaEntrega = $fechaEntrega;
-    }
-
-    /**
-     * @param string $id
-     */
-    public function setId($id)
-    {
-        $this->id = $id;
     }
 
     /**
