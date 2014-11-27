@@ -13,6 +13,7 @@ namespace Concepto\Sises\ApplicationBundle\Handler\Entrega;
 
 
 use Concepto\Sises\ApplicationBundle\Entity\Beneficio;
+use Concepto\Sises\ApplicationBundle\Entity\Entrega\Entrega;
 use Concepto\Sises\ApplicationBundle\Entity\Entrega\EntregaAsignacion;
 use Concepto\Sises\ApplicationBundle\Entity\Entrega\EntregaBeneficio;
 use Concepto\Sises\ApplicationBundle\Entity\Entrega\EntregaBeneficioDetalle;
@@ -36,6 +37,13 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
  */
 class EntregaAsignacionRestHandler extends RestHandler
 {
+    public function cget($pagerParams = array(), $extraParams = array())
+    {
+        $extraParams['entrega__estado'] = Entrega::OPEN;
+
+        return parent::cget($pagerParams, $extraParams);
+    }
+
     public function getOrCreateEntregaBeneficio($parameters)
     {
         $query = new EntregaBeneficioQuery();
