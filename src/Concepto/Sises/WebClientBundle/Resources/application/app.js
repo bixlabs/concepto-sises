@@ -37,8 +37,12 @@
                     return response || $q.when(response);
                 },
                 responseError: function(response) {
+                    var msg = '<i class="glyphicon glyphicon-remove"></i>'
+                        + ' <strong>' + response.status + '</strong> '
+                        + 'Ha ocurrido un error y no se pudo procesar la informacion';
+
                     ngToast.create({
-                        'content': '<i class="glyphicon glyphicon-remove"></i> Ha ocurrido un error y no se pudo procesar la informacion',
+                        'content': msg,
                         'class': 'danger',
                         'verticalPosition': 'top',
                         'horizontalPosition': 'center'
