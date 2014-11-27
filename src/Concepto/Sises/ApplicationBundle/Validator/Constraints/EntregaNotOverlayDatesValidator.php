@@ -12,14 +12,13 @@
 namespace Concepto\Sises\ApplicationBundle\Validator\Constraints;
 
 
-use Concepto\Sises\ApplicationBundle\Entity\EntityRepository;
 use Concepto\Sises\ApplicationBundle\Entity\Entrega\Entrega;
-use Doctrine\Common\Persistence\ObjectManager;
+use Doctrine\Common\Util\ClassUtils;
+use Doctrine\ORM\EntityManager;
 use JMS\DiExtraBundle\Annotation\Inject;
 use JMS\DiExtraBundle\Annotation\InjectParams;
 use JMS\DiExtraBundle\Annotation\Service;
 use JMS\DiExtraBundle\Annotation\Tag;
-use Symfony\Component\PropertyAccess\PropertyAccess;
 use Symfony\Component\Validator\Constraint;
 use Symfony\Component\Validator\ConstraintValidator;
 use Symfony\Component\Validator\Context\ExecutionContextInterface;
@@ -38,19 +37,19 @@ class EntregaNotOverlayDatesValidator extends ConstraintValidator
     protected $context;
 
     /**
-     * @var EntityRepository
+     * @var EntityManager
      */
-    protected $repository;
+    protected $manager;
 
     /**
-     * @param ObjectManager $manager
+     * @param EntityManager $manager
      * @InjectParams({
      *  "manager" = @Inject("doctrine.orm.entity_manager")
      * })
      */
     function __construct($manager)
     {
-        $this->repository = $manager->getRepository('SisesApplicationBundle:Entrega\Entrega');
+        $this->manager = $manager;
     }
 
     /**
@@ -61,7 +60,8 @@ class EntregaNotOverlayDatesValidator extends ConstraintValidator
         /** @var EntregaNotOverlayDates $constraint */
         /** @var Entrega $value */
 
-        $qb = $this->repository->createQueryBuilder('a');
+        $class = ClassUtils::getClass($this->context->getObject());
+        $qb = $this->manager->getRepository($class)->createQueryBuilder('a');
 
         $qb
             ->andWhere('a.contrato = :contrato')
