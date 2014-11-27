@@ -36,7 +36,7 @@
                     <th width="35%">Recurso humano</th>
                     <th>Servicio</th>
                     <th width="10%">Cant.</th>
-                    <th width="10%">Cant. (cierre)</th>
+                    <th width="10%" data-ng-if="estaPendiente()">Cant. (cierre)</th>
                     <th width="15%" style="text-align: right">$ Unidad</th>
                     <th width="15%" style="text-align: right">Total</th>
                 </tr>
@@ -52,7 +52,7 @@
                     </td>
                     <td data-ng-bind="detalle.servicio"></td>
                     <td style="text-align: center" data-ng-bind="detalle.total"></td>
-                    <td style="text-align: center">
+                    <td style="text-align: center" data-ng-if="estaPendiente()">
                         <span data-ng-if="!estaPendiente()"
                               data-ng-bind="detalle.cantidad"></span>
                         <label>
