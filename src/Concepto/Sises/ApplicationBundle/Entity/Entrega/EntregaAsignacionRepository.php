@@ -20,10 +20,6 @@ class EntregaAsignacionRepository extends EntityRepository
     {
         $qb = parent::findAllQueryBuilder($parameters);
 
-        if (is_array($qb)) {
-            return $qb;
-        }
-
         // Se asegura de solo mostrar las asignaciones abiertas
         $alias = $this->findJoinAlias($qb, 'entrega');
         $qb->where("{$alias}.estado = :estado")->setParameter('estado', Entrega::OPEN);

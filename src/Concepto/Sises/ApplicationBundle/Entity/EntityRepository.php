@@ -19,10 +19,6 @@ class EntityRepository extends \Doctrine\ORM\EntityRepository
 {
     public function findAllQueryBuilder($parameters = null)
     {
-        if (!$parameters || count($parameters) == 0) {
-            return parent::findAll();
-        }
-
         $mainAlias = 't';
         $qb = $this->createQueryBuilder($mainAlias);
 
@@ -98,10 +94,6 @@ class EntityRepository extends \Doctrine\ORM\EntityRepository
     public function findAll($parameters = null)
     {
         $qb = $this->findAllQueryBuilder($parameters);
-
-        if (is_array($qb)) {
-            return $qb;
-        }
 
         return $qb->getQuery()->execute();
     }
