@@ -12,9 +12,12 @@
 namespace Concepto\Sises\ApplicationBundle\Entity;
 
 
+use Doctrine\ORM\Query\Expr\Join;
+use Doctrine\ORM\QueryBuilder;
+
 class EntityRepository extends \Doctrine\ORM\EntityRepository
 {
-    public function findAll($parameters = null)
+    public function findAllQueryBuilder($parameters = null)
     {
         if (!$parameters || count($parameters) == 0) {
             return parent::findAll();
@@ -56,7 +59,50 @@ class EntityRepository extends \Doctrine\ORM\EntityRepository
             $qb->setParameter($key, $comp[1]);
         }
 
-        return $qb->getQuery()->execute();
+        return $qb;
+    }
+
+    /**
+     * @param QueryBuilder $qb
+     * @param $joinProperty
+     * @param bool $makeJoin
+     * @param null $rootAlias
+     *
+     * @return null|string
+     */
+    protected function findJoinAlias(&$qb, $joinProperty, $makeJoin = true, $rootAlias = null)
+    {
+        if (!$rootAlias) {
+            $rootAlias = $qb->getRootAliases()[0];
+        }
+
+        $foundAlias = null;
+
+        foreach ($qb->getDQLPart('join') as $joinArray) {
+            /** @var Join $join */
+            $join = reset($joinArray);
+            $name = str_replace($rootAlias . '.', '', $join->getJoin());
+
+            if ($name == $joinProperty) {
+                $foundAlias = $join->getAlias();
+                break;
+            }
+        }
+
+        if (!$foundAlias && $makeJoin) {
+            $foundAlias = uniqid('alias');
+            $qb->leftJoin("{$rootAlias}.{$joinProperty}", $foundAlias);
+        }
+
+        return $foundAlias;
+    }
+
+    public function findAll($parameters = null)
+    {
+        return $this
+            ->findAllQueryBuilder($parameters)
+            ->getQuery()
+            ->execute();
     }
 
     private function extractComparator($value)
