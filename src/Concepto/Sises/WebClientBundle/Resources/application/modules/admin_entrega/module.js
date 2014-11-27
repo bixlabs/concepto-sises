@@ -13,13 +13,6 @@
 
     G.modules.ADMIN_ENTREGA = 'ADMIN_ENTREGA';
 
-    var STATE = {
-        OPEN :'pendiente',
-        EDITING :'modificado',
-        CLOSED: 'finalizada',
-        CLOSING: 'cerrando'
-    };
-
     G.BuildModule(G.modules.ADMIN_ENTREGA, {
         register: true,
         label: 'Gestión de entregas',
