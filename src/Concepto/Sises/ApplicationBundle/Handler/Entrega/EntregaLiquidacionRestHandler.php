@@ -46,6 +46,11 @@ class EntregaLiquidacionRestHandler extends RestHandler
             throw new NotFoundHttpException("No existe la liquidacion");
         }
 
+        $results = $this->getEm()->getRepository('SisesApplicationBundle:Entrega\EntregaOperacion')
+            ->calcularDetalle($liquidacion);
+
+        return View::create($results);
+
         $result = array();
 
         /** @var EntregaOperacion $d */
@@ -64,22 +69,17 @@ class EntregaLiquidacionRestHandler extends RestHandler
             if (!isset($result[$recurso->getId()]['total'][$d->getServicioId()])) {
                 $result[$recurso->getId()]['total'][$d->getServicioId()] = array(
                     'servicio' => $d->getServicioId(),
-                    'cant_cierre' => 0,
                     'cant' => 0
                 );
             }
 
             $result[$recurso->getId()]['total'][$d->getServicioId()]['cant'] += (int)$d->getCantidad();
-            $result[$recurso->getId()]['total'][$d->getServicioId()]['cant_cierre'] += (int)$d->getCantidadCierre();
             $result[$recurso->getId()]['gran_total'] += (int)$d->getCantidad() * (float)$d->getServicio()->getValorUnitario();
 
             $result[$recurso->getId()]['servicios'][] = array(
                 'id' => $d->getServicioId(),
-                'fecha' => $d->getFechaEntrega(),
                 'nombre' => $d->getServicio()->getNombre(),
-                'lugar' => $d->getServicio()->getLugar()->getNombreDetallado(),
                 'cant' => $d->getCantidad(),
-                'cant_cierre' => $d->getCantidadCierre(),
                 'valor' => $d->getServicio()->getValorUnitario()
             );
         }
