@@ -25,11 +25,20 @@
                     scope.detalles_cierre = {};
                     scope.collapse_in = null;
                     scope.calcular = _getDetalles;
+                    scope.liquidacion = {};
 
                     function _getDetalles() {
                         $http.get(G.route('get_liquidacion_detalles', {id: scope.element.id}))
                             .success(function calcular_success(data) {
                                 scope.detalles = data;
+                                scope.liquidacion = {};
+
+                                angular.forEach(data, function(el) {
+                                    scope.liquidacion[el.id]= {
+                                        id: el.id,
+                                        cant: el.total
+                                    };
+                                });
 
                                 if (data.length === 0) {
                                     ngToast.create({
@@ -41,14 +50,6 @@
                                 }
                             });
                     }
-
-                    scope.showCollapse = function showCollase(index) {
-                        if (index === scope.collapse_in) {
-                            return false;
-                        }
-
-                        return true;
-                    };
 
                     scope.hasCierre = function hasCierre() {
 

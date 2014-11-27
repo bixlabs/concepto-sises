@@ -30,56 +30,43 @@
             </fieldset>
         </div>
         <div class="col-lg-7">
-            <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
-                {% verbatim %}
-                <div class="panel panel-default" data-ng-repeat="detalle in detalles">
-                    <div class="panel-heading" role="tab" id="heading{{ $index }}">
-                        <h4 class="panel-title">
-                            <a data-toggle="collapse"
-                               data-parent="#accordion"
-                               data-ng-click="collapse_in = $index"
-                               aria-controls="collapse{{ $index }}">
-                                {{ detalle.nombre }} ({{ detalle.documento }})
-                            </a>
-                        </h4>
-                    </div>
-                    <div
-                         class="panel-collapse"
-                         role="tabpanel"
-                         aria-labelledby="heading{{ $index }}">
-                        <div class="panel-body">
-                            <table class="table">
-                                <thead>
-                                    <tr>
-                                        <th>Fecha</th>
-                                        <th>Servicio</th>
-                                        <th>Cant.</th>
-                                        <th>$ Unidad</th>
-                                        <th>Total</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr data-ng-repeat="servicio in detalle.servicios">
-                                        <td>{{ moment(servicio.fecha).format('MMM DD YYYY') }}</td>
-                                        <td>
-                                            {{ servicio.nombre }}<br/>
-                                            <small>{{ servicio.lugar }}</small>
-                                        </td>
-                                        <td>{{ servicio.cant }}</td>
-                                        <td style="text-align: right">{{ servicio.valor|currency: '$' : 0 }}</td>
-                                        <td style="text-align: right">{{ (servicio.cant * servicio.valor)|currency: '$' : 0 }}</td>
-                                    </tr>
-                                    <tr>
-                                        <td colspan="4"><strong style="text-align: right">Total</strong></td>
-                                        <td style="text-align: right">{{ detalle.gran_total|currency: '$' : 0 }}</td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                </div>
-                {% endverbatim %}
-            </div>
+            <table class="table">
+                <thead>
+                <tr>
+                    <th width="35%">Recurso humano</th>
+                    <th>Servicio</th>
+                    <th width="10%">Cant.</th>
+                    <th width="10%">Cant. (cierre)</th>
+                    <th width="15%" style="text-align: right">$ Unidad</th>
+                    <th width="15%" style="text-align: right">Total</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr data-ng-repeat="detalle in detalles">
+                    <td>
+                        <strong>
+                            <span data-ng-bind="detalle.nombre + ' ' + detalle.apellidos"></span>
+                            <small data-ng-bind="detalle.cargo"></small>
+                        </strong> <br/>
+
+                    </td>
+                    <td data-ng-bind="detalle.servicio"></td>
+                    <td style="text-align: center" data-ng-bind="detalle.total"></td>
+                    <td style="text-align: center">
+                        <span data-ng-if="!estaPendiente()"
+                              data-ng-bind="detalle.cantidad"></span>
+                        <label>
+                            <input type="text"
+                                   data-ng-if="estaPendiente()"
+                                   data-ng-model="liquidacion[detalle.id].cant"
+                                   class="form-control"/>
+                        </label>
+                    </td>
+                    <td style="text-align: right" data-ng-bind="detalle.total|currency: '$' : 0"></td>
+                    <td style="text-align: right" data-ng-bind="(liquidacion[detalle.id].cant * detalle.valorUnitario)|currency: '$' : 0"></td>
+                </tr>
+                </tbody>
+            </table>
         </div>
     </div>
 </div>
