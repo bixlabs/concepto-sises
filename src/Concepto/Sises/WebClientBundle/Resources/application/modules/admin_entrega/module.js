@@ -13,17 +13,35 @@
 
     G.modules.ADMIN_ENTREGA = 'ADMIN_ENTREGA';
 
+    var STATE = {
+        OPEN :'pendiente',
+        EDITING :'modificado',
+        CLOSE: 'finalizada',
+        CLOSING: 'cerrando'
+    };
+
     G.BuildModule(G.modules.ADMIN_ENTREGA, {
         register: true,
         label: 'Gestión de entregas',
         category: 'entrega_category',
         controllers: {
             edit: {
-                deps: ['$http'],
-                func: function(RR, scope, $http) {
+                deps: ['$http', 'ngToast'],
+                func: function(RR, scope, $http, ngToast) {
                     scope.detalles = [];
                     scope.detalles_cierre = {};
+                    scope.observacion = "";
+
                     scope.calcular = function calcular() {
+                        scope.element.estado = STATE.CLOSING;
+                        _getDetalles();
+                    };
+
+                    /**
+                     * Obtiene los detalles del servidor
+                     * @private
+                     */
+                    function _getDetalles() {
                         RR.admin_entrega_calcular.get({id: scope.element.id}, function(data) {
                             scope.detalles = data.results;
                             scope.detalles_cierre = {};
@@ -34,23 +52,90 @@
                                 };
                             });
                         });
-                    };
+                    }
 
-                    scope.hasCierre = function hasCierre() {
+                    /**
+                     * Verifica que la observacion exista si se esta editando
+                     * @returns {boolean}
+                     * @private
+                     */
+                    function _checkObservacion() {
+                        scope.observacion.trim();
 
-                        if (!scope.detalles) {
+                        if (scope.isEditing() && scope.observacion.length === 0) {
+                            ngToast.create({
+                                'content': '<i class="glyphicon glyphicon-exclamation-sign"></i> La observacion es obligatoria',
+                                'class': 'danger',
+                                'verticalPosition': 'top',
+                                'horizontalPosition': 'center'
+                            });
+
                             return false;
                         }
 
-                        return scope.detalles.length > 0 && scope.element.estado === 'pendiente';
-                    };
+                        return true;
+                    }
+
+                    /**
+                     * Envia los detalles al servidor y la observacion si existe
+                     * @private
+                     */
+                    function _saveDetalles() {
+
+                        if (!_checkObservacion()) {
+                            return;
+                        }
+
+                        var servicios = [];
+
+                        angular.forEach(scope.detalles_cierre, function(servicio) {
+                            servicios.push(servicio);
+                        });
+
+                        $http.put(G.route('put_entrega_cierre'), {
+                            id: scope.element.id,
+                            servicios: servicios,
+                            observacion: scope.observacion
+                        }).success(function() {
+                            scope.details(scope.element.id);
+                        })
+                    }
 
                     scope.cancelarCierre = function cancelarCierre() {
-                        scope.detalles = [];
+                        scope.element.estado = STATE.OPEN;
                     };
 
-                    scope.estaPendiente = function estaPendiente() {
-                        return (scope.element.estado && scope.element.estado === 'pendiente');
+                    scope.okCierre = _saveDetalles;
+
+                    scope.modificar = function modificar() {
+                        scope.observacion = "";
+                        scope.element.estado = STATE.EDITING;
+                        _getDetalles();
+                    };
+
+                    scope.cancelEditing = function _cancelEditing() {
+                        scope.element.estado = STATE.CLOSE;
+                    };
+                    scope.okEditing = _saveDetalles;
+
+                    scope.isNew = function _isNew() {
+                        return !!scope.element.estado;
+                    };
+
+                    scope.isOpen = function _isOpen() {
+                        return scope.element.estado === STATE.OPEN;
+                    };
+
+                    scope.isClosing = function _isClosing() {
+                        return scope.element.estado === STATE.CLOSING;
+                    };
+
+                    scope.isClosed = function _isClosed() {
+                        return scope.element.estado === STATE.CLOSE;
+                    };
+
+                    scope.isEditing = function _isEditing() {
+                        return scope.element.estado === STATE.EDITING;
                     };
 
                     scope.$watch('element.estado', function(val) {
@@ -62,21 +147,6 @@
                             });
                         }
                     });
-
-                    scope.okCierre = function okCierre() {
-                        var servicios = [];
-
-                        angular.forEach(scope.detalles_cierre, function(servicio) {
-                            servicios.push(servicio);
-                        });
-
-                        $http.put(G.route('put_entrega_cierre'), {
-                            id: scope.element.id,
-                            servicios: servicios
-                        }).success(function() {
-                            scope.details(scope.element.id);
-                        })
-                    };
                 }
             }
         }

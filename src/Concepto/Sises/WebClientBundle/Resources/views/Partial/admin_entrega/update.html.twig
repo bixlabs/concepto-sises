@@ -3,31 +3,62 @@
         <h2>Actualizar entrega</h2>
     </div>
     <div class="col-lg-5">
-        <div class="actions pull-right" data-ng-if="hasCierre()">
-            <button class="btn btn-default" data-ng-click="cancelarCierre()">
-                <i class="glyphicon glyphicon-remove"></i>
-                Cancelar cierre
-            </button>
-            <button class="btn btn-primary" data-ng-click="okCierre()">
-                <i class="glyphicon glyphicon-ok"></i>
-                Realizar cierre
-            </button>
-        </div>
-        <div class="actions pull-right" data-ng-if="!hasCierre()">
+
+        {# Si esta abierta se puede realizar el cierre #}
+        <div class="actions pull-right" data-ng-if="isOpen()">
             <button class="btn btn-default" data-ng-click="list()">
                 <i class="glyphicon glyphicon-list"></i>
                 Volver al listado
             </button>
-            <button class="btn btn-warning" data-ng-click="calcular()" data-ng-if="estaPendiente()">
+            <button class="btn btn-warning" data-ng-click="calcular()">
                 <i class="glyphicon glyphicon-ok"></i>
                 Realizar cierre
             </button>
             <button class="btn btn-danger"
-                    data-ng-if="estaPendiente()"
                     data-ng-disabled="testRemove()" data-ng-click="remove()">
                 <i class="glyphicon glyphicon-remove-sign"></i>
                 Eliminar
             </button>
+        </div>
+
+        {# Si se esta cerrando #}
+        <div class="actions pull-right" data-ng-if="isClosing()">
+            <div class="actions pull-right">
+                <button class="btn btn-default" data-ng-click="cancelarCierre()">
+                    <i class="glyphicon glyphicon-remove"></i>
+                    Cancelar cierre
+                </button>
+                <button class="btn btn-primary" data-ng-click="okCierre()">
+                    <i class="glyphicon glyphicon-ok"></i>
+                    Realizar cierre
+                </button>
+            </div>
+        </div>
+
+        {# Si el cierre ha sido realizado se puede modificar #}
+        <div class="actions pull-right" data-ng-if="isClosed()">
+            <button class="btn btn-default" data-ng-click="list()">
+                <i class="glyphicon glyphicon-list"></i>
+                Volver al listado
+            </button>
+            <button class="btn btn-info"
+                    data-ng-click="modificar()">
+                <i class="glyphicon glyphicon-pencil"></i> Modificar
+            </button>
+        </div>
+
+        {# Si se esta modificando un cierre #}
+        <div class="actions pull-right" data-ng-if="isEditing()">
+            <div class="actions pull-right">
+                <button class="btn btn-default" data-ng-click="cancelEditing()">
+                    <i class="glyphicon glyphicon-remove"></i>
+                    Cancelar cambios
+                </button>
+                <button class="btn btn-primary" data-ng-click="okEditing()">
+                    <i class="glyphicon glyphicon-ok"></i>
+                    Realizar modificacion
+                </button>
+            </div>
         </div>
     </div>
 </div>
