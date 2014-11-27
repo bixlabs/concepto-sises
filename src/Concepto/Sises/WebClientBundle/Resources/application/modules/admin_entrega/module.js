@@ -30,7 +30,9 @@
                 func: function(RR, scope, $http, ngToast) {
                     scope.detalles = [];
                     scope.detalles_cierre = {};
-                    scope.observacion = "";
+                    scope.extra = {
+                        observacion: ""
+                    };
 
                     scope.calcular = function calcular() {
                         scope.element.estado = STATE.CLOSING;
@@ -59,10 +61,13 @@
                      * @returns {boolean}
                      * @private
                      */
-                    function _checkObservacion() {
-                        scope.observacion.trim();
+                    function _failCheckObservation() {
 
-                        if (scope.isEditing() && scope.observacion.length === 0) {
+
+                        console.log("Editando", scope.isEditing(), "Observacion:", scope.extra.observacion);
+                        scope.extra.observacion.trim();
+
+                        if (scope.isEditing() && scope.extra.observacion.length === 0) {
                             ngToast.create({
                                 'content': '<i class="glyphicon glyphicon-exclamation-sign"></i> La observacion es obligatoria',
                                 'class': 'danger',
@@ -70,10 +75,10 @@
                                 'horizontalPosition': 'center'
                             });
 
-                            return false;
+                            return true;
                         }
 
-                        return true;
+                        return false;
                     }
 
                     /**
@@ -82,7 +87,7 @@
                      */
                     function _saveDetalles() {
 
-                        if (!_checkObservacion()) {
+                        if (_failCheckObservation()) {
                             return;
                         }
 
@@ -95,7 +100,7 @@
                         $http.put(G.route('put_entrega_cierre'), {
                             id: scope.element.id,
                             servicios: servicios,
-                            observacion: scope.observacion
+                            observacion: scope.extra.observacion
                         }).success(function() {
                             scope.details(scope.element.id);
                         })
@@ -108,7 +113,7 @@
                     scope.okCierre = _saveDetalles;
 
                     scope.modificar = function modificar() {
-                        scope.observacion = "";
+                        scope.extra.observacion = "";
                         scope.element.estado = STATE.EDITING;
                         _getDetalles();
                     };
