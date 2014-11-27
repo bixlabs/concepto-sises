@@ -24,8 +24,6 @@ class EntityRepository extends \Doctrine\ORM\EntityRepository
         }
 
         $mainAlias = 't';
-        $alias = 't';
-
         $qb = $this->createQueryBuilder($mainAlias);
 
         foreach($parameters as $key => $parameter) {
@@ -99,10 +97,13 @@ class EntityRepository extends \Doctrine\ORM\EntityRepository
 
     public function findAll($parameters = null)
     {
-        return $this
-            ->findAllQueryBuilder($parameters)
-            ->getQuery()
-            ->execute();
+        $qb = $this->findAllQueryBuilder($parameters);
+
+        if (is_array($qb)) {
+            return $qb;
+        }
+
+        return $qb->getQuery()->execute();
     }
 
     private function extractComparator($value)
