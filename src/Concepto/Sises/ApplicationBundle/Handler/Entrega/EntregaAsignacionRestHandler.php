@@ -37,13 +37,6 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
  */
 class EntregaAsignacionRestHandler extends RestHandler
 {
-    public function cget($pagerParams = array(), $extraParams = array())
-    {
-        $extraParams['entrega__estado'] = Entrega::OPEN;
-
-        return parent::cget($pagerParams, $extraParams);
-    }
-
     public function getOrCreateEntregaBeneficio($parameters)
     {
         $query = new EntregaBeneficioQuery();
