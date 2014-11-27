@@ -13,6 +13,7 @@ namespace Concepto\Sises\ApplicationBundle\Entity\Entrega;
 
 
 use Concepto\Sises\ApplicationBundle\Entity\Contrato;
+use Concepto\Sises\ApplicationBundle\Validator\Constraints\EntregaNotOverlayDates;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping\Column;
@@ -35,6 +36,7 @@ use Symfony\Component\Validator\Constraints\NotNull;
  * @package Concepto\Sises\ApplicationBundle\Entity\Entrega
  * @Entity()
  * @Table(name="entrega_liquidacion")
+ * @EntregaNotOverlayDates()
  */
 class EntregaLiquidacion
 {
