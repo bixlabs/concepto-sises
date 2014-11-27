@@ -24,6 +24,7 @@ use Concepto\Sises\ApplicationBundle\Model\Form\Entrega\Liquidacion\CierreType;
 use FOS\RestBundle\Util\Codes;
 use FOS\RestBundle\View\View;
 use JMS\DiExtraBundle\Annotation\Service;
+use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 /**
@@ -93,45 +94,20 @@ class EntregaLiquidacionRestHandler extends RestHandler
             throw new NotFoundHttpException("No existe la liquidacion");
         }
 
-        $results = $this->getEm()->getRepository('SisesApplicationBundle:Entrega\EntregaOperacion')
-            ->calcularDetalle($liquidacion);
-
-        return View::create($results);
-
-        $result = array();
-
-        /** @var EntregaOperacion $d */
-        foreach($liquidacion->getDetalles() as $d) {
-            $recurso = $d->getServicio()->getRecursoHumano();
-            if (!isset($result[$recurso->getId()])) {
-                $result[$recurso->getId()] = array(
-                    'nombre' => $recurso->getPersona()->getNombreCompleto(),
-                    'documento' => $recurso->getPersona()->getDocumento(),
-                    'servicios' => array(),
-                    'total' => array(),
-                    'gran_total' => 0,
-                );
-            }
-
-            if (!isset($result[$recurso->getId()]['total'][$d->getServicioId()])) {
-                $result[$recurso->getId()]['total'][$d->getServicioId()] = array(
-                    'servicio' => $d->getServicioId(),
-                    'cant' => 0
-                );
-            }
-
-            $result[$recurso->getId()]['total'][$d->getServicioId()]['cant'] += (int)$d->getCantidad();
-            $result[$recurso->getId()]['gran_total'] += (int)$d->getCantidad() * (float)$d->getServicio()->getValorUnitario();
-
-            $result[$recurso->getId()]['servicios'][] = array(
-                'id' => $d->getServicioId(),
-                'nombre' => $d->getServicio()->getNombre(),
-                'cant' => $d->getCantidad(),
-                'valor' => $d->getServicio()->getValorUnitario()
-            );
+        switch ($liquidacion->getEstado()) {
+            case Entrega::CLOSE:
+                $repository = $this->getEm()->getRepository('SisesApplicationBundle:Entrega\EntregaLiquidacionDetalle');
+                break;
+            case Entrega::OPEN:
+                $repository = $this->getEm()->getRepository('SisesApplicationBundle:Entrega\EntregaOperacion');
+                break;
+            default:
+                throw new \Exception("El estado {$liquidacion->getEstado()} no es manejable");
         }
 
-        return View::create(array_values($result));
+        $results =$repository->calcularDetalle($liquidacion);
+
+        return View::create($results);
     }
 
     protected function getTypeClassString()

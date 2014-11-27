@@ -22,7 +22,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 /**
  * Class EntregaLiquidacionDetalle
  * @package Concepto\Sises\ApplicationBundle\Entity\Entrega
- * @ORM\Entity()
+ * @ORM\Entity(repositoryClass="Concepto\Sises\ApplicationBundle\Entity\Entrega\EntregaLiquidacionDetalleRepository")
  * @ORM\Table(name="entrega_liquidacion_detalle")
  */
 class EntregaLiquidacionDetalle
