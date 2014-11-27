@@ -15,6 +15,7 @@ namespace Concepto\Sises\ApplicationBundle\Handler\Entrega;
 use Concepto\Sises\ApplicationBundle\Entity\Entrega\Entrega;
 use Concepto\Sises\ApplicationBundle\Entity\Entrega\EntregaLiquidacion;
 use Concepto\Sises\ApplicationBundle\Entity\Entrega\EntregaLiquidacionDetalle;
+use Concepto\Sises\ApplicationBundle\Entity\Entrega\EntregaLiquidacionRepository;
 use Concepto\Sises\ApplicationBundle\Entity\Entrega\EntregaOperacion;
 use Concepto\Sises\ApplicationBundle\Entity\ServicioOperativo;
 use Concepto\Sises\ApplicationBundle\Handler\RestHandler;
@@ -34,6 +35,15 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
  */
 class EntregaLiquidacionRestHandler extends RestHandler
 {
+    public function cget($pagerParams = array(), $extraParams = array())
+    {
+        if (!$this->getSecurity()->isGranted('ROLE_DIRECTOR')) {
+            $extraParams[EntregaLiquidacionRepository::ONLY_OPEN] = true;
+        }
+
+        return parent::cget($pagerParams, $extraParams);
+    }
+
     public function realizarCierre($parameters)
     {
         $cierre = new Cierre();

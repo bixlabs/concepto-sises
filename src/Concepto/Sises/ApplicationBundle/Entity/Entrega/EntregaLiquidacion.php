@@ -34,7 +34,7 @@ use Symfony\Component\Validator\Constraints\NotNull;
 /**
  * Class EntregaLiquidacion
  * @package Concepto\Sises\ApplicationBundle\Entity\Entrega
- * @Entity()
+ * @Entity(repositoryClass="Concepto\Sises\ApplicationBundle\Entity\Entrega\EntregaLiquidacionRepository")
  * @Table(name="entrega_liquidacion")
  * @EntregaNotOverlayDates()
  */
