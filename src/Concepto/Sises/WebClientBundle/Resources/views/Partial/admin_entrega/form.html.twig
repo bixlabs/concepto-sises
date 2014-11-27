@@ -61,10 +61,9 @@
                 <tbody>
                 <tr data-ng-repeat="detalle in detalles">
                     <td data-ng-bind="detalle.nombre"></td>
-                    <td data-ng-bind="detalle.total"></td>
+                    <td data-ng-bind="detalle.cantidad"></td>
                     <td>
-                            <span data-ng-if="isClosed()"
-                                  data-ng-bind="detalle.cantidad"></span>
+                        <span data-ng-if="isClosed()" data-ng-bind="detalle.cantidad"></span>
                         <label>
                             <input type="text"
                                    class="form-control"
