@@ -15,6 +15,7 @@ namespace Concepto\Sises\ApplicationBundle\Controller\Entrega;
 use Concepto\Sises\ApplicationBundle\Controller\RestController;
 use Concepto\Sises\ApplicationBundle\Handler\Entrega\EntregaLiquidacionRestHandler;
 use JMS\DiExtraBundle\Annotation\LookupMethod;
+use Symfony\Component\HttpFoundation\Request;
 
 class LiquidacionController extends RestController
 {
@@ -28,5 +29,10 @@ class LiquidacionController extends RestController
     public function getDetallesAction($id)
     {
         return $this->getHandler()->calcularLiquidacion($id);
+    }
+
+    public function putCierreAction(Request $request)
+    {
+        return $this->getHandler()->realizarCierre($request->request->all());
     }
 }

@@ -75,8 +75,18 @@
                     });
 
                     scope.okCierre = function okCierre() {
-                        scope.element.estado = 'finalizada';
-                        scope.element.$update();
+                        var servicios = [];
+
+                        angular.forEach(scope.liquidacion, function(l) {
+                            servicios.push(l);
+                        });
+
+                        $http.put(G.route('put_liquidacion_cierre'), {
+                            liquidacion: scope.element.id,
+                            servicios: servicios
+                        }).success(function() {
+                            scope.details(scope.element.id);
+                        });
                     };
                 }
             }
