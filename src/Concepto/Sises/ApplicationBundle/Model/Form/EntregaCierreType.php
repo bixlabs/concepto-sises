@@ -22,6 +22,7 @@ class EntregaCierreType extends AbstractType
     {
         $builder
             ->add('id')
+            ->add('observacion')
             ->add('servicios', 'collection', array(
                 'type' => new EntregaCierreServicioType(),
                 'allow_add' => true,

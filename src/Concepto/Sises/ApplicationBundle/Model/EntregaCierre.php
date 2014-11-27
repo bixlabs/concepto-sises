@@ -26,6 +26,8 @@ class EntregaCierre {
      */
     protected $servicios;
 
+    protected $observacion;
+
     function __construct()
     {
         $this->servicios = new ArrayCollection();
@@ -75,5 +77,21 @@ class EntregaCierre {
     public function setId($id)
     {
         $this->id = $id;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getObservacion()
+    {
+        return $this->observacion;
+    }
+
+    /**
+     * @param mixed $observacion
+     */
+    public function setObservacion($observacion)
+    {
+        $this->observacion = $observacion;
     }
 } 

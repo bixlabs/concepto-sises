@@ -17,7 +17,7 @@ namespace Concepto\Sises\ApplicationBundle\Model;
  */
 class EntregaCierreServicio {
 
-    protected $id;
+    protected $servicio;
 
     protected $cantidad;
 
@@ -40,16 +40,16 @@ class EntregaCierreServicio {
     /**
      * @return mixed
      */
-    public function getId()
+    public function getServicio()
     {
-        return $this->id;
+        return $this->servicio;
     }
 
     /**
-     * @param mixed $id
+     * @param mixed $servicio
      */
-    public function setId($id)
+    public function setServicio($servicio)
     {
-        $this->id = $id;
+        $this->servicio = $servicio;
     }
 } 

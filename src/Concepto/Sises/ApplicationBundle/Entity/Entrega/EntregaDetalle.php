@@ -32,6 +32,7 @@ class EntregaDetalle
      * @ORM\Id()
      * @ORM\GeneratedValue(strategy="UUID")
      * @ORM\Column(name="id", length=36)
+     * @Exclude()
      */
     protected $id;
 
@@ -104,6 +105,17 @@ class EntregaDetalle
     public function getServicio()
     {
         return $this->servicio;
+    }
+
+    /**
+     * @VirtualProperty()
+     * @SerializedName("servicio")
+     *
+     * @return string
+     */
+    public function getServicioId()
+    {
+        return $this->servicio->getId();
     }
 
     /**

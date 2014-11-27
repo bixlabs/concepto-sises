@@ -99,20 +99,9 @@ class EntregaRestHandler extends RestHandler
 
             $entrega->setEstado(Entrega::CLOSE);
 
-            $servicioRepo = $this->getEm()->getRepository('SisesApplicationBundle:ServicioContratado');
-
             /** @var EntregaCierreServicio $servicio */
             foreach($cierre->getServicios() as $servicio) {
-                $servicioContratado = $servicioRepo->find($servicio->getId());
-                if (!$servicioContratado) {
-                    throw new NotFoundHttpException("El servicio '{$servicio->getId()}' no existe'");
-                }
-
-                $detalle = new EntregaDetalle();
-                $detalle->setEntrega($entrega);
-                $detalle->setServicio($servicioContratado);
-                $detalle->setCantidad($servicio->getCantidad());
-                $this->getEm()->persist($detalle);
+                $this->createOrUpdateDetalle($entrega, $servicio);
             }
 
             $this->getEm()->persist($entrega);
@@ -122,6 +111,40 @@ class EntregaRestHandler extends RestHandler
         }
 
         return View::create($form)->setStatusCode(Codes::HTTP_BAD_REQUEST);
+    }
+
+    /**
+     * @param Entrega $entrega
+     * @param EntregaCierreServicio $servicio
+     */
+    public function createOrUpdateDetalle($entrega, EntregaCierreServicio $servicio)
+    {
+        $servicioRepo = $this->getEm()->getRepository('SisesApplicationBundle:ServicioContratado');
+
+
+        $detalle = null;
+        $servicioContratado = null;
+
+        /** @var EntregaDetalle $entregaDetalle */
+        foreach($entrega->getDetalles() as $entregaDetalle) {
+            if ($entregaDetalle->getServicio()->getId() == $servicio->getServicio()) {
+                $detalle = $entregaDetalle;
+                $servicioContratado = $entregaDetalle->getServicio();
+            }
+        }
+
+        if (!$detalle) {
+            $detalle = new EntregaDetalle();
+            $detalle->setEntrega($entrega);
+            $servicioContratado = $servicioRepo->find($servicio->getServicio());
+            if (!$servicioContratado) {
+                throw new NotFoundHttpException("El servicio '{$servicio->getServicio()}' no existe'");
+            }
+        }
+
+        $detalle->setServicio($servicioContratado);
+        $detalle->setCantidad($servicio->getCantidad());
+        $this->getEm()->persist($detalle);
     }
 
     public function getDetalles($id)

@@ -36,23 +36,25 @@
 
                     scope.calcular = function calcular() {
                         scope.element.estado = STATE.CLOSING;
-                        _getDetalles();
+                        RR.admin_entrega_calcular.get({id: scope.element.id}, function(data) {
+                            scope.detalles = data.results;
+                            _buildDetalles(data.results);
+                        });
                     };
 
                     /**
-                     * Obtiene los detalles del servidor
+                     * Construye los detalles de la tabla
                      * @private
                      */
-                    function _getDetalles() {
-                        RR.admin_entrega_calcular.get({id: scope.element.id}, function(data) {
-                            scope.detalles = data.results;
-                            scope.detalles_cierre = {};
-                            angular.forEach(data.results, function(item) {
-                                scope.detalles_cierre[item.id] = {
-                                    id: item.id,
-                                    cantidad: item.total
-                                };
-                            });
+                    function _buildDetalles(data) {
+
+                        console.log("Building", data);
+                        scope.detalles_cierre = {};
+                        angular.forEach(data, function(item) {
+                            scope.detalles_cierre[item.servicio] = {
+                                servicio: item.servicio,
+                                cantidad: item.cantidad
+                            };
                         });
                     }
 
@@ -62,8 +64,6 @@
                      * @private
                      */
                     function _failCheckObservation() {
-
-
                         console.log("Editando", scope.isEditing(), "Observacion:", scope.extra.observacion);
                         scope.extra.observacion.trim();
 
@@ -115,7 +115,6 @@
                     scope.modificar = function modificar() {
                         scope.extra.observacion = "";
                         scope.element.estado = STATE.EDITING;
-                        _getDetalles();
                     };
 
                     scope.cancelEditing = function _cancelEditing() {
@@ -149,6 +148,7 @@
                                 id: scope.element.id
                             })).success(function(data) {
                                 scope.detalles = data;
+                                _buildDetalles(data);
                             });
                         }
                     });
