@@ -22,7 +22,9 @@
                 <i class="glyphicon glyphicon-ok"></i>
                 Realizar cierre
             </button>
-            <button class="btn btn-danger" data-ng-disabled="testRemove()" data-ng-click="remove()">
+            <button class="btn btn-danger"
+                    data-ng-if="estaPendiente()"
+                    data-ng-disabled="testRemove()" data-ng-click="remove()">
                 <i class="glyphicon glyphicon-remove-sign"></i>
                 Eliminar
             </button>
