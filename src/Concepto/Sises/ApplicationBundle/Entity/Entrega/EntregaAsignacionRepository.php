@@ -27,6 +27,9 @@ class EntregaAsignacionRepository extends EntityRepository
         // Se asegura que no se vean entregas despues de la fecha de cierre + dias de gracia
         $qb->andWhere("CURRENT_DATE() <= DATE_ADD({$alias}.fechaCierre, {$alias}.diasGracia, 'day')");
 
+        // Se asegura que no se vean entregas antes de la fecha para que fueron creadas
+        $qb->andWhere("{$alias}.fechaInicio < CURRENT_DATE()");
+
         return $qb;
     }
 
