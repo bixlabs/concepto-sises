@@ -1,0 +1,33 @@
+<?php
+/**
+ * Copyright © 2014 Julian Reyes Escrigas <julian.reyes.escrigas@gmail.com>
+ *
+ * This file is part of concepto-sises.
+ *
+ * concepto-sises
+ * can not be copied and/or distributed without the express
+ * permission of Julian Reyes Escrigas <julian.reyes.escrigas@gmail.com>
+ */
+
+namespace Concepto\Sises\ApplicationBundle\Entity\Entrega;
+
+
+use Concepto\Sises\ApplicationBundle\Entity\EntityRepository;
+
+class EntregaAsignacionRepository extends EntityRepository
+{
+    public function findAllQueryBuilder($parameters = null)
+    {
+        $qb = parent::findAllQueryBuilder($parameters);
+
+        // Se asegura de solo mostrar las asignaciones abiertas
+        $alias = $this->findJoinAlias($qb, 'entrega');
+        $qb->where("{$alias}.estado = :estado")->setParameter('estado', Entrega::OPEN);
+
+        // Se asegura que no se vean entregas despues de la fecha de cierre + dias de gracia
+        $qb->andWhere("CURRENT_DATE() <= DATE_ADD({$alias}.fechaCierre, {$alias}.diasGracia, 'day')");
+
+        return $qb;
+    }
+
+} 
