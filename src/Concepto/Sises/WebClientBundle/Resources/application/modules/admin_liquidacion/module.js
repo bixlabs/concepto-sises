@@ -21,25 +21,26 @@
             edit: {
                 deps: ['$http', 'ngToast'],
                 func: function(RR, scope, $http, ngToast) {
-                    scope.detalles = [];
-                    scope.detalles_cierre = {};
-                    scope.collapse_in = null;
-                    scope.calcular = _getDetalles;
-                    scope.liquidacion = {};
+                    G.Base.BaseEntrega.call(this, RR, scope, $http, ngToast);
+                    this._buildSave = function(servicios) {
+                        return {
+                            liquidacion: scope.element.id,
+                            servicios: servicios,
+                            observacion: scope.extra.observacion
+                        };
+                    };
 
-                    function _getDetalles() {
+                    this._routeCierre = function() {
+                        return 'put_liquidacion_cierre';
+                    };
+
+                    this._routeDetalles = function () {
+                        return 'get_liquidacion_detalles';
+                    };
+
+                    this._calcular = function(callback) {
                         $http.get(G.route('get_liquidacion_detalles', {id: scope.element.id}))
                             .success(function calcular_success(data) {
-                                scope.detalles = data;
-                                scope.liquidacion = {};
-
-                                angular.forEach(data, function(el) {
-                                    scope.liquidacion[el.id]= {
-                                        servicio: el.id,
-                                        cantidad: el.total
-                                    };
-                                });
-
                                 if (data.length === 0) {
                                     ngToast.create({
                                         'content': '<i class="glyphicon glyphicon-exclamation-sign"></i> No hay datos para realizar cierre',
@@ -47,46 +48,11 @@
                                         'verticalPosition': 'top',
                                         'horizontalPosition': 'center'
                                     });
+                                } else {
+                                    callback(data);
                                 }
                             });
-                    }
 
-                    scope.hasCierre = function hasCierre() {
-
-                        if (!scope.detalles) {
-                            return false;
-                        }
-
-                        return scope.detalles.length > 0 && scope.element.estado === 'pendiente';
-                    };
-
-                    scope.cancelarCierre = function cancelarCierre() {
-                        scope.detalles = [];
-                    };
-
-                    scope.estaPendiente = function estaPendiente() {
-                        return (scope.element.estado && scope.element.estado === 'pendiente');
-                    };
-
-                    scope.$watch('element.estado', function(val) {
-                        if (val && val === 'finalizada') {
-                            _getDetalles();
-                        }
-                    });
-
-                    scope.okCierre = function okCierre() {
-                        var servicios = [];
-
-                        angular.forEach(scope.liquidacion, function(l) {
-                            servicios.push(l);
-                        });
-
-                        $http.put(G.route('put_liquidacion_cierre'), {
-                            liquidacion: scope.element.id,
-                            servicios: servicios
-                        }).success(function() {
-                            scope.details(scope.element.id);
-                        });
                     };
                 }
             }
