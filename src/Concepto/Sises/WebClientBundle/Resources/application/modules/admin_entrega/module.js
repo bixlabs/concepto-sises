@@ -16,7 +16,7 @@
     var STATE = {
         OPEN :'pendiente',
         EDITING :'modificado',
-        CLOSE: 'finalizada',
+        CLOSED: 'finalizada',
         CLOSING: 'cerrando'
     };
 
@@ -28,130 +28,28 @@
             edit: {
                 deps: ['$http', 'ngToast'],
                 func: function(RR, scope, $http, ngToast) {
-                    scope.detalles = [];
-                    scope.detalles_cierre = {};
-                    scope.extra = {
-                        observacion: ""
-                    };
-
-                    scope.calcular = function calcular() {
-                        scope.element.estado = STATE.CLOSING;
-                        RR.admin_entrega_calcular.get({id: scope.element.id}, function(data) {
-                            scope.detalles = data.results;
-                            _buildDetalles(data.results);
-                        });
-                    };
-
-                    /**
-                     * Construye los detalles de la tabla
-                     * @private
-                     */
-                    function _buildDetalles(data) {
-
-                        console.log("Building", data);
-                        scope.detalles_cierre = {};
-                        angular.forEach(data, function(item) {
-                            scope.detalles_cierre[item.servicio] = {
-                                servicio: item.servicio,
-                                cantidad: item.cantidad
-                            };
-                        });
-                    }
-
-                    /**
-                     * Verifica que la observacion exista si se esta editando
-                     * @returns {boolean}
-                     * @private
-                     */
-                    function _failCheckObservation() {
-                        console.log("Editando", scope.isEditing(), "Observacion:", scope.extra.observacion);
-                        scope.extra.observacion.trim();
-
-                        if (scope.isEditing() && scope.extra.observacion.length === 0) {
-                            ngToast.create({
-                                'content': '<i class="glyphicon glyphicon-exclamation-sign"></i> La observacion es obligatoria',
-                                'class': 'danger',
-                                'verticalPosition': 'top',
-                                'horizontalPosition': 'center'
-                            });
-
-                            return true;
-                        }
-
-                        return false;
-                    }
-
-                    /**
-                     * Envia los detalles al servidor y la observacion si existe
-                     * @private
-                     */
-                    function _saveDetalles() {
-
-                        if (_failCheckObservation()) {
-                            return;
-                        }
-
-                        var servicios = [];
-
-                        angular.forEach(scope.detalles_cierre, function(servicio) {
-                            servicios.push(servicio);
-                        });
-
-                        $http.put(G.route('put_entrega_cierre'), {
+                    G.Base.BaseEntrega.call(this, RR, scope, $http, ngToast);
+                    this._buildSave = function(servicios) {
+                        return {
                             id: scope.element.id,
                             servicios: servicios,
                             observacion: scope.extra.observacion
-                        }).success(function() {
-                            scope.details(scope.element.id);
-                        })
-                    }
-
-                    scope.cancelarCierre = function cancelarCierre() {
-                        scope.element.estado = STATE.OPEN;
+                        };
                     };
 
-                    scope.okCierre = _saveDetalles;
-
-                    scope.modificar = function modificar() {
-                        scope.extra.observacion = "";
-                        scope.element.estado = STATE.EDITING;
+                    this._routeCierre = function() {
+                        return 'put_entrega_cierre';
                     };
 
-                    scope.cancelEditing = function _cancelEditing() {
-                        scope.element.estado = STATE.CLOSE;
-                    };
-                    scope.okEditing = _saveDetalles;
-
-                    scope.isNew = function _isNew() {
-                        return !!scope.element.estado;
+                    this._routeDetalles = function () {
+                        return 'get_entrega_detalles';
                     };
 
-                    scope.isOpen = function _isOpen() {
-                        return scope.element.estado === STATE.OPEN;
+                    this._calcular = function(callback) {
+                        RR.admin_entrega_calcular.get({id: scope.element.id}, function(data) {
+                            callback(data.results);
+                        });
                     };
-
-                    scope.isClosing = function _isClosing() {
-                        return scope.element.estado === STATE.CLOSING;
-                    };
-
-                    scope.isClosed = function _isClosed() {
-                        return scope.element.estado === STATE.CLOSE;
-                    };
-
-                    scope.isEditing = function _isEditing() {
-                        return scope.element.estado === STATE.EDITING;
-                    };
-
-                    scope.$watch('element.estado', function(val) {
-                        if (val && val === 'finalizada') {
-                            $http.get(G.route('get_entrega_detalles', {
-                                id: scope.element.id
-                            })).success(function(data) {
-                                scope.detalles = data;
-                                _buildDetalles(data);
-                            });
-                        }
-                    });
                 }
             }
         }
