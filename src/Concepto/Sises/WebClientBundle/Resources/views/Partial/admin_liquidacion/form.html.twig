@@ -58,12 +58,12 @@
                         <label>
                             <input type="text"
                                    data-ng-if="estaPendiente()"
-                                   data-ng-model="liquidacion[detalle.id].cant"
+                                   data-ng-model="liquidacion[detalle.id].cantidad"
                                    class="form-control"/>
                         </label>
                     </td>
                     <td style="text-align: right" data-ng-bind="detalle.total|currency: '$' : 0"></td>
-                    <td style="text-align: right" data-ng-bind="(liquidacion[detalle.id].cant * detalle.valorUnitario)|currency: '$' : 0"></td>
+                    <td style="text-align: right" data-ng-bind="(liquidacion[detalle.id].cantidad * detalle.valorUnitario)|currency: '$' : 0"></td>
                 </tr>
                 </tbody>
             </table>

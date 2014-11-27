@@ -35,8 +35,8 @@
 
                                 angular.forEach(data, function(el) {
                                     scope.liquidacion[el.id]= {
-                                        id: el.id,
-                                        cant: el.total
+                                        servicio: el.id,
+                                        cantidad: el.total
                                     };
                                 });
 
