@@ -28,7 +28,6 @@
         var that = this;
 
         scope.calcular = function calcular() {
-            scope.element.estado = STATE.CLOSING;
             that._calcular(_buildDetalles);
         };
 
@@ -37,6 +36,7 @@
          * @private
          */
         function _buildDetalles(data) {
+            scope.element.estado = STATE.CLOSING;
             scope.detalles = data;
             scope.detalles_cierre = {};
             angular.forEach(data, function(item) {
