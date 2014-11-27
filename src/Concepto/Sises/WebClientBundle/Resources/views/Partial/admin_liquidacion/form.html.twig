@@ -30,7 +30,15 @@
             </fieldset>
         </div>
         <div class="col-lg-7">
-            <table class="table" data-ng-if="detalles.length > 0">
+            <div class="form-group" data-ng-if="isEditing()">
+                <label for="observaciones" class="sr-only">Observaciones</label>
+                <textarea class="form-control"
+                          id="observaciones"
+                          required="required"
+                          placeholder="Explique la razón de porqué esta modificación"
+                          rows="3" data-ng-model="extra.observacion"></textarea>
+            </div>
+            <table class="table" data-ng-if="!isOpen()">
                 <thead>
                 <tr>
                     <th width="35%">Recurso humano</th>
@@ -51,19 +59,19 @@
 
                     </td>
                     <td data-ng-bind="detalle.servicio"></td>
-                    <td style="text-align: center" data-ng-bind="detalle.total"></td>
-                    <td style="text-align: center" data-ng-if="estaPendiente()">
-                        <span data-ng-if="!estaPendiente()"
+                    <td style="text-align: center" data-ng-bind="detalle.cantidad"></td>
+                    <td style="text-align: center">
+                        <span data-ng-if="isClosed()"
                               data-ng-bind="detalle.cantidad"></span>
                         <label>
                             <input type="text"
-                                   data-ng-if="estaPendiente()"
-                                   data-ng-model="liquidacion[detalle.id].cantidad"
+                                   data-ng-if="!isClosed()"
+                                   data-ng-model="detalles_cierre[detalle.servicio].cantidad"
                                    class="form-control"/>
                         </label>
                     </td>
                     <td style="text-align: right" data-ng-bind="detalle.total|currency: '$' : 0"></td>
-                    <td style="text-align: right" data-ng-bind="(liquidacion[detalle.id].cantidad * detalle.valorUnitario)|currency: '$' : 0"></td>
+                    <td style="text-align: right" data-ng-bind="(detalles_cierre[detalle.servicio].cantidad * detalle.valorUnitario)|currency: '$' : 0"></td>
                 </tr>
                 </tbody>
             </table>
