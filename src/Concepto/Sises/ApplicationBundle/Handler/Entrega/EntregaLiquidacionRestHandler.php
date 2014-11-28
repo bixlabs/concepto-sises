@@ -35,15 +35,6 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
  */
 class EntregaLiquidacionRestHandler extends RestHandler
 {
-    public function cget($pagerParams = array(), $extraParams = array())
-    {
-        if (!$this->getSecurity()->isGranted('ROLE_DIRECTOR')) {
-            $extraParams[EntregaLiquidacionRepository::ONLY_OPEN] = true;
-        }
-
-        return parent::cget($pagerParams, $extraParams);
-    }
-
     public function realizarCierre($parameters)
     {
         $cierre = new Cierre();
@@ -107,6 +98,15 @@ class EntregaLiquidacionRestHandler extends RestHandler
 
         $detalle->setCantidad($servicio->getCantidad());
         $this->getEm()->persist($detalle);
+    }
+
+    public function getListado()
+    {
+        $extraParams = array(
+            EntregaLiquidacionRepository::ONLY_OPEN => true,
+        );
+
+        return parent::cget(array(), $extraParams);
     }
 
     protected function process(array $parameters, $object, $method = 'PUT')

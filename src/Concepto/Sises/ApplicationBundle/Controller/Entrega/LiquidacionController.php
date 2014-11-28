@@ -35,4 +35,9 @@ class LiquidacionController extends RestController
     {
         return $this->getHandler()->realizarCierre($request->request->all());
     }
+
+    public function getListadoAction()
+    {
+        return $this->getHandler()->getListado();
+    }
 }
