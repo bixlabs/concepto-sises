@@ -113,8 +113,9 @@ class EntregaRestHandler extends RestHandler
             }
 
             $entrega->setEstado(Entrega::CLOSE);
-            // Se guarda la moficacion antes
-            $this->observacion->store($entrega, $cierre->getObservacion());
+            if (!empty($cierre->getObservacion())) {
+                $this->observacion->store($entrega, $cierre->getObservacion());
+            }
 
             /** @var EntregaCierreServicio $servicio */
             foreach($cierre->getServicios() as $servicio) {
