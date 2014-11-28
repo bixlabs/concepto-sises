@@ -58,13 +58,12 @@ class EntregaLiquidacionRestHandler extends RestHandler
             }
 
             $liquidacion->setEstado(Entrega::CLOSE);
+            $this->observacion->store($liquidacion, $cierre->getObservacion());
 
             /** @var CierreDetalle $servicio */
             foreach ($cierre->getServicios() as $servicio) {
                 $this->createOrUpdateDetalle($liquidacion, $servicio);
             }
-
-            $this->observacion->store($liquidacion, $cierre->getObservacion());
 
             $this->getEm()->persist($liquidacion);
             $this->getEm()->flush();
