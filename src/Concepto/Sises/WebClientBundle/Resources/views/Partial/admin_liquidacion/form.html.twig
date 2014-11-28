@@ -29,7 +29,7 @@
                         data-label="'Estado'"></div>
             </fieldset>
         </div>
-        <div class="col-lg-7">
+        <div class="col-lg-7" data-ng-if="element.id">
             <div class="form-group" data-ng-if="isEditing()">
                 <label for="observaciones" class="sr-only">Observaciones</label>
                 <textarea class="form-control"

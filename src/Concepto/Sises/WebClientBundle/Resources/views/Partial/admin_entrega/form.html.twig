@@ -29,16 +29,15 @@
                         data-label="'Estado'"></div>
             </fieldset>
         </div>
-        <div class="col-lg-7">
+        <div class="col-lg-7" data-ng-if="element.id">
             <fieldset>
                 <legend>Entregas asociadas</legend>
-                <div data-ng-if="element.id"
-                     data-sises-entrega-asignada="element.id"></div>
+                <div data-sises-entrega-asignada="element.id"></div>
             </fieldset>
         </div>
     </div>
 </div>
-<div class="row">
+<div class="row" data-ng-if="element.id">
     <div class="col-lg-7 col-lg-offset-5" data-ng-if="!isOpen()">
         <fieldset>
             <legend>Detalle cierre</legend>
