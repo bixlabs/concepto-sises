@@ -55,8 +55,8 @@
             };
         }])
         .config([
-            'plUploadServiceProvider', '$provide', '$httpProvider',
-            function (plUploadServiceProvider, $provide, $httpProvider) {
+            'plUploadServiceProvider', '$provide', '$httpProvider', '$locationProvider',
+            function (plUploadServiceProvider, $provide, $httpProvider, $locationProvider) {
                 //plUploadServiceProvider.setConfig('flashPath', 'bower_components/plupload-angular-directive/plupload.flash.swf');
                 //plUploadServiceProvider.setConfig('silverLightPath', 'bower_components/plupload-angular-directive/plupload.silverlight.xap');
                 plUploadServiceProvider.setConfig('uploadPath', G.route('_uploader_upload_documentable'));
@@ -76,6 +76,7 @@
                 });
 
                 $httpProvider.interceptors.push('sisesToastOnError');
+                $locationProvider.html5Mode(true);
             }])
         .run([
             '$rootScope', '$state', '$stateParams', 'modalService', 'MenuService',

@@ -30,3 +30,11 @@ oneup_uploader:
     type: uploader
     options:
         expose: true
+
+any:
+    path: /{any}
+    defaults:
+        _controller: SisesWebClientBundle:Web:index
+    requirements:
+        any: .*
+
