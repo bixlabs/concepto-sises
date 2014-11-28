@@ -16,7 +16,7 @@ use Concepto\Sises\ApplicationBundle\Entity\EntityRepository;
 
 class EntregaAsignacionRepository extends EntityRepository
 {
-    public function findAllQueryBuilder($parameters = null)
+    public function findAllQueryBuilder(array $parameters)
     {
         $qb = parent::findAllQueryBuilder($parameters);
 

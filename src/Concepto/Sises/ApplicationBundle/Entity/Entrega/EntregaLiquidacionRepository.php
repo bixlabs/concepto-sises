@@ -18,7 +18,7 @@ class EntregaLiquidacionRepository extends EntityRepository
 {
     const ONLY_OPEN = '##restricted';
 
-    public function findAllQueryBuilder($parameters = null)
+    public function findAllQueryBuilder(array $parameters)
     {
         $restricted = false;
 

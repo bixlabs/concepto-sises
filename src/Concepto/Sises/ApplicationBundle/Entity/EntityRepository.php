@@ -17,7 +17,7 @@ use Doctrine\ORM\QueryBuilder;
 
 class EntityRepository extends \Doctrine\ORM\EntityRepository
 {
-    public function findAllQueryBuilder($parameters = null)
+    public function findAllQueryBuilder(array $parameters)
     {
         $mainAlias = 't';
         $qb = $this->createQueryBuilder($mainAlias);
@@ -91,7 +91,7 @@ class EntityRepository extends \Doctrine\ORM\EntityRepository
         return $foundAlias;
     }
 
-    public function findAll($parameters = null)
+    public function findAll($parameters = array())
     {
         $qb = $this->findAllQueryBuilder($parameters);
 
