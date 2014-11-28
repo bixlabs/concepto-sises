@@ -18,12 +18,15 @@ use Concepto\Sises\ApplicationBundle\Entity\Entrega\EntregaLiquidacionDetalle;
 use Concepto\Sises\ApplicationBundle\Entity\Entrega\EntregaLiquidacionRepository;
 use Concepto\Sises\ApplicationBundle\Entity\Entrega\EntregaOperacion;
 use Concepto\Sises\ApplicationBundle\Entity\ServicioOperativo;
+use Concepto\Sises\ApplicationBundle\Handler\Empresa\ObservacionHandler;
 use Concepto\Sises\ApplicationBundle\Handler\RestHandler;
 use Concepto\Sises\ApplicationBundle\Model\Entrega\Liquidacion\Cierre;
 use Concepto\Sises\ApplicationBundle\Model\Entrega\Liquidacion\CierreDetalle;
 use Concepto\Sises\ApplicationBundle\Model\Form\Entrega\Liquidacion\CierreType;
 use FOS\RestBundle\Util\Codes;
 use FOS\RestBundle\View\View;
+use JMS\DiExtraBundle\Annotation\Inject;
+use JMS\DiExtraBundle\Annotation\InjectParams;
 use JMS\DiExtraBundle\Annotation\Service;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
@@ -35,6 +38,11 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
  */
 class EntregaLiquidacionRestHandler extends RestHandler
 {
+    /**
+     * @var ObservacionHandler
+     */
+    private $observacion;
+
     public function realizarCierre($parameters)
     {
         $cierre = new Cierre();
@@ -56,6 +64,8 @@ class EntregaLiquidacionRestHandler extends RestHandler
                 $this->createOrUpdateDetalle($liquidacion, $servicio);
             }
 
+            $this->observacion->store($liquidacion, $cierre->getObservacion());
+
             $this->getEm()->persist($liquidacion);
             $this->getEm()->flush();
 
@@ -63,6 +73,16 @@ class EntregaLiquidacionRestHandler extends RestHandler
         }
 
         return View::create($form)->setStatusCode(Codes::HTTP_BAD_REQUEST);
+    }
+
+    /**
+     * @param $handler
+     * @InjectParams({"handler" = @Inject("concepto.sises.observacion.handler")})
+     *
+     */
+    public function setObservacion($handler)
+    {
+        $this->observacion = $handler;
     }
 
     /**

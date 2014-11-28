@@ -12,6 +12,7 @@ namespace Concepto\Sises\ApplicationBundle\Handler\Entrega;
 use Concepto\Sises\ApplicationBundle\Entity\Entrega\Entrega;
 use Concepto\Sises\ApplicationBundle\Entity\Entrega\EntregaDetalle;
 use Concepto\Sises\ApplicationBundle\Handler\ContratoRestHandler;
+use Concepto\Sises\ApplicationBundle\Handler\Empresa\ObservacionHandler;
 use Concepto\Sises\ApplicationBundle\Handler\RestHandler;
 use Concepto\Sises\ApplicationBundle\Model\EntregaCierre;
 use Concepto\Sises\ApplicationBundle\Model\EntregaCierreServicio;
@@ -38,6 +39,11 @@ class EntregaRestHandler extends RestHandler
     private $contrato;
 
     /**
+     * @var ObservacionHandler
+     */
+    private $observacion;
+
+    /**
      * @param ContratoRestHandler $contrato
      *
      * @InjectParams({"contrato" = @Inject("concepto_sises_contrato.handler")})
@@ -48,6 +54,15 @@ class EntregaRestHandler extends RestHandler
         $this->contrato = $contrato;
     }
 
+    /**
+     * @param $handler
+     * @InjectParams({"handler" = @Inject("concepto.sises.observacion.handler")})
+     *
+     */
+    public function setObservacion($handler)
+    {
+        $this->observacion = $handler;
+    }
 
     public function cget($pagerParams, $extraParams = array())
     {
@@ -98,6 +113,8 @@ class EntregaRestHandler extends RestHandler
             }
 
             $entrega->setEstado(Entrega::CLOSE);
+            // Se guarda la moficacion antes
+            $this->observacion->store($entrega, $cierre->getObservacion());
 
             /** @var EntregaCierreServicio $servicio */
             foreach($cierre->getServicios() as $servicio) {

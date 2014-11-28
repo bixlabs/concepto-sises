@@ -42,6 +42,7 @@
                         $http.get(G.route('get_liquidacion_detalles', {id: scope.element.id}))
                             .success(function calcular_success(data) {
                                 if (data.length === 0) {
+                                    scope.element.estado = G.Base.ENTREGA.OPEN;
                                     ngToast.create({
                                         'content': '<i class="glyphicon glyphicon-exclamation-sign"></i> No hay datos para realizar cierre',
                                         'class': 'info',

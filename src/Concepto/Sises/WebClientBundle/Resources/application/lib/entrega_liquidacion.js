@@ -174,4 +174,5 @@
     }
 
     G.Base.BaseEntrega = BaseEntrega;
+    G.Base.ENTREGA = STATE;
 })();
