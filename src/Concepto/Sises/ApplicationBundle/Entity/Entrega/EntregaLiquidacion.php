@@ -98,7 +98,7 @@ class EntregaLiquidacion
 
     /**
      * @var Collection
-     * @OneToMany(targetEntity="Concepto\Sises\ApplicationBundle\Entity\Entrega\EntregaOperacion", mappedBy="liquidacion")
+     * @OneToMany(targetEntity="Concepto\Sises\ApplicationBundle\Entity\Entrega\EntregaLiquidacionDetalle", mappedBy="liquidacion")
      */
     protected $detalles;
 

@@ -22,6 +22,7 @@ class CierreType extends AbstractType
     {
         $builder
             ->add('liquidacion')
+            ->add('observacion')
             ->add('servicios', 'collection', array(
                 'type' => new CierreDetalleType(),
                 'allow_add' => true,

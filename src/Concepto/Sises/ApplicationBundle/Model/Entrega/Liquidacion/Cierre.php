@@ -24,6 +24,8 @@ class Cierre {
      */
     protected $servicios;
 
+    protected $observacion;
+
     function __construct()
     {
         $this->servicios = new ArrayCollection();
@@ -73,5 +75,21 @@ class Cierre {
         if ($this->servicios->contains($servicio)) {
             $this->servicios->removeElement($servicio);
         }
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getObservacion()
+    {
+        return $this->observacion;
+    }
+
+    /**
+     * @param mixed $observacion
+     */
+    public function setObservacion($observacion)
+    {
+        $this->observacion = $observacion;
     }
 } 

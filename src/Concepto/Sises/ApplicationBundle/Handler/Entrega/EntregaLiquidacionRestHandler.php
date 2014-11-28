@@ -59,23 +59,12 @@ class EntregaLiquidacionRestHandler extends RestHandler
             }
 
             $liquidacion->setEstado(Entrega::CLOSE);
-            $servicioRepo = $this->getEm()->getRepository('SisesApplicationBundle:ServicioOperativo');
 
             /** @var CierreDetalle $servicio */
             foreach ($cierre->getServicios() as $servicio) {
-
-                $operativo = $servicioRepo->find($servicio->getServicio());
-
-                if (!$operativo) {
-                    throw new NotFoundHttpException("El Servicio Operativo {$servicio->getServicio()} no existe");
-                }
-
-                $detalle = new EntregaLiquidacionDetalle();
-                $detalle->setLiquidacion($liquidacion);
-                $detalle->setServicio($operativo);
-                $detalle->setCantidad($servicio->getCantidad());
-                $this->getEm()->persist($detalle);
+                $this->createOrUpdateDetalle($liquidacion, $servicio);
             }
+
             $this->getEm()->persist($liquidacion);
             $this->getEm()->flush();
 
@@ -83,6 +72,41 @@ class EntregaLiquidacionRestHandler extends RestHandler
         }
 
         return View::create($form)->setStatusCode(Codes::HTTP_BAD_REQUEST);
+    }
+
+    /**
+     * @param EntregaLiquidacion $liquidacion
+     * @param CierreDetalle $servicio
+     */
+    public function createOrUpdateDetalle($liquidacion, CierreDetalle $servicio)
+    {
+        $servicioRepo = $this->getEm()->getRepository('SisesApplicationBundle:ServicioOperativo');
+
+        $detalle = null;
+        $operativo = null;
+
+        /** @var EntregaLiquidacionDetalle $liquidacionDetalle */
+        foreach ($liquidacion->getDetalles() as $liquidacionDetalle) {
+            if ($liquidacionDetalle->getServicioId() == $servicio->getServicio()) {
+                $detalle = $liquidacionDetalle;
+            }
+        }
+
+        if (!$detalle) {
+            $detalle = new EntregaLiquidacionDetalle();
+            $detalle->setLiquidacion($liquidacion);
+
+            $operativo = $servicioRepo->find($servicio->getServicio());
+
+            if (!$operativo) {
+                throw new NotFoundHttpException("El servicio '{$servicio->getServicio()}' no existe'");
+            }
+
+            $detalle->setServicio($operativo);
+        }
+
+        $detalle->setCantidad($servicio->getCantidad());
+        $this->getEm()->persist($detalle);
     }
 
     protected function process(array $parameters, $object, $method = 'PUT')
