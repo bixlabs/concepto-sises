@@ -5,10 +5,10 @@
         return Routing.getBaseUrl() + (name);
     };
 
-    var route = function(name, args) {
+    var route = function(name, args, absolute) {
         var arg_params = args || {};
 
-        return Routing.generate(name, arg_params);
+        return Routing.generate(name, arg_params, absolute);
     };
 
     var template = function (name) {
