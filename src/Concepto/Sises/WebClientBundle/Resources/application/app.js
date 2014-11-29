@@ -114,7 +114,6 @@
 
                 // Fix: logout route dont work
                 $r.$on('$locationChangeStart', function(event, url) {
-                    console.log(url, "check", G.route('logout', {}, true));
                     if (url === G.route('logout', {}, true)) {
                         event.preventDefault();
                         $w.location.href = url;
