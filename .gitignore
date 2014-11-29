@@ -8,6 +8,9 @@
 /bin/
 /composer.phar
 
+# Sesiones de desarrollo
+sessions
+
 # Symfony 2.5 files
 /app/check.php
 /app/SymfonyRequirements.php
