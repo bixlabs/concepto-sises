@@ -79,8 +79,8 @@
                 $locationProvider.html5Mode(true);
             }])
         .run([
-            '$rootScope', '$state', '$stateParams', 'modalService', 'MenuService',
-            function ($r, $state, $sP, mS, MS) {
+            '$rootScope', '$state', '$stateParams', 'modalService', 'MenuService', '$window',
+            function ($r, $state, $sP, mS, MS, $w) {
                 $r.authState = false;
                 $r.go = $state.go;
                 $r.moment = moment;
@@ -110,6 +110,15 @@
                     name: 'liquidacion_category',
                     label: 'Liquidaciones',
                     is_category: true
+                });
+
+                // Fix: logout route dont work
+                $r.$on('$locationChangeStart', function(event, url) {
+                    console.log(url, "check", G.route('logout', {}, true));
+                    if (url === G.route('logout', {}, true)) {
+                        event.preventDefault();
+                        $w.location.href = url;
+                    }
                 });
             }
         ])

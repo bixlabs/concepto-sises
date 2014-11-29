@@ -4,6 +4,12 @@ fos_js_routing:
 fos_user_security:
     resource: "@FOSUserBundle/Resources/config/routing/security.xml"
 
+# Permite no exportar todas las rutas del fos_user
+logout:
+   path: /logout
+   options:
+       expose: true
+
 fos_user_change_password:
     resource: "@FOSUserBundle/Resources/config/routing/change_password.xml"
     prefix: /profile
