@@ -73,6 +73,7 @@
                         };
                     });
                     scope.listado = [];
+                    scope.seleccion.now = null;
                 }
             });
 
