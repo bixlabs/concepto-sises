@@ -150,10 +150,10 @@
                 if (now) {
                     scope._now = moment(now);
                     var id = scope.seleccion.asignacion.id;
-                    $http.post(G.route('post_asignacion_entrega'), {
+                    $http.get(G.route('get_asignacion_entrega', {
                         id: id,
                         fecha: scope._now.format('YYYY-MM-DDTHH:mm:ssZZ')
-                    }).success(function(data) {
+                    })).success(function(data) {
                         scope.seleccion.asignacion = RR.coordinador_entrega.get({'id': id});
                         scope.entregas = {};
 
