@@ -42,7 +42,7 @@
             };
 
             function _load() {
-                $http.post(G.route('post_dashboard_info'), scope.element)
+                $http.get(G.route('get_dashboard_info'), {params: scope.element})
                     .success(function load_succes(response) {
                         var data = response.data;
 
