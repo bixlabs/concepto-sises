@@ -304,7 +304,18 @@
                         RR = arguments[rrIdx],
                         scope = arguments[scopeIdx];
 
-                    scope.element = RR[config.resource].get({id: scope.routeParams.id});
+                    scope.element = RR[config.resource].get(
+                        {id: scope.routeParams.id},
+                        function() {}, // Ok response
+                        function get_element_error(response) { // Error response
+                            switch (response.status) {
+                                case 404:
+                                    scope.go('^.list');
+                                    break;
+                                default:
+                                    break;
+                            }
+                        });
                     BaseController.call(this, scope);
                     editCtrl.func.apply(this, arguments);
                 }
