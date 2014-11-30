@@ -81,22 +81,21 @@ class DashboardRestHandler {
         }
 
         $now = new \DateTime();
+        $now->setTime(0, 0, 0); // Inicializa al principio del dia
         $start = $this->query->getStart();
         $end = $this->query->getEnd();
 
         if (!$end && !$start) {
-            $end = $now;
+            $end = clone $now;
             $start = clone $end;
-            $start->sub(new \DateInterval('P1M'));
+            $start->sub(new \DateInterval('P15D'));
+            $end->add(new \DateInterval('P15D'));
         } else if ($end && !$start) {
             $start = clone $end;
             $start->sub(new \DateInterval('P1M'));
         } else if ($start && !$end) {
             $end = clone $start;
             $end->add(new \DateInterval('P1M'));
-            if ($end > $now) {
-                $end = $now;
-            }
         }
 
         $this->query->setStart($start);
