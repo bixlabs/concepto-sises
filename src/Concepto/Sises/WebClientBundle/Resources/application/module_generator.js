@@ -35,7 +35,7 @@
         scope.remove = function() {
             scope.canRemove = false;
             scope.modal.alert('Esta seguro de eliminar estos datos?', function() {
-                scope.element.$delete(function() {
+                scope.element['$delete'](function() {
                     scope.list();
                 }, function () {
                     scope.canRemove = true;
