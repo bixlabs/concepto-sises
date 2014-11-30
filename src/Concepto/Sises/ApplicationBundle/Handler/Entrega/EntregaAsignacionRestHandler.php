@@ -67,6 +67,7 @@ class EntregaAsignacionRestHandler extends RestHandler
             $entregaBeneficio->setEntrega($entregaAsignacion);
             $entregaBeneficio->setServicio($entregaAsignacion->getAsignacion()->getServicio());
             $entregaBeneficio->setFechaEntrega($query->getFecha());
+            $entregaBeneficio->getFechaEntrega()->setTime(0, 0, 0);
 
             $asignacion = $entregaAsignacion->getAsignacion();
             $beneficios = $this->getEm()

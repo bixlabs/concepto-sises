@@ -134,7 +134,7 @@
 
             scope.getCurNow = function() {
                 if (scope._now) {
-                    return scope._now.format('LLL');
+                    return scope._now.format('LL');
                 }
             };
 
