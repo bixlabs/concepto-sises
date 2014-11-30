@@ -67,8 +67,8 @@
                     scope.seleccion.asignacion = RR.coordinador_entrega.get({'id': id}, function() {
                         var e = scope.seleccion.asignacion.entrega;
                         scope.fecha = {
-                            cierre: moment(e.fechaInicio).startOf('day').format('LLL'),
-                            inicio: moment(e.fechaCierre).endOf('day').format('LLL'),
+                            cierre: moment(e.fechaCierre).startOf('day').format('LLL'),
+                            inicio: moment(e.fechaInicio).endOf('day').format('LLL'),
                             all: false
                         };
                     });
