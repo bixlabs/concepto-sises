@@ -19,6 +19,7 @@ use Doctrine\ORM\Mapping\Column;
 use Doctrine\ORM\Mapping\Entity;
 use Doctrine\ORM\Mapping\GeneratedValue;
 use Doctrine\ORM\Mapping\Id;
+use Doctrine\ORM\Mapping\JoinColumn;
 use Doctrine\ORM\Mapping\ManyToOne;
 use Doctrine\ORM\Mapping\Table;
 use Doctrine\ORM\Mapping\UniqueConstraint;
@@ -57,6 +58,7 @@ class CoordinadorAsignacion {
      * @var LugarEntrega
      * @ManyToOne(targetEntity="Concepto\Sises\ApplicationBundle\Entity\LugarEntrega")
      * @NotNull()
+     * @JoinColumn(nullable=false)
      * @Groups({"list"})
      */
     protected $lugar;
@@ -64,6 +66,7 @@ class CoordinadorAsignacion {
     /**
      * @var ServicioContratado
      * @ManyToOne(targetEntity="Concepto\Sises\ApplicationBundle\Entity\ServicioContratado")
+     * @JoinColumn(nullable=false)
      * @NotNull()
      * @Groups({"list"})
      * @MaxDepth(depth=1)
@@ -73,6 +76,7 @@ class CoordinadorAsignacion {
     /**
      * @var Coordinador
      * @ManyToOne(targetEntity="Concepto\Sises\ApplicationBundle\Entity\Personal\Coordinador", inversedBy="asignacion")
+     * @JoinColumn(nullable=false)
      * @NotNull()
      * @Groups({"list"})
      * @MaxDepth(depth=2)
