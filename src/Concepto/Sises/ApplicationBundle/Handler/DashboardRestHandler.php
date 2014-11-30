@@ -88,8 +88,7 @@ class DashboardRestHandler {
         if (!$end && !$start) {
             $end = clone $now;
             $start = clone $end;
-            $start->sub(new \DateInterval('P15D'));
-            $end->add(new \DateInterval('P15D'));
+            $start->sub(new \DateInterval('P1M'));
         } else if ($end && !$start) {
             $start = clone $end;
             $start->sub(new \DateInterval('P1M'));
