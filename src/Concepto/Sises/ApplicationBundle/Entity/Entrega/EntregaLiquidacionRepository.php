@@ -36,10 +36,11 @@ class EntregaLiquidacionRepository extends EntityRepository
             $qb->where("{$alias}.estado = :estado")->setParameter('estado', Entrega::OPEN);
 
             // Se asegura que no se vean entregas despues de la fecha de cierre + dias de gracia
-            $qb->andWhere("CURRENT_DATE() <= DATE_ADD({$alias}.fechaCierre, {$alias}.diasGracia, 'day')");
+            $qb->andWhere(":now <= DATE_ADD({$alias}.fechaCierre, {$alias}.diasGracia, 'day')");
 
             // Se asegura que no se vean entregas antes de la fecha para que fueron creadas
-            $qb->andWhere("{$alias}.fechaInicio <= CURRENT_DATE()");
+            $qb->andWhere("{$alias}.fechaInicio <= :now");
+            $qb->setParameter('now', new \DateTime());
         }
 
         return $qb;
