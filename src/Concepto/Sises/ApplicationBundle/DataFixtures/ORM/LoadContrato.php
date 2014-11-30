@@ -13,8 +13,6 @@ namespace Concepto\Sises\ApplicationBundle\DataFixtures\ORM;
 
 
 use Concepto\Sises\ApplicationBundle\Entity\Contrato;
-use Concepto\Sises\ApplicationBundle\Entity\CoordinadorAsignacion;
-use Concepto\Sises\ApplicationBundle\Entity\LugarEntrega;
 use Concepto\Sises\ApplicationBundle\Entity\Persona;
 use Concepto\Sises\ApplicationBundle\Entity\Personal\Coordinador;
 use Concepto\Sises\ApplicationBundle\Entity\Personal\Director;
@@ -33,8 +31,6 @@ class LoadContrato implements FixtureInterface, OrderedFixtureInterface {
     function load(ObjectManager $manager)
     {
         $empresas = $manager->getRepository('SisesApplicationBundle:Empresa')->findAll();
-
-        $ubicacion = $manager->getRepository('SisesApplicationBundle:Ubicacion\CentroPoblado')->findOneBy(array());
 
         $empresa = $empresas[0];
         $contratante = $empresas[1];
@@ -79,26 +75,6 @@ class LoadContrato implements FixtureInterface, OrderedFixtureInterface {
         $coordinador->setPersona($persona);
         $coordinador->setContrato($contrato);
         $manager->persist($coordinador);
-
-        // Lugar entrega
-        $lugar = new LugarEntrega();
-        $lugar->setNombre("Las casitas");
-        $lugar->setUbicacion($ubicacion);
-        $manager->persist($lugar);
-
-        // Asignacion
-        $asignacion = new CoordinadorAsignacion();
-        $asignacion->setCoordinador($coordinador);
-        $asignacion->setLugar($lugar);
-        $asignacion->setServicio($servicio);
-        $manager->persist($asignacion);
-        
-        // Asignacion 2
-        $asignacion2 = new CoordinadorAsignacion();
-        $asignacion2->setCoordinador($coordinador);
-        $asignacion2->setLugar($lugar);
-        $asignacion2->setServicio($servicio2);
-        $manager->persist($asignacion2);
 
         // Crea el director
         $director = new Director();

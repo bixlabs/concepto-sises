@@ -166,6 +166,6 @@ class LoadBeneficiarios extends ContainerAwareFixture implements OrderedFixtureI
      */
     function getOrder()
     {
-        return 310;
+        return 250;
     }
 }
