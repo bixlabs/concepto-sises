@@ -11,6 +11,13 @@ imports:
 #        result_cache_driver: apc
 #        query_cache_driver: apc
 
+assetic:
+    # java: "/usr/bin/java"
+    filters:
+        uglifyjs2:
+            bin: /usr/bin/uglifyjs
+            apply_to: "\.js$"
+
 monolog:
     handlers:
         main:

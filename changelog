@@ -1,3 +1,9 @@
+Version 0.6.2 (ab16711)
+- Corregido: las rutas de PDF no funcionan apropiadamente
+- Se comprimen los JS se reduce el peso cerca del 50%
+Version 0.6.1 (f9bd8c2)
+- Corregido: Las fechas de resultado en el cuadro de mando
+- Correcciones en los servicios internos
 Version 0.6.0 (e53c5c9)
 - Se cargan mas datos de prueba
 - Se agrego el reporte de detalles del dia en el cuadro de mando, al pulsar click sobre alguna de las fechas del cuadro principal
