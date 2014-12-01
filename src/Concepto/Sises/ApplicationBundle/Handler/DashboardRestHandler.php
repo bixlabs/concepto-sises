@@ -114,7 +114,7 @@ class DashboardRestHandler {
     {
         $results = $this->calcule($parameters);
 
-        return C3\Utils::calculec3('fecha', $results);
+        return C3\Utils::calculec3('fecha', $results, $this->query);
     }
 
     private function getDQL()
@@ -201,7 +201,7 @@ DQL;
     {
         $results = $this->detalles($parameters);
 
-        return C3\Utils::calculec3('lugar', $results);
+        return C3\Utils::calculec3('lugar', $results, $parameters);
     }
 
     public function detalles($parameters)

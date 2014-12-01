@@ -39,6 +39,9 @@
         </div>
         <div class="row">
             <div class="col-lg-12">
+                <div data-ng-if="subquery">
+                    Resultados: <span data-ng-bind="moment(subquery.fecha).format('LL')"></span>
+                </div>
                 <div id="subchart"></div>
             </div>
         </div>

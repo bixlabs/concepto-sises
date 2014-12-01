@@ -16,11 +16,12 @@ class Utils {
     /**
      * Conviert el resultado de un query en formato c3.js
      *
-     * @param $keyColumn  "Indica cual es el eje x"
-     * @param $results    "Resultados"
+     * @param $keyColumn "Indica cual es el eje x"
+     * @param $results "Resultados"
+     * @param array|mixed $query
      * @return array      "Formato c3.js"
      */
-    public static function calculec3($keyColumn, $results)
+    public static function calculec3($keyColumn, $results, $query = array())
     {
         $columns = array(
             // El primer valor siempre es la fecha
@@ -70,7 +71,8 @@ class Utils {
             'data' => array(
                 'columns' => array_values($columns),
                 'names' => $names
-            )
+            ),
+            'query' => $query
         );
     }
 } 
