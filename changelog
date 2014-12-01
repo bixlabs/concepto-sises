@@ -1,0 +1,62 @@
+Version 0.6.0 (e53c5c9)
+- Se cargan mas datos de prueba
+- Se agrego el reporte de detalles del dia en el cuadro de mando, al pulsar click sobre alguna de las fechas del cuadro principal
+- Se migro el modulo de gestión de liquidaciones soporta filtros y paginación
+- Se migro el modulo de contratos al nuevo formato, soporta filtro y paginación
+- Corregido: sin parametros en el cuadro de mando muestra el rango (1 mes antes) - HOY
+- Corregido: realizando entregas, al cambiar de asignacion no permite seleccionar la misma fecha de la asignacion anterior
+- Corregido: los rangos de fechas el cuadro de mando se invierten bajo algunas condiciones
+- Se asegura que internamente las entregas siempre sean al primer momento del dia 00:00:00
+- Se programan y cargan los datos de prueba del archivo pruebas.csv
+- Corregido: las fechas inicio/cierre estan invertidas en las entregas
+- Se evita usar fechas de la base de datos que trabaja en tiempo local y no independiente de la zona
+- Se asegura que las asignaciones se realizen despues de creado el contrato y la carga de beneficiarios segun el flujo de aplicación
+- Valida que no existan asignaciones sin lugar, servicio u otra información ogligatoria
+- Se agrega el comportamiento Cuando se intenta acceder a los detalles de un objeto inexistente el sistema envia al usuario al listado
+- Se normalizan las solcitudes al servidor
+- Se corrige el calculo para filtrar las entregas: fechaIncio <= AHORA <= (fechaCierre diasGracia)
+- Corregido: el enlace cerrar sesion no funciona despues de elminar el # de las rutas
+- Se corrigen los datos de prueba para ajustarse a las fechas del contrato
+- Corregido: la observacion solo es obligatoria al realizar una modificación
+- Internamente con las observaciones guarda el estado anterior de la entrega/liquidacion
+- El caracter # ya no es necesario para separa las rutas de la aplicacion
+- Corregido: Al cargar los detalles de una entrega/liquidacion cerrada se pasa a "cerrando" cuando no es debido
+- Se migro el modulo de gestión de liquidaciones para soportar paginación y filtros
+- Se refactorizo el modulo de entregas para sopotar modificación de cierre y anotaciones
+- se refactorizo el modulo de liquidaciones para soportar cierre, anotaciones y modificación de cierre
+- Se permite modificar las entregas finalizadas
+- Se agrega el codigo de error en los mensajes de error
+- Se valida que el campo de "observaciones" sea obligatorio
+- Se agrega el campo "observaciones" para el formulario de cierre de entrgas
+- Corregido: Se pueden eliminar liquidacione pendientes sin información
+- Corregido: El coordinador no puede realizar liquidaciones cerradas
+- Corregido: bajo algunas circunstancias no debuelve los listados apropiadamente
+- Corregido: El administrador en algunas ocasiones no tiene todos los permisos
+- Se valida que las fechas de liquidación no se sopalpen
+- Se agrega la restricción entregas futuras no esta disponibles para realizar entregas
+- Corregido: Muestra un mensaje incorrecto cuando no hay entregas
+- Corregido: El coordinador no puede seleccionar una entrega que no supere la fecha de entrega mas los dias de gracia
+- Corregido: El coodinador no puede seleccionar una entrega finalizada
+- Corregido: solo debe mostrar la información de cierre cuando esta en estado 'cerrado'
+- Corregido: Permite realizar el cierre de liquidaciones apropiadamente
+- El cierre de liquidación calcula el total servicio/persona
+- Permite al director realizar el cierre de liquidación incluyendo cantidades propias
+- El modulo de personal (RRHH) se migro y ahora soporta paginación y filtros
+- El modulo de empresas se migro y ahora soporta paginación y filtros
+- Corregido: no deja modificar (agregar) empresas a un director ya creado sin empresas
+- Se modifico la carga de informacón del director
+- Se intruduce el versionado en la aplicación
+- valida usuario y correo electronico; deben ser unicos
+- Se agrego crear usuario de sistema a los coordinadores
+- Se agrego crear usuario de sistema a los directores
+- Se deshabilito el autofill de chrome, firefox, etc. para las contraseñas en la creación de usuarios
+- El modulo de coordinador se migro y ahora soporta paginación y filtros
+- Corregido: problemas con los formularios que incluyen fechas
+- El modulo beneficiario se migro y ahora soporta paginacion y filtros
+- Corregido: eliminar entidades (contratos, coordinadores, directores) funciona apropiadamente
+- Corregido: Los filtros en los listados modales (dentro de un cuadro de dialogo) no devuelven resultados
+- Corregido: El boton cerrar ahora vuelve a habilitarse al cerrar el dialogo
+- Se cargaron datos de beneficiarios desde archivo plano
+- se optimizaron los formularios para evitar hacer consultas innecesarias y mejorar el rendimiento
+- Cambios en algunos campos de los formulario
+- El beneficiario ahora pertenece a un contrato, corrige el error de no mostrar el servicio
