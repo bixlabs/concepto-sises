@@ -123,6 +123,8 @@
                                     rotated: true
                                 }
                             });
+                            scope.subchart.hide();
+                            scope.subchart.show();
                         } else {
                             _reloadData(scope.subchart, data);
                         }
