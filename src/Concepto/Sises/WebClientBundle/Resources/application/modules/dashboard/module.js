@@ -15,8 +15,6 @@
                     controller: 'DashboardController',
                     templateUrl: G.template('dashboard/info')
                 });
-            $urlRouterProvider
-                .otherwise('/dashboard');
         }])
 
         .run(['MenuService', function(MS) {

@@ -17,7 +17,7 @@
             <ul>
                 <li data-ng-repeat="fecha in fechas">
                     {% verbatim %}
-                    <a href="{{ getLink(fecha) }}" data-ng-bind="fecha.display"></a>
+                    <a href="{{ getLink(fecha) }}" target="_blank" data-ng-bind="fecha.display"></a>
                     {% endverbatim %}
                 </li>
             </ul>
