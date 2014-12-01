@@ -49,6 +49,7 @@
         debug: function() {
             this.DEBUG && console.log.apply(console, arguments);
         },
+        date_format: 'YYYY-MM-DDTHH:mm:ssZZ',
         extractGuid: extractGuid,
         views: {
             LIST: 'list',

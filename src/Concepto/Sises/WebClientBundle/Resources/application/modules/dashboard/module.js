@@ -29,19 +29,50 @@
         }])
 
         .controller('DashboardController', ['$http', '$scope', function($http, scope) {
-
-            var base_data = {
-                empty: {
-                    label: { text: "No hay datos para mostrar en las fechas seleccionadas" }
+            var $subchart = $('#subchart'),
+                base_data = {
+                    empty: {
+                        label: { text: "No hay datos para mostrar en las fechas seleccionadas" }
+                    },
+                    x: 'fecha',
+                    xFormat: '%Y-%m-%dT%H:%M:%S%Z',
+                    type: 'bar',
+                    labels: true,
+                    onclick: function (d) {
+                        // Subchart
+                        //{x: 2, value: 45, id: "d40e74c5-78e0-11e4-bada-1867b083cd22", index: 2, name: "Almuerzos"}
+                        scope.subquery = {
+                            servicio: d.id,
+                            fecha: moment(scope.chart.category(d.index)).format(G.date_format)
+                        };
+                        _subload();
+                    }
                 },
-                x: 'fecha',
-                xFormat: '%Y-%m-%dT%H:%M:%S%Z',
-                type: 'bar',
-                labels: true,
-                onclick: function (d) { console.log("onclick", d); },
-            };
+                base_subdata = {
+                    empty: {
+                        label: { text: "No hay datos para mostrar en las fechas seleccionadas" }
+                    },
+                    x: 'lugar',
+                    type: 'bar',
+                    labels: true
+                };
+
+            function _reloadData(chart, data) {
+                // Procesa los nombres que deben ser descargados
+                var unload = [];
+                angular.forEach(chart.data.names(), function(v, k) {
+                    if (!data.names[k]) {
+                        unload.push(k);
+                    }
+                });
+
+                // Carga la nueva informacion
+                chart.load(angular.extend({ unload: unload }, data));
+                chart.data.names(data.names);
+            }
 
             function _load() {
+                $subchart.hide();
                 $http.get(G.route('get_dashboard_info'), {params: scope.element})
                     .success(function load_succes(response) {
                         var data = response.data;
@@ -51,7 +82,7 @@
                         }
 
                         if (scope.chart === null) {
-                            scope.chart = c3.generate({
+                            window.chart = scope.chart = c3.generate({
                                 data: angular.extend(base_data, data),
                                 axis: {
                                     x: {
@@ -66,17 +97,34 @@
                                 window.chart = scope.chart;
                             }
                         } else {
-                            // Procesa los nombres que deben ser descargados
-                            var unload = [];
-                            angular.forEach(scope.chart.data.names(), function(v, k) {
-                                if (!data.names[k]) {
-                                    unload.push(k);
+                            _reloadData(scope.chart, data);
+                        }
+                    });
+            }
+
+            function _subload() {
+                $subchart.show();
+                $http.get(G.route('get_dashboard_more_info'), {params: scope.subquery})
+                    .success(function subload_success(response) {
+                        var data = response.data;
+
+                        if (response.query) {
+                            scope.subquery = response.query;
+                        }
+
+                        if (scope.subchart == null) {
+                            scope.subchart = c3.generate({
+                                bindto: '#subchart',
+                                data: angular.extend(base_subdata, data),
+                                axis: {
+                                    x: {
+                                        type: 'category'
+                                    },
+                                    rotated: true
                                 }
                             });
-
-                            // Carga la nueva informacion
-                            scope.chart.load(angular.extend({ unload: unload }, data));
-                            scope.chart.data.names(data.names);
+                        } else {
+                            _reloadData(scope.subchart, data);
                         }
                     });
             }
@@ -87,6 +135,10 @@
             };
             scope.query = null;
             scope.chart = null;
+            scope.subchart = null;
+            scope.subquery = null;
+
+
             scope.load = function scope_load() {
                 _load();
 

@@ -11,7 +11,9 @@
 
 namespace Concepto\Sises\ApplicationBundle\Handler;
 
+use Concepto\Sises\ApplicationBundle\Model\Dashboard\SubQuery;
 use Concepto\Sises\ApplicationBundle\Model\DashboardQuery;
+use Concepto\Sises\ApplicationBundle\Model\Form\Dashboard\SubQueryType;
 use Concepto\Sises\ApplicationBundle\Model\Form\DashboardQueryType;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\Query;
@@ -22,6 +24,7 @@ use JMS\Serializer\Serializer;
 use Symfony\Component\Form\FormFactory;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Symfony\Component\PropertyAccess\PropertyAccess;
+use Concepto\Sises\ApplicationBundle\Utils\C3;
 
 /**
  * Class DashboardRestHandler
@@ -107,71 +110,11 @@ class DashboardRestHandler {
             ->execute($params, Query::HYDRATE_ARRAY);
     }
 
-    public function calculec3($parameters, $fillDates = false)
+    public function calculec3($parameters)
     {
         $results = $this->calcule($parameters);
 
-        $columns = array(
-            // El primer valor siempre es la fecha
-            'fecha' => array('fecha')
-        );
-
-        $names = array();
-
-        if ($fillDates) {
-            $start = $this->query->getStart();
-            $end = $this->query->getEnd();
-
-            while ($start <= $end) {
-                $columns['fecha'][] = clone $start;
-                $start->add(new \DateInterval('P1D'));
-            }
-        }
-
-        foreach ($results as $result) {
-            // Buscamos el indice de la fecha
-            $dateIdx = array_search($result['fecha'], $columns['fecha']);
-
-            if (!$dateIdx) {
-                $columns['fecha'][] = $result['fecha'];
-                $dateIdx = count($columns['fecha']) -1;
-            }
-
-            if (!isset($columns[$result['id']])) {
-                // El primer valor del array es el id
-                $columns[$result['id']] = array($result['id']);
-                // Nombre para la traduccion
-                $names[$result['id']] = $result['nombre'];
-            }
-
-            // El valor debe ir en el mismo lugar que la fecha a la que pertenece
-            $columns[$result['id']][$dateIdx] = (int)$result['total'];
-        }
-
-        // Se asegura de colocar zero donde sea necesario
-        foreach (array_keys($columns) as $id) {
-            // se ignora las fechas
-            if ($id === 'fecha') {
-                continue;
-            }
-
-            foreach (array_keys($columns['fecha']) as $index) {
-                if (!isset($columns[$id][$index])) {
-                    $columns[$id][$index] = 'null';
-                }
-            }
-
-            // Las llaves fueron agregadas en desorden, se organizan
-            ksort($columns[$id]);
-        }
-
-        return array(
-            'data' => array(
-                'columns' => array_values($columns),
-                'names' => $names
-            ),
-            'query' => $this->query
-        );
+        return C3\Utils::calculec3('fecha', $results);
     }
 
     private function getDQL()
@@ -218,5 +161,62 @@ DQL;
         );
 
         return array($dql, $params);
+    }
+
+    /**
+     * @param SubQuery $subquery
+     * @return array
+     */
+    private function getSubDQL($subquery) {
+        $dql = <<<DQL
+SELECT
+    _s.id,
+    _s.nombre,
+    CONCAT(CONCAT(CONCAT(CONCAT(_l.nombre, ' - '), _um.nombre), ', '), _ud.nombre) as lugar,
+    COUNT(_d) as total
+FROM
+    SisesApplicationBundle:Entrega\EntregaBeneficioDetalle _d
+        LEFT JOIN _d.entregaBeneficio _eb
+        LEFT JOIN _eb.servicio _s
+        LEFT JOIN _eb.entrega _ea
+        LEFT JOIN _ea.asignacion _a
+        LEFT JOIN _a.lugar _l
+        LEFT JOIN _l.ubicacion _u
+        LEFT JOIN _u.municipio _um
+        LEFT JOIN _um.departamento _ud
+WHERE _eb.fechaEntrega = :fecha
+AND _d.estado = :estado
+GROUP BY _s.id, lugar
+ORDER BY lugar ASC
+DQL;
+
+        return array($dql, array(
+            //'servicio' => $subquery->getServicio(),
+            'fecha' => $subquery->getFecha()->setTime(0, 0, 0),
+            'estado' => true
+        ));
+    }
+
+    public function detallesc3($parameters)
+    {
+        $results = $this->detalles($parameters);
+
+        return C3\Utils::calculec3('lugar', $results);
+    }
+
+    public function detalles($parameters)
+    {
+        $subquery = new SubQuery();
+        $form = $this->formfactory->create(new SubQueryType(), $subquery);
+        $form->submit($parameters);
+
+        if (!$form->isValid()) {
+            throw new BadRequestHttpException();
+        }
+
+        list ($dql, $params) = $this->getSubDQL($subquery);
+
+        return $this->em->createQuery($dql)
+            ->execute($params, Query::HYDRATE_ARRAY);
     }
 } 

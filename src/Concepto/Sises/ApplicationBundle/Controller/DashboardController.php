@@ -45,6 +45,12 @@ class DashboardController implements ClassResourceInterface {
         return View::create($results);
     }
 
+    public function getMoreInfoAction(Request $request) {
+        $results = $this->getHandler()->detallesc3($request->query->all());
+
+        return View::create($results);
+    }
+
     public function postInfoAction(Request $request)
     {
         $results = $this->getHandler()->calculec3($request->request->all());
