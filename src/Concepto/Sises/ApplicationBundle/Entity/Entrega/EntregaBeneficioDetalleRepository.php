@@ -29,6 +29,7 @@ class EntregaBeneficioDetalleRepository extends EntityRepository
                 'entrega_id' => $entregaId,
                 'estado' => $estado
             ))
+            ->groupBy('s.id')
             ->leftJoin('SisesApplicationBundle:Entrega\EntregaBeneficio', 'eb', Join::WITH, 'eb.servicio = s.id');
 
         return $qb->getQuery()->getResult(Query::HYDRATE_ARRAY);
