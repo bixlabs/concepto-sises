@@ -89,6 +89,12 @@
                 contrato: {
                     nombre: {label: 'Nombre', value: 'nombre', comp: 'L'},
                     resolucion: {label: 'Resolución', value: 'resolucion', comp: 'L'}
+                },
+                admin_entrega: {
+                    estado: {label: 'Estado', value: 'estado', comp: 'L'}
+                },
+                admin_liquidacion: {
+                    estado: {label: 'Estado', value: 'estado', comp: 'L'}
                 }
 
             };
