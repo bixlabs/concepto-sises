@@ -41,6 +41,10 @@ class LoadCoordinadorAsignacion implements FixtureInterface, OrderedFixtureInter
             'nombre' => 'INST. EDU. TRUJILLO'
         ));
 
+        $lugar2 = $manager->getRepository('SisesApplicationBundle:LugarEntrega')->findOneBy(array(
+            'nombre' => 'INST. EDU. NORMAL SUPERIOR MARIA INMACULADA'
+        ));
+
         $servicios = $manager->getRepository('SisesApplicationBundle:ServicioContratado')->findAll();
         $coordinador = $manager->getRepository('SisesApplicationBundle:Personal\Coordinador')->findOneBy(array());
 
@@ -50,6 +54,12 @@ class LoadCoordinadorAsignacion implements FixtureInterface, OrderedFixtureInter
             $asignacion->setLugar($lugar);
             $asignacion->setServicio($servicio);
             $manager->persist($asignacion);
+
+            $asignacion2 = new CoordinadorAsignacion();
+            $asignacion2->setCoordinador($coordinador);
+            $asignacion2->setLugar($lugar2);
+            $asignacion2->setServicio($servicio);
+            $manager->persist($asignacion2);
         }
 
         $manager->flush();
