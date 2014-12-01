@@ -1,0 +1,29 @@
+{% extends 'SisesWebClientBundle:ModuleGenerator:list.html.twig' %}
+
+{% block title %}Contratos{% endblock %}
+{% block actions %}
+    {% set params = {'name':'list', 'singular': 'Contrato'} %}
+    {{render(controller('SisesWebClientBundle:Web:actions', params))}}
+{% endblock %}
+
+{% block list_header %}
+    <th width="20%">Empresa</th>
+    <th width="20%">Resolucion</th>
+    <th width="50%">Nombre contrato</th>
+    <th></th>
+{% endblock %}
+
+{% block no_element %}
+    No existen contratos
+{% endblock %}
+
+{% block list_content %}
+    <td data-ng-bind="single.empresa.nombre"></td>
+    <td data-ng-bind="single.resolucion"></td>
+    <td data-ng-bind="single.nombre"></td>
+    <td>
+        {% set params = {'name':'edit', 'singular': 'Single'} %}
+        {{render(controller('SisesWebClientBundle:Web:actions', params))}}
+    </td>
+{% endblock %}
+
