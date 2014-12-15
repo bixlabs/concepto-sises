@@ -28,7 +28,6 @@ use FOS\RestBundle\View\View;
 use JMS\DiExtraBundle\Annotation\Inject;
 use JMS\DiExtraBundle\Annotation\InjectParams;
 use JMS\DiExtraBundle\Annotation\Service;
-use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 /**
@@ -160,7 +159,7 @@ class EntregaLiquidacionRestHandler extends RestHandler
                 throw new \Exception("El estado {$liquidacion->getEstado()} no es manejable");
         }
 
-        $results =$repository->calcularDetalle($liquidacion);
+        $results = $repository->calcularDetalle($liquidacion);
 
         return View::create($results);
     }
