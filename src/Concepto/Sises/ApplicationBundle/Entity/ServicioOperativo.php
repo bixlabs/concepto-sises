@@ -23,7 +23,6 @@ use Doctrine\ORM\Mapping\ManyToOne;
 use Doctrine\ORM\Mapping\OneToMany;
 use Doctrine\ORM\Mapping\Table;
 use Doctrine\ORM\Mapping\UniqueConstraint;
-use JMS\Serializer\Annotation\Exclude;
 use JMS\Serializer\Annotation\Groups;
 use JMS\Serializer\Annotation\MaxDepth;
 use JMS\Serializer\Annotation\SerializedName;
@@ -87,7 +86,8 @@ class ServicioOperativo {
     /**
      * @var Collection
      * @OneToMany(targetEntity="Concepto\Sises\ApplicationBundle\Entity\Entrega\EntregaOperacion", mappedBy="servicio")
-     * @Exclude()
+     * @Groups({"list"})
+     *
      */
     protected $liquidaciones;
 
