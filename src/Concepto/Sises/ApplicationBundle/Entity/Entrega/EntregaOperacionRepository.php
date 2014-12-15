@@ -58,8 +58,8 @@ class EntregaOperacionRepository extends EntityRepository
                 'p.nombre',
                 'p.apellidos',
                 'c.nombre as cargo',
-                's.nombre as servicio',
-                's.id', 'SUM(d.cantidad) as total', 's.valorUnitario')
+                's.nombre as servicio_nombre',
+                's.id', 'SUM(d.cantidad) as cantidad', 's.valorUnitario')
             ->groupBy('s.id')
             ->getQuery()->execute()
             ;
