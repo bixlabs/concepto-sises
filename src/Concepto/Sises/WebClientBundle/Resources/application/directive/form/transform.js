@@ -27,13 +27,13 @@
                                 return $filter('currency')(value, '$', 2);
                             },
                             parser: function(value) {
-                                return 0 + value.replace(/[^0-9.]+/g, '');
+                                return +value.replace(/[^0-9.]+/g, '');
                             },
                             events: [
                                 {
                                     name: 'focus',
                                     func: function() {
-                                        el.val(parseInt(ngModel.$modelValue));
+                                        el.val(+ngModel.$modelValue);
                                     }
                                 },
                                 {
