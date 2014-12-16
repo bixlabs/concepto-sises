@@ -10,8 +10,8 @@
         <thead>
         <tr>
             <th>Nombre</th>
-            <th>Total Contratado</th>
-            <th>Total Costo</th>
+            <th>$ Total Contratado</th>
+            <th>$ Total Costo</th>
             <th width="5%"></th>
         </tr>
         </thead>
@@ -20,8 +20,8 @@
             data-ng-click="edit(servicio)"
             class="pointer">
             <td data-ng-bind="servicio.nombre"></td>
-            <td data-ng-bind="getValorBruto(servicio)|currency"></td>
-            <td data-ng-bind="getValorCostos(servicio)|currency"></td>
+            <td data-ng-bind="getValorBruto(servicio)|currency: '$' : 0"></td>
+            <td data-ng-bind="getValorCostos(servicio)|currency: '$' : 0"></td>
             <td>
                 <button class="btn btn-warning" title="Elmina este servicio"
                         data-ng-click="remove(servicio)">
@@ -51,10 +51,12 @@
 
             <div data-sises-form-input="valor_unitario"
                  data-required="true"
+                 data-transformers="'currency'"
                  data-label="'Valor por unidad'"></div>
 
             <div data-sises-form-input="costo_unitario"
                  data-required="true"
+                 data-transformers="'currency'"
                  data-label="'Costo por unidad'"></div>
         </div>
     </div>
