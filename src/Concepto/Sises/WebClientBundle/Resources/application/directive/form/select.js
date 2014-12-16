@@ -25,7 +25,8 @@
                     property: '@sisesFormSelect',
                     options: '=',
                     optionsKey: '@',
-                    optionsLabel: '@'
+                    optionsLabel: '@',
+                    disableSearch: '='
                 },
                 link: function(scope, el ,attrs, controllers) {
 
@@ -39,6 +40,12 @@
                         scope.options_ = RR[scope.options].query();
                     } else {
                         scope.options_ = scope.options;
+                    }
+
+                    if (typeof scope.disableSearch !== 'undefined') {
+                        scope.formProperties.disableSearch = scope.disableSearch;
+                    } else {
+                        scope.formProperties.disableSearch = true;
                     }
                 }
             }

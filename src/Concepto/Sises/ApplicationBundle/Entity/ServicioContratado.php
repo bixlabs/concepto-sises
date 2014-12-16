@@ -197,7 +197,7 @@ class ServicioContratado {
     }
 
     /**
-     * @return mixed
+     * @return Contrato
      */
     public function getContrato()
     {

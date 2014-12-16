@@ -13,6 +13,7 @@ namespace Concepto\Sises\ApplicationBundle\Controller;
 
 
 use Concepto\Sises\ApplicationBundle\Handler\DashboardRestHandler;
+use Concepto\Sises\ApplicationBundle\Serializer\Exclusion\ListExclusionStrategy;
 use FOS\RestBundle\Routing\ClassResourceInterface;
 use FOS\RestBundle\View\View;
 use JMS\DiExtraBundle\Annotation\LookupMethod;
@@ -56,5 +57,25 @@ class DashboardController implements ClassResourceInterface {
         $results = $this->getHandler()->calculec3($request->request->all());
 
         return View::create($results);
+    }
+
+    public function getFilterAction()
+    {
+        $classes = array(
+            'Concepto\Sises\ApplicationBundle\Entity\ServicioContratado' => array(
+                'contrato'
+            ),
+            'Concepto\Sises\ApplicationBundle\Entity\Empresa' => array(
+                'encargado', 'director'
+            )
+        );
+
+        $context = SerializationContext::create();
+        $context->enableMaxDepthChecks();
+        $context->setGroups(array('list'));
+        $context->addExclusionStrategy(new ListExclusionStrategy($classes));
+
+        return View::create($this->getHandler()->filters())
+            ->setSerializationContext($context);
     }
 } 

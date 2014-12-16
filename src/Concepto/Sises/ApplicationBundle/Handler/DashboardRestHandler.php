@@ -219,4 +219,29 @@ DQL;
         return $this->em->createQuery($dql)
             ->execute($params, Query::HYDRATE_ARRAY);
     }
+
+    public function filters()
+    {
+        $asignaciones = $this->em
+            ->getRepository('SisesApplicationBundle:CoordinadorAsignacion')
+            ->findAll();
+
+        $lugares = array();
+        $servicios = array();
+        $empresas = array();
+
+        foreach ($asignaciones as $asignacion) {
+            $lugares[$asignacion->getLugarId()] = $asignacion->getLugar();
+            $servicios[$asignacion->getServicioId()] = $asignacion->getServicio();
+            $empresa = $asignacion->getServicio()->getContrato()->getEmpresa();
+            $empresas[$empresa->getId()] = $empresa;
+
+        }
+
+        return [
+            'empresas' => array_values($empresas),
+            'lugares' => array_values($lugares),
+            'servicios' => array_values($servicios)
+        ];
+    }
 } 

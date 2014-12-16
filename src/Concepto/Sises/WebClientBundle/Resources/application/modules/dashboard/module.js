@@ -100,6 +100,13 @@
                     });
             }
 
+            function _loadFilters() {
+                $http.get(G.route('get_dashboard_filter'))
+                    .success(function(data) {
+                        scope.filters = data;
+                    })
+            }
+
             function _subload() {
                 $subchart.show();
                 $http.get(G.route('get_dashboard_more_info'), {params: scope.subquery})
@@ -138,13 +145,12 @@
             scope.subchart = null;
             scope.subquery = null;
 
-
             scope.load = function scope_load() {
                 _load();
-
             };
 
             _load();
+            _loadFilters();
         }])
     ;
 })();
