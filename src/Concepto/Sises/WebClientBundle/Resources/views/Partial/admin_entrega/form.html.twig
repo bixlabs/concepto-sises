@@ -55,6 +55,8 @@
                     <th>Servicio</th>
                     <th>Entregado (coordinadores)</th>
                     <th>Entregado (en cierre)</th>
+                    <th width="15%" style="text-align: right">$ Unidad</th>
+                    <th width="15%" style="text-align: right">$ Total</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -70,6 +72,8 @@
                                    data-ng-model="detalles_cierre[detalle.servicio].cantidad"/>
                         </label>
                     </td>
+                    <td style="text-align: center" data-ng-bind="detalle.valorUnitario|currency: '$' : 0"></td>
+                    <td style="text-align: right" data-ng-bind="(detalles_cierre[detalle.servicio].cantidad * detalle.valorUnitario)|currency: '$' : 0"></td>
                 </tr>
                 </tbody>
             </table>

@@ -23,7 +23,7 @@ class EntregaBeneficioDetalleRepository extends EntityRepository
         $qb = $this->getEntityManager()
             ->getRepository('SisesApplicationBundle:ServicioContratado')
             ->createQueryBuilder('s')
-            ->select('s.id as servicio', 's.nombre')
+            ->select('s.id as servicio', 's.nombre', 's.valorUnitario')
             ->addSelect("($this->countEntregas) as total")
             ->setParameters(array(
                 'entrega_id' => $entregaId,
