@@ -33,7 +33,9 @@
                                 {
                                     name: 'focus',
                                     func: function() {
-                                        el.val(+ngModel.$modelValue);
+                                        var val = +ngModel.$modelValue;
+
+                                        el.val(!isNaN(val) ? val : ngModel.$modelValue);
                                     }
                                 },
                                 {
