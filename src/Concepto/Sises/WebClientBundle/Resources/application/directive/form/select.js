@@ -30,6 +30,12 @@
                 },
                 link: function(scope, el ,attrs, controllers) {
 
+                    el.on('change', 'select', function(ev) {
+                        if ($(ev.target).hasClass('ng-pristine-remove-active')) {
+                            scope.form.model[scope.property] = null;
+                        }
+                    });
+
                     scope.optionsString =
                         (!scope.optionsKey ? 'o.' : 'o.' + scope.optionsKey + ' as o.')
                         + scope.optionsLabel + ' for o in options_';
