@@ -14,12 +14,14 @@
                          data-label="'Final'"></div>
 
                     <div data-sises-form-select="empresa"
+                         data-ng-if="filters.empresas.length > 0"
                          data-options="filters.empresas"
                          data-options-label="nombre"
                          data-options-key="id"
                          data-label="'Empresa'"></div>
 
                     <div data-sises-form-select="servicio"
+                         data-ng-if="filters.servicios.length > 0"
                          data-options="filters.servicios"
                          data-disable-search="false"
                          data-options-label="nombre"
@@ -27,6 +29,7 @@
                          data-label="'Servicio'"></div>
 
                     <div data-sises-form-select="lugar"
+                         data-ng-if="filters.lugares.length > 0"
                          data-options="filters.lugares"
                          data-disable-search="false"
                          data-options-label="nombre"

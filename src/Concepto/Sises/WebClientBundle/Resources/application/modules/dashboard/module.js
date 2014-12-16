@@ -104,7 +104,13 @@
                 $http.get(G.route('get_dashboard_filter'))
                     .success(function(data) {
                         scope.filters = data;
-                    })
+
+                        for (var prop in data) {
+                            if (data.hasOwnProperty(prop)) {
+                                scope.filters[prop] = data[prop];
+                            }
+                        }
+                    });
             }
 
             function _subload() {
@@ -144,6 +150,11 @@
             scope.chart = null;
             scope.subchart = null;
             scope.subquery = null;
+            scope.filters = {
+                empresas: [],
+                lugares: [],
+                servicios: []
+            };
 
             scope.load = function scope_load() {
                 _load();
