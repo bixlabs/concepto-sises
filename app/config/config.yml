@@ -29,6 +29,8 @@ twig:
     globals:
         web_uploads: %kernel.root_dir%/../web/uploads/documentable
         version: %version%
+        app_name: Sistema de Información Kabala
+        app_shortname: SIK
 
 assetic:
     debug: %kernel.debug%
