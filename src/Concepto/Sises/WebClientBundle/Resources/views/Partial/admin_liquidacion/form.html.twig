@@ -45,7 +45,7 @@
                     <th>Servicio</th>
                     <th width="15%">Cant.</th>
                     <th width="15%" style="text-align: right">$ Unidad</th>
-                    <th width="15%" style="text-align: right">Total</th>
+                    <th width="15%" style="text-align: right">$ Total</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -68,7 +68,7 @@
                                    class="form-control"/>
                         </label>
                     </td>
-                    <td style="text-align: center" data-ng-bind="detalle.valorUnitario"></td>
+                    <td style="text-align: center" data-ng-bind="detalle.valorUnitario|currency: '$' : 0"></td>
                     <td style="text-align: right" data-ng-bind="detalle.total|currency: '$' : 0"></td>
                     <td style="text-align: right" data-ng-bind="(detalles_cierre[detalle.servicio].cantidad * detalle.valorUnitario)|currency: '$' : 0"></td>
                 </tr>
