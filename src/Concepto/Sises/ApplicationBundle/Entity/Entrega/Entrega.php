@@ -259,6 +259,23 @@ class Entrega
         return $this->detalles;
     }
 
+    public function getDetallesCalculados()
+    {
+        $detalles = array();
+
+        /** @var EntregaDetalle $detalle */
+        foreach ($this->detalles as $detalle) {
+            $detalles[] = array(
+                'cantidad' => $detalle->getCantidad(),
+                'servicio' => $detalle->getServicioId(),
+                'nombre' => $detalle->getServicio()->getNombre(),
+                'valorUnitario' => $detalle->getServicio()->getValorUnitario()
+            );
+        }
+
+        return $detalles;
+    }
+
     /**
      * @param Collection $detalles
      */

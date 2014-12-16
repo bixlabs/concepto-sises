@@ -174,7 +174,7 @@ class EntregaRestHandler extends RestHandler
             throw new NotFoundHttpException("La entrega {$id} no existe");
         }
 
-        return View::create($entrega->getDetalles());
+        return View::create($entrega->getDetallesCalculados());
     }
 
     protected function getTypeClassString()
