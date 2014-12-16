@@ -15,6 +15,7 @@
      * Define los atributos base para el elemento
      * @param scope
      * @param defaultAttribValues
+     * @param attrs
      */
     function setDefaultAttribValues(scope, defaultAttribValues, attrs)
     {
@@ -31,6 +32,7 @@
      * @param el el elemento devuelto por la funcion link
      * @param attrs los atributos html pasados como data-*
      * @param controllers las dependencias a controladores de otras directivas
+     *
      * @constructor
      */
     function InputFormLink(scope, el, attrs, controllers) {
@@ -59,7 +61,8 @@
             'label': '',
             'required': false,
             'type': 'text',
-            'disableAutofill': false
+            'disableAutofill': false,
+            'transformers': null
         };
 
         setDefaultAttribValues.call(this, scope, defaultAttribValues, attrs);
