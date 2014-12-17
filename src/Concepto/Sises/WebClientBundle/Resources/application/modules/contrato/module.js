@@ -8,6 +8,7 @@
 
     G.BuildModule(G.modules.CONTRATO, {
         label: 'Contratos',
-        register: true
+        register: true,
+        priority: 3
     });
 })();

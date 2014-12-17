@@ -16,7 +16,12 @@
             var register_entry = function(params) {
 
                 if (typeof params.priority === 'undefined') {
+                    console.log("Item", params.name, "default priority", 999);
                     params.priority = 999;
+                }
+
+                if (typeof params.is_category === 'undefined') {
+                    params.is_category = false;
                 }
 
                 if (params.is_category) {

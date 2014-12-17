@@ -1,0 +1,15 @@
+{% verbatim %}
+<li data-ng-class="{'active': isActive(entry), 'dropdown': entry.is_category}" data-priority="{{ entry.priority }}">
+    <a href="#"
+       data-ng-click="onClick()"
+       data-toggle="dropdown" role="button" aria-expanded="false"
+       data-ng-class="{'dropdown-toggle': entry.is_category}">
+        {{ entry.label }} <span class="caret" data-ng-if="entry.is_category"></span>
+    </a>
+    <ul class="dropdown-menu" role="menu" data-ng-if="entry.is_category">
+        <li data-ng-repeat="item_category in getEntries()">
+            <a href data-ui-sref="{{item_category.url}}">{{ item_category.label }}</a>
+        </li>
+    </ul>
+</li>
+{% endverbatim %}

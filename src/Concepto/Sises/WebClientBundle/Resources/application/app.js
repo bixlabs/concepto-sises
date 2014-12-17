@@ -99,17 +99,20 @@
                 MS.register({
                     name: 'empresas',
                     label: 'Empresa',
-                    is_category: true
+                    is_category: true,
+                    priority: 2
                 });
                 MS.register({
                     name: 'entrega_category',
                     label: 'Entregas',
-                    is_category: true
+                    is_category: true,
+                    priority: 200
                 });
                 MS.register({
                     name: 'liquidacion_category',
                     label: 'Liquidaciones',
-                    is_category: true
+                    is_category: true,
+                    priority: 201
                 });
 
                 // Fix: logout route dont work
