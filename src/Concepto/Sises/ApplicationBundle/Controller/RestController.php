@@ -12,6 +12,7 @@
 namespace Concepto\Sises\ApplicationBundle\Controller;
 
 use Concepto\Sises\ApplicationBundle\Handler\RestHandlerInterface;
+use Concepto\Sises\ApplicationBundle\Serializer\Exclusion\ListExclusionStrategy;
 use FOS\RestBundle\Controller\Annotations\QueryParam;
 use FOS\RestBundle\Controller\Annotations\View;
 use FOS\RestBundle\Request\ParamFetcher;
@@ -20,6 +21,7 @@ use FOS\RestBundle\Util\Codes;
 use FOS\RestBundle\View\View as RestView;
 use JMS\Serializer\SerializationContext;
 use Pagerfanta\Pagerfanta;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
@@ -69,6 +71,10 @@ abstract class RestController implements ClassResourceInterface
      * @View(serializerGroups={"list"}, serializerEnableMaxDepthChecks=true)
      * @QueryParam(name="page", requirements="\d+", default="1")
      * @QueryParam(name="limit", requirements="\d+", default="7")
+     *
+     * @param Request $request
+     * @param ParamFetcher $paramFetcher
+     * @return \FOS\RestBundle\View\View
      */
     public function cgetAction(Request $request, ParamFetcher $paramFetcher)
     {
@@ -90,6 +96,34 @@ abstract class RestController implements ClassResourceInterface
         $context = SerializationContext::create();
         $context->enableMaxDepthChecks();
         $context->setGroups(array('list'));
+        $view->setSerializationContext($context);
+
+        return $view;
+    }
+
+    /**
+     * @QueryParam(name="page", requirements="\d+", default="1")
+     * @QueryParam(name="limit", requirements="\d+", default="7")
+     * @Template()
+     *
+     * @param Request $request
+     * @param ParamFetcher $paramFetcher
+     * @return \FOS\RestBundle\View\View
+     */
+    public function printableAction(Request $request, ParamFetcher $paramFetcher)
+    {
+        $view = $this->cgetAction($request, $paramFetcher);
+
+        $classes = array(
+            'Concepto\Sises\ApplicationBundle\Entity\Beneficiario' => array(
+                'contrato'
+            ),
+        );
+
+        $context = SerializationContext::create();
+        $context->enableMaxDepthChecks();
+        $context->setGroups(array('list'));
+        $context->addExclusionStrategy(new ListExclusionStrategy($classes));
         $view->setSerializationContext($context);
 
         return $view;

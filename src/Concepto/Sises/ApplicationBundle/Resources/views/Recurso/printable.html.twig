@@ -1,0 +1,34 @@
+{% extends 'SisesApplicationBundle::layout_printable.html.twig' %}
+
+{% block content %}
+    <h1>Manipuladores y Operadores</h1>
+    <table class="table table-bordered table-striped" style="background: #ffffff">
+        <thead>
+        <tr>
+            <th>#</th>
+            <th>Documento</th>
+            <th>Nombre</th>
+            <th>Cargo</th>
+            <th>Servicio</th>
+            <th>Valor</th>
+            <th>Lugar</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for entry in data %}
+            {% set number = loop.index %}
+            {% for beneficio in entry.servicios %}
+                <tr>
+                    <td style="text-align: right">{{ number }}</td>
+                    <td style="text-align: right">{{ entry.persona.documento }}</td>
+                    <td>{{ entry.persona.nombreCompleto }}</td>
+                    <td>{{ entry.cargo.nombre }}</td>
+                    <td>{{ beneficio.nombre }}</td>
+                    <td style="text-align: right">$ {{ beneficio.valorUnitario|number_format(2, '.', ',') }}</td>
+                    <td>{{ beneficio.lugar.nombreDetallado }}</td>
+                </tr>
+            {% endfor %}
+        {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

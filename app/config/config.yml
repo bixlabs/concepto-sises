@@ -35,7 +35,7 @@ twig:
 assetic:
     debug: %kernel.debug%
     use_controller: %use_assetic_controller%
-    bundles: [ SisesWebClientBundle ]
+    bundles: [ SisesWebClientBundle, SisesApplicationBundle ]
     filters:
         scss:
             sass: %sass_bin%

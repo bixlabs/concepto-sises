@@ -235,6 +235,14 @@
                         queryList();
                     };
 
+                    scope.printable = function() {
+                        var query_params = {limit: 10000};
+                        buildFilterParams(query_params);
+                        var url = G.route('printable', query_params, true)
+                            .replace('/PRINTABLE', RR[config.resource + '_printable']);
+                        window.open(url);
+                    };
+
                     scope.queryList = queryList;
 
                     // Configuracion inicial del paginador

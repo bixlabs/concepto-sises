@@ -44,6 +44,7 @@
 
             angular.forEach(factories, function(url, name) {
                 methods[name] = factory(url);
+                methods[name + '_printable'] = url.replace(':id.json', 'printable.html');
             });
 
             return methods;

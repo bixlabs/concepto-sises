@@ -1,0 +1,21 @@
+<!doctype html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Listado impreso</title>
+    {% stylesheets
+    '@SisesWebClientBundle/Resources/stylesheets/styles.scss'
+    %}
+    <link rel="stylesheet" href="{{ asset_url }}"/>
+    {% endstylesheets %}
+</head>
+<body>
+<div class="container">
+    <div class="row">
+        <div class="col-lg-12">
+            {% block content%}{% endblock %}
+        </div>
+    </div>
+</div>
+</body>
+</html>

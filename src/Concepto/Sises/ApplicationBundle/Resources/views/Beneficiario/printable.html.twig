@@ -1,0 +1,30 @@
+{% extends 'SisesApplicationBundle::layout_printable.html.twig' %}
+
+{% block content %}
+    <h1>Beneficiarios</h1>
+    <table class="table table-bordered table-striped" style="background: #ffffff">
+        <thead>
+        <tr>
+            <th>#</th>
+            <th>Documento</th>
+            <th>Nombre</th>
+            <th>Servicio</th>
+            <th>Lugar</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for entry in data %}
+            {% set number = loop.index %}
+            {% for beneficio in entry.beneficios %}
+                <tr>
+                    <td style="text-align: right">{{ number }}</td>
+                    <td style="text-align: right">{{ entry.persona.documento }}</td>
+                    <td>{{ entry.persona.nombreCompleto }}</td>
+                    <td>{{ beneficio.servicio.nombre }}</td>
+                    <td>{{ beneficio.lugar.nombreDetallado }}</td>
+                </tr>
+            {% endfor %}
+        {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

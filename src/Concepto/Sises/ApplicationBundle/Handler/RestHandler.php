@@ -178,6 +178,10 @@ abstract class RestHandler implements RestHandlerInterface {
 
         $pager = new Pagerfanta(new ArrayAdapter($results));
 
+        if ($pagerParams['limit'] < 0) {
+            $pagerParams['limit'] = 9999;
+        }
+
         $pager->setMaxPerPage($pagerParams['limit']);
         $pager->setCurrentPage($pagerParams['page']);
 

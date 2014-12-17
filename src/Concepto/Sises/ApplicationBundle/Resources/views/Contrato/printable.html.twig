@@ -1,0 +1,30 @@
+{% extends 'SisesApplicationBundle::layout_printable.html.twig' %}
+
+{% block content %}
+    <h1>Contratos</h1>
+    <table class="table table-bordered table-striped" style="background: #ffffff">
+        <thead>
+        <tr>
+            <th>#</th>
+            <th>Nombre</th>
+            <th>Resolucion</th>
+            <th>Empresa</th>
+            <th>Fecha inicio</th>
+            <th>Fecha cierre</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for entry in data %}
+            {% set number = loop.index %}
+            <tr>
+                <td style="text-align: right">{{ number }}</td>
+                <td style="text-align: right">{{ entry.nombre }}</td>
+                <td>{{ entry.resolucion }}</td>
+                <td>{{ entry.empresa.nombre }}</td>
+                <td>{{ entry.fechaInicio|date('d/m/Y') }}</td>
+                <td>{{ entry.fechaCierre|date('d/m/Y') }}</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

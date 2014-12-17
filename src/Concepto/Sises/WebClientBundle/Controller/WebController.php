@@ -15,6 +15,7 @@ namespace Concepto\Sises\WebClientBundle\Controller;
 use FOS\RestBundle\View\View;
 use JMS\DiExtraBundle\Annotation\LookupMethod;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class WebController {
 

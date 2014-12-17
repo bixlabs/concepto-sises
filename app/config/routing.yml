@@ -28,6 +28,11 @@ concepto_sises:
     options:
         expose: true
 
+printable:
+    path: '/PRINTABLE'
+    options:
+        expose: true
+
 concpeto_sises_web:
     resource: @SisesWebClientBundle/Resources/config/routing.yml
 
