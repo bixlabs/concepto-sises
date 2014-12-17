@@ -329,7 +329,12 @@
             var defaultState =
                 angular.isString(config.register) ? config.register : config.prefix + '.list';
             module.run(['MenuService', function (MS) {
-                var reg = { name: name, url: defaultState, label: config.label };
+                var reg = {
+                    name: name,
+                    url: defaultState,
+                    label: config.label,
+                    priority: typeof config.priority !== 'undefined' ? config.priority : 999
+                };
 
                 if (typeof config.category !== 'undefined') {
                     reg.category = config.category;
