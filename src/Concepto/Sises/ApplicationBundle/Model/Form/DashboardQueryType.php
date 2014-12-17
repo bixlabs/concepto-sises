@@ -23,6 +23,8 @@ class DashboardQueryType extends AbstractType
         $builder
             ->add('contrato', 'text', array('required' => false,))
             ->add('empresa', 'text', array('required' => false,))
+            ->add('lugar', 'text', array('required' => false,))
+            ->add('servicio', 'text', array('required' => false,))
             ->add('start', 'datetime', array(
                 'input'  => 'datetime',
                 'widget' => 'single_text',

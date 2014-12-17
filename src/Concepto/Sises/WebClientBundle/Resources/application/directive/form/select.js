@@ -30,10 +30,8 @@
                 },
                 link: function(scope, el ,attrs, controllers) {
 
-                    el.on('change', 'select', function(ev) {
-                        if ($(ev.target).hasClass('ng-pristine-remove-active')) {
-                            scope.form.model[scope.property] = null;
-                        }
+                    el.on('DOMNodeRemoved', '.search-choice-close', function() {
+                        scope.form.model[scope.property] = null;
                     });
 
                     scope.optionsString =

@@ -24,6 +24,10 @@ class DashboardQuery {
      */
     protected $contrato;
 
+    protected $lugar;
+
+    protected $servicio;
+
     /**
      * @var \DateTime
      */
@@ -128,5 +132,37 @@ class DashboardQuery {
     public function setEmpresa($empresa)
     {
         $this->empresa = $empresa;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getLugar()
+    {
+        return $this->lugar;
+    }
+
+    /**
+     * @param mixed $lugar
+     */
+    public function setLugar($lugar)
+    {
+        $this->lugar = $lugar;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getServicio()
+    {
+        return $this->servicio;
+    }
+
+    /**
+     * @param mixed $servicio
+     */
+    public function setServicio($servicio)
+    {
+        $this->servicio = $servicio;
     }
 } 

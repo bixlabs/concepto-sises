@@ -144,8 +144,12 @@
 
             scope.element = {
                 start: null,
-                end: null
+                end: null,
+                empresa: null,
+                lugar: null,
+                servicio: null
             };
+
             scope.query = null;
             scope.chart = null;
             scope.subchart = null;

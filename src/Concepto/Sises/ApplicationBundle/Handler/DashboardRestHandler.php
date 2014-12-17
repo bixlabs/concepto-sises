@@ -128,6 +128,8 @@ FROM
         LEFT JOIN _eb.servicio _s
         LEFT JOIN _eb.entrega _ea
         LEFT JOIN _ea.entrega _e
+        LEFT JOIN _ea.asignacion _a
+        LEFT JOIN _a.lugar _l
         LEFT JOIN _e.contrato _c
         LEFT JOIN _c.empresa  _ce
 :WHERE:
@@ -141,7 +143,9 @@ DQL;
             'contrato' => '_e.contrato = :contrato',
             'start' => '_eb.fechaEntrega >= :start',
             'end' => '_eb.fechaEntrega <= :end',
-            'estado' => '_d.estado = :estado'
+            'estado' => '_d.estado = :estado',
+            'servicio' => '_s = :servicio',
+            'lugar' => '_l = :lugar',
         );
 
         $params = array();
