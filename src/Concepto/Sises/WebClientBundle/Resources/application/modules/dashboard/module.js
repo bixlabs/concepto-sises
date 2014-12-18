@@ -128,7 +128,7 @@
                         if (scope.subchart == null) {
                             scope.subchart = c3.generate({
                                 bindto: '#subchart',
-                                data: angular.extend(base_subdata, data),
+                                data: angular.extend({colors: scope.chart.data.colors()}, base_subdata, data),
                                 axis: {
                                     x: {
                                         type: 'category'
