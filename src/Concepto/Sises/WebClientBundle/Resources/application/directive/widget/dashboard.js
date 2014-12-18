@@ -12,7 +12,7 @@
     "use strict";
 
     angular.module(G.APP)
-        .directive('sisesDashboardEntregas', ['$http', '$q', function($http, $q) {
+        .factory('BuildChart', ['$http', '$q', function($http, $q) {
 
             /**
              * Construye una grafica con la configuracion especificada
@@ -101,6 +101,10 @@
 
                 return deferred.promise;
             };
+
+            return BuildChart;
+        }])
+        .directive('sisesDashboardEntregas', ['$http', 'BuildChart', function($http, BuildChart) {
 
             return {
                 restrict: 'AE',
@@ -196,5 +200,9 @@
                     scope.load();
                 }
             };
+        }])
+
+        .directive('sisesDashboarsLiquidaciones', ['$http', '$q', function($http, $q) {
+
         }]);
 })();
