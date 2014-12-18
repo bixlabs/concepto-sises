@@ -32,6 +32,10 @@
 
                     el.on('DOMNodeRemoved', '.search-choice-close', function() {
                         scope.form.model[scope.property] = null;
+                        var listen = scope.$watch('form.model.' + scope.property, function() {
+                            scope.form.model[scope.property] = null;
+                            listen();
+                        }, true);
                     });
 
                     scope.optionsString =
