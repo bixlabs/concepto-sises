@@ -60,6 +60,14 @@
             };
 
             /**
+             * Permite acceder a API Chart
+             * @returns {null|*}
+             */
+            BuildChart.prototype.internal = function internal() {
+                return this.chart;
+            };
+
+            /**
              * Carga información en la grafica y regresa una promesa con el resultado de la consulta
              * @param params parametros para la consulta
              * @returns {Promise} promesa de resultado de la consulta
@@ -117,7 +125,12 @@
                             rotated: true
                         }
                     }, function() {
-                        return {colors: scope.chart.data.colors()};
+                        return {
+                            x: 'lugar',
+                            type: 'bar',
+                            labels: true,
+                            colors: scope.chart.internal().data.colors()
+                        };
                     });
 
                     // Grafica principal
@@ -132,12 +145,15 @@
                         type: 'bar',
                         labels: true,
                         onclick: function (d) {
+                            var fecha = moment(scope.chart.internal().category(d.index)).format(G.date_format);
                             scope.subquery = {
                                 servicio: d.id,
-                                fecha: moment(scope.chart.category(d.index)).format(G.date_format)
+                                fecha: fecha
                             };
                             scope.subchart.loadData(scope.subquery).then(function(query) {
                                 scope.subquery = query;
+                                scope.subchart.hide();
+                                scope.subchart.show();
                             });
                         }
                     });
