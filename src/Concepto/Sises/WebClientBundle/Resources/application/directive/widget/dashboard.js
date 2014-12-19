@@ -112,7 +112,6 @@
                 scope: true,
                 link: function(scope) {
 
-                    console.log("Init [dashboardEntregas]");
                     scope.ids = {
                         main: 'chart_' + G.guid(),
                         sub: 'chart_' + G.guid()
@@ -202,7 +201,63 @@
             };
         }])
 
-        .directive('sisesDashboarsLiquidaciones', ['$http', '$q', function($http, $q) {
+        .directive('sisesDashboardLiquidaciones', ['$http', 'BuildChart', function($http, BuildChart) {
+            return {
+                restrict: 'EA',
+                templateUrl: G.template('directive/widget_dashboard_liquidacion'),
+                scope: true,
+                link: function (scope) {
+                    scope.filters = {
+                        empresas: [],
+                        lugares: [],
+                        recursos: []
+                    };
 
+                    scope.element = {
+                        start: null,
+                        end: null,
+                        empresa: null,
+                        lugar: null,
+                        recurso: null
+                    };
+
+                    scope.ids = {
+                        main: 'chart_' + G.guid()
+                    };
+
+                    // Grafica principal
+                    scope.chart = new BuildChart({
+                        data_url: 'get_dashboard_info_liquidacion',
+                        bindto: '#' + scope.ids.main,
+                        axis: { x: { type: 'category', tick: { format: '%d/%m/%Y' } } }
+                    }, {
+                        empty: { label: { text: "No hay datos para mostrar en las fechas seleccionadas" } },
+                        x: 'fecha',
+                        xFormat: '%Y-%m-%dT%H:%M:%S%Z',
+                        type: 'bar',
+                        labels: true
+                    });
+
+                    // Carga los filtros
+                    (function _loadFilters() {
+                        $http.get(G.route('get_dashboard_filter_liquidacion'))
+                            .success(function(data) {
+                                for (var prop in data) {
+                                    if (data.hasOwnProperty(prop)) {
+                                        scope.filters[prop] = data[prop];
+                                    }
+                                }
+                            });
+                    })();
+
+                    scope.load = function() {
+                        scope.chart.loadData(scope.element).then(function(query) {
+                            scope.query = query;
+                        });
+                    };
+
+                    scope.load();
+                }
+            };
         }]);
 })();

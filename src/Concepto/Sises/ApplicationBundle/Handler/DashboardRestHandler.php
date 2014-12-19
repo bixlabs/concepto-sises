@@ -248,4 +248,29 @@ DQL;
             'servicios' => array_values($servicios)
         ];
     }
+
+    public function getFilterLiquidacion()
+    {
+        $servicios = $this->em
+            ->getRepository('SisesApplicationBundle:ServicioOperativo')
+            ->findAll();
+
+        $lugares = array();
+        $recursos = array();
+        $empresas = array();
+
+        foreach ($servicios as $servicio) {
+            $lugares[$servicio->getLugarId()] = $servicio->getLugar();
+            $recursos[$servicio->getRecursoHumano()->getId()] = $servicio->getRecursoHumano();
+            $empresa = $servicio->getRecursoHumano()->getContrato()->getEmpresa();
+
+            $empresas[$empresa->getId()] = $empresa;
+        }
+
+        return array(
+            'lugares' => array_values($lugares),
+            'recursos' => array_values($recursos),
+            'empresas' => array_values($recursos),
+        );
+    }
 } 

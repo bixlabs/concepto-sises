@@ -1,0 +1,59 @@
+<div class="panel panel-default">
+    <div class="panel-heading">Liquidaciones realizadas</div>
+    <div class="panel-body">
+        <div class="row">
+            <div class="col-lg-4">
+                <div data-sises-form="element">
+
+                    <div data-sises-form-input="start"
+                         data-type="'date'"
+                         data-label="'Inicio'"></div>
+
+                    <div data-sises-form-input="end"
+                         data-type="'date'"
+                         data-label="'Final'"></div>
+
+                    <div data-sises-form-select="empresa"
+                         data-ng-if="filters.empresas.length > 0"
+                         data-options="filters.empresas"
+                         data-options-label="nombre"
+                         data-options-key="id"
+                         data-label="'Empresa'"></div>
+
+                    <div data-sises-form-select="recurso"
+                         data-ng-if="filters.recursos.length > 0"
+                         data-options="filters.recursos"
+                         data-disable-search="false"
+                         data-options-label="nombre"
+                         data-options-key="id"
+                         data-label="'Recurso'"></div>
+
+                    <div data-sises-form-select="lugar"
+                         data-ng-if="filters.lugares.length > 0"
+                         data-options="filters.lugares"
+                         data-disable-search="false"
+                         data-options-label="nombre"
+                         data-options-key="id"
+                         data-label="'Lugar entrega'"></div>
+
+                    <div class="row">
+                        <div class="col-lg-8 col-lg-offset-4">
+                            <button class="btn btn-default" data-ng-click="load()">
+                                <i class="glyphicon glyphicon-refresh"></i> Obtener datos
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-8">
+                <div data-ng-if="query">
+                    <p>
+                        Resultados:
+                        <span data-ng-bind="moment(query.start).format('LL')"></span>
+                        - <span data-ng-bind="moment(query.end).format('LL')"></span></p>
+                </div>
+                {% verbatim %}<div id="{{ ids.main }}"></div>{% endverbatim %}
+            </div>
+        </div>
+    </div>
+</div>

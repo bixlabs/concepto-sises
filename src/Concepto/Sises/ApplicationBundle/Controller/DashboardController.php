@@ -78,4 +78,25 @@ class DashboardController implements ClassResourceInterface {
         return View::create($this->getHandler()->filters())
             ->setSerializationContext($context);
     }
+
+    public function getFilterLiquidacionAction()
+    {
+
+        $classes = array(
+            'Concepto\Sises\ApplicationBundle\Entity\RecursoHumano' => array(
+                'contrato', 'entidadFinanciera'
+            ),
+            'Concepto\Sises\ApplicationBundle\Entity\Personal\AbstractPersonal' => array(
+                'entidadFinanciera'
+            )
+        );
+
+        $context = SerializationContext::create();
+        $context->enableMaxDepthChecks();
+        $context->setGroups(array('list'));
+        $context->addExclusionStrategy(new ListExclusionStrategy($classes));
+
+        return View::create($this->getHandler()->getFilterLiquidacion())
+            ->setSerializationContext($context);
+    }
 } 
