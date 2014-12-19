@@ -10,6 +10,7 @@
     G.BuildModule(G.modules.EMPRESA, {
         label: 'Empresas',
         category: 'empresas',
-        register: true
+        register: true,
+        printable: false
     });
 })();

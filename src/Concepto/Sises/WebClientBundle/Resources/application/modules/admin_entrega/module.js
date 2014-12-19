@@ -17,6 +17,7 @@
         register: true,
         label: 'Gestión de entregas',
         category: 'entrega_category',
+        printable: false,
         controllers: {
             edit: {
                 deps: ['$http', 'ngToast'],

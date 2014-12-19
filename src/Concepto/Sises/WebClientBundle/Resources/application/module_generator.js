@@ -96,22 +96,15 @@
      * @constructor
      */
     function BuildModule(name, config) {
-        var state, stateIdx, module, autoController = false;
+        var state, stateIdx, module, autoController = false,
+            defaultConfig = {
+                prefix: name.toLowerCase(),
+                resource: name.toLowerCase(),
+                controllers: {},
+                printable: true
+            };
 
-        // Define el prefijo
-        if (typeof config.prefix === 'undefined') {
-            config.prefix = name.toLowerCase();
-        }
-
-        // Define el recurso a usar
-        if (typeof config.resource === 'undefined') {
-            config.resource = config.prefix;
-        }
-
-        // Controladores pordefecto
-        if (typeof config.controllers === 'undefined') {
-            config.controllers = {};
-        }
+        config = angular.extend({}, defaultConfig, config);
 
         // Si los estados no son definidos
         if (typeof config.states === 'undefined') {
@@ -221,8 +214,9 @@
                         angular.forEach(pager, function(value, index){
                             scope.pager[index] = value;
                         });
-
                     };
+
+                    scope.isPrintable = config.printable;
 
                     scope.setFilter = function(filter) {
                         getFilter().current = filter;

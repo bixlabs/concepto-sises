@@ -17,6 +17,7 @@
         register: true,
         label: 'Gestión de liquidaciones',
         category: 'liquidacion_category',
+        printable: false,
         controllers: {
             edit: {
                 deps: ['$http', 'ngToast'],
