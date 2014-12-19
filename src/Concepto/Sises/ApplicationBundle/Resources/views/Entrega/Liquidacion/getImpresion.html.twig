@@ -1,12 +1,16 @@
 {% extends 'SisesApplicationBundle::layout_printable.html.twig' %}
 
+{% set title = 'Desde ' ~ (liquidacion.fechaInicio|date('d/m/Y')) ~ ' hasta ' ~ (liquidacion.fechaCierre|date('d/m/Y')) %}
+
+{% block title%}Liquidaciones: {{ title }} de {{ liquidacion.contrato.descripcion }}{% endblock %}
+
 {% block content %}
     <h1>Liquidaciones</h1>
     <div class="row">
         <div class="col-lg-6">
             <dl>
                 <dt>Fecha</dt>
-                <dd>Desde {{ liquidacion.fechaInicio|date('d/m/Y') }} hasta {{ liquidacion.fechaCierre|date('d/m/Y') }}</dd>
+                <dd>{{ title }}</dd>
             </dl>
         </div>
         <div class="col-lg-6">
