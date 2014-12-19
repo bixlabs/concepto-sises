@@ -11,8 +11,10 @@
 
 namespace Concepto\Sises\ApplicationBundle\Handler;
 
+use Concepto\Sises\ApplicationBundle\Model\Dashboard\LiquidacionQuery;
 use Concepto\Sises\ApplicationBundle\Model\Dashboard\SubQuery;
 use Concepto\Sises\ApplicationBundle\Model\DashboardQuery;
+use Concepto\Sises\ApplicationBundle\Model\Form\Dashboard\LiquidacionQueryType;
 use Concepto\Sises\ApplicationBundle\Model\Form\Dashboard\SubQueryType;
 use Concepto\Sises\ApplicationBundle\Model\Form\DashboardQueryType;
 use Doctrine\ORM\EntityManager;
@@ -69,6 +71,29 @@ class DashboardRestHandler {
         $this->serializer = $serializer;
     }
 
+    private function rangeTime(&$query)
+    {
+        $now = new \DateTime();
+        $now->setTime(0, 0, 0); // Inicializa al principio del dia
+        $start = $query->getStart();
+        $end = $query->getEnd();
+
+        if (!$end && !$start) {
+            $end = clone $now;
+            $start = clone $end;
+            $start->sub(new \DateInterval('P1M'));
+        } else if ($end && !$start) {
+            $start = clone $end;
+            $start->sub(new \DateInterval('P1M'));
+        } else if ($start && !$end) {
+            $end = clone $start;
+            $end->add(new \DateInterval('P1M'));
+        }
+
+        $query->setStart($start);
+        $query->setEnd($end);
+    }
+
     /**
      * @param array $parameters
      * @return mixed
@@ -83,26 +108,7 @@ class DashboardRestHandler {
             throw new BadRequestHttpException();
         }
 
-        $now = new \DateTime();
-        $now->setTime(0, 0, 0); // Inicializa al principio del dia
-        $start = $this->query->getStart();
-        $end = $this->query->getEnd();
-
-        if (!$end && !$start) {
-            $end = clone $now;
-            $start = clone $end;
-            $start->sub(new \DateInterval('P1M'));
-        } else if ($end && !$start) {
-            $start = clone $end;
-            $start->sub(new \DateInterval('P1M'));
-        } else if ($start && !$end) {
-            $end = clone $start;
-            $end->add(new \DateInterval('P1M'));
-        }
-
-        $this->query->setStart($start);
-        $this->query->setEnd($end);
-
+        $this->rangeTime($this->query);
 
         list($dql, $params) = $this->getDQL();
 
@@ -136,7 +142,6 @@ FROM
 GROUP BY _s.id, _eb.fechaEntrega
 ORDER BY _eb.fechaEntrega ASC
 DQL;
-        $accessor = PropertyAccess::createPropertyAccessor();
 
         $properties = array(
             'empresa' => '_ce = :empresa',
@@ -148,23 +153,7 @@ DQL;
             'lugar' => '_l = :lugar',
         );
 
-        $params = array();
-        $queryWhere = array();
-
-        foreach ($properties as $property => $dql) {
-            if ($accessor->getValue($this->query, $property)) {
-                $params[$property] = $accessor->getValue($this->query, $property);
-                $queryWhere[] = $dql;
-            }
-        }
-
-        $dql = str_replace(
-            ':WHERE:',
-            'WHERE ' . (count($queryWhere) > 0 ? implode(' AND ', $queryWhere) : ''),
-            $maindql
-        );
-
-        return array($dql, $params);
+        return $this->processConditions($this->query, $properties, $maindql);
     }
 
     /**
@@ -195,7 +184,6 @@ ORDER BY lugar ASC
 DQL;
 
         return array($dql, array(
-            //'servicio' => $subquery->getServicio(),
             'fecha' => $subquery->getFecha()->setTime(0, 0, 0),
             'estado' => true
         ));
@@ -272,5 +260,80 @@ DQL;
             'recursos' => array_values($recursos),
             'empresas' => array_values($recursos),
         );
+    }
+
+    public function calculec3Liquidacion($parameters)
+    {
+        $query = new LiquidacionQuery();
+        $form = $this->formfactory->create(new LiquidacionQueryType(), $query);
+        $form->submit($parameters);
+
+        if (!$form->isValid()) {
+            throw new BadRequestHttpException();
+        }
+
+        $this->rangeTime($query);
+
+        list ($dql, $params) = $this->getLiquidacionDQL($query);
+
+        $results = $this->em->createQuery($dql)
+            ->execute($params, Query::HYDRATE_ARRAY);
+
+        return C3\Utils::calculec3('fecha', $results, $query);
+    }
+
+    private function getLiquidacionDQL($query)
+    {
+
+        $maindql = <<<DQL
+SELECT
+    _s.id, CONCAT(_s.nombre, CONCAT(' - ', CONCAT(_cargo.nombre, CONCAT(', ', CONCAT(_p.nombre, CONCAT(' ', _p.apellidos)))))) as nombre, DATE(_eo.fechaEntrega) as fecha, _eo.cantidad as total
+FROM
+    SisesApplicationBundle:Entrega\EntregaOperacion _eo
+        LEFT JOIN _eo.servicio _s
+        LEFT JOIN _s.recursoHumano _rh
+        LEFT JOIN _rh.cargo _cargo
+        LEFT JOIN _rh.persona _p
+        LEFT JOIN _s.lugar _l
+        LEFT JOIN _eo.liquidacion _li
+        LEFT JOIN _li.contrato _c
+        LEFT JOIN _c.empresa _e
+:WHERE:
+ORDER BY _eo.fechaEntrega ASC
+DQL;
+
+        $properties = array(
+            'empresa' => '_e = :empresa',
+            //'contrato' => '_c = :contrato',
+            'start' => '_eo.fechaEntrega >= :start',
+            'end' => '_eo.fechaEntrega <= :end',
+            //'servicio' => '_s = :servicio',
+            'lugar' => '_l = :lugar',
+        );
+
+        return $this->processConditions($query, $properties, $maindql);
+    }
+
+    private function processConditions($query, $properties, $maindql)
+    {
+        $params = array();
+        $queryWhere = array();
+
+        $accessor = PropertyAccess::createPropertyAccessor();
+
+        foreach ($properties as $property => $dql) {
+            if ($accessor->getValue($query, $property)) {
+                $params[$property] = $accessor->getValue($query, $property);
+                $queryWhere[] = $dql;
+            }
+        }
+
+        $maindql = str_replace(
+            ':WHERE:',
+            'WHERE ' . (count($queryWhere) > 0 ? implode(' AND ', $queryWhere) : ''),
+            $maindql
+        );
+
+        return array($maindql, $params);
     }
 } 
