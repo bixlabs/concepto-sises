@@ -1,0 +1,54 @@
+{% extends 'SisesApplicationBundle::layout_printable.html.twig' %}
+
+{% block content %}
+    <h1>Liquidaciones</h1>
+    <div class="row">
+        <div class="col-lg-6">
+            <dl>
+                <dt>Fecha</dt>
+                <dd>Desde {{ liquidacion.fechaInicio|date('d/m/Y') }} hasta {{ liquidacion.fechaCierre|date('d/m/Y') }}</dd>
+            </dl>
+        </div>
+        <div class="col-lg-6">
+            <dl>
+                <dt>Contrato</dt>
+                <dd>{{ liquidacion.contrato.descripcion }}</dd>
+            </dl>
+        </div>
+    </div>
+    <table class="table table-bordered table-striped" style="background: #ffffff">
+        <thead>
+        <tr>
+            <th>#</th>
+            <th>Documento</th>
+            <th>Nombre</th>
+            <th>Cargo</th>
+            <th>Servicio</th>
+            <th>Valor unidad</th>
+            <th>Unidades</th>
+            <th>Total</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% set total = 0 %}
+        {% for entry in data %}
+            {% set number = loop.index %}
+            {% set total = total + (entry.cantidad * entry.valorUnitario) %}
+            <tr>
+                <td style="text-align: right">{{ number }}</td>
+                <td style="text-align: right">{{ entry.documento }}</td>
+                <td>{{ entry.nombre }} {{ entry.apellidos }}</td>
+                <td>{{ entry.cargo }}</td>
+                <td>{{ entry.servicio_nombre }}</td>
+                <td>{{ entry.valorUnitario|number_format(2, '.', ',') }}</td>
+                <td>{{ entry.cantidad }}</td>
+                <td style="text-align: right">$ {{ (entry.cantidad * entry.valorUnitario)|number_format(2, '.', ',') }}</td>
+            </tr>
+        {% endfor %}
+        <tr style="text-align: right; font-weight: bold">
+            <td colspan="7">TOTAL</td>
+            <td>$ {{ total|number_format(2, '.', ',') }}</td>
+        </tr>
+        </tbody>
+    </table>
+{% endblock %}
