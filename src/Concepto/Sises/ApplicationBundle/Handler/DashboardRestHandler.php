@@ -258,7 +258,7 @@ DQL;
         return array(
             'lugares' => array_values($lugares),
             'recursos' => array_values($recursos),
-            'empresas' => array_values($recursos),
+            'empresas' => array_values($empresas),
         );
     }
 
@@ -304,10 +304,9 @@ DQL;
 
         $properties = array(
             'empresa' => '_e = :empresa',
-            //'contrato' => '_c = :contrato',
+            'recurso' => '_rh = :recurso',
             'start' => '_eo.fechaEntrega >= :start',
             'end' => '_eo.fechaEntrega <= :end',
-            //'servicio' => '_s = :servicio',
             'lugar' => '_l = :lugar',
         );
 

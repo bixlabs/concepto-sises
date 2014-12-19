@@ -158,4 +158,15 @@ class RecursoHumano extends AbstractPersonal
             $servicio->setRecursoHumano(null);
         }
     }
+
+    /**
+     * @return string
+     * @VirtualProperty()
+     * @SerializedName("nombre_completo")
+     * @Groups({"list"})
+     */
+    public function getNombreCompleto()
+    {
+        return $this->getPersona()->getNombreCompleto();
+    }
 }

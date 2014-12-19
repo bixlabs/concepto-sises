@@ -97,6 +97,9 @@ class DashboardController implements ClassResourceInterface {
             ),
             'Concepto\Sises\ApplicationBundle\Entity\Personal\AbstractPersonal' => array(
                 'entidadFinanciera'
+            ),
+            'Concepto\Sises\ApplicationBundle\Entity\Empresa' => array(
+                'encargado', 'director'
             )
         );
 
