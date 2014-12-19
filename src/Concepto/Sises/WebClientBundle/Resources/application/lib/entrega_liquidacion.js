@@ -32,6 +32,10 @@
             that._calcular(_buildDetalles);
         };
 
+        scope.imprimir = function imprimir() {
+            window.open(that._routeImprimir());
+        };
+
         /**
          * Construye los detalles de la tabla
          * @private
@@ -123,6 +127,14 @@
          */
         this._calcular = function _calcular(callback) {
             throw  "No implementado";
+        };
+
+        /**
+         * Obtiene la ruta de impresion
+         * @private
+         */
+        this._routeImprimir = function _routeImprimir() {
+            throw "No implementado";
         };
 
         scope.cancelarCierre = function cancelarCierre() {

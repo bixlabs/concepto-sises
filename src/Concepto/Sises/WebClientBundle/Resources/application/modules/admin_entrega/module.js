@@ -39,6 +39,10 @@
                         return 'get_entrega_detalles';
                     };
 
+                    this._routeImprimir = function() {
+                        return G.route('get_entrega_impresion', {id: scope.element.id}, true);
+                    };
+
                     this._calcular = function(callback) {
                         RR.admin_entrega_calcular.get({id: scope.element.id}, function(data) {
                             callback(data.results);

@@ -39,6 +39,10 @@
                         return 'get_liquidacion_detalles';
                     };
 
+                    this._routeImprimir = function() {
+                        return G.route('get_liquidacion_impresion', {id: scope.element.id}, true);
+                    };
+
                     this._calcular = function(callback) {
                         $http.get(G.route('get_liquidacion_detalles', {id: scope.element.id}))
                             .success(function calcular_success(data) {
