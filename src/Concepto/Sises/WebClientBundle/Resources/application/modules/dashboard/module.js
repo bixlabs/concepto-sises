@@ -28,8 +28,14 @@
             });
         }])
 
-        .controller('DashboardController', function() {
-
-        })
+        .controller('DashboardController', ['$scope', function(scope) {
+            scope.dash = {
+                options: [
+                    {id: 'entrega', text: 'Entregas'},
+                    {id: 'liquidacion', text: 'Liquidaciones'}
+                ],
+                option: 'entrega'
+            };
+        }])
     ;
 })();

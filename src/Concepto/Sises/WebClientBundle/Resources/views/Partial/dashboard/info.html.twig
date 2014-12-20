@@ -1,5 +1,15 @@
 {% if is_granted('ROLE_DIRECTOR') or is_granted('ROLE_ADMIN') %}
-    <h2>Cuadro de mando</h2>
+    <div class="row">
+        <div class="col-lg-3"><h2>Cuadro de mando</h2></div>
+        <div class="col-lg-3">
+            <label for="display-option">&nbsp;</label>
+            <select data-ng-options="item.id as item.text for item in dash.options"
+                    class="form-control"
+                    id="display-option"
+                    data-ng-model="dash.option"></select>
+        </div>
+    </div>
+
     {% include '@SisesWebClient/Partial/dashboard/_info.html.twig' %}
 {% endif %}
 

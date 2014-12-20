@@ -1,2 +1,4 @@
-<div data-sises-dashboard-liquidaciones></div>
-<div data-sises-dashboard-entregas></div>
+<div data-ng-switch="dash.option">
+    <div data-ng-switch-when="liquidacion" data-sises-dashboard-liquidaciones></div>
+    <div data-ng-switch-when="entrega" data-sises-dashboard-entregas></div>
+</div>
