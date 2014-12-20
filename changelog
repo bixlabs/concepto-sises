@@ -1,3 +1,22 @@
+Version 0.6.3 (321edba)
+- Permite seleccionar que vista del cuadro de mando ver
+- Agregado el consolidado de entregas en formato imprimible (desde la gestión de entregas)
+- Agregado el consolidado de liquidacion en formato imprimible (desde la gestión de liquidaciones)
+- Agregado el formato de impresion
+- Agregado el formato imprimible de: manipuladores y operadores, contratos, coordinadores, directores y beneficiarios. Estos funcionan con los mismos filtros existentes
+- Agregado el consolidado de liquidaciones en el cuadro de mando
+- Se agrego la opción de deseleccionar una opción marcada en los desplegables del cuadro de mando
+- Corregido: la subgrafica de entregas no tiene el mismo patron de colores de la gráfica principal
+- Cambiado el orden de los accesos de la aplicación según lo estipulado
+- La pantilla inicial es el cuadro de mando
+- Se agregaron los filtros solicitados en las entregas del cuadro de mando
+- Se agregaron formato de dinero en los campos y lugares solicitados por el cliente
+- Se añade formato a los campos de ingreso de cantidades monetarias
+- Corregido: Muestra las unidades de valores calculador despues del cierre correctamente
+- Corregido: Muestra las unidades de valores calculador despues del cierre de liquidaciones
+- Cambiado el nombre de la aplicación según lo solicitado
+- Corregido: No me deja realizar el cierre
+- Corregido: Despues de guardar un Recurso Humano no deja actualizarlo
 Version 0.6.2 (ab16711)
 - Corregido: las rutas de PDF no funcionan apropiadamente
 - Se comprimen los JS se reduce el peso cerca del 50%
