@@ -72,6 +72,7 @@ abstract class AbstractPersonal extends Documentable implements OrmPersistible
     /**
      * @var string
      * @Column(name="observaciones_financieras", type="text", nullable=true)
+     * @Groups({"details"})
      */
     protected $observacionesFinancieras;
 
