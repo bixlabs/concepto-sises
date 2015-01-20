@@ -25,6 +25,7 @@ class EntregaLiquidacionDetalleRepository extends EntityRepository
         return $this->createQueryBuilder('d')
             ->leftJoin('d.servicio', 's')
             ->leftJoin('s.recursoHumano', 'rh')
+            ->leftJoin('rh.entidadFinanciera', 'ef')
             ->leftJoin('rh.cargo', 'c')
             ->leftJoin('rh.persona', 'p')
 
@@ -36,6 +37,9 @@ class EntregaLiquidacionDetalleRepository extends EntityRepository
                 'p.nombre',
                 'p.apellidos',
                 'c.nombre as cargo',
+                'rh.numeroCuenta as cuenta',
+                'rh.observacionesFinancieras as cuenta_observaciones',
+                'ef.nombre as entidad',
                 's.nombre as servicio_nombre',
                 's.id as servicio', 'SUM(d.cantidad) as cantidad', 's.valorUnitario')
             ->groupBy('s.id')
