@@ -54,9 +54,9 @@ class SisesLoadBeneficiariosCommand extends ContainerAwareCommand
     {
         $this->setName('sises:load:beneficiarios')
             ->setDescription("Carga datos de prueba")
-            ->addOption('template', 't', InputOption::VALUE_REQUIRED, "Configuracion del archivo")
-            ->addArgument('file', InputArgument::OPTIONAL, "Ruta del archivo a cargar")
+            ->addArgument('file', InputArgument::REQUIRED, "Ruta del archivo a cargar")
             ->addArgument('service', InputArgument::REQUIRED, "Id del servicio a cargar")
+            ->addOption('template', 't', InputOption::VALUE_REQUIRED, "Configuracion del archivo")
         ;
     }
 
@@ -84,7 +84,7 @@ class SisesLoadBeneficiariosCommand extends ContainerAwareCommand
 
         $servicio = $this->manager
             ->getRepository('SisesApplicationBundle:ServicioContratado')
-            ->findOne($input->getArgument('servicio'));
+            ->find($input->getArgument('service'));
 
         $this->loadData($servicio);
     }
