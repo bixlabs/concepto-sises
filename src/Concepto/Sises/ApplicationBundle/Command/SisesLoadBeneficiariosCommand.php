@@ -36,13 +36,14 @@ class SisesLoadBeneficiariosCommand extends ContainerAwareCommand
      */
     private $file;
 
-    const COL_CODIGO_UBICACION = 2;
+    const COL_CODIGO_UBICACION = 1;
     const COL_DOCUMENTO = 8;
     const COL_1_NOM = 11;
     const COL_2_NOM = 12;
     const COL_1_APE = 9;
     const COL_2_APE = 10;
-    const COL_NOM_LUGAR = 5;
+    const COL_COD_LUGAR = 5;
+    const COL_NOM_LUGAR = 3;
 
     const BAG_UBICACION = 'ubicacion';
     const BAG_LUGAR = 'lugar';
@@ -96,26 +97,39 @@ class SisesLoadBeneficiariosCommand extends ContainerAwareCommand
 
         /** @var EntityRepository $repo */
         $repo = $this->manager->getRepository('SisesApplicationBundle:Ubicacion\CentroPoblado');
+        $repoLugar = $this->manager->getRepository('SisesApplicationBundle:LugarEntrega');
 
-        $findLugar = function($columns) use ($repo, &$bag, $manager) {
+        $findLugar = function($columns) use ($repo, $repoLugar, &$bag, $manager) {
             $nombre = $columns[self::COL_NOM_LUGAR];
-            $codigoLugar = $columns[self::COL_CODIGO_UBICACION];
+            $codigoUbicacion = $columns[self::COL_CODIGO_UBICACION];
 
-            if (!isset($bag[self::BAG_UBICACION][$nombre])) {
+            if(!isset($bag[self::BAG_LUGAR][$nombre])) {
+                $bag[self::BAG_LUGAR][$nombre] = $repoLugar->findOneBy(array(
+                    'nombre' => $nombre
+                ));
+            }
 
-                if (!isset($bag[self::BAG_LUGAR][$codigoLugar])) {
-                    $bag[self::BAG_LUGAR][$codigoLugar] = $repo->findOneBy(array('codigoDane' => "{$codigoLugar}000"));
+            if (!$bag[self::BAG_LUGAR][$nombre]) {
+
+                if (!isset($bag[self::BAG_UBICACION][$codigoUbicacion])) {
+                    $bag[self::BAG_UBICACION][$codigoUbicacion] = $repo->findOneBy(array(
+                        'codigoDane' => "{$codigoUbicacion}000"
+                    ));
+                }
+
+                if(!$bag[self::BAG_UBICACION][$codigoUbicacion]) {
+                    throw new \Exception("No se encontro el municipio para codigo {$codigoUbicacion}");
                 }
 
                 $lugar = new LugarEntrega();
-                $lugar->setUbicacion($bag[self::BAG_LUGAR][$codigoLugar]);
+                $lugar->setUbicacion($bag[self::BAG_UBICACION][$codigoUbicacion]);
                 $lugar->setNombre($nombre);
                 $manager->persist($lugar);
 
-                $bag[self::BAG_UBICACION][$nombre] = $lugar;
+                $bag[self::BAG_LUGAR][$nombre] = $lugar;
             }
 
-            return $bag[self::BAG_UBICACION][$nombre];
+            return $bag[self::BAG_LUGAR][$nombre];
         };
 
         /** @var EntityRepository $repo2 */
@@ -129,7 +143,7 @@ class SisesLoadBeneficiariosCommand extends ContainerAwareCommand
             }
 
             // Crea la persona
-            if (!isset($bag[self::BAG_PERSONA][$documento])) {
+            if (!$bag[self::BAG_PERSONA][$documento]) {
                 $persona = new Persona();
                 $persona->setNombre(trim(
                     "{$column[self::COL_1_NOM]} {$column[self::COL_2_NOM]}"
