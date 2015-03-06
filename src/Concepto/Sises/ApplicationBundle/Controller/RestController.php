@@ -84,7 +84,7 @@ abstract class RestController implements ClassResourceInterface
         $pager = $this->getHandler()->cget($paramFetcher->all(), array_diff_assoc($request->query->all(), $params));
 
         $view = RestView::create(
-            $pager->getCurrentPageResults(),
+            iterator_to_array($pager->getCurrentPageResults()),
             Codes::HTTP_OK,
             array(
                 'X-Current-Page' => $pager->getCurrentPage(),

@@ -58,7 +58,6 @@ class Beneficiario extends Documentable implements OrmPersistible {
      * @ManyToOne(targetEntity="Concepto\Sises\ApplicationBundle\Entity\Contrato", fetch="LAZY")
      * @NotNull()
      * @JoinColumn(nullable=false)
-     * @Groups({"list"})
      */
     protected $contrato;
 

@@ -35,6 +35,14 @@ class DirectorRestHandler extends RestHandler
         return 'Concepto\Sises\ApplicationBundle\Entity\Personal\Director';
     }
 
+    public function put($id, $parameters)
+    {
+        /** @var OrmPersistible $object */
+        $object = $this->getEm()->find($this->getOrmClassString(), $id);
+
+        return $this->process($parameters, $object, 'PUT');
+    }
+
     /**
      * @param \Concepto\Sises\ApplicationBundle\Entity\Personal\Director $object
      * @param array                                                      $bag

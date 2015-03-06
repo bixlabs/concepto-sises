@@ -26,6 +26,7 @@ use JMS\DiExtraBundle\Annotation\InjectParams;
 use JMS\DiExtraBundle\Annotation\Service;
 use Monolog\Logger;
 use Pagerfanta\Adapter\ArrayAdapter;
+use Pagerfanta\Adapter\DoctrineORMAdapter;
 use Pagerfanta\Pagerfanta;
 use Symfony\Component\Form\FormFactory;
 use Symfony\Component\HttpKernel\Exception\ConflictHttpException;
@@ -170,13 +171,9 @@ abstract class RestHandler implements RestHandlerInterface {
     {
         /** @var EntityRepository $repository */
         $repository = $this->getEm()->getRepository($this->getOrmClassString());
-        $results = $repository->findAll($extraParams);
+        $qb = $repository->findAllQueryBuilder($extraParams);
 
-        if (count($pagerParams) === 0) {
-            return $results;
-        }
-
-        $pager = new Pagerfanta(new ArrayAdapter($results));
+        $pager = new Pagerfanta(new DoctrineORMAdapter($qb->getQuery()));
 
         if ($pagerParams['limit'] < 0) {
             $pagerParams['limit'] = 9999;
