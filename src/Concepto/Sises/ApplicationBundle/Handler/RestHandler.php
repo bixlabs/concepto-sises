@@ -316,7 +316,7 @@ abstract class RestHandler implements RestHandlerInterface {
         switch ($user->getTipo()) {
             case Usuario::DIRECTOR:
                 $this->director = $this->getEm()
-                    ->getRepository('SisesApplicationBundle:PersonaCargo')
+                    ->getRepository('SisesApplicationBundle:Personal\Director')
                     ->find($user->getRelated());
                 return $this->director;
             case Usuario::COORDINADOR:

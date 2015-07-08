@@ -27,7 +27,7 @@ class ContratoRestHandler extends RestHandler
         if ($this->isDirector()) {
             $director = $this->getRelatedUser();
             $empresas = $this->getEm()->getRepository('SisesApplicationBundle:Empresa')->findBy(array(
-                'encargado' => $director
+                'director' => $director
             ));
 
             $extraParams['empresa'] = Utils\Collection::buildQuery($empresas);
